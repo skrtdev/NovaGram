@@ -1,0 +1,9 @@
+{
+    "autoload":[
+        "src/main.php"
+    ],
+    "import":[
+        "src/json.json"
+    ],
+    "look_for_updates": 3600
+}

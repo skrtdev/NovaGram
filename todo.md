@@ -1,0 +1,45 @@
+# // TODO
+
+- [x] Message Object
+- [ ] Messages longer than 4096 characters have to be split up into multiple messages
+- [ ] InlineQuery Object
+- [ ] ChosenInlineResult Object
+- [x] CallbackQuery Object
+- [ ] ShippingQuery Object
+- [ ] PreCheckoutQuery Object
+- [ ] Poll Object
+- [ ] PollAnswer Object
+- [ ] ChatPhoto Object
+- [ ] ChatPermissions Object
+- [x] User Object
+- [x] Chat Object
+- [ ] MessageEntity Object
+- [ ] Animation Object
+- [ ] Audio Object
+- [ ] Document Object
+- [ ] PhotoSize Object
+- [ ] Sticker Object
+- [ ] Video Object
+- [ ] VideoNote Object
+- [ ] Voice Object
+- [ ] Contact Object
+- [ ] Dice Object
+- [ ] Game Object
+- [ ] Venue Object
+- [ ] Location Object
+- [ ] Invoice Object
+- [ ] SuccessfulPayment Object
+- [ ] PassportData Object
+- [ ] InlineKeyboardMarkup Object
+- [ ] PollOption Object
+- [ ] KeyboardButton Object
+- [ ] KeyboardButtonPollType Object
+- [x] InlineKeyboardButton Object
+- [ ] LoginUrl Object
+- [ ] CallbackGame Object
+- [ ] InputFile or String Object
+- [ ] MaskPosition Object
+- [ ] InputMessageContent Object
+- [ ] ShippingAddress Object
+- [ ] LabeledPrice Object
+- [ ] OrderInfo Object
