@@ -12,7 +12,7 @@ Create a variable (in this Documentation it's called $Bot) and instanciate the T
 A simple example:
 ```php
 header('Content-Type: application/json');
-require("main.php");
+require __DIR__ . '/vendor/autoload.php';
 
 $Bot = new TelegramBot("YOUR_TOKEN", [
     "json_payload" => true
@@ -24,7 +24,7 @@ In this example, the settings array contains a key `json_payload` set to `true`.
 All the methods explained here are supposed to be in a script with this setup:
 ```php
 header('Content-Type: application/json');
-require("main.php");
+require __DIR__ . '/vendor/autoload.php';
 
 $Bot = new TelegramBot("YOUR_TOKEN", [
    "json_payload" => true
@@ -54,9 +54,12 @@ $Bot->METHOD_NAME([
    * [editMessageText](#editMessageText)
    * [sendChatAction](#sendChatAction)
    * [getUserProfilePhotos](#getUserProfilePhotos)
+   * [getUserDC](#getUserDC)
 
 
 ### reply
+> reply will be removed in a future version
+
 reply can be used only as a method of an Update Object.
 reply acts just like sendMessage, sending a message in the Update chat with the specified text.
 
@@ -188,7 +191,7 @@ $chat->sendAction("typing"); // just action
 ```
 
 ### getUserProfilePhotos
-getUserProfilePhotos can be used directly as a method of the main class or as a method of a Chat Object, as _getProfilePhotos_ method, in order to get Profile Photos of that User.
+getUserProfilePhotos can be used directly as a method of the main class or as a method of a User Object, as _getProfilePhotos_ method, in order to get Profile Photos of that User.
 
 ```php
 // main class
@@ -198,10 +201,25 @@ $Bot->getUserProfilePhotos([
 ]);
 
 // User object
+$user->getProfilePhotos(); // just nothing
 $user->getProfilePhotos(10); // just limit
 
 $user->getProfilePhotos([
     "limit" => 10,
     "offset" => 5
 ]);
+```
+
+### getUserDC
+getUserDC can be used directly as a method of the main class or as a method of a User Object, as _getDC_ method, in order to get DC of that User.
+In order to retrieve DC, user need to have username and profile photo.
+getUserDC will throw an error if Object is not an User, or if User hasn't got an Username, and `false` if User hasn't got a profile photo.
+Returns an integer corresponding to User DC in case of success
+
+```php
+// main class
+$Bot->getUserDC($user);
+
+// User object
+$user->getDC();
 ```

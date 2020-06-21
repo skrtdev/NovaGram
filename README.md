@@ -12,7 +12,7 @@ An example code of a simple bot that just forwards back what you send.
 
 ```php
 header('Content-Type: application/json');
-require("main.php");
+require __DIR__ . '/vendor/autoload.php';
 
 $Bot = new TelegramBot("YOUR_TOKEN", [
     "json_payload" => true
