@@ -54,7 +54,7 @@
 		"Poll.options":"[PollOption]",
 		"Poll.explanation_entities":"[MessageEntity]",
 		"Venue.location":"Location",
-		"UserProfilePhotos.photos":"ProfilePhotos",
+		"UserProfilePhotos.photos":"[ProfilePhoto]",
 		"ReplyKeyboardMarkup.keyboard":"[KeyboardButton]",
 		"KeyboardButton.request_poll":"KeyboardButtonPollType",
 		"InlineKeyboardMarkup.inline_keyboard":"InlineKeyboard",
@@ -132,7 +132,6 @@
 		"GameHighScore.user":"User",
 
 
-		"ProfilePhotos":"[ProfilePhoto]",
 		"ProfilePhoto":"[PhotoSize]",
 		"InlineKeyboard":"[InlineKeyboardRow]",
 		"InlineKeyboardRow":"[InlineKeyboardButton]"
@@ -165,7 +164,7 @@
 			"returns":"Chat"
 		},
 		"getChatAdministrators":{
-			"returns":"Chat"
+			"returns":"[ChatMember]"
 		},
 		"getChatMember":{
 			"returns":"ChatMember"
@@ -197,8 +196,7 @@
 			"forward":{
 				"alias":"forwardMessage",
 				"presets":{
-					"from_chat_id":"chat/id",
-					"chat_id":"chat/id"
+					"from_chat_id":"chat/id"
 				},
 				"just_one_parameter_needed":"chat_id"
 			},

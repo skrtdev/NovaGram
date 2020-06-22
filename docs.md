@@ -20,6 +20,19 @@ $Bot = new TelegramBot("YOUR_TOKEN", [
 ```
 In this example, the settings array contains a key `json_payload` set to `true`. Doing so, the first API Call with 2nd parameter set to true will be print as payload, and afterwards processed by Telegram, making the bot **faster**  
 
+### The Settings Array
+
+| key                 | value   | description                                                                             |
+|---------------------|---------|-----------------------------------------------------------------------------------------|
+| json_payload        | boolean | whether or not print json payload                                                       |
+| log_updates         | boolean | whether or not log raw json updates                                                     |
+| log_updates_chat_id | int     | chat id where updates will be sent if log_updates is set to true                        |
+| debug               | boolean | whether or not send debug when an api error occurs                                      |
+| debug_chat_id       | int     | chat id where debug logs will be sent if debug is set to true                           |
+| disable_ip_check    | boolean | disable telegram ip check if set to true, any value rather than true won't do anything  |
+| disable_webhook     | boolean | disable update receiving if set to true, any value rather than true won't do anything   |
+
+
 #### Setup Script
 All the methods explained here are supposed to be in a script with this setup:
 ```php
