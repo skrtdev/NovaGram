@@ -92,6 +92,8 @@ $update->reply("message_text"); // just the text of the message
 ### sendMessage
 sendMessage can be used directly as a method of the main class, or as a method of a Chat Object.
 
+> Returns the sent Message object.
+
 ```php
 // main class
 $Bot->sendMessage([
@@ -112,6 +114,8 @@ $chat->sendMessage("message_text");
 
 ### forwardMessage
 forwardMessage can be used directly as a method of the main class, as a method of a Message Object (just forwards that message) or as a method of a Chat Object, as _forwardTo_ method, in order to forward in that Chat.
+
+> Returns the forwarded Message object.
 
 ```php
 // main class
