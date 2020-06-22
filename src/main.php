@@ -68,6 +68,8 @@ class TelegramBot {
             return (object) $decoded;
         }
 
+        if(gettype($decoded['result']) === "boolean") return $decoded['result'];
+
         if($this->getMethodReturned($method)) return $this->JSONToTelegramObject($decoded['result'], $this->getMethodReturned($method));
     }
 

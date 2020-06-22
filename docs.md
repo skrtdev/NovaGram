@@ -33,7 +33,7 @@ In this example, the settings array contains a key `json_payload` set to `true`.
 | disable_webhook     | boolean | disable update receiving if set to true, any value rather than true won't do anything   |
 
 
-#### Setup Script
+### Setup Script
 All the methods explained here are supposed to be in a script with this setup:
 ```php
 header('Content-Type: application/json');
@@ -206,6 +206,8 @@ $chat->sendAction("typing"); // just action
 ### getUserProfilePhotos
 getUserProfilePhotos can be used directly as a method of the main class or as a method of a User Object, as _getProfilePhotos_ method, in order to get Profile Photos of that User.
 
+> Returns a UserProfilePhotos object.
+
 ```php
 // main class
 $Bot->getUserProfilePhotos([
@@ -230,7 +232,7 @@ In order to retrieve DC, user need to have username and profile photo.
 
 getUserDC will throw an error if Object is not an User, or if User hasn't got an Username, and `false` if User hasn't got a profile photo.
 
-> Returns an integer corresponding to User DC in case of success
+> Returns an integer corresponding to User DC in case of success.
 
 ```php
 // main class
