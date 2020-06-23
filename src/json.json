@@ -141,6 +141,22 @@
 			"returns":"Message"
 		}
 	},
+	"require_parse_mode":[
+		"sendMessage",
+		"sendPhoto",
+		"sendAudio",
+		"sendDocument",
+		"sendVideo",
+		"sendAnimation",
+		"sendVoice",
+		"editMessageText",
+		"editMessageCaption"
+	],
+	"require_json_encode":[
+		"reply_markup",
+		"mask_position",
+		"media"
+	],
 	"available_methods":{
 		"getMe":{
 			"returns":"User"

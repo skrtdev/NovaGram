@@ -11,9 +11,9 @@ class TelegramBot {
         $this->settings = (object) $settings;
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
-        if($this->settings->disable_webhook !== true){
+        if(isset($this->settings->disable_webhook) and $this->settings->disable_webhook !== true){
             $this->settings->json_payload = false;
-            if($this->settings->disable_ip_check !== true){
+            if(isset($this->settings->disable_ip_check) and $this->settings->disable_ip_check !== true){
                 function ip_in_range( $ip, $range ) {
                     if ( strpos( $range, '/' ) === false ) $range .= '/32';
                     list( $range, $netmask ) = explode( '/', $range, 2 );
@@ -40,11 +40,15 @@ class TelegramBot {
     }
 
     public function __call(string $name, array $arguments){
-        return $this->APICall($name, $arguments[0], isset($arguments[1]) ? true : false);
+        return $this->APICall($name, $arguments[0], isset($arguments[1]));
     }
 
     public function APICall(string $method, array $data, bool $payload = false){
-
+        //if(isset($this->settings->parse_mode)) $data['parse_mode'] = $this->settings->parse_mode;
+        if(in_array($method, $this->json['require_parse_mode'])) $data['parse_mode'] = $this->settings->parse_mode ?? $data['parse_mode'];
+        foreach ($this->json['require_json_encode'] as $key) {
+            if(isset($data[$key]) and gettype($data[$key]) === "array") $data[$key] = json_encode($data[$key]);
+        }
         if($this->settings->json_payload and !$this->payloaded and $payload){
             $this->payloaded = true;
             $data['method'] = $method;
@@ -83,7 +87,7 @@ class TelegramBot {
 
     private function getObjectType(string $parameter_name, string $object_name = ""){
         if($object_name != "") $object_name .= ".";
-        return isset($this->json['available_types'][$object_name.$parameter_name]) ? $this->json['available_types'][$object_name.$parameter_name] : false;
+        return $this->json['available_types'][$object_name.$parameter_name] ?? false;
     }
 
     private function JSONToTelegramObject(array $json, string $parameter_name){
@@ -115,7 +119,8 @@ class TelegramBot {
             if(gettype($value) === "array"){
                 if(gettype($key) === "integer"){
                     if($this->getObjectType($childs_name)) $json[$key] = $this->TelegramObjectArrayToTelegramObject($value, $childs_name);
-                    else $json[$key] = new TelegramObject($childs_name, $value, $this);
+                    //else $json[$key] = new TelegramObject($childs_name, $value, $this);
+                    else $json[$key] = $this->JSONToTelegramObject($value, $childs_name);
                 }
                 else $json[$key] = $this->JSONToTelegramObject($value, $this->getObjectType($childs_name, $parent_name));
 
@@ -192,7 +197,7 @@ class TelegramObject {
         }
         if(count($data) === 0) throw new Exception("TelegramObject({$this->_})::$name called without parameters." );
 
-        return $this->TelegramBot->APICall($this_method->alias, $data, isset($arguments[1]) ? true : false);
+        return $this->TelegramBot->APICall($this_method->alias, $data, isset($arguments[1]));
     }
 
     private function presetToValue(string $preset){

@@ -31,6 +31,7 @@ In this example, the settings array contains a key `json_payload` set to `true`.
 | debug_chat_id       | int     | chat id where debug logs will be sent if debug is set to true                           |
 | disable_ip_check    | boolean | disable telegram ip check if set to true, any value rather than true won't do anything  |
 | disable_webhook     | boolean | disable update receiving if set to true, any value rather than true won't do anything   |
+| parse_mode          | string  | parse mode that will be passed to all the methods that require it if not provided       |
 
 
 ### Setup Script
@@ -230,6 +231,8 @@ $user->getProfilePhotos([
 ```
 
 ### getUserDC
+> DC means DataCenter, that is the server where the user account is located
+
 getUserDC can be used directly as a method of the main class or as a method of a User Object, as _getDC_ method, in order to get DC of that User.
 
 In order to retrieve DC, user need to have username and profile photo.
