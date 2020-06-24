@@ -11,9 +11,9 @@ class TelegramBot {
         $this->settings = (object) $settings;
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
-        if(isset($this->settings->disable_webhook) and $this->settings->disable_webhook !== true){
+        if(!isset($this->settings->disable_webhook) or $this->settings->disable_webhook !== true){
             $this->settings->json_payload = false;
-            if(isset($this->settings->disable_ip_check) and $this->settings->disable_ip_check !== true){
+            if(!isset($this->settings->disable_ip_check) or $this->settings->disable_ip_check !== true){
                 function ip_in_range( $ip, $range ) {
                     if ( strpos( $range, '/' ) === false ) $range .= '/32';
                     list( $range, $netmask ) = explode( '/', $range, 2 );
@@ -80,7 +80,7 @@ class TelegramBot {
     private function getMethodReturned(string $method){
         if(isset($this->json['available_methods'][$method]['returns']) ) return $this->json['available_methods'][$method]['returns'] !== "_" ? $this->json['available_methods'][$method]['returns'] : false;
         foreach ($this->json['available_methods_regxs'] as $key => $value) {
-            if(preg_match('/'.base64_decode($key).'/', $method) === 1) return $value['returns'];
+            if(preg_match('/'.$key.'/', $method) === 1) return $value['returns'];
         }
         return false;
     }
