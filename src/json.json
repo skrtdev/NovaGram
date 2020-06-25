@@ -137,7 +137,7 @@
 		"InlineKeyboardRow":"[InlineKeyboardButton]"
 	},
 	"available_methods_regxs":{
-		"c2VuZFx3Kw==":{
+		"send\\w+":{
 			"returns":"Message"
 		}
 	},

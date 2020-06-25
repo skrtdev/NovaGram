@@ -1,5 +1,6 @@
 {
     "autoload":[
+        "src/Exceptions.php",    
         "src/main.php"
     ],
     "import":[
