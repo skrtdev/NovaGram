@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require __DIR__ . '/vendor/autoload.php';
+require "../PHPEasyGit/autoload.php";
 
 $Bot = new TelegramBot("YOUR_TOKEN", [
     "debug" => true, // will send you api errors when they occurs

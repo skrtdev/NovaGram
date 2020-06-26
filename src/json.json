@@ -196,15 +196,6 @@
 		}
 	},
 	"types_methods":{
-		"Update":{
-			"reply":{
-				"alias":"sendMessage",
-				"presets":{
-					"chat_id":"message/chat/id"
-				},
-				"just_one_parameter_needed":"text"
-			}
-		},
 		"Message":{
 			"_presets":{
 				"message_id": "message_id"
@@ -229,7 +220,6 @@
 					"chat_id":"chat/id",
 					"text":"text"
 				},
-				"(ADD)parse_mode": "parse_mode",
 				"(ADD)reply_markup": "reply_markup",
 				"just_one_parameter_needed":"text"
 			}
@@ -249,28 +239,19 @@
 			},
 			"sendMessage":{
 				"alias":"sendMessage",
-				"presets":{
-
-				},
 				"just_one_parameter_needed":"text"
 			},
 			"forwardTo":{
-				"alias":"forwardMessage",
-				"presets":{
-
-				}
+				"alias":"forwardMessage"
 			},
 			"deleteMessage":{
 				"alias":"deleteMessage",
-				"presets":{
-
-				},
 				"just_one_parameter_needed":"message_id"
 			},
 			"sendAction":{
 				"alias":"sendChatAction",
-				"presets":{
-
+				"defaults": {
+					"action": "typing"
 				},
 				"just_one_parameter_needed":"action"
 			}
@@ -281,9 +262,6 @@
 			},
 			"getProfilePhotos":{
 				"alias":"getUserProfilePhotos",
-				"presets":{
-
-				},
 				"just_one_parameter_needed":"limit",
 				"no_more_parameters_needed":true
 			}
@@ -294,9 +272,7 @@
 			},
 			"answer":{
 				"alias":"answerCallbackQuery",
-				"presets":{
 
-				},
 				"defaults": {
 					"show_alert": false,
 					"text": ""

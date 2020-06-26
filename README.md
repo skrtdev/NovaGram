@@ -1,8 +1,10 @@
 # NovaGram
 An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 
-### Installation via Composer
-`composer require skrtdev/novagram`
+### Installation via PHPEasyGit
+```php
+require "../PHPEasyGit/autoload.php";
+```
 
 ### Deal with it
 In order to start using NovaGram, you just need to create the class
@@ -26,4 +28,4 @@ $update->message->forward($update->message->chat->id, true);
 
 Using `"json_payload" => true` and `true` in forward method, the api call will be print as payload, making the bot faster. Only one Api Call can use json payload
 
-More info in the [Documentation](docs.md)
+More info in the [Documentation](https://github.com/skrtdev/NovaGram/blob/master/docs.md)
