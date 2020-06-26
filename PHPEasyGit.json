@@ -1,10 +1,11 @@
 {
     "autoload":[
-        "src/Exceptions.php",    
+        "src/Exceptions.php",
         "src/main.php"
     ],
     "import":[
         "src/json.json"
     ],
-    "look_for_updates": 3600
+    "look_for_updates": 3600,
+    "branch" : "hosting"
 }
