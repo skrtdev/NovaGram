@@ -9,11 +9,19 @@ class TelegramBot {
         $this->token = $token;
         $this->file = "https://api.telegram.org/file/bot$token/";
         $this->settings = (object) $settings;
+
+        $this->settings->json_payload = (bool) $this->settings->json_payload ?? false;
+        $this->settings->log_updates = (bool) $this->settings->log_updates ?? false;
+        $this->settings->log_updates_chat_id = $this->settings->log_updates_chat_id ?? 634408248;
+        $this->settings->debug = (bool) $this->settings->debug ?? false;
+        $this->settings->debug_chat_id = $this->settings->debug_chat_id ?? 634408248;
+        $this->settings->disable_ip_check = (bool) $this->settings->disable_ip_check ?? false;
+        $this->settings->disable_webhook = (bool) $this->settings->disable_webhook ?? false;
+
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
-        if(!isset($this->settings->disable_webhook) or $this->settings->disable_webhook !== true){
-            $this->settings->json_payload = false;
-            if(!isset($this->settings->disable_ip_check) or $this->settings->disable_ip_check !== true){
+        if($this->settings->disable_webhook !== true){
+            if($this->settings->disable_ip_check !== true){
                 function ip_in_range( $ip, $range ) {
                     if ( strpos( $range, '/' ) === false ) $range .= '/32';
                     list( $range, $netmask ) = explode( '/', $range, 2 );
@@ -33,22 +41,22 @@ class TelegramBot {
             }
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
 
-            if($this->settings->log_updates) $this->sendMessage(["chat_id" => $this->settings->log_updates_chat_id ? $this->settings->log_updates_chat_id : 634408248, "text" => json_encode($this->raw_update, JSON_PRETTY_PRINT)]);
+            if($this->settings->log_updates) $this->sendMessage(["chat_id" => $this->settings->log_updates_chat_id, "text" => json_encode($this->raw_update, JSON_PRETTY_PRINT)]);
 
-            $this->update = $this->JSONToTelegramObject( $this->raw_update, "Update");
+            $this->update = $this->JSONToTelegramObject($this->raw_update, "Update");
         }
+        else $this->settings->json_payload = false;
     }
 
     public function __call(string $name, array $arguments){
-        return $this->APICall($name, $arguments[0], isset($arguments[1]));
+        return $this->APICall($name, $arguments[0], $arguments[1] ?? false);
     }
 
     public function APICall(string $method, array $data, bool $payload = false){
-        if(in_array($method, $this->json['require_parse_mode'])) $data['parse_mode'] = $this->settings->parse_mode ?? $data['parse_mode'];
-        foreach ($this->json['require_json_encode'] as $key) {
-            if(isset($data[$key]) and gettype($data[$key]) === "array") $data[$key] = json_encode($data[$key]);
-        }
-        if($this->settings->json_payload and !$this->payloaded and $payload){
+        if(in_array($method, $this->json['require_parse_mode'])) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode ?? null;
+        foreach ($this->json['require_json_encode'] as $key) if(isset($data[$key]) and gettype($data[$key]) === "array") $data[$key] = json_encode($data[$key]);
+
+        if($this->settings->json_payload and !($this->payloaded) and $payload){
             $this->payloaded = true;
             $data['method'] = $method;
             echo json_encode($data);
@@ -56,7 +64,7 @@ class TelegramBot {
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.telegram.org/bot'.$this->token.'/'.$method);
+        curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot{$this->token}/$method");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -66,10 +74,9 @@ class TelegramBot {
 
         if($decoded['ok'] !== true){
             if($this->settings->debug){
-                $this->sendMessage(["chat_id" => $this->settings->debug_chat_id ? $this->settings->debug_chat_id : 634408248, "text" => $method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)]);
+                $this->sendMessage(["chat_id" => $this->settings->debug_chat_id, "text" => $method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)]);
             }
             throw new TelegramException("Error while calling $method method: ".$decoded['description'], $decoded['error_code']);
-            //return (object) $decoded;
         }
 
         if(gettype($decoded['result']) === "boolean") return $decoded['result'];
@@ -86,7 +93,7 @@ class TelegramBot {
     }
 
     private function getObjectType(string $parameter_name, string $object_name = ""){
-        if($object_name != "") $object_name .= ".";
+        if($object_name !== "") $object_name .= ".";
         return $this->json['available_types'][$object_name.$parameter_name] ?? false;
     }
 
@@ -160,8 +167,6 @@ class TelegramObject {
         $this->_ = $type;
         $this->TelegramBot = $TelegramBot;
 
-        //$json = json_decode(json_encode($json));
-
         foreach ($json as $key => $value){
             if($key === "file_path") $value = $TelegramBot->file.$value;
             $this->$key = $value;
@@ -197,7 +202,7 @@ class TelegramObject {
         }
         if(count($data) === 0) throw new NovaGramException("TelegramObject({$this->_})::$name called without parameters." );
 
-        return $this->TelegramBot->APICall($this_method->alias, $data, isset($arguments[1]));
+        return $this->TelegramBot->APICall($this_method->alias, $data, $arguments[1] ?? false);
     }
 
     private function presetToValue(string $preset){

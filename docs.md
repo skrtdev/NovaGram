@@ -24,10 +24,10 @@ In this example, the settings array contains a key `json_payload` set to `true`.
 
 | key                 | value   | description                                                                             |
 |---------------------|---------|-----------------------------------------------------------------------------------------|
-| json_payload        | boolean | whether or not print json payload                                                       |
-| log_updates         | boolean | whether or not log raw json updates                                                     |
+| json_payload        | boolean | whether or not print json payload (default to false)                                    |
+| log_updates         | boolean | whether or not log raw json updates (default to false)                                  |
 | log_updates_chat_id | int     | chat id where updates will be sent if log_updates is set to true                        |
-| debug               | boolean | whether or not send debug when an api error occurs                                      |
+| debug               | boolean | whether or not send debug when an api error occurs (default to false)                   |
 | debug_chat_id       | int     | chat id where debug logs will be sent if debug is set to true                           |
 | disable_ip_check    | boolean | disable telegram ip check if set to true, any value rather than true won't do anything  |
 | disable_webhook     | boolean | disable update receiving if set to true, any value rather than true won't do anything   |
@@ -58,6 +58,8 @@ $Bot->METHOD_NAME([
     "field2_name" => "field2_value"
 ])
 ```
+
+If BOTApi returns an error, a TelegramException will be thrown, this can be handled like a normal Exception, with a try/catch block
 
 ### Available Methods
    * [reply](#reply)
