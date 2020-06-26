@@ -1,4 +1,9 @@
 <?php
+/*
+
+    HOSTING VERSION
+
+*/
 
 class TelegramBot {
     private $token, $settings, $json;
