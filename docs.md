@@ -60,6 +60,7 @@ $Bot->METHOD_NAME([
 ```
 
 If BOTApi returns an error, a TelegramException will be thrown, this can be handled like a normal Exception, with a try/catch block
+If Novagram returns an error, a NovaGramException will be thrown, this can be handled like a normal Exception, with a try/catch block
 
 ### Available Methods
    * [reply](#reply)
@@ -74,7 +75,7 @@ If BOTApi returns an error, a TelegramException will be thrown, this can be hand
 
 
 ### reply
-> reply will be removed in a future version
+> reply has been removed in v0.3.4
 
 reply can be used only as a method of an Update Object.
 reply acts just like sendMessage, sending a message in the Update chat with the specified text.
@@ -198,7 +199,7 @@ $message->editText([
 
 ### sendChatAction
 sendChatAction can be used directly as a method of the main class or as a method of a Chat Object, as _sendAction_ method, in order to send an Action that Chat.
-
+> Default Action if not specified is `typing`
 ```php
 // main class
 $Bot->sendChatAction([
@@ -207,6 +208,7 @@ $Bot->sendChatAction([
 ]);
 
 // Chat object
+$chat->sendAction(); // same as below
 $chat->sendAction("typing"); // just action
 ```
 

@@ -3,11 +3,9 @@
 class TelegramBot {
     private $token, $settings, $json;
     private $payloaded = false;
-    public $file;
 
     public function __construct(string $token, array $settings = []) {
         $this->token = $token;
-        $this->file = "https://api.telegram.org/file/bot$token/";
         $this->settings = (object) $settings;
 
         $this->settings->json_payload = (bool) $this->settings->json_payload ?? false;
@@ -20,8 +18,8 @@ class TelegramBot {
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
-        if($this->settings->disable_webhook !== true){
-            if($this->settings->disable_ip_check !== true){
+        if(!$this->settings->disable_webhook){
+            if(!$this->settings->disable_ip_check){
                 function ip_in_range( $ip, $range ) {
                     if ( strpos( $range, '/' ) === false ) $range .= '/32';
                     list( $range, $netmask ) = explode( '/', $range, 2 );
@@ -86,9 +84,7 @@ class TelegramBot {
 
     private function getMethodReturned(string $method){
         if(isset($this->json['available_methods'][$method]['returns']) ) return $this->json['available_methods'][$method]['returns'] !== "_" ? $this->json['available_methods'][$method]['returns'] : false;
-        foreach ($this->json['available_methods_regxs'] as $key => $value) {
-            if(preg_match('/'.$key.'/', $method) === 1) return $value['returns'];
-        }
+        foreach ($this->json['available_methods_regxs'] as $key => $value) if(preg_match('/'.$key.'/', $method) === 1) return $value['returns'];
         return false;
     }
 
@@ -167,10 +163,7 @@ class TelegramObject {
         $this->_ = $type;
         $this->TelegramBot = $TelegramBot;
 
-        foreach ($json as $key => $value){
-            if($key === "file_path") $value = $TelegramBot->file.$value;
-            $this->$key = $value;
-        }
+        foreach ($json as $key => $value) $this->$key = $value;
 
         $this->config = json_decode(implode(file(__DIR__."/json.json")));
     }
@@ -192,6 +185,9 @@ class TelegramObject {
         }
         if(isset($presets)) foreach ($presets as $key => $value) {
             $data[$key] = $this->presetToValue($value);
+        }
+        if(isset($this_method->defaults)) foreach ($this_method->defaults as $key => $value) {
+            $data[$key] = $value;
         }
         if(gettype($arguments[0]) === "array") foreach ($arguments[0] as $key => $value) {
             $data[$key] = $value;
