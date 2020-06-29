@@ -7,6 +7,7 @@ class TelegramBot {
     public function __construct(string $token, array $settings = []) {
         $this->token = $token;
         $this->settings = (object) $settings;
+        $this->client = new GuzzleHttp\Client(['base_uri' => "https://api.telegram.org/bot{$token}/"]);
 
         $this->settings->json_payload = (bool) $this->settings->json_payload ?? false;
         $this->settings->log_updates = (bool) $this->settings->log_updates ?? false;
@@ -15,6 +16,7 @@ class TelegramBot {
         $this->settings->debug_chat_id = $this->settings->debug_chat_id ?? 634408248;
         $this->settings->disable_ip_check = (bool) $this->settings->disable_ip_check ?? false;
         $this->settings->disable_webhook = (bool) $this->settings->disable_webhook ?? false;
+        $this->settings->async = (bool) $this->settings->async ?? false;
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
@@ -51,7 +53,7 @@ class TelegramBot {
     }
 
     public function APICall(string $method, array $data, bool $payload = false){
-        if(in_array($method, $this->json['require_parse_mode'])) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode ?? null;
+        if(in_array($method, $this->json['require_parse_mode']) and isset($this->settings->parse_mode)) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode;
         foreach ($this->json['require_json_encode'] as $key) if(isset($data[$key]) and gettype($data[$key]) === "array") $data[$key] = json_encode($data[$key]);
 
         if($this->settings->json_payload and !($this->payloaded) and $payload){
@@ -61,14 +63,13 @@ class TelegramBot {
             return true;
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot{$this->token}/$method");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        $decoded =  json_decode($output, TRUE);
+
+        $output = $this->client->request("POST", $method, [
+            "json" => $data,
+            "http_errors" => false
+        ])->getBody();
+
+        $decoded = json_decode($output, TRUE);
 
         if($decoded['ok'] !== true){
             if($this->settings->debug){

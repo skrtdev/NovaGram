@@ -241,7 +241,7 @@ getUserDC can be used directly as a method of the main class or as a method of a
 
 In order to retrieve DC, user need to have username and profile photo.
 
-getUserDC will throw an error if Object is not an User, or if User hasn't got an Username, and `false` if User hasn't got a profile photo.
+getUserDC will throw a NovaGramException if Object is not an User, or if User hasn't got an Username, and will return `false` if User hasn't got a profile photo.
 
 > Returns an integer corresponding to User DC in case of success.
 
