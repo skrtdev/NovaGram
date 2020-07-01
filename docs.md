@@ -32,6 +32,7 @@ In this example, the settings array contains a key `json_payload` set to `true`.
 | disable_ip_check    | boolean | disable telegram ip check if set to true, any value rather than true won't do anything  |
 | disable_webhook     | boolean | disable update receiving if set to true, any value rather than true won't do anything   |
 | parse_mode          | string  | parse mode that will be passed to all the methods that require it if not provided       |
+| exceptions          | bool    | whether or not throw TelegramExceptions (default to true)                               |
 
 
 ### Setup Script
