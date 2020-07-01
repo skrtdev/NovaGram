@@ -523,7 +523,10 @@
 			},
 			"answer":{
 				"alias":"answerInlineQuery",
-				"just_one_parameter_needed":"results"
+				"just_one_parameter_needed":"results",
+				"defaults":{
+					"cache_time": 0
+				}
 			}
 		}
 	}
