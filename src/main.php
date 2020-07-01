@@ -15,6 +15,7 @@ class TelegramBot {
         $this->settings->debug_chat_id = $this->settings->debug_chat_id ?? 634408248;
         $this->settings->disable_ip_check = (bool) $this->settings->disable_ip_check ?? false;
         $this->settings->disable_webhook = (bool) $this->settings->disable_webhook ?? false;
+        $this->settings->exceptions = (bool) $this->settings->exceptions ?? true;
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
@@ -74,7 +75,7 @@ class TelegramBot {
             if($this->settings->debug){
                 $this->sendMessage(["chat_id" => $this->settings->debug_chat_id, "text" => $method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)]);
             }
-            throw new TelegramException("Error while calling $method method: ".$decoded['description'], $decoded['error_code']);
+            if($this->settings->exceptions) throw new TelegramException("Error while calling $method method: ".$decoded['description'], $decoded['error_code']);
         }
 
         if(gettype($decoded['result']) === "boolean") return $decoded['result'];
