@@ -50,7 +50,6 @@
 		"Video.thumb":"PhotoSize",
 		"VideoNote.thumb":"PhotoSize",
 		"PollAnswer.user":"User",
-		"PollAnswer.option_ids":"[Integer]",
 		"Poll.options":"[PollOption]",
 		"Poll.explanation_entities":"[MessageEntity]",
 		"Venue.location":"Location",
@@ -63,17 +62,14 @@
 		"CallbackQuery.from":"User",
 		"CallbackQuery.message":"Message",
 		"ChatMember.user":"User",
-		"InputMediaVideo.thumb":"InputFile or String",
-		"InputMediaAnimation.thumb":"InputFile or String",
-		"InputMediaAudio.thumb":"InputFile or String",
-		"InputMediaDocument.thumb":"InputFile or String",
+		"InputMediaVideo.thumb":"InputFile",
+		"InputMediaAnimation.thumb":"InputFile",
+		"InputMediaAudio.thumb":"InputFile",
+		"InputMediaDocument.thumb":"InputFile",
 		"Sticker.thumb":"PhotoSize",
 		"Sticker.mask_position":"MaskPosition",
 		"StickerSet.stickers":"[Sticker]",
 		"StickerSet.thumb":"PhotoSize",
-		"MaskPosition.x_shift":"Float number",
-		"MaskPosition.y_shift":"Float number",
-		"MaskPosition.scale":"Float number",
 		"InlineQuery.from":"User",
 		"InlineQuery.location":"Location",
 		"InlineQueryResultArticle.input_message_content":"InputMessageContent",
@@ -90,8 +86,6 @@
 		"InlineQueryResultVoice.input_message_content":"InputMessageContent",
 		"InlineQueryResultDocument.reply_markup":"InlineKeyboardMarkup",
 		"InlineQueryResultDocument.input_message_content":"InputMessageContent",
-		"InlineQueryResultLocation.latitude":"Float number",
-		"InlineQueryResultLocation.longitude":"Float number",
 		"InlineQueryResultLocation.reply_markup":"InlineKeyboardMarkup",
 		"InlineQueryResultLocation.input_message_content":"InputMessageContent",
 		"InlineQueryResultVenue.reply_markup":"InlineKeyboardMarkup",
@@ -124,8 +118,6 @@
 		"ShippingQuery.shipping_address":"ShippingAddress",
 		"PreCheckoutQuery.from":"User",
 		"PreCheckoutQuery.order_info":"OrderInfo",
-		"PassportElementErrorFiles.file_hashes":"[String]",
-		"PassportElementErrorTranslationFiles.file_hashes":"[String]",
 		"Game.photo":"[PhotoSize]",
 		"Game.text_entities":"[MessageEntity]",
 		"Game.animation":"Animation",
@@ -525,6 +517,14 @@
 				"no_more_parameters_needed":true
 			}
 		},
-		"chat":"Chat"
+		"InlineQuery":{
+			"_presets":{
+				"inline_query_id":"id"
+			},
+			"answer":{
+				"alias":"answerInlineQuery",
+				"just_one_parameter_needed":"results"
+			}
+		}
 	}
 }
