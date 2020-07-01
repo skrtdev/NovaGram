@@ -134,20 +134,12 @@ class TelegramBot {
 
     }
 
-    private function curl(string $url){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        return $output;
-    }
 
     public function getUserDC(TelegramObject $user){
         if($user->_ !== "User") throw new NovaGramException("Argument passed to getUserDC is not an user");
         if($user->username === null) throw new NovaGramException("User passed to getUserDC has not an username");
-        preg_match('/cdn(\d)/', $this->curl("https://t.me/{$user->username}"), $matches);
-        return intval($matches[1] !== 0 ? $matches[1] : false);
+        preg_match('/cdn(\d)/', $this->client->get("https://t.me/{$user->username}")->getBody(), $matches);
+        return intval($matches[1]) !== 0 ? intval($matches[1]) : false;
     }
 
     public function __debugInfo() {
@@ -176,7 +168,10 @@ class TelegramObject {
         }
 
         $this_obj = $this->config->types_methods->{$this->_};
+        if($this_obj === null) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to yse $name)");
+
         $this_method = $this_obj->{$name};
+        if($this_obj === null) throw new NovaGramException("$name is not a Method of a {$this->_} Object");
 
         $presets = $this_method->presets;
         $data = [];
