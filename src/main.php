@@ -135,12 +135,15 @@ class TelegramBot {
 
     }
 
-
-    public function getUserDC(TelegramObject $user){
+    public static function getUserDC(TelegramObject $user){
         if($user->_ !== "User") throw new NovaGramException("Argument passed to getUserDC is not an user");
         if($user->username === null) throw new NovaGramException("User passed to getUserDC has not an username");
-        preg_match('/cdn(\d)/', $this->client->get("https://t.me/{$user->username}")->getBody(), $matches);
-        return intval($matches[1]) !== 0 ? intval($matches[1]) : false;
+        return self::getUsernameDC($user->username);
+    }
+
+    public static function getUsernameDC(string $username){
+        preg_match('/cdn(\d)/', $this->client->get("https://t.me/$username")->getBody(), $matches);
+        return isset($matches[1]) ? intval($matches[1]) : false;
     }
 
     public function __debugInfo() {
@@ -165,7 +168,7 @@ class TelegramObject {
         if($name === "getDC"){
             if($this->_ !== "User") throw new NovaGramException("Argument passed to getDC is not an user");
             if($this->username === null) throw new NovaGramException("User passed to getDC has not an username");
-            return $this->TelegramBot->getUserDC($this);
+            return TelegramBot::getUserDC($this);
         }
 
         $this_obj = $this->config->types_methods->{$this->_};

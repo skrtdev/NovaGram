@@ -209,15 +209,11 @@
 			},
 			"delete":{
 				"alias":"deleteMessage",
-				"presets":{
-					"chat_id":"chat/id"
-				},
 				"no_more_parameters_needed":true
 			},
 			"editText":{
 				"alias":"editMessageText",
 				"presets":{
-					"chat_id":"chat/id",
 					"text":"text"
 				},
 				"(ADD)reply_markup":"reply_markup",
@@ -455,6 +451,13 @@
 			"_presets":{
 				"user_id":"id"
 			},
+			"sendMessage":{
+				"alias":"sendMessage",
+				"presets":{
+					"chat_id":"id"
+				},
+				"just_one_parameter_needed":"text"
+			},
 			"getProfilePhotos":{
 				"alias":"getUserProfilePhotos",
 				"just_one_parameter_needed":"limit",
@@ -523,10 +526,10 @@
 			},
 			"answer":{
 				"alias":"answerInlineQuery",
-				"just_one_parameter_needed":"results",
 				"defaults":{
 					"cache_time": 0
-				}
+				},
+				"just_one_parameter_needed":"results"
 			}
 		}
 	}

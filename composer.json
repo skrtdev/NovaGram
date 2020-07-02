@@ -1,7 +1,7 @@
 {
     "name": "skrtdev/novagram",
     "description": "An Object-Oriented PHP Framework for Telegram Bots",
-    "version": "0.3.6",
+    "version": "0.3.7",
     "license": "MIT",
     "authors": [
         {
