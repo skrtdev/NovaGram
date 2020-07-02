@@ -52,7 +52,7 @@ class TelegramBot {
     }
 
     public function APICall(string $method, array $data, bool $payload = false){
-        if(in_array($method, $this->json['require_parse_mode'])) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode ?? null;
+        if(in_array($method, $this->json['require_parse_mode']) and isset($this->settings->parse_mode)) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode;
         foreach ($this->json['require_json_encode'] as $key) if(isset($data[$key]) and gettype($data[$key]) === "array") $data[$key] = json_encode($data[$key]);
 
         if($this->settings->json_payload and !($this->payloaded) and $payload){
@@ -76,6 +76,7 @@ class TelegramBot {
                 $this->sendMessage(["chat_id" => $this->settings->debug_chat_id, "text" => $method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)]);
             }
             if($this->settings->exceptions) throw new TelegramException("Error while calling $method method: ".$decoded['description'], $decoded['error_code']);
+            else return (object) $decoded;
         }
 
         if(gettype($decoded['result']) === "boolean") return $decoded['result'];
@@ -104,6 +105,7 @@ class TelegramBot {
                     if($this->getObjectType($ObjectType)) $json[$key] = $this->TelegramObjectArrayToTelegramObject($value, $ObjectType);
                     else $json[$key] = $this->JSONToTelegramObject($value, $ObjectType);
                 }
+                else $json[$key] = (object) $value;
             }
         }
         return new TelegramObject($parameter_name, $json, $this);
@@ -134,7 +136,7 @@ class TelegramBot {
 
     }
 
-    private function curl(string $url){
+    public static function curl(string $url){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -143,11 +145,15 @@ class TelegramBot {
         return $output;
     }
 
-    public function getUserDC(TelegramObject $user){
+    public static function getUserDC(TelegramObject $user){
         if($user->_ !== "User") throw new NovaGramException("Argument passed to getUserDC is not an user");
         if($user->username === null) throw new NovaGramException("User passed to getUserDC has not an username");
-        preg_match('/cdn(\d)/', $this->curl("https://t.me/{$user->username}"), $matches);
-        return intval($matches[1] !== 0 ? $matches[1] : false);
+        return self::getUsernameDC($user->username);
+    }
+
+    public static function getUsernameDC(string $username){
+        preg_match('/cdn(\d)/', self::curl("https://t.me/{$username}"), $matches);
+        return isset($matches[1]) ? intval($matches[1]) : false;
     }
 
     public function __debugInfo() {
@@ -172,7 +178,7 @@ class TelegramObject {
         if($name === "getDC"){
             if($this->_ !== "User") throw new NovaGramException("Argument passed to getDC is not an user");
             if($this->username === null) throw new NovaGramException("User passed to getDC has not an username");
-            return $this->TelegramBot->getUserDC($this);
+            return TelegramBot::getUserDC($this);
         }
 
         $this_obj = $this->config->types_methods->{$this->_};
