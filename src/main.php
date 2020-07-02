@@ -142,7 +142,7 @@ class TelegramBot {
     }
 
     public static function getUsernameDC(string $username){
-        preg_match('/cdn(\d)/', $this->client->get("https://t.me/$username")->getBody(), $matches);
+        preg_match('/cdn(\d)/', (new GuzzleHttp\Client())->get("https://t.me/$username")->getBody(), $matches);
         return isset($matches[1]) ? intval($matches[1]) : false;
     }
 
