@@ -20,7 +20,7 @@ class TelegramBot {
             "exceptions" => true
         ];
 
-        foreach ($settings_array as $name => $default) $this->settings->{$name} = (bool) property_exists($this->settings, $name) ? $this->settings->{$name} : $default;
+        foreach ($settings_array as $name => $default) $this->settings->{$name} = property_exists($this->settings, $name) ? $this->settings->{$name} : $default;
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
