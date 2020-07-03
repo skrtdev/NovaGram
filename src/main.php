@@ -8,14 +8,19 @@ class TelegramBot {
         $this->token = $token;
         $this->settings = (object) $settings;
 
-        $this->settings->json_payload = (bool) $this->settings->json_payload ?? false;
-        $this->settings->log_updates = (bool) $this->settings->log_updates ?? false;
-        $this->settings->log_updates_chat_id = $this->settings->log_updates_chat_id ?? 634408248;
-        $this->settings->debug = (bool) $this->settings->debug ?? false;
-        $this->settings->debug_chat_id = $this->settings->debug_chat_id ?? 634408248;
-        $this->settings->disable_ip_check = (bool) $this->settings->disable_ip_check ?? false;
-        $this->settings->disable_webhook = (bool) $this->settings->disable_webhook ?? false;
-        $this->settings->exceptions = (bool) $this->settings->exceptions ?? true;
+        $settings_array = [
+            "json_payload" => false,
+            "log_updates" => false,
+            "disable_webhook" => false,
+            "disable_ip_check" => false,
+            "async" => false,
+            "debug" => false,
+            "log_updates_chat_id" => 634408248,
+            "debug_chat_id" => 634408248,
+            "exceptions" => true
+        ];
+
+        foreach ($settings_array as $name => $default) $this->settings->{$name} = (bool) property_exists($this->settings, $name) ? $this->settings->{$name} : $default;
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
@@ -181,19 +186,21 @@ class TelegramObject {
             return TelegramBot::getUserDC($this);
         }
 
+        if(!property_exists($this->config->types_methods, $this->_)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to yse $name)");
         $this_obj = $this->config->types_methods->{$this->_};
+
+        if(!property_exists($this_obj, $name)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to yse $name)");
         $this_method = $this_obj->{$name};
 
-        $presets = $this_method->presets;
         $data = [];
 
-        if(isset($this_obj->_presets)) foreach ($this_obj->_presets as $key => $value) {
+        if(property_exists($this_obj, "_presets")) foreach ($this_obj->_presets as $key => $value) {
             $data[$key] = $this->presetToValue($value);
         }
-        if(isset($presets)) foreach ($presets as $key => $value) {
+        if(property_exists($this_method, "presets")) foreach ($this_method->presets as $key => $value) {
             $data[$key] = $this->presetToValue($value);
         }
-        if(isset($this_method->defaults)) foreach ($this_method->defaults as $key => $value) {
+        if(property_exists($this_method, "defaults")) foreach ($this_method->defaults as $key => $value) {
             $data[$key] = $value;
         }
         if(gettype($arguments[0]) === "array") foreach ($arguments[0] as $key => $value) {
@@ -201,7 +208,6 @@ class TelegramObject {
         }
         elseif(isset($arguments[0])){
             if($this_method->just_one_parameter_needed !== null) $data[$this_method->just_one_parameter_needed] = $arguments[0];
-            //elseif($this_method->no_more_parameters_needed === null) throw new NovaGramException("TelegramObject({$this->_})::$name called without parameters." );
         }
         if(count($data) === 0) throw new NovaGramException("TelegramObject({$this->_})::$name called without parameters." );
 
