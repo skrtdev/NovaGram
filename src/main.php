@@ -21,7 +21,7 @@ class TelegramBot {
             "exceptions" => true
         ];
 
-foreach ($settings_array as $name => $default) $this->settings->{$name} = (bool) property_exists($this->settings, $name) ? $this->settings->{$name} : $default;
+        foreach ($settings_array as $name => $default) $this->settings->{$name} = (bool) property_exists($this->settings, $name) ? $this->settings->{$name} : $default;
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
@@ -68,7 +68,6 @@ foreach ($settings_array as $name => $default) $this->settings->{$name} = (bool)
             return true;
         }
 
-
         $output = $this->client->request("POST", $method, [
             "json" => $data,
             "http_errors" => false
@@ -81,6 +80,7 @@ foreach ($settings_array as $name => $default) $this->settings->{$name} = (bool)
                 $this->sendMessage(["chat_id" => $this->settings->debug_chat_id, "text" => $method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)]);
             }
             if($this->settings->exceptions) throw new TelegramException("Error while calling $method method: ".$decoded['description'], $decoded['error_code']);
+            else return (object) $decoded;
         }
 
         if(gettype($decoded['result']) === "boolean") return $decoded['result'];
