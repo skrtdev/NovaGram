@@ -18,7 +18,7 @@ if($update->has("message")){ // update is a message
     $chat = $message->chat;
     $user = $message->from;
 
-    if($message->text !== null){ // update message contains text
+    if($message->has("text")){ // update message contains text
 
         $chat->sendMessage([ // send a Message in the Chat
             "text" => "Testo: \n<code>".$update->message->text."</code>", // Message Text
