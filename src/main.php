@@ -214,6 +214,10 @@ class TelegramObject {
         return $this->TelegramBot->APICall($this_method->alias, $data, $arguments[1] ?? false);
     }
 
+    public function has(string $property_name){
+        return property_exists($this, $property_name);
+    }
+
     private function presetToValue(string $preset){
         $obj = $this;
         foreach(explode("/", $preset) as $key) $obj = $obj->$key;
