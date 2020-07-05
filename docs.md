@@ -239,9 +239,9 @@ $user->getProfilePhotos([
 > DC means DataCenter, that is the server where the user account is located
 
 getUserDC can be used as a static method of the main class or as a method of a User Object, as _getDC_ method, in order to get DC of that User.
------
-getUserDC and _getDC_ both uses the static method getUsernameDC
------
+
+> getUserDC and _getDC_ both uses the static method getUsernameDC
+
 In order to retrieve DC, user need to have username and profile photo.
 
 getUserDC will throw a NovaGramException if Object is not an User, or if User hasn't got an Username, and will return `false` if User hasn't got a profile photo.
