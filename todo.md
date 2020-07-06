@@ -1,6 +1,6 @@
 # // TODO
 
-- [ ] getDC of a Chat Object
+- [x] getDC of a Chat Object
 - [x] Message Object
 - [ ] Messages longer than 4096 characters have to be split up into multiple messages
 - [ ] InlineQuery Object

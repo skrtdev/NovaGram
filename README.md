@@ -1,4 +1,4 @@
-# NovaGram
+# NovaGram (v0.4)
 An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 
 ### Installation via Composer
@@ -31,4 +31,4 @@ $update->message->forward([], true); // forward() with no parameters will forwar
 
 Using `"json_payload" => true` and `true` in forward method, the api call will be print as payload, making the bot faster. Only one Api Call can use json payload
 
-More info in the [Documentation](docs.md)
+More info in the [Documentation](https://docs.novagram.ga)

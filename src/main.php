@@ -12,12 +12,9 @@ class TelegramBot {
         $settings_array = [
             "json_payload" => false,
             "log_updates" => false,
+            "debug" => false,
             "disable_webhook" => false,
             "disable_ip_check" => false,
-            "async" => false,
-            "debug" => false,
-            "log_updates_chat_id" => 634408248,
-            "debug_chat_id" => 634408248,
             "exceptions" => true
         ];
 
@@ -44,9 +41,10 @@ class TelegramBot {
                 if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
                 if( (!ip_in_range($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !ip_in_range($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) or file_get_contents("php://input") === "") die("Access Denied");
             }
+
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
 
-            if($this->settings->log_updates) $this->sendMessage(["chat_id" => $this->settings->log_updates_chat_id, "text" => json_encode($this->raw_update, JSON_PRETTY_PRINT)]);
+            if($this->settings->log_updates) $this->sendMessage(["chat_id" => $this->settings->log_updates, "text" => json_encode($this->raw_update, JSON_PRETTY_PRINT)]);
 
             $this->update = $this->JSONToTelegramObject($this->raw_update, "Update");
         }
@@ -77,7 +75,7 @@ class TelegramBot {
 
         if($decoded['ok'] !== true){
             if($this->settings->debug){
-                $this->sendMessage(["chat_id" => $this->settings->debug_chat_id, "text" => $method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)]);
+                $this->sendMessage(["chat_id" => $this->settings->debug, "text" => $method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)]);
             }
             if($this->settings->exceptions) throw new TelegramException("Error while calling $method method: ".$decoded['description'], $decoded['error_code']);
             else return (object) $decoded;
@@ -86,6 +84,7 @@ class TelegramBot {
         if(gettype($decoded['result']) === "boolean") return $decoded['result'];
 
         if($this->getMethodReturned($method)) return $this->JSONToTelegramObject($decoded['result'], $this->getMethodReturned($method));
+        else return gettype($decoded['result']) === "array" ? (object) $decoded['result'] : $decoded['result'];
     }
 
     private function getMethodReturned(string $method){
@@ -109,6 +108,7 @@ class TelegramBot {
                     if($this->getObjectType($ObjectType)) $json[$key] = $this->TelegramObjectArrayToTelegramObject($value, $ObjectType);
                     else $json[$key] = $this->JSONToTelegramObject($value, $ObjectType);
                 }
+                else $json[$key] = (object) $value;
             }
         }
         return new TelegramObject($parameter_name, $json, $this);
@@ -178,7 +178,7 @@ class TelegramObject {
         if(!property_exists($this->config->types_methods, $this->_)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to yse $name)");
         $this_obj = $this->config->types_methods->{$this->_};
 
-        if(!property_exists($this_obj, $name)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to yse $name)");
+        if(!property_exists($this_obj, $name)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to use $name)");
         $this_method = $this_obj->{$name};
 
         $data = [];
