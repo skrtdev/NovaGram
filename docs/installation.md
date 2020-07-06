@@ -15,4 +15,4 @@ Add skrtdev/novagram in required packages in main.json
 {"packages": [..., "skrtdev/novagram"]}
 ```
 
-[Start using it](start.md)
+[How to create a Bot Instance](construct.md)
