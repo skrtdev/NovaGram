@@ -22,7 +22,8 @@ This will send a Message in the specified chat with the specified text.
 ### JSON Payload
 
 If JSON Payload is enabled in Bot's settings, you can make a Payload request.
-When making an API Call, pass `true` in `$payload`, and it will be made as payload
+When making an API Call, pass `true` in `$payload`, and it will be made as payload.
+
 **NOTE: Only one API Call can be made as JSON Payload in the same execution contest.
 If there are more than one Payload API Call, only the first one will be made as Payload, while others will be made normally**
 

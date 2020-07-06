@@ -64,7 +64,6 @@ If BOTApi returns an error, a TelegramException will be thrown, this can be hand
 If Novagram returns an error, a NovaGramException will be thrown, this can be handled like a normal Exception, with a try/catch block
 
 ### Available Methods
-   * [reply](#reply)
    * [sendMessage](#sendMessage)
    * [forwardMessage](#forwardMessage)
    * [deleteMessage](#deleteMessage)
@@ -73,25 +72,6 @@ If Novagram returns an error, a NovaGramException will be thrown, this can be ha
    * [sendChatAction](#sendChatAction)
    * [getUserProfilePhotos](#getUserProfilePhotos)
    * [getUserDC](#getUserDC)
-
-
-### reply
-> reply has been removed in v0.3.4
-
-reply can be used only as a method of an Update Object.
-reply acts just like sendMessage, sending a message in the Update chat with the specified text.
-
-```php
-// Update object
-$update->reply([
-    "text" => "message_text"
-]);
-
-/* or simply */
-
-// Update object
-$update->reply("message_text"); // just the text of the message
-```
 
 
 ### sendMessage
