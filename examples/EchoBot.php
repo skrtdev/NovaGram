@@ -3,8 +3,7 @@ header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 
 $Bot = new TelegramBot("YOUR_TOKEN", [
-    "debug" => true, // will send you api errors when they occurs
-    "debug_chat_id" => TUOCHATID, // chat id where debug will be sent
+    "debug" => YOURCHATID, // chat id where debug will be sent when api errors occurs
     "json_payload" => true, // allow use of json payload (without this, all the api calls will be made normally, even if they should be made as json payload)
 ]);
 
