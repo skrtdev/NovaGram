@@ -11,13 +11,13 @@ $Bot = new TelegramBot("YOUR_TOKEN", [
 $update = $Bot->update; // this is the update received from the bot
 
 
-if($update->message !== null){ // update is a message
+if($update->has("message")){ // update is a message
 
     $message = $update->message;
     $chat = $message->chat;
     $user = $message->from;
 
-    if($message->text !== null){ // update message contains text
+    if($message->has("text")){ // update message contains text
 
         $chat->sendMessage($message->text); // send a Message in the Chat. Text is the same as the just received message
 

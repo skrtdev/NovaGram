@@ -12,13 +12,13 @@ $Bot = new TelegramBot("YOUR_TOKEN", [
 $update = $Bot->update; // this is the update received from the bot
 
 
-if($update->message !== null){ // update is a message
+if($update->has("message")){ // update is a message
 
     $message = $update->message;
     $chat = $message->chat;
     $user = $message->from;
 
-    if($message->text !== null){ // update message contains text
+    if($message->has("text")){ // update message contains text
 
         $chat->sendMessage([ // send a Message in the Chat
             "text" => "Testo: \n<code>".$update->message->text."</code>", // Message Text
@@ -47,7 +47,7 @@ if($update->message !== null){ // update is a message
 
 }
 
-if($update->callback_query !== null){ // update is a callback query
+if($update->has("callback_query")){ // update is a callback query
 
     $callback_query = $update->callback_query;
 
