@@ -50,10 +50,10 @@ if($update->has("message")){ // update is a message
 if($update->has("callback_query")){ // update is a callback query
 
     $callback_query = $update->callback_query;
+    $user = $callback_query->from;
 
     $message = $callback_query->message;
     $chat = $message->chat;
-    $user = $message->from;
 
     $callback_query->answer("Encoded!"); // answer this CallbackQuery
 
