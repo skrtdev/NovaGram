@@ -17,7 +17,7 @@ class TelegramBot {
             "exceptions" => true
         ];
 
-        foreach ($settings_array as $name => $default) $this->settings->{$name} = property_exists($this->settings, $name) ? $this->settings->{$name} : $default;
+        foreach ($settings_array as $name => $default) $this->settings->{$name} = $this->settings->{$name} ?? $default;
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
@@ -213,7 +213,7 @@ class TelegramObject {
         return $this->TelegramBot->APICall($this_method->alias, $data, $arguments[1] ?? false);
     }
 
-    public function has(string $property_name){
+    public function has(string $property_name){ // soon removed
         return property_exists($this, $property_name);
     }
 

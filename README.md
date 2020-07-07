@@ -33,3 +33,4 @@ $update->message->forward([], true); // forward() with no parameters will forwar
 Using `"json_payload" => true` and `true` in forward method, the api call will be print as payload, making the bot faster. Only one Api Call can use json payload
 
 More info in the [Documentation](https://docs.novagram.ga)
+You can check some [examples](https://github.com/skrtdev/NovaGram/tree/master/examples)
