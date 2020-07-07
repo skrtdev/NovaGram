@@ -37,3 +37,10 @@ $Bot->sendMessage([
 ```
 
 Argument `$payload` is `true`, so this will be made as Payload (if a Payload wasn't made yet).
+
+## Exceptions
+
+If NovaGram receives an error from Telegram, a `TelegramException` is raised (if Exceptions are not disabled in NovaGram settings)
+`TelegramException(s)` can be handled like normal Exceptions, with a try/catch block
+
+[NovaGram Objects](construct.md)

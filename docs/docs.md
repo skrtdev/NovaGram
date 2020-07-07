@@ -4,37 +4,6 @@
 > There are only this library own methods
 --------
 
-## Creating the class
-Create a variable (in this Documentation it's called $Bot) and instanciate the TelegramBot Class. Parameters are:
-   * token (string)
-   * settings (array)
-
-A simple example:
-```php
-header('Content-Type: application/json');
-require __DIR__ . '/vendor/autoload.php';
-
-$Bot = new TelegramBot("YOUR_TOKEN", [
-    "json_payload" => true
-]);
-```
-In this example, the settings array contains a key `json_payload` set to `true`. Doing so, the first API Call with 2nd parameter set to true will be print as payload, and afterwards processed by Telegram, making the bot **faster**  
-
-### The Settings Array
-
-| key                 | value   | description                                                                             |
-|---------------------|---------|-----------------------------------------------------------------------------------------|
-| json_payload        | boolean | whether or not print json payload (default to false)                                    |
-| log_updates         | boolean | whether or not log raw json updates (default to false)                                  |
-| log_updates_chat_id | int     | chat id where updates will be sent if log_updates is set to true                        |
-| debug               | boolean | whether or not send debug when an api error occurs (default to false)                   |
-| debug_chat_id       | int     | chat id where debug logs will be sent if debug is set to true                           |
-| disable_ip_check    | boolean | disable telegram ip check if set to true, any value rather than true won't do anything  |
-| disable_webhook     | boolean | disable update receiving if set to true, any value rather than true won't do anything   |
-| parse_mode          | string  | parse mode that will be passed to all the methods that require it if not provided       |
-| exceptions          | bool    | whether or not throw TelegramExceptions (default to true)                               |
-
-
 ### Setup Script
 All the methods explained here are supposed to be in a script with this setup:
 ```php
@@ -60,9 +29,6 @@ $Bot->METHOD_NAME([
 ])
 ```
 
-If BOTApi returns an error, a TelegramException will be thrown, this can be handled like a normal Exception, with a try/catch block
-If Novagram returns an error, a NovaGramException will be thrown, this can be handled like a normal Exception, with a try/catch block
-
 ### Available Methods
    * [sendMessage](#sendMessage)
    * [forwardMessage](#forwardMessage)
@@ -71,7 +37,7 @@ If Novagram returns an error, a NovaGramException will be thrown, this can be ha
    * [editMessageText](#editMessageText)
    * [sendChatAction](#sendChatAction)
    * [getUserProfilePhotos](#getUserProfilePhotos)
-   * [getUserDC](#getUserDC)
+   * [getUsernameDC](#getUsernameDC)
 
 
 ### sendMessage
@@ -215,7 +181,11 @@ $user->getProfilePhotos([
 ]);
 ```
 
-### getUserDC
+### getUsernameDC
+> getUserDC will be removed in a future version of NovaGram.
+--------
+
+
 > DC means DataCenter, that is the server where the user account is located
 
 getUserDC can be used as a static method of the main class or as a method of a User Object, as _getDC_ method, in order to get DC of that User.

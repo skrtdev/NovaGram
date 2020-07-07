@@ -10,18 +10,18 @@ Since there is just one Class, all the Object Methods are defined in a json file
 
 If you haven't disabled webhook, you can find the just received Update object in `$Bot->update`.
 
-I recommend to use Objects Method `has` (that is just a shortcut of `property_exists`) to check what the update is.
+I recommend to use the PHP function `isset` to check what the update is.
 
 ```php
 $update = $Bot->update; // this is the update received from the bot
 
-if($update->has("message")){ // update is a message
+if(isset($update->message)){ // update is a message
 
     $message = $update->message;
     $chat = $message->chat;
     $user = $message->from;
 
-    if($message->has("text")){ // update message contains text
+    if(isset($message->text)){ // update message contains text
 
         // code...
 
@@ -34,7 +34,7 @@ if($update->has("message")){ // update is a message
 
 }
 
-if($update->has("callback_query")){ // update is a callback query
+if(isset($update->callback_query)){ // update is a callback query
 
     $callback_query = $update->callback_query;
     $user = $callback_query->from;

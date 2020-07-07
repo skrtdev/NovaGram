@@ -1,6 +1,10 @@
 <?php
 header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
+/*
+    if hosting:
+    require "../PHPEasyGit/autoload.php";
+*/
 
 $Bot = new TelegramBot("YOUR_TOKEN", [
     "debug" => YOURCHATID, // chat id where debug will be sent when api errors occurs
@@ -10,14 +14,13 @@ $Bot = new TelegramBot("YOUR_TOKEN", [
 
 $update = $Bot->update; // this is the update received from the bot
 
-
-if($update->has("message")){ // update is a message
+if(isset($update->message)){ // update is a message
 
     $message = $update->message;
     $chat = $message->chat;
     $user = $message->from;
 
-    if($message->has("text")){ // update message contains text
+    if(isset($message->text)){ // update message contains text
 
         $chat->sendMessage([ // send a Message in the Chat
             "text" => "Testo: \n<code>".$update->message->text."</code>", // Message Text
@@ -45,14 +48,13 @@ if($update->has("message")){ // update is a message
     else $chat->sendMessage("that's not text", true); // Message doesn't cointain text
 
 }
-
-if($update->has("callback_query")){ // update is a callback query
+if(isset($update->callback_query)){ // update is a callback query
 
     $callback_query = $update->callback_query;
+    $user = $callback_query->from;
 
     $message = $callback_query->message;
     $chat = $message->chat;
-    $user = $message->from;
 
     $callback_query->answer("Encoded!"); // answer this CallbackQuery
 
