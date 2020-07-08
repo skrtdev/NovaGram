@@ -1,8 +1,8 @@
 # NovaGram Objects
 
-In NovaGram, each Telegram Object is an Instance of a single Class, called TelegramObject.
+In NovaGram, each Telegram Object is an Instance of the `TelegramObject` class.
 
-Using one single Class for all the Objects makes more easier to develop an Object Oriented Framework.
+Using one single Class for all the Objects makes easier to develop an Object Oriented Framework.
 
 Since there is just one Class, all the Object Methods are defined in a json file, making very easy creating personal Methods.
 
