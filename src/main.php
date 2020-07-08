@@ -168,7 +168,7 @@ class TelegramBot {
 }
 
 class TelegramObject {
-    private $TelegramBot, $config;
+    private $TelegramBot, $config, $_;
     public function __construct(string $type, array $json, TelegramBot $TelegramBot){
 
         $this->_ = $type;
@@ -185,10 +185,10 @@ class TelegramObject {
             return TelegramBot::getUserDC($this);
         }
 
-        if(!property_exists($this->config->types_methods, $this->_)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to yse $name)");
+        if(!property_exists($this->config->types_methods, $this->_)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to call $name)");
         $this_obj = $this->config->types_methods->{$this->_};
 
-        if(!property_exists($this_obj, $name)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to use $name)");
+        if(!property_exists($this_obj, $name)) throw new NovaGramException("Call to unexistent method: {$this->_}->$name");
         $this_method = $this_obj->{$name};
 
         $data = [];
@@ -217,6 +217,10 @@ class TelegramObject {
         return property_exists($this, $property_name);
     }
 
+    public function _(){
+        return $this->_;
+    }
+
     private function presetToValue(string $preset){
         $obj = $this;
         foreach(explode("/", $preset) as $key) $obj = $obj->$key;
@@ -225,7 +229,8 @@ class TelegramObject {
 
     public function __debugInfo() {
         $result = get_object_vars($this);
-        foreach(['json', 'config', 'TelegramBot', 'settings', 'payloaded'] as $key) unset($result[$key]);
+        //foreach(['json', 'config', 'TelegramBot', 'settings', 'payloaded', 'raw_update'] as $key) unset($result[$key]);
+        foreach(['config', 'TelegramBot'] as $key) unset($result[$key]);
         return $result;
     }
 }
