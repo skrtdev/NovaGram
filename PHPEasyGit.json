@@ -4,7 +4,7 @@
         "src/Exceptions/Telegram.php",
         "src/Exceptions/NovaGram.php",
         "src/bc.php",
-        "src/traits.php",
+        "src/traits.php"
     ],
     "import":[
         "src/json.json"
