@@ -1,8 +1,8 @@
 {
     "autoload":[
         "src/main.php",
-        "src/Exceptions/Telegram.php",
-        "src/Exceptions/NovaGram.php",
+        "src/exceptions/Telegram.php",
+        "src/exceptions/NovaGram.php",
         "src/bc.php",
         "src/traits.php"
     ],
