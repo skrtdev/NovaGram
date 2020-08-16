@@ -1,7 +1,10 @@
 {
     "autoload":[
-        "src/Exceptions.php",
-        "src/main.php"
+        "src/main.php",
+        "src/Exceptions/Telegram.php",
+        "src/Exceptions/NovaGram.php",
+        "src/bc.php",
+        "src/traits.php",
     ],
     "import":[
         "src/json.json"
