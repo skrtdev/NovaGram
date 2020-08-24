@@ -1,7 +1,7 @@
 ### Deal with it
 In order to start using NovaGram, you just need to create the class
 ```php
-$Bot = new TelegramBot("YOUR_TOKEN");
+$Bot = new \Telegram\Bot("YOUR_TOKEN");
 ```
 
 ### Example

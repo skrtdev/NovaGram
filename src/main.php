@@ -1,6 +1,8 @@
 <?php
 
-class TelegramBot {
+namespace Telegram;
+
+class Bot {
     private $token, $settings, $json;
     private $payloaded = false;
 
@@ -10,7 +12,7 @@ class TelegramBot {
         $this->client = new GuzzleHttp\Client(['base_uri' => "https://api.telegram.org/bot{$token}/"]);
 
         $settings_array = [
-            "json_payload" => false,
+            "json_payload" => true,
             "log_updates" => false,
             "debug" => false,
             "disable_webhook" => false,
@@ -18,11 +20,12 @@ class TelegramBot {
             "exceptions" => true
         ];
 
-        foreach ($settings_array as $name => $default) $this->settings->{$name} = $this->settings->{$name} ?? $default;
+        foreach ($settings_array as $name => $default) $this->settings->{$name} ??= $default;
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
         if(!$this->settings->disable_webhook){
+            http_response_code(200);
             if(!$this->settings->disable_ip_check){
                 function ip_in_range( $ip, $range ) {
                     if ( strpos( $range, '/' ) === false ) $range .= '/32';
@@ -39,12 +42,13 @@ class TelegramBot {
                     return false;
                 }
                 if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-                if( (!ip_in_range($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !ip_in_range($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) or file_get_contents("php://input") === "") die("Access Denied");
+                if(!ip_in_range($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !ip_in_range($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) exit("Access Denied");
             }
+            if(file_get_contents("php://input") === "") exit("Access Denied");
 
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
 
-            if($this->settings->log_updates) $this->sendMessage(["chat_id" => $this->settings->log_updates, "text" => json_encode($this->raw_update, JSON_PRETTY_PRINT)]);
+            if($this->settings->log_updates) $this->sendMessage(["chat_id" => $this->settings->log_updates, "text" => "<pre>".json_encode($this->raw_update, JSON_PRETTY_PRINT)."</pre>", "parse_mode" => "HTML"]);
 
             $this->update = $this->JSONToTelegramObject($this->raw_update, "Update");
         }
@@ -52,18 +56,25 @@ class TelegramBot {
     }
 
     public function __call(string $name, array $arguments){
-        return $this->APICall($name, $arguments[0], $arguments[1] ?? false);
+        return $this->APICall($name, ...$arguments);
     }
 
-    public function APICall(string $method, array $data, bool $payload = false){
-        if(in_array($method, $this->json['require_parse_mode']) and isset($this->settings->parse_mode)) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode;
-        foreach ($this->json['require_json_encode'] as $key) if(isset($data[$key]) and gettype($data[$key]) === "array") $data[$key] = json_encode($data[$key]);
+    public function APICall(string $method, array $data, bool $payload = false, bool $force_throw_exception = false){
+        if(in_array($method, $this->json['require_parse_mode']) and isset($this->settings->parse_mode)) $data['parse_mode'] ??= $this->settings->parse_mode;
+        foreach ($this->json['require_json_encode'] as $key) if(isset($data[$key]) and is_array($data[$key])) $data[$key] = json_encode($data[$key]);
 
-        if($this->settings->json_payload and !($this->payloaded) and $payload){
-            $this->payloaded = true;
-            $data['method'] = $method;
-            echo json_encode($data);
-            return true;
+        if($this->settings->json_payload){
+            if($payload){
+                if(!$this->payloaded){
+                    $this->payloaded = true;
+                    $data['method'] = $method;
+                    echo json_encode($data);
+                    return true;
+                }
+                else{
+                    trigger_error("Trying to use JSON Payload more than one time");
+                }
+            }
         }
 
         $output = $this->client->request("POST", $method, [
@@ -74,17 +85,18 @@ class TelegramBot {
         $decoded = json_decode($output, TRUE);
 
         if($decoded['ok'] !== true){
+            if($force_throw_exception) throw new Exception("[DURING DEBUG] $method", $decoded, $data);
             if($this->settings->debug){
-                $this->sendMessage(["chat_id" => $this->settings->debug, "text" => $method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)]);
+                $this->sendMessage(["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"], false, true);
             }
-            if($this->settings->exceptions) throw new TelegramException("Error while calling $method method: ".$decoded['description'], $decoded['error_code']);
+            if($this->settings->exceptions) throw new Exception($method, $decoded, $data);
             else return (object) $decoded;
         }
 
-        if(gettype($decoded['result']) === "boolean") return $decoded['result'];
+        if(is_bool($decoded['result'])) return $decoded['result'];
 
         if($this->getMethodReturned($method)) return $this->JSONToTelegramObject($decoded['result'], $this->getMethodReturned($method));
-        else return gettype($decoded['result']) === "array" ? (object) $decoded['result'] : $decoded['result'];
+        else return is_array($decoded['result']) ? (object) $decoded['result'] : $decoded['result'];
     }
 
     private function getMethodReturned(string $method){
@@ -102,7 +114,7 @@ class TelegramBot {
         if($this->getObjectType($parameter_name)) $parameter_name = $this->getObjectType($parameter_name);
         if(preg_match('/\[\w+\]/', $parameter_name) === 1) return $this->TelegramObjectArrayToTelegramObject($json, $parameter_name);
         foreach($json as $key => $value){
-            if(gettype($value) === "array"){
+            if(is_array($value)){
                 $ObjectType = $this->getObjectType($key, $parameter_name);
                 if($ObjectType){
                     if($this->getObjectType($ObjectType)) $json[$key] = $this->TelegramObjectArrayToTelegramObject($value, $ObjectType);
@@ -111,7 +123,7 @@ class TelegramBot {
                 else $json[$key] = (object) $value;
             }
         }
-        return new TelegramObject($parameter_name, $json, $this);
+        return $this->createObject($parameter_name, $json);
     }
 
     private function TelegramObjectArrayToTelegramObject(array $json, string $name){
@@ -125,24 +137,17 @@ class TelegramBot {
         else $childs_name = $ObjectType;
 
         foreach($json as $key => $value){
-            if(gettype($value) === "array"){
-                if(gettype($key) === "integer"){
+            if(is_array($value)){
+                if(is_int($key)){
                     if($this->getObjectType($childs_name)) $json[$key] = $this->TelegramObjectArrayToTelegramObject($value, $childs_name);
-                    //else $json[$key] = new TelegramObject($childs_name, $value, $this);
+                    //else $json[$key] = $this->createObject($childs_name, $value);
                     else $json[$key] = $this->JSONToTelegramObject($value, $childs_name);
                 }
                 else $json[$key] = $this->JSONToTelegramObject($value, $this->getObjectType($childs_name, $parent_name));
 
             }
         }
-        return new TelegramObject($name, $json, $this);
-
-    }
-
-    public static function getUserDC(TelegramObject $user){
-        if($user->_ !== "User") throw new NovaGramException("Argument passed to getUserDC is not an user");
-        if($user->username === null) throw new NovaGramException("User passed to getUserDC has not an username");
-        return self::getUsernameDC($user->username);
+        return (object) $json;
     }
 
     public static function getUsernameDC(string $username){
@@ -150,61 +155,58 @@ class TelegramBot {
         return isset($matches[1]) ? intval($matches[1]) : false;
     }
 
+    public function createObject(string $type, array $json){
+        $obj = __NAMESPACE__.'\\'.$type;
+        return new $obj($type, $json, $this);
+    }
+
     public function __debugInfo() {
         $result = get_object_vars($this);
-        foreach(['json', 'config', 'TelegramBot', 'settings', 'payloaded', 'raw_update'] as $key) unset($result[$key]);
+        foreach(['json', 'config', 'settings', 'payloaded', 'raw_update'] as $key) unset($result[$key]);
         return $result;
     }
 }
 
-class TelegramObject {
-    private $TelegramBot, $config;
-    public function __construct(string $type, array $json, TelegramBot $TelegramBot){
+class Type {
+    private $Bot, $config, $_;
+    public function __construct(string $type, array $json, Bot $Bot){
 
         $this->_ = $type;
-        $this->TelegramBot = $TelegramBot;
+        $this->Bot = $Bot;
 
         foreach ($json as $key => $value) $this->$key = $value;
 
         $this->config = json_decode(implode(file(__DIR__."/json.json")));
+
     }
     public function __call(string $name, array $arguments){
-        if($name === "getDC"){
-            if($this->_ !== "User") throw new NovaGramException("Argument passed to getDC is not an user");
-            if($this->username === null) throw new NovaGramException("User passed to getDC has not an username");
-            return TelegramBot::getUserDC($this);
-        }
 
-        if(!property_exists($this->config->types_methods, $this->_)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to yse $name)");
+        if(!property_exists($this->config->types_methods, $this->_)) throw new \NovaGram\Exception("There are no available Methods for a {$this->_} Object (trying to call $name)");
         $this_obj = $this->config->types_methods->{$this->_};
 
-        if(!property_exists($this_obj, $name)) throw new NovaGramException("There are no available Methods for a {$this->_} Object (trying to use $name)");
+        if(!isset($this_obj->{$name})) throw new \Error("Call to undefined method ".get_class($this)."::$name()");
         $this_method = $this_obj->{$name};
 
         $data = [];
 
-        if(property_exists($this_obj, "_presets")) foreach ($this_obj->_presets as $key => $value) {
+        foreach ($this_obj->_presets ?? [] as $key => $value) {
             $data[$key] = $this->presetToValue($value);
         }
-        if(property_exists($this_method, "presets")) foreach ($this_method->presets as $key => $value) {
+        foreach ($this_method->presets ?? [] as $key => $value) {
             $data[$key] = $this->presetToValue($value);
         }
-        if(property_exists($this_method, "defaults")) foreach ($this_method->defaults as $key => $value) {
+        foreach ($this_method->defaults ?? [] as $key => $value) {
             $data[$key] = $value;
         }
-        if(gettype($arguments[0]) === "array") foreach ($arguments[0] as $key => $value) {
+        if(is_array($arguments[0])) foreach ($arguments[0] as   $key => $value) {
             $data[$key] = $value;
         }
         elseif(isset($arguments[0])){
-            if($this_method->just_one_parameter_needed !== null) $data[$this_method->just_one_parameter_needed] = $arguments[0];
+            if(isset($this_method->just_one_parameter_needed)) $data[$this_method->just_one_parameter_needed] = $arguments[0];
         }
-        if(count($data) === 0) throw new NovaGramException("TelegramObject({$this->_})::$name called without parameters." );
+        if(count($data) === 0) throw new \ArgumentCountError("Too few arguments to function ".get_class($this)."::$name(), 0 passed");
 
-        return $this->TelegramBot->APICall($this_method->alias, $data, $arguments[1] ?? false);
-    }
-
-    public function has(string $property_name){ // soon removed
-        return property_exists($this, $property_name);
+        return $this->Bot->{$this_method->alias ?? $name}($data, $arguments[1] ?? false);
     }
 
     private function presetToValue(string $preset){
@@ -215,7 +217,7 @@ class TelegramObject {
 
     public function __debugInfo() {
         $result = get_object_vars($this);
-        foreach(['json', 'config', 'TelegramBot', 'settings', 'payloaded'] as $key) unset($result[$key]);
+        foreach(['json', 'config', 'Bot', 'settings', 'payloaded', 'raw_update'] as $key) unset($result[$key]);
         return $result;
     }
 }

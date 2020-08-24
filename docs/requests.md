@@ -1,11 +1,11 @@
 # Make requests
 
 ```php
-$Bot->APICall(string $method, array $data, bool $payload = false);
+$Bot->APICall(string $method, array $data, bool $payload = false, bool $force_throw_exception = falses);
 ```
 Short syntax:
 ```php
-$Bot->$method(array $data, bool $payload = false);
+$Bot->$method(array $data, bool $payload = false, bool $force_throw_exception = false);
 ```
 
 A simple example:
@@ -22,7 +22,7 @@ This will send a Message in the specified chat with the specified text.
 ### JSON Payload
 
 If JSON Payload is enabled in Bot's settings, you can make a Payload request.
-When making an API Call, pass `true` in `$payload`, and it will be made as payload.
+When making an API Call, pass `true` in `$payload` (or leave default), and it will be made as payload.
 
 **NOTE: Only one API Call can be made as JSON Payload in the same execution contest.
 If there are more than one Payload API Call, only the first one will be made as Payload, while others will be made normally**
@@ -40,7 +40,7 @@ Argument `$payload` is `true`, so this will be made as Payload (if a Payload was
 
 ## Exceptions
 
-If NovaGram receives an error from Telegram, a `TelegramException` is raised (if Exceptions are not disabled in NovaGram settings)
-`TelegramException(s)` can be handled like normal Exceptions, with a try/catch block
+If NovaGram receives an error from Telegram, a `\Telegram\Exception` is raised (if Exceptions are not disabled in NovaGram settings)
+`\Telegram\Exception(s)` can be handled like normal Exceptions, with a try/catch block
 
 [NovaGram Objects](construct.md)

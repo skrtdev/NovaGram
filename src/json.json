@@ -207,6 +207,13 @@
 				},
 				"just_one_parameter_needed":"chat_id"
 			},
+			"reply":{
+				"alias":"sendMessage",
+				"presets":{
+					"reply_to_message_id":"message_id"
+				},
+				"just_one_parameter_needed":"text"
+			},
 			"delete":{
 				"alias":"deleteMessage",
 				"no_more_parameters_needed":true

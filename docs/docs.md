@@ -10,9 +10,7 @@ All the methods explained here are supposed to be in a script with this setup:
 header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 
-$Bot = new TelegramBot("YOUR_TOKEN", [
-   "json_payload" => true
-]);
+$Bot = new \Telegram\Bot("YOUR_TOKEN");
 
 $update = $Bot->update;
 $message = $update->message;
@@ -147,6 +145,7 @@ $message->editText([
 ### sendChatAction
 sendChatAction can be used directly as a method of the main class or as a method of a Chat Object, as _sendAction_ method, in order to send an Action that Chat.
 > Default Action if not specified is `typing`
+
 ```php
 // main class
 $Bot->sendChatAction([
@@ -182,26 +181,21 @@ $user->getProfilePhotos([
 ```
 
 ### getUsernameDC
-> getUserDC will be removed in a future version of NovaGram.
---------
-
 
 > DC means DataCenter, that is the server where the user account is located
 
-getUserDC can be used as a static method of the main class or as a method of a User Object, as _getDC_ method, in order to get DC of that User.
+getUsernameDC is a static method of the main class but you can use it also as a method of a User Object, as _getDC_ method, in order to get DC of that User.
 
-> getUserDC and _getDC_ both uses the static method getUsernameDC
 
 In order to retrieve DC, user need to have username and profile photo.
 
-getUserDC will throw a NovaGramException if Object is not an User, or if User hasn't got an Username, and will return `false` if User hasn't got a profile photo.
+getDC will throw a \\NovaGram\\Exception if Object is not an User, or if User hasn't got an Username, and will return `false` if User hasn't got a profile photo.
 
 > Returns an integer corresponding to User DC in case of success.
 
 ```php
 // main class
-TelegramBot::getUserDC($user);
-TelegramBot::getUsernameDC("skrtdev");
+\Telegram\Bot::getUsernameDC("skrtdev");
 
 // User object
 $user->getDC();
