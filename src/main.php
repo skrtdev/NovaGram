@@ -11,7 +11,7 @@ class Bot {
         $this->settings = (object) $settings;
 
         $settings_array = [
-            "json_payload" => false,
+            "json_payload" => true,
             "log_updates" => false,
             "debug" => false,
             "disable_webhook" => false,
@@ -24,6 +24,7 @@ class Bot {
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
         if(!$this->settings->disable_webhook){
+            http_response_code(200);
             if(!$this->settings->disable_ip_check){
                 function ip_in_range( $ip, $range ) {
                     if ( strpos( $range, '/' ) === false ) $range .= '/32';
@@ -54,10 +55,10 @@ class Bot {
     }
 
     public function __call(string $name, array $arguments){
-        return $this->APICall($name, $arguments[0], $arguments[1] ?? false);
+        return $this->APICall($name, ...$arguments);
     }
 
-    public function APICall(string $method, array $data, bool $payload = false){
+    public function APICall(string $method, array $data, bool $payload = false, bool $force_throw_exception = false){
         if(in_array($method, $this->json['require_parse_mode']) and isset($this->settings->parse_mode)) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode;
         foreach ($this->json['require_json_encode'] as $key) if(isset($data[$key]) and is_array($data[$key])) $data[$key] = json_encode($data[$key]);
 
@@ -85,8 +86,9 @@ class Bot {
         $decoded =  json_decode($output, TRUE);
 
         if($decoded['ok'] !== true){
+            if($force_throw_exception) throw new \Telegram\Exception("[DURING DEBUG] $method", $decoded, $data);
             if($this->settings->debug){
-                $this->sendMessage(["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"]);
+                $this->sendMessage(["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"], false, true);
             }
             if($this->settings->exceptions) throw new \Telegram\Exception($method, $decoded, $data);
             else return (object) $decoded;
@@ -194,7 +196,7 @@ class Type {
         if(!property_exists($this->config->types_methods, $this->_)) throw new \NovaGram\Exception("There are no available Methods for a {$this->_} Object (trying to call $name)");
         $this_obj = $this->config->types_methods->{$this->_};
 
-        if(!isset($this_obj->{$name})) throw new Error("Call to undefined method ".self::class."::$name()");
+        if(!isset($this_obj->{$name})) throw new \Error("Call to undefined method ".self::class."::$name()");
         $this_method = $this_obj->{$name};
 
         $data = [];
@@ -214,9 +216,9 @@ class Type {
         elseif(isset($arguments[0])){
             if(isset($this_method->just_one_parameter_needed)) $data[$this_method->just_one_parameter_needed] = $arguments[0];
         }
-        if(count($data) === 0) throw new ArgumentCountError("Too few arguments to function ".self::class."::$name(), 0 passed");
+        if(count($data) === 0) throw new \ArgumentCountError("Too few arguments to function ".self::class."::$name(), 0 passed");
 
-        return $this->Bot->APICall($this_method->alias ?? $name, $data, $arguments[1] ?? false);
+        return $this->Bot->{$this_method->alias ?? $name}($data, $arguments[1] ?? false);
     }
 
     private function presetToValue(string $preset){
