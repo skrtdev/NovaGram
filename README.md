@@ -1,4 +1,4 @@
-# NovaGram (v0.4)
+# NovaGram
 [![GitHub license](https://img.shields.io/github/license/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/stargazers) [![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/skrtdev/NovaGram/releases)
 
 An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
