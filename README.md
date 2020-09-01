@@ -9,7 +9,7 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 - Exactly like Bot Api (so you don't really need documentation)
 - [JSON Payload](https://docs.novagram.ga/construct.html#json-payload) implementation, for a faster Bot.
 - [Auto JSON-Encode](https://github.com/skrtdev/NovaGram/blob/f6ee013613d62834c19ab4a666c42dc0a0a53119/src/main.php#L64) in parameters that require it (when passing an array)
-- [Object Methods](https://docs.novagram.ga/objects.html) for a smarter code (and a nice syntax)
+- [Object Methods](https://docs.novagram.ga/objects.html#objects-methods) for a smarter code (and a nice syntax)
 - [JSON based](https://github.com/skrtdev/NovaGram/blob/master/src/json.json), so all methods and types are dinamically created.
 - Native Debug, so you will be able to fix bugs immediately.
 - [Telegram IP check](https://github.com/skrtdev/NovaGram/blob/f6ee013613d62834c19ab4a666c42dc0a0a53119/src/main.php#L45), in order to protect from Fake Update attacks ([with Cloudflare](https://github.com/skrtdev/NovaGram/blob/f6ee013613d62834c19ab4a666c42dc0a0a53119/src/main.php#L39) too!)
