@@ -1,5 +1,5 @@
 # NovaGram
-[![GitHub license](https://img.shields.io/github/license/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/stargazers) [![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/skrtdev/NovaGram/releases)
+[![GitHub license](https://img.shields.io/github/license/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/stargazers) [![Version](https://img.shields.io/badge/version-1.x-blue)](https://github.com/skrtdev/NovaGram/releases)
 
 An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 
@@ -17,6 +17,12 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 - Global Parse Mode, so you won't need to specify it in each method
 - Ability to [retrieve DC](https://docs.novagram.ga/docs.html#getUsernameDC) of Users that has an Username
 - Usable with Composer, but also in Hosting Panels that doesn't provide it, with PHPEasyGit
+
+## Upcoming Features
+- Database
+- Conversations
+- disable_web_page_preview in settings
+- disable_notification in settings
 
 ### Installation via Composer
 `composer require skrtdev/novagram`
