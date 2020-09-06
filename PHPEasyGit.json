@@ -15,6 +15,6 @@
    "import":[
       "src/novagram/json.json"
    ],
-   "look_for_updates":3600,
+   "look_for_updates":60,
    "branch":"hosting"
 }
