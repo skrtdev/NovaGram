@@ -16,8 +16,8 @@
     "autoload": {
         "files": [
             "src/main.php",
-            "src/exceptions/Telegram.php",
-            "src/exceptions/NovaGram.php",
+            "src/Exceptions/Telegram.php",
+            "src/Exceptions/NovaGram.php",
             "src/types.php"
         ]
     }
