@@ -20,7 +20,7 @@ class Type {
 
         $this->config = (object) $Bot->getJSON();
 
-        if($type === "User") $Bot->db->insertUser($this);
+        if($type === "User" and isset($Bot->db)) $Bot->db->insertUser($this);
 
     }
     public function __call(string $name, array $arguments){
