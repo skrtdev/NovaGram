@@ -1,19 +1,19 @@
 {
    "autoload":[
-      "novagram/bot_test.php",
-      "novagram/db.php",
-      "novagram/utils.php",
-      "novagram/Exception.php",
-      "traits/dc.php",
-      "traits/conversations.php",
-      "telegram/type_test.php",
-      "telegram/types.php",
-      "telegram/Exception.php",
-      "bc/1.x.php",
-      "bc/0.x.php"
+      "src/novagram/bot_test.php",
+      "src/novagram/db.php",
+      "src/novagram/utils.php",
+      "src/novagram/Exception.php",
+      "src/traits/dc.php",
+      "src/traits/conversations.php",
+      "src/telegram/type_test.php",
+      "src/telegram/types.php",
+      "src/telegram/Exception.php",
+      "src/bc/1.x.php",
+      "src/bc/0.x.php"
    ],
    "import":[
-      "src/json.json"
+      "src/novagram/json.json"
    ],
    "look_for_updates":3600,
    "branch":"hosting"
