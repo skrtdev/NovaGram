@@ -5,10 +5,7 @@ namespace NovaGram;
 trait conversations{
     public function conversation(string $name, $value = null, array $additional_param = []){
 
-        $this->Bot->db->initializeConversations();
-        #echo "conversation to {$this->id}; \nname: $name\nvalue: $value\n\n";
-
-        $db = $this->Bot->db;
+        $db = $this->Bot->db or exit;
 
         if(isset($value)){
             return $db->setConversation($this->id, $name, $value, $additional_param);
@@ -20,10 +17,9 @@ trait conversations{
 
     public function clearConversation(string $name){
 
-        $this->Bot->db->initializeConversations();
         #echo "conversation to {$this->id}; \nname: $name\nvalue: $value\n\n";
 
-        $db = $this->Bot->db;
+        $db = $this->Bot->db or exit;
 
         return $db->deleteConversation($this->id, $name);
 
