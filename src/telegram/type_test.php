@@ -18,14 +18,14 @@ class Type {
 
         foreach ($json as $key => $value) $this->$key = $value;
 
-        $this->config = (object) $Bot->getJSON();
+        $this->config = json_decode(json_encode($Bot->getJSON()));
 
         if($type === "User" and isset($Bot->db)) $Bot->db->insertUser($this);
 
     }
     public function __call(string $name, array $arguments){
 
-        if(!property_exists($this->config->types_methods, $this->_)) throw new \NovaGram\Exception("There are no available Methods for a {$this->_} Object (trying to call $name)");
+        if(!isset($this->config->types_methods->{$this->_})) throw new \NovaGram\Exception("There are no available Methods for a {$this->_} Object (trying to call $name)");
         $this_obj = $this->config->types_methods->{$this->_};
 
         if(!isset($this_obj->{$name})) throw new \Error("Call to undefined method ".get_class($this)."::$name()");
