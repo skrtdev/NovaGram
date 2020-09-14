@@ -3,12 +3,12 @@
 namespace NovaGram;
 
 trait conversations{
-    public function conversation(string $name, $value = null, array $additional_param = []){
+    public function conversation(string $name, $value = null, bool $permanent = false, array $additional_param = null){
 
-        $db = $this->Bot->db or exit;
+        $db = $this->Bot->db or exit(trigger_error("404 DB NOT FOUND"));
 
         if(isset($value)){
-            return $db->setConversation($this->id, $name, $value, $additional_param);
+            return $db->setConversation($this->id, $name, $value, ( $additional_param ?? [] ) + ["is_permanent" => $permanent]);
         }
         else{
             return $db->getConversation($this->id, $name, $this->Bot->update ?? null);
@@ -19,7 +19,7 @@ trait conversations{
 
         #echo "conversation to {$this->id}; \nname: $name\nvalue: $value\n\n";
 
-        $db = $this->Bot->db or exit;
+        $db = $this->Bot->db or exit(trigger_error("404 DB NOT FOUND"));
 
         return $db->deleteConversation($this->id, $name);
 
@@ -27,7 +27,7 @@ trait conversations{
 
     // $options is string|array;;;
     public function status(string $value = null, ?array $options = null, bool $permanent = false){
-        return $this->conversation("status", $value, $options ?? [] + ["is_permanent" => $permanent]);
+        return $this->conversation("status", $value, $permanent, $options);
     }
     public function clearStatus(){
         return $this->clearConversation("status");

@@ -8,11 +8,17 @@ class Bot {
     private array $json;
     private bool $payloaded = false;
 
-    public \Telegram\Update $update; // write-only
-    public array $raw_update; // write-only
+    public \Telegram\Update $update; // read-only
+    public array $raw_update; // read-only
+    public int $id; // read-only
+
 
     public function __construct(string $token, array $settings = []) {
+        if(!Utils::isTokenValid($token)){
+            throw new Exception("Not a valid Telegram Bot Token provided ($token)");
+        }
         $this->token = $token;
+        $this->id = Utils::getIDByToken($token);
         $this->settings = (object) $settings;
 
 
@@ -64,8 +70,7 @@ class Bot {
             if($payload){
                 if(!$this->payloaded){
                     $this->payloaded = true;
-                    $data['method'] = $method;
-                    echo json_encode($data);
+                    echo json_encode($data + ['method' => $method]);
                     return true;
                 }
                 else{
@@ -168,6 +173,16 @@ class Bot {
     public function createObject(string $type, array $json){
         $obj = "\\Telegram\\$type";
         return new $obj($type, $json, $this);
+    }
+
+    public function debug($value){
+        if($this->settings->debug){
+            return $this->sendMessage([
+                "chat_id" => $this->settings->debug,
+                "text" => "<pre>".htmlspecialchars(print_r($value, true))."</pre>",
+            ]);
+        }
+        else throw new Exception("debug chat id is not set");
     }
 
     public function getJSON(): array{

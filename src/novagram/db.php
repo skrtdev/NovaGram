@@ -10,7 +10,7 @@ class Database{
     private PDO $PDO;
     private string $prefix;
 
-    public function __construct(array $settings, string $prefix = "novagram"){
+    public function __construct(array $settings, ?string $prefix = "novagram"){
 
         $settings_array = [
             "driver" => "mysql",
@@ -41,7 +41,7 @@ class Database{
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
+           # PDO::ATTR_EMULATE_PREPARES => false,
         ];
 
         $this->PDO = new \PDO("$driver:$connection", $dbuser, $dbpass, $options);
@@ -76,15 +76,15 @@ class Database{
 
     private function initializeDatabase(): void{
         $this->query("CREATE TABLE IF NOT EXISTS {$this->tableNames['users']} (
-            id INTEGER PRIMARY KEY,
-            user_id INTEGER UNIQUE
+            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            user_id BIGINT(255) UNIQUE
         )");
     }
 
     public function initializeConversations(): void{
         $this->query("CREATE TABLE IF NOT EXISTS {$this->tableNames['conversations']} (
-            id INTEGER PRIMARY KEY,
-            chat_id INTEGER UNIQUE,
+            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            chat_id BIGINT(255),
             name VARCHAR(64) NOT NULL,
             value VARCHAR(64) NOT NULL,
             additional_param VARCHAR(256) NOT NULL
@@ -111,14 +111,15 @@ class Database{
             ':name' => $name,
         ])->fetch();
 
+        if($row === false) return;
+
         $value = $row['value'];
         $additional_param = unserialize($row['additional_param']);
 
-
+        $is_permanent = $additional_param['is_permanent'];
+        unset($additional_param['is_permanent']);
 
         if($name === "status"){
-            $is_permanent = $additional_param['is_permanent'];
-            unset($additional_param['is_permanent']);
             if(!empty($additional_param)){
                 //var_dump($update);
                 //if(!isset($update) || !isset($update->message->text)){
@@ -147,6 +148,7 @@ class Database{
         var_dump($additional_param);
         #['value'];
         if(!$is_permanent){
+            trigger_error("$chat_id->$name has to be deleted (is_permanent: $is_permanent)");
             $this->deleteConversation($chat_id, $name);
         }
         return $value;
@@ -174,6 +176,10 @@ class Database{
         $sth = $this->query($query, $params);
         var_dump($sth);
         return !is_bool($sth->fetch());
+    }
+
+    public function getPDO(): PDO{
+        return $this->PDO;
     }
 }
 
