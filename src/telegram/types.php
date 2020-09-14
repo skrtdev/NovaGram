@@ -3,12 +3,8 @@
 namespace Telegram;
 
 
-trait dc{
-    public function getDC() {
-        if(!isset($this->username)) throw new NovaGramException("{$this->_} passed to getDC has not an username");
-        return Bot::getUsernameDC($this->username);
-    }
-}
+
+
 
 class Message extends Type{}
 class Update extends Type{}
@@ -20,9 +16,9 @@ class PreCheckoutQuery extends Type{}
 class Poll extends Type{}
 class PollAnswer extends Type{}
 class ChatPhoto extends Type{}
-class Chat extends Type{ use dc; }
+class Chat extends Type{ use \NovaGram\dc; use \NovaGram\conversations; }
 class ChatPermissions extends Type{}
-class User extends Type{ use dc; }
+class User extends Type{ use \NovaGram\dc; use \NovaGram\conversations; }
 class MessageEntity extends Type{}
 class Animation extends Type{}
 class Audio extends Type{}
