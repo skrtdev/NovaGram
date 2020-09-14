@@ -38,7 +38,7 @@ In Webhooks, you can print a JSON-Encoded request directly in the webhook page, 
 ## Examples
 
 ```php
-$Bot = new \Telegram\Bot("YOUR_TOKEN", [
+$Bot = new \NovaGram\Bot("YOUR_TOKEN", [
     "json_payload" => true,
     "debug" => 634408248,
     "parse_mode" => "HTML",

@@ -11,7 +11,7 @@ An example code of a simple bot that just forwards back what you send.
 header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 
-$Bot = new TelegramBot("YOUR_TOKEN", [
+$Bot = new NovaGram\Bot("YOUR_TOKEN", [
     "json_payload" => true
 ]);
 
