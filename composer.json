@@ -23,6 +23,7 @@
             "src/telegram/type.php",
             "src/telegram/types.php",
             "src/telegram/Exception.php",
+            "src/bc/1.2.php",
             "src/bc/1.0.php",
             "src/bc/0.x.php"
         ]
