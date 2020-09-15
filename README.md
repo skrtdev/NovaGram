@@ -39,8 +39,8 @@ An example code of a simple bot that just forwards back what you send.
 ```php
 header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
-
-$Bot = new \NovaGram\Bot("YOUR_TOKEN",);
+use skrtdev\NovaGram\Bot;
+$Bot = new Bot("YOUR_TOKEN",);
 
 $update = $Bot->update;
 $message = $update->message;
