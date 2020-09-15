@@ -13,8 +13,18 @@
         "php": ">=7.0"
     },
     "autoload": {
-        "psr-4": {
-            "skrtdev": "src/"
-        }
+        "files": [
+            "src/novagram/bot.php",
+            "src/novagram/db.php",
+            "src/novagram/utils.php",
+            "src/novagram/Exception.php",
+            "src/traits/dc.php",
+            "src/traits/conversations.php",
+            "src/telegram/type.php",
+            "src/telegram/types.php",
+            "src/telegram/Exception.php",
+            "src/bc/1.0.php",
+            "src/bc/0.x.php"
+        ]
     }
 }
