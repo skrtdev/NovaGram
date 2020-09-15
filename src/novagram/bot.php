@@ -90,11 +90,11 @@ class Bot {
         $decoded =  json_decode($output, TRUE);
 
         if($decoded['ok'] !== true){
-            if($force_throw_exception) throw new \Telegram\Exception("[DURING DEBUG] $method", $decoded, $data);
+            if($force_throw_exception) throw new \skrtdev\Telegram\Exception("[DURING DEBUG] $method", $decoded, $data);
             if($this->settings->debug){
                 $this->sendMessage(["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"], false, true);
             }
-            if($this->settings->exceptions) throw new \Telegram\Exception($method, $decoded, $data);
+            if($this->settings->exceptions) throw new \skrtdev\Telegram\Exception($method, $decoded, $data);
             else return (object) $decoded;
         }
 

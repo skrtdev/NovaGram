@@ -11,7 +11,7 @@ trait conversations{
             return $db->setConversation($this->id, $name, $value, ["is_permanent" => $permanent]);
         }
         else{
-            return $db->getConversation($this->id, $name, $this->Bot->update ?? null);
+            return $db->getConversation($this->id, $name, null);
         }
     }
 
