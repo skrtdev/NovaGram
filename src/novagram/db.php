@@ -1,6 +1,8 @@
 <?php
 
-# namespace NovaGram;
+namespace skrtdev\NovaGram;
+
+use \PDO;
 
 class Database{
 
@@ -44,7 +46,7 @@ class Database{
            # PDO::ATTR_EMULATE_PREPARES => false,
         ];
 
-        $this->PDO = new \PDO("$driver:$connection", $dbuser, $dbpass, $options);
+        $this->PDO = new PDO("$driver:$connection", $dbuser, $dbpass, $options);
 
         $this->prefix = isset($prefix) ? $prefix."_" : "";
 
@@ -117,38 +119,9 @@ class Database{
         $additional_param = unserialize($row['additional_param']);
 
         $is_permanent = $additional_param['is_permanent'];
-        unset($additional_param['is_permanent']);
+#        unset($additional_param['is_permanent']);
 
-        if($name === "status"){
-            if(!empty($additional_param)){
-                //var_dump($update);
-                //if(!isset($update) || !isset($update->message->text)){
-                /*if(!isset($update)){
-                    echo "\n\n\n\n\nNO UPDATE \n\n\n\n\n";
-                    return;
-                }*/
-                if(!isset($update->message)){
-                    echo "\n\n\n\n\nNO UPDATE MESSAGE \n\n\n\n\n";
-                    return;
-                }
-
-                foreach ($additional_param as $key => $value) {
-                    if($key === "regex"){
-                        if(isset($update->message->text)){
-                            var_dump("ora dovrebbe checkare la regex"); // >TODO
-                        }
-                        else return;
-                    }
-                    else{
-                        if(isset($update->message->{$value})) break;
-                    }
-                }
-            }
-        }
-        var_dump($additional_param);
-        #['value'];
         if(!$is_permanent){
-            trigger_error("$chat_id->$name has to be deleted (is_permanent: $is_permanent)");
             $this->deleteConversation($chat_id, $name);
         }
         return $value;

@@ -1,6 +1,6 @@
 <?php
 
-namespace NovaGram;
+namespace skrtdev\NovaGram;
 
 class Bot {
     private string $token;
@@ -8,7 +8,7 @@ class Bot {
     private array $json;
     private bool $payloaded = false;
 
-    public \Telegram\Update $update; // read-only
+    public \skrtdev\Telegram\Update $update; // read-only
     public array $raw_update; // read-only
     public int $id; // read-only
 
@@ -31,12 +31,13 @@ class Bot {
             "exceptions" => true
         ];
 
-        foreach ($settings_array as $name => $default) $this->settings->{$name} = $this->settings->{$name} ?? $default;
+        foreach ($settings_array as $name => $default){
+            $this->settings->{$name} ??= $default;
+        }
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
         if(!$this->settings->disable_webhook){
-            http_response_code(200);
             if(!$this->settings->disable_ip_check){
                 if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and Utils::isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
                 if(!Utils::ip_in_range($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !Utils::ip_in_range($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) exit("Access Denied");
@@ -54,7 +55,7 @@ class Bot {
 
 
         if(isset($this->settings->database)){
-            $this->db = new \Database($this->settings->database, $this->settings->database['prefix']);
+            $this->database = $this->db = new Database($this->settings->database, $this->settings->database['prefix']);
         }
     }
 
@@ -171,7 +172,7 @@ class Bot {
     }
 
     public function createObject(string $type, array $json){
-        $obj = "\\Telegram\\$type";
+        $obj = "\\skrtdev\\Telegram\\$type";
         return new $obj($type, $json, $this);
     }
 

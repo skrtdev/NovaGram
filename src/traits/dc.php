@@ -1,5 +1,5 @@
 <?php
-namespace NovaGram;
+namespace skrtdev\NovaGram;
 
 trait dc{
     public function getDC() {

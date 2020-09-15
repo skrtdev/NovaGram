@@ -1,9 +1,8 @@
 <?php
 
-namespace Telegram;
+namespace skrtdev\Telegram;
 
-
-
+use skrtdev\NovaGram\{dc, conversations};
 
 
 class Message extends Type{}
@@ -16,9 +15,9 @@ class PreCheckoutQuery extends Type{}
 class Poll extends Type{}
 class PollAnswer extends Type{}
 class ChatPhoto extends Type{}
-class Chat extends Type{ use \NovaGram\dc; use \NovaGram\conversations; }
+class Chat extends Type{ use dc; use conversations; }
 class ChatPermissions extends Type{}
-class User extends Type{ use \NovaGram\dc; use \NovaGram\conversations; }
+class User extends Type{ use dc; use conversations; }
 class MessageEntity extends Type{}
 class Animation extends Type{}
 class Audio extends Type{}

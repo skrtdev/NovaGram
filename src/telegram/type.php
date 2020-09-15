@@ -1,8 +1,8 @@
 <?php
 
-namespace Telegram;
+namespace skrtdev\Telegram;
 
-use NovaGram\Bot;
+use skrtdev\NovaGram\Bot;
 
 class Type {
     protected Bot $Bot;
@@ -25,7 +25,7 @@ class Type {
     }
     public function __call(string $name, array $arguments){
 
-        if(!isset($this->config->types_methods->{$this->_})) throw new \NovaGram\Exception("There are no available Methods for a {$this->_} Object (trying to call $name)");
+        if(!isset($this->config->types_methods->{$this->_})) throw new \skrtdev\NovaGram\Exception("There are no available Methods for a {$this->_} Object (trying to call $name)");
         $this_obj = $this->config->types_methods->{$this->_};
 
         if(!isset($this_obj->{$name})) throw new \Error("Call to undefined method ".get_class($this)."::$name()");

@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram;
+namespace skrtdev\Telegram;
 
 class Exception extends \Exception{
 

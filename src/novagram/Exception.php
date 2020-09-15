@@ -1,6 +1,6 @@
 <?php
 
-namespace NovaGram;
+namespace skrtdev\NovaGram;
 
 class Exception extends \Exception{}
 

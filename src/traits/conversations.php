@@ -1,14 +1,14 @@
 <?php
 
-namespace NovaGram;
+namespace skrtdev\NovaGram;
 
 trait conversations{
-    public function conversation(string $name, $value = null, bool $permanent = false, array $additional_param = null){
+    public function conversation(string $name, $value = null, bool $permanent = false){
 
         $db = $this->Bot->db or exit(trigger_error("404 DB NOT FOUND"));
 
         if(isset($value)){
-            return $db->setConversation($this->id, $name, $value, ( $additional_param ?? [] ) + ["is_permanent" => $permanent]);
+            return $db->setConversation($this->id, $name, $value, ["is_permanent" => $permanent]);
         }
         else{
             return $db->getConversation($this->id, $name, $this->Bot->update ?? null);
@@ -27,7 +27,7 @@ trait conversations{
 
     // $options is string|array;;;
     public function status(string $value = null, ?array $options = null, bool $permanent = false){
-        return $this->conversation("status", $value, $permanent, $options);
+        return $this->conversation("status", $value, $permanent);
     }
     public function clearStatus(){
         return $this->clearConversation("status");

@@ -1,6 +1,6 @@
 <?php
 
-namespace NovaGram;
+namespace skrtdev\NovaGram;
 
 class Utils{
     static function ip_in_range( $ip, $range ) {
