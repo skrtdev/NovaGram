@@ -4,7 +4,7 @@ namespace NovaGram;
 
 class Bot extends \skrtdev\NovaGram\Bot{
     public function __construct(...$args){
-        #trigger_error('Using deprecated '.self::class.', use \\'.parent::class.' instead');
+        \skrtdev\NovaGram\Utils::trigger_error('Using deprecated '.self::class.', use \\'.parent::class.' instead', E_USER_DEPRECATED);
         // ^ uncomment soon
         parent::__construct(...$args);
     }

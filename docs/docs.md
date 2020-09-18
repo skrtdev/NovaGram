@@ -10,7 +10,7 @@ All the methods explained here are supposed to be in a script with this setup:
 header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 
-$Bot = new NovaGram\Bot("YOUR_TOKEN");
+$Bot = new \skrtdev\NovaGram\Bot("YOUR_TOKEN");
 
 $update = $Bot->update;
 $message = $update->message;

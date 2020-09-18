@@ -11,6 +11,7 @@ class Bot {
     public \skrtdev\Telegram\Update $update; // read-only
     public array $raw_update; // read-only
     public int $id; // read-only
+    public Database $database; // read-only
 
 
     public function __construct(string $token, array $settings = []) {
@@ -55,7 +56,7 @@ class Bot {
 
 
         if(isset($this->settings->database)){
-            $this->database = $this->db = new Database($this->settings->database, $this->settings->database['prefix']);
+            $this->database = $this->db = new Database($this->settings->database);
         }
     }
 
@@ -63,9 +64,23 @@ class Bot {
         return $this->APICall($name, ...$arguments);
     }
 
-    public function APICall(string $method, array $data, bool $payload = false, bool $force_throw_exception = false){
-        if(in_array($method, $this->json['require_parse_mode']) and isset($this->settings->parse_mode)) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode;
-        foreach ($this->json['require_json_encode'] as $key) if(isset($data[$key]) and is_array($data[$key])) $data[$key] = json_encode($data[$key]);
+    private function normalizeRequest(string $method, array $data){
+        if(in_array($method, $this->json['require_parse_mode']) and isset($this->settings->parse_mode)){
+            $data['parse_mode'] ??= $this->settings->parse_mode;
+        }
+        foreach ($this->json['require_json_encode'] as $key){
+
+            if(isset($data[$key]) and is_array($data[$key])){
+
+                $data[$key] = json_encode($data[$key]);
+            }
+        }
+        return $data;
+    }
+
+    public function APICall(string $method, array $data, bool $payload = false, bool $is_debug = false){
+
+        $data = $this->normalizeRequest($method, $data);
 
         if($this->settings->json_payload){
             if($payload){
@@ -85,12 +100,12 @@ class Bot {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $output = curl_exec($ch);
+        $response = curl_exec($ch);
         curl_close($ch);
-        $decoded =  json_decode($output, TRUE);
+        $decoded =  json_decode($response, true);
 
         if($decoded['ok'] !== true){
-            if($force_throw_exception) throw new \skrtdev\Telegram\Exception("[DURING DEBUG] $method", $decoded, $data);
+            if($is_debug) throw new \skrtdev\Telegram\Exception("[DURING DEBUG] $method", $decoded, $data);
             if($this->settings->debug){
                 $this->sendMessage(["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"], false, true);
             }
@@ -105,8 +120,14 @@ class Bot {
     }
 
     private function getMethodReturned(string $method){
-        if(isset($this->json['available_methods'][$method]['returns']) ) return $this->json['available_methods'][$method]['returns'] !== "_" ? $this->json['available_methods'][$method]['returns'] : false;
-        foreach ($this->json['available_methods_regxs'] as $key => $value) if(preg_match('/'.$key.'/', $method) === 1) return $value['returns'];
+        if(isset($this->json['available_methods'][$method]['returns']) ){
+            return $this->json['available_methods'][$method]['returns'] !== "_" ? $this->json['available_methods'][$method]['returns'] : false;
+        }
+        foreach ($this->json['available_methods_regxs'] as $key => $value){
+            if(preg_match('/'.$key.'/', $method) === 1){
+                return $value['returns'];
+            }
+        }
         return false;
     }
 
@@ -160,9 +181,9 @@ class Bot {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $output = curl_exec($ch);
+        $response = curl_exec($ch);
         curl_close($ch);
-        return $output;
+        return $response;
     }
 
 
@@ -181,6 +202,7 @@ class Bot {
             return $this->sendMessage([
                 "chat_id" => $this->settings->debug,
                 "text" => "<pre>".htmlspecialchars(print_r($value, true))."</pre>",
+                "parse_mode" => "HTML"
             ]);
         }
         else throw new Exception("debug chat id is not set");

@@ -5,6 +5,9 @@ namespace skrtdev\Telegram;
 use skrtdev\NovaGram\Bot;
 
 class Type {
+
+    use \skrtdev\Prototypes\proto;
+
     protected Bot $Bot;
     private \stdClass $config;
     private string $_;
@@ -28,7 +31,10 @@ class Type {
         if(!isset($this->config->types_methods->{$this->_})) throw new \skrtdev\NovaGram\Exception("There are no available Methods for a {$this->_} Object (trying to call $name)");
         $this_obj = $this->config->types_methods->{$this->_};
 
-        if(!isset($this_obj->{$name})) throw new \Error("Call to undefined method ".get_class($this)."::$name()");
+        if(!isset($this_obj->{$name})){
+            return \skrtdev\Prototypes\Prototype::call(get_class($this), $name, $arguments, $this);
+            #throw new \Error("Call to undefined method ".get_class($this)."::$name()");
+        }
         $this_method = $this_obj->{$name};
 
         $data = [];

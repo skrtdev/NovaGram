@@ -22,4 +22,5 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
    * [Construct](construct.md)
    * [Requests](requests.md)
    * [Object](objects.md)
+   * [Database](database.md)
    * [All the Methods](docs.md)

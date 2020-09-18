@@ -1,11 +1,11 @@
 # Make requests
 
 ```php
-$Bot->APICall(string $method, array $data, bool $payload = false, bool $force_throw_exception = falses);
+$Bot->APICall(string $method, array $data, bool $payload = false, bool $is_debug = false);
 ```
 Short syntax:
 ```php
-$Bot->$method(array $data, bool $payload = false, bool $force_throw_exception = false);
+$Bot->$method(array $data, bool $payload = false, bool $is_debug = false);
 ```
 
 A simple example:
@@ -40,7 +40,7 @@ Argument `$payload` is `true`, so this will be made as Payload (if a Payload was
 
 ## Exceptions
 
-If NovaGram receives an error from Telegram, a `\Telegram\Exception` is raised (if Exceptions are not disabled in NovaGram settings)
-`\Telegram\Exception(s)` can be handled like normal Exceptions, with a try/catch block
+If NovaGram receives an error from Telegram, a `\skrdtev\Telegram\Exception` is raised (if Exceptions are not disabled in NovaGram settings)
+`\skrdtev\Telegram\Exception(s)` can be handled like normal Exceptions, with a try/catch block
 
 [NovaGram Objects](construct.md)

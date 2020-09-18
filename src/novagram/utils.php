@@ -26,6 +26,12 @@ class Utils{
         preg_match('/^(\d)+:[\w\d_-]+$/', $token, $matches);
         return (int) $matches[0];
     }
+
+    static function trigger_error(string $error_msg, int $error_type = E_USER_NOTICE){
+        $debug_backtrace = debug_backtrace();
+        $caller = end($debug_backtrace);
+        trigger_error($error_msg." in {$caller['file']}:{$caller['line']}", $error_type);
+    }
 }
 
 ?>

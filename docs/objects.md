@@ -64,3 +64,26 @@ $chat->sendMessage("This is the text of a Message");
 ```
 
 Using the Object Method is surely easier and faster, and it makes code well-readable.
+
+## Debugging
+
+When debugging, you can use two methods:
+```php
+$Bot->debug($value);
+```
+is the same as
+```php
+$Bot->sendMessage([
+    "chat_id" => $Bot->settings->debug,
+    "text" => "<pre>".htmlspecialchars(print_r($value, true))."</pre>",
+    "parse_mode" => "HTML"
+]);
+```
+while
+```php
+$message->debug(); // $message can be any Telegram Type
+```
+is the same as
+```php
+$Bot->debug($message);
+```

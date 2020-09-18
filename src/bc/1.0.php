@@ -2,9 +2,9 @@
 
 namespace Telegram;
 
-class Bot extends \NovaGram\Bot{
+class Bot extends \skrtdev\NovaGram\Bot{
     public function __construct(...$args){
-        trigger_error('Using deprecated '.self::class.', use \\'.parent::class.' instead');
+        \skrtdev\NovaGram\Utils::trigger_error('Using deprecated '.self::class.', use \\'.parent::class.' instead', E_USER_DEPRECATED);
         parent::__construct(...$args);
     }
 }

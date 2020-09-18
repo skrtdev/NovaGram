@@ -1,5 +1,7 @@
 {
    "autoload":[
+       "src/proto/class.php",
+       "src/proto/trait.php",
        "src/novagram/bot.php",
        "src/novagram/db.php",
        "src/novagram/utils.php",

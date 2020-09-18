@@ -26,6 +26,7 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 ## Upcoming Features
 - Database
 - Conversations
+- TTL in Conversations
 - disable_web_page_preview in settings
 - disable_notification in settings
 - Long Polling
@@ -40,7 +41,7 @@ An example code of a simple bot that just forwards back what you send.
 header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 use skrtdev\NovaGram\Bot;
-$Bot = new Bot("YOUR_TOKEN",);
+$Bot = new Bot("YOUR_TOKEN");
 
 $update = $Bot->update;
 $message = $update->message;

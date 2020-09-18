@@ -12,11 +12,12 @@ class Database{
     private PDO $PDO;
     private string $prefix;
 
-    public function __construct(array $settings, ?string $prefix = "novagram"){
+    public function __construct(array $settings){
 
         $settings_array = [
             "driver" => "mysql",
-            "host" => "localhost:3306"
+            "host" => "localhost:3306",
+            "dbpass" => "",
         ];
 
         foreach ($settings_array as $name => $default) $settings[$name] ??= $default;
@@ -48,6 +49,7 @@ class Database{
 
         $this->PDO = new PDO("$driver:$connection", $dbuser, $dbpass, $options);
 
+        $prefix = $settings['prefix'];
         $this->prefix = isset($prefix) ? $prefix."_" : "";
 
 
@@ -107,7 +109,7 @@ class Database{
             ':additional_param' => serialize($additional_param) ?? "",
         ]);
     }
-    public function getConversation(int $chat_id, string $name, ?\Telegram\Update $update){
+    public function getConversation(int $chat_id, string $name, ?\Telegram\Update $update = null){
         $row = $this->query($this->queries['getConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
