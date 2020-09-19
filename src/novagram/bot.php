@@ -212,6 +212,10 @@ class Bot {
         return $this->json;
     }
 
+    public function getDatabase(): Database{
+        return $this->database;
+    }
+
     public function __debugInfo() {
         $result = get_object_vars($this);
         foreach(['json', 'settings', 'payloaded', 'raw_update'] as $key) unset($result[$key]);
