@@ -31,7 +31,7 @@ trait conversations{
             $permanent = $options;
         }
         elseif(isset($options)){
-            Utils::trigger_error("Using v1.2 for conversations, check updated docs at https://docs.novagram.ga", E_USER_DEPRECATED);
+            Utils::trigger_error("Using v1.2 for conversations, check updated docs at https://docs.novagram.ga/database.html", E_USER_DEPRECATED);
         }
         return $this->conversation("status", $value, $permanent);
     }

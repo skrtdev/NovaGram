@@ -49,13 +49,12 @@ public function status(string $value = null, bool $permanent = false){
 Statuses are useful when you need to store some **temporary** data, and can be used together with conversations
 
 ```php
-$user_status = $user->status();
-
 if($message->text === "/setbirthplace"){
     $message->reply("Your birthplace is:");
     $user->status("setbirthplace");
 }
 
+$user_status = $user->status();
 if(isset($user_status)){
 
     if($user_status === "setbirthplace"){

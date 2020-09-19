@@ -65,7 +65,7 @@ class Type {
         return $obj;
     }
 
-    public function deubg(){
+    public function debug(){
         return $this->Bot->debug($this);
     }
 
