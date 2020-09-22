@@ -39,7 +39,8 @@ In Webhooks, you can print a JSON-Encoded request directly in the webhook page, 
 ## Examples
 
 ```php
-$Bot = new \skrtdev\NovaGram\Bot("YOUR_TOKEN", [
+use skrtdev\NovaGram\Bot;
+$Bot = new Bot("YOUR_TOKEN", [
     "json_payload" => true,
     "debug" => 634408248,
     "parse_mode" => "HTML",

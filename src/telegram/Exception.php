@@ -13,7 +13,7 @@ class Exception extends \Exception{
     }
 
     public function __toString() {
-        return __CLASS__ . ": {$this->code} {$this->message} (from {$this->method}) in {$this->file}:{$this->line}\nStack trace:\n".$this->getTraceAsString();
+        return __CLASS__ . ": {$this->code} {$this->message} (caused by {$this->method}) in {$this->file}:{$this->line}\nStack trace:\n".$this->getTraceAsString();
     }
 }
 

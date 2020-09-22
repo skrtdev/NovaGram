@@ -88,9 +88,9 @@ class Database{
     public function initializeConversations(): void{
         $this->query("CREATE TABLE IF NOT EXISTS {$this->tableNames['conversations']} (
             id INTEGER PRIMARY KEY AUTO_INCREMENT,
-            chat_id BIGINT(255),
+            chat_id BIGINT(255) NOT NULL,
             name VARCHAR(64) NOT NULL,
-            value VARCHAR(64) NOT NULL,
+            value BLOB(4096) NOT NULL,
             additional_param VARCHAR(256) NOT NULL
         )");
     }
@@ -105,11 +105,12 @@ class Database{
         $this->query($this->queries['setConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
-            ':value' => $value,
-            ':additional_param' => serialize($additional_param) ?? "",
+            ':value' => serialize($value),
+            ':additional_param' => serialize($additional_param),
         ]);
     }
     public function getConversation(int $chat_id, string $name, ?\Telegram\Update $update = null){
+        if(isset($update)) Utils::trigger_error("Passing \$update to DB::getConversation()");
         $row = $this->query($this->queries['getConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
@@ -118,10 +119,12 @@ class Database{
         if($row === false) return;
 
         $value = $row['value'];
+        @$unserialized_value = unserialize($value);
+        $value = $unserialized_value !== false ? $unserialized_value : $value;
+
         $additional_param = unserialize($row['additional_param']);
 
-        $is_permanent = $additional_param['is_permanent'];
-#        unset($additional_param['is_permanent']);
+        $is_permanent = $additional_param['is_permanent'] ?? true ;
 
         if(!$is_permanent){
             $this->deleteConversation($chat_id, $name);

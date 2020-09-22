@@ -3,6 +3,7 @@
 namespace skrtdev\Telegram;
 
 use skrtdev\NovaGram\Bot;
+use skrtdev\Prototypes\Prototype;
 
 class Type {
 
@@ -14,8 +15,6 @@ class Type {
 
     public function __construct(string $type, array $json, Bot $Bot){
 
-        //var_dump($Bot);
-
         $this->_ = $type;
         $this->Bot = $Bot;
 
@@ -23,7 +22,11 @@ class Type {
 
         $this->config = json_decode(json_encode($Bot->getJSON()));
 
-        if($type === "User" and isset($Bot->db)) $Bot->db->insertUser($this);
+        if($type === "User"){
+            if(isset($Bot->database)){
+                $Bot->getDatabase()->insertUser($this);
+            }
+        }
 
     }
     public function __call(string $name, array $arguments){
@@ -32,7 +35,7 @@ class Type {
         $this_obj = $this->config->types_methods->{$this->_};
 
         if(!isset($this_obj->{$name})){
-            return \skrtdev\Prototypes\Prototype::call(get_class($this), $name, $arguments, $this);
+            return Prototype::call(get_class($this), $name, $arguments, $this);
             #throw new \Error("Call to undefined method ".get_class($this)."::$name()");
         }
         $this_method = $this_obj->{$name};

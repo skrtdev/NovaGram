@@ -2,9 +2,11 @@
    "autoload":[
        "src/proto/class.php",
        "src/proto/trait.php",
+       "novagram/utils.php",
+       "novagram/parser.php",
+       "novagram/methods.php",
        "src/novagram/bot.php",
        "src/novagram/db.php",
-       "src/novagram/utils.php",
        "src/novagram/Exception.php",
        "src/traits/dc.php",
        "src/traits/conversations.php",
@@ -14,7 +16,8 @@
        "src/telegram/Exception.php",
        "src/bc/1.2.php",
        "src/bc/1.0.php",
-       "src/bc/0.x.php"
+       "src/bc/0.x.php",
+       "proto/temp.php
    ],
    "import":[
       "src/novagram/json.json"

@@ -1,6 +1,6 @@
 # NovaGram Objects
 
-In NovaGram, each Telegram Object is an Instance of the `\Telegram\Type` class, extended according to Object Type.
+In NovaGram, each Telegram Object is an Instance of the `skrtdev\Telegram\Type` class, extended according to Object Type.
 
 Since there is just one Class, all the Object Methods are defined in a json file, making very easy creating personal Methods.
 
