@@ -26,7 +26,6 @@
             "src/traits/conversations.php",
             "src/telegram/type.php",
             "src/bc/1.2-types.php",
-            "src/telegram/types.php",
             "src/telegram/Exception.php",
             "src/bc/1.2.php",
             "src/bc/1.0.php",
