@@ -67,12 +67,18 @@ class Bot {
     }
 
     private function methodHasParamater(string $method, string $parameter){
-        return in_array($method, $this->json["require_$parameter"]);
+        return in_array($method, $this->json["require_params"][$parameter]);
     }
 
     private function normalizeRequest(string $method, array $data){
         if($this->methodHasParamater($method, "parse_mode") and isset($this->settings->parse_mode)){
             $data['parse_mode'] ??= $this->settings->parse_mode;
+        }
+        if($this->methodHasParamater($method, "disable_web_page_preview") and isset($this->settings->disable_web_page_preview)){
+            $data['disable_web_page_preview'] ??= $this->settings->disable_web_page_preview;
+        }
+        if($this->methodHasParamater($method, "disable_notification") and isset($this->settings->disable_notification)){
+            $data['disable_notification'] ??= $this->settings->disable_notification;
         }
         foreach ($this->json['require_json_encode'] as $key){
 
@@ -209,7 +215,7 @@ class Bot {
 
 
     public static function getUsernameDC(string $username){
-        preg_match('/cdn(\d)/', self::curl("https://t.me/{$username}"), $matches);
+        preg_match('/cdn(\d)/', self::curl("https://t.me/$username"), $matches);
         return isset($matches[1]) ? (int) $matches[1] : false;
     }
 

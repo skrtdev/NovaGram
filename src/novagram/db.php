@@ -152,7 +152,6 @@ class Database{
     }
     public function existQuery(string $query, array $params = []): bool{
         $sth = $this->query($query, $params);
-        var_dump($sth);
         return !is_bool($sth->fetch());
     }
 

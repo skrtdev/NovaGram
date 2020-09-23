@@ -63,9 +63,7 @@ class EntityParser{
             $res2 .= $value;
         }
         $res2 = mb_convert_encoding($res2, 'UTF-8', 'UTF-16BE');
-
         return trim($res2);
-
     }
 }
 

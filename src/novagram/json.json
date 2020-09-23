@@ -143,6 +143,27 @@
 		"editMessageText",
 		"editMessageCaption"
 	],
+	"require_params":{
+		"parse_mode":[
+			"sendMessage",
+			"sendPhoto",
+			"sendAudio",
+			"sendDocument",
+			"sendVideo",
+			"sendAnimation",
+			"sendVoice",
+			"editMessageText",
+			"editMessageCaption"
+		],
+		"disable_web_page_preview":[
+			"sendMessage",
+			"editMessageText"
+		],
+		"disable_notification":[
+			"sendMessage",
+			"send\\w+"
+		]
+	},
 	"require_json_encode":[
 		"reply_markup",
 		"mask_position",
