@@ -6,6 +6,9 @@ use skrtdev\Telegram\Exception as TelegramException;
 use skrtdev\Telegram\Update;
 
 class Bot {
+
+    use methods;
+
     private string $token; // read-only
     private \stdClass $settings;
     private array $json;
@@ -54,18 +57,18 @@ class Bot {
 
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
 
-            if($this->settings->log_updates) $this->sendMessage(["chat_id" => $this->settings->log_updates, "text" => "<pre>".json_encode($this->raw_update, JSON_PRETTY_PRINT)."</pre>", "parse_mode" => "HTML"]);
+            if($this->settings->log_updates) $this->APICall("sendMessage", ["chat_id" => $this->settings->log_updates, "text" => "<pre>".json_encode($this->raw_update, JSON_PRETTY_PRINT)."</pre>", "parse_mode" => "HTML"]);
 
             $this->update = $this->JSONToTelegramObject($this->raw_update, "Update");
         }
         else $this->settings->json_payload = false;
 
     }
-
+/*
     public function __call(string $name, array $arguments){
         return $this->APICall($name, ...$arguments);
     }
-
+*/
     private function methodHasParamater(string $method, string $parameter){
         return in_array($method, $this->json["require_params"][$parameter]);
     }
@@ -104,7 +107,7 @@ class Bot {
     }
 */
 
-    public function APICall(string $method, array $data, bool $payload = false, bool $is_debug = false){
+    public function APICall(string $method, array $data = [], bool $payload = false, bool $is_debug = false){
 
         $data = $this->normalizeRequest($method, $data);
 
@@ -117,7 +120,7 @@ class Bot {
                     return true;
                 }
                 else{
-                    trigger_error("Trying to use JSON Payload more than one time");
+                    Utils::trigger_error("Trying to use JSON Payload more than one time");
                 }
             }
         }
@@ -134,7 +137,7 @@ class Bot {
         if($decoded['ok'] !== true){
             if($is_debug) throw new TelegramException("[DURING DEBUG] $method", $decoded, $data);
             if($this->settings->debug){
-                $this->sendMessage(["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"], false, true);
+                $this->APICall("sendMessage", ["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"], false, true);
             }
             if($this->settings->exceptions) throw new TelegramException($method, $decoded, $data);
             else return (object) $decoded;
@@ -226,7 +229,7 @@ class Bot {
 
     public function debug($value){
         if($this->settings->debug){
-            return $this->sendMessage([
+            return $this->APICall("sendMessage", [
                 "chat_id" => $this->settings->debug,
                 "text" => "<pre>".htmlspecialchars(print_r($value, true))."</pre>",
                 "parse_mode" => "HTML"
