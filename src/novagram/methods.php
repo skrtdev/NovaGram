@@ -356,7 +356,7 @@ trait Methods{
     }
     public function leaveChat($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            $payload = $args; // 2nd param
+            #$payload = $args; // 2nd param
             $params = $chat_id;
         }
         else{
