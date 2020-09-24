@@ -366,7 +366,7 @@ trait Methods{
     }
     public function getChat($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            $payload = $args; // 2nd param
+            #$payload = $args; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -376,7 +376,7 @@ trait Methods{
     }
     public function getChatAdministrators($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            $payload = $args; // 2nd param
+            #$payload = $args; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -386,7 +386,7 @@ trait Methods{
     }
     public function getChatMembersCount($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            $payload = $args; // 2nd param
+            #$payload = $args; // 2nd param
             $params = $chat_id;
         }
         else{
