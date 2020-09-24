@@ -8,7 +8,7 @@ trait Methods{
         $params = $args;
         return $this->APICall("getUpdates", $params, $payload);
     }
-    public function setWebhook(string $url, $args = [], bool $payload = false){
+    public function setWebhook($url, $args = [], bool $payload = false){
         if(is_array($url)){
             $payload = $args; // 2nd param
             $params = $url;
@@ -140,7 +140,7 @@ trait Methods{
         }
         return $this->APICall("sendLocation", $params, $payload);
     }
-    public function editMessageLiveLocation(float $latitude, $longitude = null, $args = [], bool $payload = false){
+    public function editMessageLiveLocation($latitude, $longitude = null, $args = [], bool $payload = false){
         if(is_array($latitude)){
             $payload = $longitude; // 2nd param
             $params = $latitude;
@@ -204,7 +204,7 @@ trait Methods{
         }
         return $this->APICall("sendChatAction", $params, $payload);
     }
-    public function getUserProfilePhotos(int $user_id, $args = [], bool $payload = false){
+    public function getUserProfilePhotos($user_id, $args = [], bool $payload = false){
         if(is_array($user_id)){
             $payload = $args; // 2nd param
             $params = $user_id;
@@ -214,7 +214,7 @@ trait Methods{
         }
         return $this->APICall("getUserProfilePhotos", $params, $payload);
     }
-    public function getFile(string $file_id, bool $payload = false){
+    public function getFile($file_id, bool $payload = false){
         if(is_array($file_id)){
             $payload = $args; // 2nd param
             $params = $file_id;
@@ -424,7 +424,7 @@ trait Methods{
         }
         return $this->APICall("deleteChatStickerSet", $params, $payload);
     }
-    public function answerCallbackQuery(string $callback_query_id, $args = [], bool $payload = false){
+    public function answerCallbackQuery($callback_query_id, $args = [], bool $payload = false){
         if(is_array($callback_query_id)){
             $payload = $args; // 2nd param
             $params = $callback_query_id;
@@ -438,7 +438,7 @@ trait Methods{
         $params = $args;
         return $this->APICall("setMyCommands", $params, $payload);
     }
-    public function getMyCommands(string $text, $args = [], bool $payload = false){
+    public function getMyCommands($text, $args = [], bool $payload = false){
         if(is_array($text)){
             $payload = $args; // 2nd param
             $params = $text;
@@ -452,7 +452,7 @@ trait Methods{
         $params = $args;
         return $this->APICall("editMessageText", $params, $payload);
     }
-    public function editMessageCaption(InputMedia $media, $args = [], bool $payload = false){
+    public function editMessageCaption($media, $args = [], bool $payload = false){
         if(is_array($media)){
             $payload = $args; // 2nd param
             $params = $media;
@@ -490,7 +490,7 @@ trait Methods{
         $params = $args;
         return $this->APICall("deleteMessage", $params, $payload);
     }
-    public function sendSticker(string $name, bool $payload = false){
+    public function sendSticker($name, bool $payload = false){
         if(is_array($name)){
             $payload = $args; // 2nd param
             $params = $name;
@@ -500,7 +500,7 @@ trait Methods{
         }
         return $this->APICall("sendSticker", $params, $payload);
     }
-    public function getStickerSet(int $user_id, $png_sticker = null, bool $payload = false){
+    public function getStickerSet($user_id, $png_sticker = null, bool $payload = false){
         if(is_array($user_id)){
             $payload = $png_sticker; // 2nd param
             $params = $user_id;
@@ -510,7 +510,7 @@ trait Methods{
         }
         return $this->APICall("getStickerSet", $params, $payload);
     }
-    public function uploadStickerFile(int $user_id, $name = null, string $title = null, string $emojis = null, array $args = [], bool $payload = false){
+    public function uploadStickerFile($user_id, $name = null, string $title = null, string $emojis = null, array $args = [], bool $payload = false){
         if(is_array($user_id)){
             $payload = $name; // 2nd param
             $params = $user_id;
@@ -520,7 +520,7 @@ trait Methods{
         }
         return $this->APICall("uploadStickerFile", $params, $payload);
     }
-    public function createNewStickerSet(int $user_id, $name = null, string $emojis = null, array $args = [], bool $payload = false){
+    public function createNewStickerSet($user_id, $name = null, string $emojis = null, array $args = [], bool $payload = false){
         if(is_array($user_id)){
             $payload = $name; // 2nd param
             $params = $user_id;
@@ -530,7 +530,7 @@ trait Methods{
         }
         return $this->APICall("createNewStickerSet", $params, $payload);
     }
-    public function addStickerToSet(string $sticker, $position = null, bool $payload = false){
+    public function addStickerToSet($sticker, $position = null, bool $payload = false){
         if(is_array($sticker)){
             $payload = $position; // 2nd param
             $params = $sticker;
@@ -540,7 +540,7 @@ trait Methods{
         }
         return $this->APICall("addStickerToSet", $params, $payload);
     }
-    public function setStickerPositionInSet(string $sticker, bool $payload = false){
+    public function setStickerPositionInSet($sticker, bool $payload = false){
         if(is_array($sticker)){
             $payload = $args; // 2nd param
             $params = $sticker;
@@ -550,7 +550,7 @@ trait Methods{
         }
         return $this->APICall("setStickerPositionInSet", $params, $payload);
     }
-    public function deleteStickerFromSet(string $name, $user_id = null, $args = [], bool $payload = false){
+    public function deleteStickerFromSet($name, $user_id = null, $args = [], bool $payload = false){
         if(is_array($name)){
             $payload = $user_id; // 2nd param
             $params = $name;
@@ -568,7 +568,7 @@ trait Methods{
         $params = $args;
         return $this->APICall("answerInlineQuery", $params, $payload);
     }
-    public function sendInvoice(string $shipping_query_id, $ok = null, $args = [], bool $payload = false){
+    public function sendInvoice($shipping_query_id, $ok = null, $args = [], bool $payload = false){
         if(is_array($shipping_query_id)){
             $payload = $ok; // 2nd param
             $params = $shipping_query_id;
@@ -578,7 +578,7 @@ trait Methods{
         }
         return $this->APICall("sendInvoice", $params, $payload);
     }
-    public function answerShippingQuery(string $pre_checkout_query_id, $ok = null, $args = [], bool $payload = false){
+    public function answerShippingQuery($pre_checkout_query_id, $ok = null, $args = [], bool $payload = false){
         if(is_array($pre_checkout_query_id)){
             $payload = $ok; // 2nd param
             $params = $pre_checkout_query_id;
@@ -600,7 +600,7 @@ trait Methods{
         $params = $args;
         return $this->APICall("sendGame", $params, $payload);
     }
-    public function setGameScore(int $user_id, $args = [], bool $payload = false){
+    public function setGameScore($user_id, $args = [], bool $payload = false){
         if(is_array($user_id)){
             $payload = $args; // 2nd param
             $params = $user_id;
