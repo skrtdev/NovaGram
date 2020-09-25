@@ -3,7 +3,7 @@
 namespace skrtdev\NovaGram;
 
 trait Methods{
-
+    
     public function getUpdates($args = [], bool $payload = false){
         $params = $args;
         return $this->APICall("getUpdates", $params, $payload);
@@ -19,15 +19,15 @@ trait Methods{
         return $this->APICall("setWebhook", $params, $payload);
     }
     public function deleteWebhook(bool $payload = false){
-        $params = $args;
+        $params = [];
         return $this->APICall("deleteWebhook", $params, $payload);
     }
     public function getWebhookInfo(bool $payload = false){
-        $params = $args;
+        $params = [];
         return $this->APICall("getWebhookInfo", $params, $payload);
     }
     public function getMe(bool $payload = false){
-        $params = $args;
+        $params = [];
         return $this->APICall("getMe", $params, $payload);
     }
     public function sendMessage($chat_id, $text = null, $args = [], bool $payload = false){
@@ -216,7 +216,7 @@ trait Methods{
     }
     public function getFile($file_id, bool $payload = false){
         if(is_array($file_id)){
-            $payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $file_id;
         }
         else{
@@ -286,7 +286,7 @@ trait Methods{
     }
     public function exportChatInviteLink($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            $payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -306,7 +306,7 @@ trait Methods{
     }
     public function deleteChatPhoto($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            $payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -346,7 +346,7 @@ trait Methods{
     }
     public function unpinChatMessage($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            $payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -356,7 +356,7 @@ trait Methods{
     }
     public function leaveChat($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            #$payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -366,7 +366,7 @@ trait Methods{
     }
     public function getChat($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            #$payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -376,7 +376,7 @@ trait Methods{
     }
     public function getChatAdministrators($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            #$payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -386,7 +386,7 @@ trait Methods{
     }
     public function getChatMembersCount($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            #$payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -416,7 +416,7 @@ trait Methods{
     }
     public function deleteChatStickerSet($chat_id, bool $payload = false){
         if(is_array($chat_id)){
-            $payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $chat_id;
         }
         else{
@@ -492,7 +492,7 @@ trait Methods{
     }
     public function sendSticker($name, bool $payload = false){
         if(is_array($name)){
-            $payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $name;
         }
         else{
@@ -542,7 +542,7 @@ trait Methods{
     }
     public function setStickerPositionInSet($sticker, bool $payload = false){
         if(is_array($sticker)){
-            $payload = $args; // 2nd param
+            $payload = $payload; // 2nd param
             $params = $sticker;
         }
         else{
@@ -614,4 +614,5 @@ trait Methods{
         $params = $args;
         return $this->APICall("getGameHighScores", $params, $payload);
     }
+    
 }
