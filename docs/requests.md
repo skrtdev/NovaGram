@@ -15,6 +15,8 @@ $Bot->sendMessage([
     "chat_id" => 01234567,
     "text" => "message_text"
 ]);
+// same as
+$Bot->sendMessage(01234567, "message_text");
 ```
 
 This will send a Message in the specified chat with the specified text.
@@ -24,16 +26,12 @@ This will send a Message in the specified chat with the specified text.
 If JSON Payload is enabled in Bot's settings, you can make a Payload request.
 When making an API Call, pass `true` in `$payload` (or leave default), and it will be made as payload.
 
-**NOTE: Only one API Call can be made as JSON Payload in the same execution contest.
-If there are more than one Payload API Call, only the first one will be made as Payload, while others will be made normally**
+**NOTE: Attempt to use payload multiple times will result in a `Trying to use JSON Payload more than one time` Notice**
 
-> Payload API Calls will be executed after the script exits
+> Payload API Calls will be executed when script execution finishes
 
 ```php
-$Bot->sendMessage([
-    "chat_id" => 01234567,
-    "text" => "This is a JSON Payload"
-], true);
+$Bot->sendMessage(01234567, "This is a JSON Payload", true);
 ```
 
 Argument `$payload` is `true`, so this will be made as Payload (if a Payload wasn't made yet).

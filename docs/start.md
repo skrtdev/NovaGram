@@ -20,7 +20,7 @@ $message = $update->message;
 $chat = $message->chat;
 $user = $message->from;
 
-$update->message->forward([], true); // forward() with no parameters will forward the Message back to the sender
+$message->forward([], true); // forward() with no parameters will forward the Message back to the sender
 ```
 
 Using `"json_payload" => true` and `true` in forward method, the api call will be print as payload, making the bot faster. Only one Api Call can use json payload
