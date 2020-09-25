@@ -15,7 +15,7 @@
 		"Chat.pinned_message":"Message",
 		"Chat.permissions":"ChatPermissions",
 		"Message.from":"User",
-                "Message.via_bot":"User",
+		"Message.via_bot":"User",
 		"Message.chat":"Chat",
 		"Message.forward_from":"User",
 		"Message.forward_from_chat":"Chat",
