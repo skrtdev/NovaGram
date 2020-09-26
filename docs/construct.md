@@ -19,8 +19,8 @@ $settings is an array which contains some NovaGram configurations.
 | disable_ip_check         | boolean | false   | Whether or not disable telegram ip check (could be useful in case of reverse proxy, such as ngrok) |
 | disable_webhook          | boolean | false   | Whether or not disable update receiving                                                            |
 | parse_mode               | string  | no      | Default `parse_mode` for methods that require it                                                   |
-| disable_web_page_preview | string  | no      | Default `disable_web_page_preview` for methods that require it                                     |
-| disable_notification     | string  | no      | Default `disable_notification` for methods that require it                                         |
+| disable_web_page_preview | bool    | no      | Default `disable_web_page_preview` for methods that require it                                     |
+| disable_notification     | bool    | no      | Default `disable_notification` for methods that require it                                         |
 | exceptions               | bool    | true    | Whether or not throw \skrtdev\Telegram\Exception(s) when API Errors occurs                         |
 | database                 | array   | no      | [Database](database.md) connection info                                                            |
 
