@@ -1,3 +1,8 @@
+<?php
+
+namespace skrtdev\NovaGram;
+
+trait Methods{
 
     /**
      * Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
@@ -1168,3 +1173,5 @@
         $params = $args;
         return $this->APICall("getGameHighScores", $params, $payload);
     }
+
+}
