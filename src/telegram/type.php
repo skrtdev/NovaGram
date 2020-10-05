@@ -3,11 +3,11 @@
 namespace skrtdev\Telegram;
 
 use skrtdev\NovaGram\Bot;
-use skrtdev\Prototypes\Prototype;
+use skrtdev\Prototypes\{Prototype, proto};
 
 class Type {
 
-    use \skrtdev\Prototypes\proto;
+    use proto;
 
     protected Bot $Bot;
     private \stdClass $config;
@@ -35,7 +35,7 @@ class Type {
         $this_obj = $this->config->types_methods->{$this->_};
 
         if(!isset($this_obj->{$name})){
-            return Prototype::call(get_class($this), $name, $arguments, $this);
+            return Prototype::call($this, $name, $arguments);
             #throw new \Error("Call to undefined method ".get_class($this)."::$name()");
         }
         $this_method = $this_obj->{$name};
@@ -51,18 +51,20 @@ class Type {
         foreach ($this_method->defaults ?? [] as $key => $value) {
             $data[$key] = $value;
         }
-        if(is_array($arguments[0])) foreach ($arguments[0] as   $key => $value) {
-            $data[$key] = $value;
-        }
-        elseif(isset($arguments[0])){
-            if(isset($this_method->just_one_parameter_needed)) $data[$this_method->just_one_parameter_needed] = $arguments[0];
+        if(isset($arguments[0])){
+            if(is_array($arguments[0])) foreach ($arguments[0] as $key => $value) {
+                $data[$key] = $value;
+            }
+            elseif(isset($this_method->just_one_parameter_needed)){
+                $data[$this_method->just_one_parameter_needed] = $arguments[0];
+            }
         }
         if(count($data) === 0) throw new \ArgumentCountError("Too few arguments to function ".get_class($this)."::$name(), 0 passed");
 
         return $this->Bot->{$this_method->alias ?? $name}($data, $arguments[1] ?? false);
     }
 
-    private function presetToValue(string $preset){
+    protected function presetToValue(string $preset){
         $obj = $this;
         foreach(explode("/", $preset) as $key) $obj = $obj->$key;
         return $obj;
