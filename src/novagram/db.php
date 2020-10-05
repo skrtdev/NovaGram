@@ -3,8 +3,12 @@
 namespace skrtdev\NovaGram;
 
 use \PDO;
+use \skrtdev\Prototypes\proto;
+use \skrtdev\Telegram\User;
 
 class Database{
+
+    use proto;
 
     const driver_options = [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY];
 
@@ -109,7 +113,7 @@ class Database{
             ':additional_param' => serialize($additional_param),
         ]);
     }
-    public function getConversation(int $chat_id, string $name, ?\Telegram\Update $update = null){
+    public function getConversation(int $chat_id, string $name, $update = null){
         if(isset($update)) Utils::trigger_error("Passing \$update to DB::getConversation()");
         $row = $this->query($this->queries['getConversation'], [
             ':chat_id' => $chat_id,
@@ -133,9 +137,9 @@ class Database{
     }
 
 
-    public function insertUser(\Telegram\User $user): void {
+    public function insertUser(User $user): void {
         if(!$this->existQuery($this->queries['selectUser'], [':user_id' => $user->id])){
-            $sth = $this->query($this->queries['insertUser'], [
+            $this->query($this->queries['insertUser'], [
                 ':user_id' => $user->id,
             ]);
         }
