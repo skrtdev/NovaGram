@@ -9,22 +9,22 @@ use \stdClass;
 */
 class MaskPosition extends \Telegram\MaskPosition{
 
-   /** @var int|string Yes */
-   public $chat_id;
+    /** @var int|string Yes */
+    public $chat_id;
 
-   /** @var InputFile|string Yes */
-   public $sticker;
+    /** @var InputFile|string Yes */
+    public $sticker;
 
-   /** @var bool Optional */
-   public bool $disable_notification;
+    /** @var bool Optional */
+    public bool $disable_notification;
 
-   /** @var int Optional */
-   public int $reply_to_message_id;
+    /** @var int Optional */
+    public int $reply_to_message_id;
 
-   /** @var InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply Optional */
-   public $reply_markup;
+    /** @var InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply Optional */
+    public $reply_markup;
 
-
+    
 }
 
 ?>

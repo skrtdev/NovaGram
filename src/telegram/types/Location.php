@@ -9,13 +9,13 @@ use \stdClass;
 */
 class Location extends \Telegram\Location{
 
-   /** @var float Longitude as defined by sender */
-   public float $longitude;
+    /** @var float Longitude as defined by sender */
+    public float $longitude;
 
-   /** @var float Latitude as defined by sender */
-   public float $latitude;
+    /** @var float Latitude as defined by sender */
+    public float $latitude;
 
-
+    
 }
 
 ?>

@@ -9,10 +9,10 @@ use \stdClass;
 */
 class InlineKeyboardMarkup extends \Telegram\InlineKeyboardMarkup{
 
-   /** @var stdClass Array of button rows, each represented by an Array of InlineKeyboardButton objects */
-   public stdClass $inline_keyboard;
+    /** @var stdClass Array of button rows, each represented by an Array of InlineKeyboardButton objects */
+    public stdClass $inline_keyboard;
 
-
+    
 }
 
 ?>

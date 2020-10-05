@@ -9,16 +9,16 @@ use \stdClass;
 */
 class InputTextMessageContent extends \Telegram\InputTextMessageContent{
 
-   /** @var float Latitude of the location in degrees */
-   public float $latitude;
+    /** @var float Latitude of the location in degrees */
+    public float $latitude;
 
-   /** @var float Longitude of the location in degrees */
-   public float $longitude;
+    /** @var float Longitude of the location in degrees */
+    public float $longitude;
 
-   /** @var int|null Period in seconds for which the location can be updated, should be between 60 and 86400. */
-   public ?int $live_period = null;
+    /** @var int|null Period in seconds for which the location can be updated, should be between 60 and 86400. */
+    public ?int $live_period = null;
 
-
+    
 }
 
 ?>

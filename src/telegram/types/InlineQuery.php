@@ -9,28 +9,28 @@ use \stdClass;
 */
 class InlineQuery extends \Telegram\InlineQuery{
 
-   /** @var string Yes */
-   public string $inline_query_id;
+    /** @var string Yes */
+    public string $inline_query_id;
 
-   /** @var stdClass Yes */
-   public stdClass $results;
+    /** @var stdClass Yes */
+    public stdClass $results;
 
-   /** @var int Optional */
-   public int $cache_time;
+    /** @var int Optional */
+    public int $cache_time;
 
-   /** @var bool Optional */
-   public bool $is_personal;
+    /** @var bool Optional */
+    public bool $is_personal;
 
-   /** @var string Optional */
-   public string $next_offset;
+    /** @var string Optional */
+    public string $next_offset;
 
-   /** @var string Optional */
-   public string $switch_pm_text;
+    /** @var string Optional */
+    public string $switch_pm_text;
 
-   /** @var string Optional */
-   public string $switch_pm_parameter;
+    /** @var string Optional */
+    public string $switch_pm_parameter;
 
-
+    
 }
 
 ?>

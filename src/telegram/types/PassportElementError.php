@@ -9,8 +9,8 @@ use \stdClass;
 */
 class PassportElementError extends \Telegram\PassportElementError{
 
-
-
+    
+    
 }
 
 ?>

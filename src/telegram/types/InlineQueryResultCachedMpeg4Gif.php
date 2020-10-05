@@ -9,22 +9,22 @@ use \stdClass;
 */
 class InlineQueryResultCachedMpeg4Gif extends \Telegram\InlineQueryResultCachedMpeg4Gif{
 
-   /** @var string Type of the result, must be sticker */
-   public string $type;
+    /** @var string Type of the result, must be sticker */
+    public string $type;
 
-   /** @var string Unique identifier for this result, 1-64 bytes */
-   public string $id;
+    /** @var string Unique identifier for this result, 1-64 bytes */
+    public string $id;
 
-   /** @var string A valid file identifier of the sticker */
-   public string $sticker_file_id;
+    /** @var string A valid file identifier of the sticker */
+    public string $sticker_file_id;
 
-   /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message */
-   public ?InlineKeyboardMarkup $reply_markup = null;
+    /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message */
+    public ?InlineKeyboardMarkup $reply_markup = null;
 
-   /** @var InputMessageContent|null Content of the message to be sent instead of the sticker */
-   public ?InputMessageContent $input_message_content = null;
+    /** @var InputMessageContent|null Content of the message to be sent instead of the sticker */
+    public ?InputMessageContent $input_message_content = null;
 
-
+    
 }
 
 ?>

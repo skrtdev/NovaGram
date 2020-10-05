@@ -9,13 +9,13 @@ use \stdClass;
 */
 class Dice extends \Telegram\Dice{
 
-   /** @var string Emoji on which the dice throw animation is based */
-   public string $emoji;
+    /** @var string Emoji on which the dice throw animation is based */
+    public string $emoji;
 
-   /** @var int Value of the dice, 1-6 for “” and “” base emoji, 1-5 for “” base emoji */
-   public int $value;
+    /** @var int Value of the dice, 1-6 for “” and “” base emoji, 1-5 for “” base emoji */
+    public int $value;
 
-
+    
 }
 
 ?>

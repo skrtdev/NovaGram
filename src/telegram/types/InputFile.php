@@ -9,8 +9,8 @@ use \stdClass;
 */
 class InputFile extends \Telegram\InputFile{
 
-
-
+    
+    
 }
 
 ?>

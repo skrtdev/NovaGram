@@ -9,19 +9,19 @@ use \stdClass;
 */
 class InlineQueryResultContact extends \Telegram\InlineQueryResultContact{
 
-   /** @var string Type of the result, must be game */
-   public string $type;
+    /** @var string Type of the result, must be game */
+    public string $type;
 
-   /** @var string Unique identifier for this result, 1-64 bytes */
-   public string $id;
+    /** @var string Unique identifier for this result, 1-64 bytes */
+    public string $id;
 
-   /** @var string Short name of the game */
-   public string $game_short_name;
+    /** @var string Short name of the game */
+    public string $game_short_name;
 
-   /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message */
-   public ?InlineKeyboardMarkup $reply_markup = null;
+    /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message */
+    public ?InlineKeyboardMarkup $reply_markup = null;
 
-
+    
 }
 
 ?>

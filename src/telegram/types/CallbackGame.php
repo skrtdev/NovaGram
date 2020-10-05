@@ -9,8 +9,8 @@ use \stdClass;
 */
 class CallbackGame extends \Telegram\CallbackGame{
 
-
-
+    
+    
 }
 
 ?>

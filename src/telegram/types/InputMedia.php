@@ -9,8 +9,8 @@ use \stdClass;
 */
 class InputMedia extends \Telegram\InputMedia{
 
-
-
+    
+    
 }
 
 ?>

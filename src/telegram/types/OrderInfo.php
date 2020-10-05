@@ -9,16 +9,16 @@ use \stdClass;
 */
 class OrderInfo extends \Telegram\OrderInfo{
 
-   /** @var string Shipping option identifier */
-   public string $id;
+    /** @var string Shipping option identifier */
+    public string $id;
 
-   /** @var string Option title */
-   public string $title;
+    /** @var string Option title */
+    public string $title;
 
-   /** @var stdClass List of price portions */
-   public stdClass $prices;
+    /** @var stdClass List of price portions */
+    public stdClass $prices;
 
-
+    
 }
 
 ?>

@@ -9,8 +9,8 @@ use \stdClass;
 */
 class InputMessageContent extends \Telegram\InputMessageContent{
 
-
-
+    
+    
 }
 
 ?>

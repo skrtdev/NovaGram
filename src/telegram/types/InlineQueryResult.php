@@ -9,8 +9,8 @@ use \stdClass;
 */
 class InlineQueryResult extends \Telegram\InlineQueryResult{
 
-
-
+    
+    
 }
 
 ?>

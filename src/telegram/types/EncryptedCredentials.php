@@ -9,13 +9,13 @@ use \stdClass;
 */
 class EncryptedCredentials extends \Telegram\EncryptedCredentials{
 
-   /** @var int Yes */
-   public int $user_id;
+    /** @var int Yes */
+    public int $user_id;
 
-   /** @var stdClass Yes */
-   public stdClass $errors;
+    /** @var stdClass Yes */
+    public stdClass $errors;
 
-
+    
 }
 
 ?>
