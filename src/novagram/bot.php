@@ -4,10 +4,12 @@ namespace skrtdev\NovaGram;
 
 use skrtdev\Telegram\Exception as TelegramException;
 use skrtdev\Telegram\Update;
+use skrtdev\Prototypes\proto;
 
 class Bot {
 
     use methods;
+    use proto;
 
     private string $token; // read-only
     private \stdClass $settings;
@@ -116,8 +118,9 @@ class Bot {
                 if(!$this->payloaded){
                     $this->payloaded = true;
                     header('Content-Type: application/json');
-                    echo json_encode($data + ['method' => $method]);
-                    return true;
+                    $json = json_encode($data + ['method' => $method])
+                    echo $json;
+                    return $json;
                 }
                 else{
                     Utils::trigger_error("Trying to use JSON Payload more than one time");
@@ -136,10 +139,12 @@ class Bot {
 
         if($decoded['ok'] !== true){
             if($is_debug) throw new TelegramException("[DURING DEBUG] $method", $decoded, $data);
+            $e = new TelegramException($method, $decoded, $data);
             if($this->settings->debug){
-                $this->APICall("sendMessage", ["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"], false, true);
+                #$this->sendMessage($this->settings->debug, "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", ["parse_mode" => "HTML"], false, true);
+                $this->debug( (string) $e );
             }
-            if($this->settings->exceptions) throw new TelegramException($method, $decoded, $data);
+            if($this->settings->exceptions) throw $e;
             else return (object) $decoded;
         }
 
@@ -233,7 +238,7 @@ class Bot {
                 "chat_id" => $this->settings->debug,
                 "text" => "<pre>".htmlspecialchars(print_r($value, true))."</pre>",
                 "parse_mode" => "HTML"
-            ]);
+            ], false, true);
         }
         else throw new Exception("debug chat id is not set");
     }
