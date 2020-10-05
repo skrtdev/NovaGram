@@ -9,7 +9,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getUpdates($args = null, bool $payload = false){
         $params = $args;
@@ -21,7 +21,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setWebhook($url, $args = null, bool $payload = false){
         if(is_array($url)){
@@ -39,7 +39,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function deleteWebhook(bool $payload = false){
         $params = [];
@@ -51,7 +51,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getWebhookInfo(bool $payload = false){
         $params = [];
@@ -63,7 +63,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getMe(bool $payload = false){
         $params = [];
@@ -75,7 +75,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendMessage($chat_id, $text = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -93,7 +93,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function forwardMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -111,7 +111,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendPhoto($chat_id, $photo = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -129,7 +129,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendAudio($chat_id, $audio = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -147,7 +147,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendDocument($chat_id, $document = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -165,7 +165,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendVideo($chat_id, $video = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -183,7 +183,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendAnimation($chat_id, $animation = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -201,7 +201,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendVoice($chat_id, $voice = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -219,7 +219,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendVideoNote($chat_id, $video_note = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -237,7 +237,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendMediaGroup($chat_id, $media = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -255,7 +255,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendLocation($chat_id, $latitude = null, float $longitude = null, array $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -273,7 +273,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function editMessageLiveLocation($latitude, $longitude = null, $args = null, bool $payload = false){
         if(is_array($latitude)){
@@ -291,7 +291,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function stopMessageLiveLocation($args = null, bool $payload = false){
         $params = $args;
@@ -303,7 +303,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendVenue($chat_id, $latitude = null, float $longitude = null, string $title = null, string $address = null, array $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -321,7 +321,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendContact($chat_id, $phone_number = null, string $first_name = null, array $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -339,7 +339,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendPoll($chat_id, $question = null, array $options = null, array $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -357,7 +357,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendDice($chat_id, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -375,7 +375,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendChatAction($chat_id, $action = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -393,7 +393,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getUserProfilePhotos($user_id, $args = null, bool $payload = false){
         if(is_array($user_id)){
@@ -411,7 +411,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getFile($file_id, bool $payload = false){
         if(is_array($file_id)){
@@ -429,7 +429,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function kickChatMember($chat_id, $user_id = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -447,7 +447,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function unbanChatMember($chat_id, $user_id = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -465,7 +465,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function restrictChatMember($chat_id, $user_id = null, ChatPermissions $permissions = null, array $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -483,7 +483,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function promoteChatMember($chat_id, $user_id = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -501,7 +501,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setChatAdministratorCustomTitle($chat_id, $user_id = null, string $custom_title = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -519,7 +519,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setChatPermissions($chat_id, $permissions = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -537,7 +537,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function exportChatInviteLink($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -555,7 +555,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setChatPhoto($chat_id, $photo = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -573,7 +573,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function deleteChatPhoto($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -591,7 +591,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setChatTitle($chat_id, $title = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -609,7 +609,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setChatDescription($chat_id, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -627,7 +627,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function pinChatMessage($chat_id, $message_id = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -645,7 +645,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function unpinChatMessage($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -663,7 +663,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function leaveChat($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -681,7 +681,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getChat($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -699,7 +699,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getChatAdministrators($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -717,7 +717,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getChatMembersCount($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -735,7 +735,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getChatMember($chat_id, $user_id = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -753,7 +753,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setChatStickerSet($chat_id, $sticker_set_name = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -771,7 +771,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function deleteChatStickerSet($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -789,7 +789,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function answerCallbackQuery($callback_query_id, $args = null, bool $payload = false){
         if(is_array($callback_query_id)){
@@ -807,7 +807,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setMyCommands($args = null, bool $payload = false){
         $params = $args;
@@ -819,16 +819,10 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
-    public function getMyCommands($text, $args = null, bool $payload = false){
-        if(is_array($text)){
-            $payload = $args ?? false; // 2nd param
-            $params = $text ?? [];
-        }
-        else{
-            $params = ["text" => $text] + ($args ?? []);
-        }
+    public function getMyCommands(bool $payload = false){
+        $params = [];
         return $this->APICall("getMyCommands", $params, $payload);
     }
 
@@ -837,7 +831,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function editMessageText($args = null, bool $payload = false){
         $params = $args;
@@ -849,7 +843,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function editMessageCaption($media, $args = null, bool $payload = false){
         if(is_array($media)){
@@ -867,7 +861,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function editMessageMedia($args = null, bool $payload = false){
         $params = $args;
@@ -879,7 +873,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function editMessageReplyMarkup($chat_id, $message_id = null, $args = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -897,7 +891,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function stopPoll($chat_id, $message_id = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -915,7 +909,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function deleteMessage($args = null, bool $payload = false){
         $params = $args;
@@ -927,7 +921,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendSticker($name, bool $payload = false){
         if(is_array($name)){
@@ -945,7 +939,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getStickerSet($user_id, $png_sticker = null, bool $payload = false){
         if(is_array($user_id)){
@@ -963,7 +957,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function uploadStickerFile($user_id, $name = null, string $title = null, string $emojis = null, array $args = null, bool $payload = false){
         if(is_array($user_id)){
@@ -981,7 +975,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function createNewStickerSet($user_id, $name = null, string $emojis = null, array $args = null, bool $payload = false){
         if(is_array($user_id)){
@@ -999,7 +993,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function addStickerToSet($sticker, $position = null, bool $payload = false){
         if(is_array($sticker)){
@@ -1017,7 +1011,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setStickerPositionInSet($sticker, bool $payload = false){
         if(is_array($sticker)){
@@ -1035,7 +1029,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function deleteStickerFromSet($name, $user_id = null, $args = null, bool $payload = false){
         if(is_array($name)){
@@ -1053,7 +1047,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setStickerSetThumb($args = null, bool $payload = false){
         $params = $args;
@@ -1065,7 +1059,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function answerInlineQuery($args = null, bool $payload = false){
         $params = $args;
@@ -1077,7 +1071,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendInvoice($shipping_query_id, $ok = null, $args = null, bool $payload = false){
         if(is_array($shipping_query_id)){
@@ -1095,7 +1089,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function answerShippingQuery($pre_checkout_query_id, $ok = null, $args = null, bool $payload = false){
         if(is_array($pre_checkout_query_id)){
@@ -1113,7 +1107,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function answerPreCheckoutQuery($args = null, bool $payload = false){
         $params = $args;
@@ -1125,7 +1119,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setPassportDataErrors($args = null, bool $payload = false){
         $params = $args;
@@ -1137,7 +1131,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function sendGame($args = null, bool $payload = false){
         $params = $args;
@@ -1149,7 +1143,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function setGameScore($user_id, $args = null, bool $payload = false){
         if(is_array($user_id)){
@@ -1167,7 +1161,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return void
+     * @return \skrtdev\Telegram\Type|bool|string
      */
     public function getGameHighScores($args = null, bool $payload = false){
         $params = $args;
