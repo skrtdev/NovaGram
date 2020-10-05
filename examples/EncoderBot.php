@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 /*
     if hosting:
@@ -23,9 +22,8 @@ if(isset($update->message)){ // update is a message
     $user = $message->from;
 
     if(isset($message->text)){ // update message contains text
-
-        $chat->sendMessage([ // send a Message in the Chat
-            "text" => "Testo: \n<code>".$update->message->text."</code>", // Message Text
+        // Message Text
+        $chat->sendMessage("Text: \n<code>".$update->message->text."</code>", [ // send a Message in the Chat
             "reply_markup" => [
                 "inline_keyboard" => [ // Message Inline Keyboard
                     [

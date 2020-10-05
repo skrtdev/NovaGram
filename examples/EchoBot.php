@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 /*
     if hosting:
@@ -22,11 +21,11 @@ if(isset($update->message)){ // update is a message
     $user = $message->from;
 
     if(isset($message->text)){ // update message contains text
-
         $chat->sendMessage($message->text); // send a Message in the Chat. Text is the same as the just received message
-
     }
-    else $chat->sendMessage("that's not text", true); // Message doesn't cointain text
+    else{
+        $chat->sendMessage("that's not text", true); // Message doesn't cointain text
+    }
 
 }
 
