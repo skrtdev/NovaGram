@@ -25,15 +25,16 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 
 - Database
 - Conversations
-- Message Entities -> HTML
+- Message Entities -> HTML (Message::getHTMLText() and Message::getMarkdownText())
+- non-dinamic object methods
 
 ## Upcoming Features
 
-- non-dinamic object methods
+- Full Entities Parser
 - Database
-- Conversations
+- Conversations (full getters)
 - TTL in Conversations
-- Long Polling (async)
+- Long Polling (async) - [check beta branch](https://github.com/skrtdev/NovaGram/tree/beta)
 - Message Entities to Markdown
 
 ### Installation via [Composer](https://getcomposer.org)
@@ -70,3 +71,4 @@ $message->forward(); // forward() with no parameters will forward the Message ba
 ```
 
 More info in the [Documentation](https://docs.novagram.ga)
+Public support group at [https://t.me/joinchat/JdBNOEqGheC33G476FiB2g](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)
