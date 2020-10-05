@@ -3,6 +3,8 @@
 
 An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 
+**If you wanna test async getUpdates [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)**
+
 ## Features
 
 - All the Methods and Types implemented in Bot Api as of September 2020.
@@ -34,7 +36,7 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 - Database
 - Conversations (full getters)
 - TTL in Conversations
-- Long Polling (async) - [check beta branch](https://github.com/skrtdev/NovaGram/tree/beta)
+- Long Polling (async) - [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)
 - Message Entities to Markdown
 
 ### Installation via [Composer](https://getcomposer.org)
