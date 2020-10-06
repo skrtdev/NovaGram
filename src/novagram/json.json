@@ -239,17 +239,11 @@
         "getFile":{
             "returns":"File"
         },
-        "exportChatInviteLink":{
-            "returns":"string"
-        },
         "getChat":{
             "returns":"Chat"
         },
         "getChatAdministrators":{
             "returns":"[ChatMember]"
-        },
-        "getChatMembersCount":{
-            "returns":"int"
         },
         "getChatMember":{
             "returns":"ChatMember"

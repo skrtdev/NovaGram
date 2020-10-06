@@ -85,6 +85,11 @@ class Type {
     public function __debugInfo() {
         $result = get_object_vars($this);
         foreach(['json', 'config', 'Bot', 'settings', 'payloaded', 'raw_update'] as $key) unset($result[$key]);
+        foreach ($result as $key => $value) {
+            if(!isset($value)){
+                unset($result[$key]);
+            }
+        }
         return $result;
     }
 }

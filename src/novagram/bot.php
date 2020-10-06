@@ -66,11 +66,7 @@ class Bot {
         else $this->settings->json_payload = false;
 
     }
-/*
-    public function __call(string $name, array $arguments){
-        return $this->APICall($name, ...$arguments);
-    }
-*/
+
     private function methodHasParamater(string $method, string $parameter){
         return in_array($method, $this->json["require_params"][$parameter]);
     }
@@ -94,20 +90,6 @@ class Bot {
         }
         return $data;
     }
-/*
-    public function sendMessage(array $data, bool $payload = false, bool $is_debug = false){
-        if(isset($data['text'])){
-            trigger_error("here1 ".strlen($data['text']));
-            foreach (str_split($data['text'], 3000) as $splitten_text) {
-                trigger_error("here2 ".strlen($splitten_text));
-                return $this->APICall("sendMessage", $data + ["text" => $splitten_text], $payload, $is_debug);
-            }
-        }
-        else{
-            return $this->APICall("sendMessage", $data + ["text" => $splitten_text], $payload, $is_debug);
-        }
-    }
-*/
 
     public function APICall(string $method, array $data = [], bool $payload = false, bool $is_debug = false){
 
