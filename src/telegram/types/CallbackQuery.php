@@ -42,7 +42,7 @@ class CallbackQuery extends \Telegram\CallbackQuery{
             }
             $params = ['text' => $text] + ($args ?? []);
         }
-        $params['callback_query_id'] = $this->presetToValue('id');
+        $params['callback_query_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("answerCallbackQuery", $params, $payload);
     }
 }

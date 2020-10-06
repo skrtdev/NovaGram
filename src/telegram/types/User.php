@@ -44,123 +44,101 @@ class User extends \Telegram\User{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['offset' => $offset] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("getUserProfilePhotos", $params, $payload);
     }
 
-    public function kickChatMember($chat_id = null, $args = null, bool $payload = false){
-        if(is_array($chat_id)){
+    public function kickChatMember($until_date = null, $args = null, bool $payload = false){
+        if(is_array($until_date)){
             $payload = $args ?? false; // 2nd param
-            $params = $chat_id ?? [];
+            $params = $until_date ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['chat_id' => $chat_id] + ($args ?? []);
+            $params = ['until_date' => $until_date] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("kickChatMember", $params, $payload);
     }
 
-    public function unbanChatMember($chat_id = null, bool $payload = false){
-        if(is_array($chat_id)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $chat_id ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['chat_id' => $chat_id] + ($args ?? []);
-        }
-        $params['user_id'] = $this->presetToValue('id');
+    public function unbanChatMember(bool $payload = false){
+        $params = [];
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("unbanChatMember", $params, $payload);
     }
 
-    public function restrictChatMember($chat_id = null, $args = null, bool $payload = false){
-        if(is_array($chat_id)){
+    public function restrictChatMember($permissions = null, $args = null, bool $payload = false){
+        if(is_array($permissions)){
             $payload = $args ?? false; // 2nd param
-            $params = $chat_id ?? [];
+            $params = $permissions ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['chat_id' => $chat_id] + ($args ?? []);
+            $params = ['permissions' => $permissions] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("restrictChatMember", $params, $payload);
     }
 
-    public function promoteChatMember($chat_id = null, $args = null, bool $payload = false){
-        if(is_array($chat_id)){
+    public function promoteChatMember($can_change_info = null, $args = null, bool $payload = false){
+        if(is_array($can_change_info)){
             $payload = $args ?? false; // 2nd param
-            $params = $chat_id ?? [];
+            $params = $can_change_info ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['chat_id' => $chat_id] + ($args ?? []);
+            $params = ['can_change_info' => $can_change_info] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("promoteChatMember", $params, $payload);
     }
 
-    public function setChatAdministratorCustomTitle($chat_id = null, $args = null, bool $payload = false){
-        if(is_array($chat_id)){
+    public function setChatAdministratorCustomTitle($custom_title = null, $args = null, bool $payload = false){
+        if(is_array($custom_title)){
             $payload = $args ?? false; // 2nd param
-            $params = $chat_id ?? [];
+            $params = $custom_title ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['chat_id' => $chat_id] + ($args ?? []);
+            $params = ['custom_title' => $custom_title] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setChatAdministratorCustomTitle", $params, $payload);
     }
 
-    public function getChatMember($chat_id = null, bool $payload = false){
-        if(is_array($chat_id)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $chat_id ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['chat_id' => $chat_id] + ($args ?? []);
-        }
-        $params['user_id'] = $this->presetToValue('id');
+    public function getChatMember(bool $payload = false){
+        $params = [];
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("getChatMember", $params, $payload);
     }
 
     public function getStickerSet($png_sticker = null, bool $payload = false){
-        if(is_array($png_sticker)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $png_sticker ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['png_sticker' => $png_sticker] + ($args ?? []);
-        }
-        $params['user_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("getStickerSet", $params, $payload);
     }
 
@@ -172,11 +150,12 @@ class User extends \Telegram\User{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['name' => $name] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("uploadStickerFile", $params, $payload);
     }
 
@@ -188,11 +167,12 @@ class User extends \Telegram\User{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['name' => $name] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("createNewStickerSet", $params, $payload);
     }
 
@@ -204,27 +184,29 @@ class User extends \Telegram\User{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['name' => $name] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("deleteStickerFromSet", $params, $payload);
     }
 
-    public function setGameScore($chat_id = null, $args = null, bool $payload = false){
-        if(is_array($chat_id)){
+    public function setGameScore($message_id = null, $args = null, bool $payload = false){
+        if(is_array($message_id)){
             $payload = $args ?? false; // 2nd param
-            $params = $chat_id ?? [];
+            $params = $message_id ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['chat_id' => $chat_id] + ($args ?? []);
+            $params = ['message_id' => $message_id] + ($args ?? []);
         }
-        $params['user_id'] = $this->presetToValue('id');
+        $params['user_id'] ??= $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setGameScore", $params, $payload);
     }
 }

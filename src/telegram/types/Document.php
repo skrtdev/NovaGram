@@ -29,7 +29,7 @@ class Document extends \Telegram\Document{
 
     public function getFile(bool $payload = false){
         $params = [];
-        $params['file_id'] = $this->presetToValue('file_id');
+        $params['file_id'] ??= $this->presetToValue('file_id');
         return $this->Bot->APICall("getFile", $params, $payload);
     }
 
@@ -41,11 +41,11 @@ class Document extends \Telegram\Document{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['file_unique_id' => $file_unique_id] + ($args ?? []);
         }
-        $params['file_id'] = $this->presetToValue('file_id');
+        $params['file_id'] ??= $this->presetToValue('file_id');
         return $this->Bot->APICall("deleteMessage", $params, $payload);
     }
 }

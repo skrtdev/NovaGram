@@ -156,156 +156,155 @@ class Message extends \Telegram\Message{
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons. */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-    public function forward($from_chat_id = null, $args = null, bool $payload = false){
-        if(is_array($from_chat_id)){
+    public function forward($disable_notification = null, $args = null, bool $payload = false){
+        if(is_array($disable_notification)){
             $payload = $args ?? false; // 2nd param
-            $params = $from_chat_id ?? [];
+            $params = $disable_notification ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['from_chat_id' => $from_chat_id] + ($args ?? []);
+            $params = ['disable_notification' => $disable_notification] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("forwardMessage", $params, $payload);
     }
 
-    public function editLiveLocation($message_id = null, $args = null, bool $payload = false){
-        if(is_array($message_id)){
+    public function editLiveLocation($inline_message_id = null, $args = null, bool $payload = false){
+        if(is_array($inline_message_id)){
             $payload = $args ?? false; // 2nd param
-            $params = $message_id ?? [];
+            $params = $inline_message_id ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['message_id' => $message_id] + ($args ?? []);
+            $params = ['inline_message_id' => $inline_message_id] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("editMessageLiveLocation", $params, $payload);
     }
 
-    public function stopLiveLocation($message_id = null, $args = null, bool $payload = false){
-        if(is_array($message_id)){
+    public function stopLiveLocation($inline_message_id = null, $args = null, bool $payload = false){
+        if(is_array($inline_message_id)){
             $payload = $args ?? false; // 2nd param
-            $params = $message_id ?? [];
+            $params = $inline_message_id ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['message_id' => $message_id] + ($args ?? []);
+            $params = ['inline_message_id' => $inline_message_id] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("stopMessageLiveLocation", $params, $payload);
     }
 
-    public function pin($message_id = null, $args = null, bool $payload = false){
-        if(is_array($message_id)){
+    public function pin($disable_notification = null, $args = null, bool $payload = false){
+        if(is_array($disable_notification)){
             $payload = $args ?? false; // 2nd param
-            $params = $message_id ?? [];
+            $params = $disable_notification ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['message_id' => $message_id] + ($args ?? []);
+            $params = ['disable_notification' => $disable_notification] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("pinChatMessage", $params, $payload);
     }
 
-    public function editText($message_id = null, $args = null, bool $payload = false){
-        if(is_array($message_id)){
+    public function editText($inline_message_id = null, $args = null, bool $payload = false){
+        if(is_array($inline_message_id)){
             $payload = $args ?? false; // 2nd param
-            $params = $message_id ?? [];
+            $params = $inline_message_id ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['message_id' => $message_id] + ($args ?? []);
+            $params = ['inline_message_id' => $inline_message_id] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("editMessageText", $params, $payload);
     }
 
-    public function editCaption($message_id = null, $args = null, bool $payload = false){
-        if(is_array($message_id)){
+    public function editCaption($inline_message_id = null, $args = null, bool $payload = false){
+        if(is_array($inline_message_id)){
             $payload = $args ?? false; // 2nd param
-            $params = $message_id ?? [];
+            $params = $inline_message_id ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['message_id' => $message_id] + ($args ?? []);
+            $params = ['inline_message_id' => $inline_message_id] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("editMessageCaption", $params, $payload);
     }
 
-    public function editMedia($message_id = null, $args = null, bool $payload = false){
-        if(is_array($message_id)){
+    public function editMedia($inline_message_id = null, $args = null, bool $payload = false){
+        if(is_array($inline_message_id)){
             $payload = $args ?? false; // 2nd param
-            $params = $message_id ?? [];
+            $params = $inline_message_id ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['message_id' => $message_id] + ($args ?? []);
+            $params = ['inline_message_id' => $inline_message_id] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("editMessageMedia", $params, $payload);
     }
 
-    public function editReplyMarkup($message_id = null, $args = null, bool $payload = false){
-        if(is_array($message_id)){
+    public function editReplyMarkup($reply_markup = null, $args = null, bool $payload = false){
+        if(is_array($reply_markup)){
             $payload = $args ?? false; // 2nd param
-            $params = $message_id ?? [];
+            $params = $reply_markup ?? [];
         }
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
-            $params = ['message_id' => $message_id] + ($args ?? []);
+            $params = ['reply_markup' => $reply_markup] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("editMessageReplyMarkup", $params, $payload);
     }
 
-    public function stopPoll($message_id = null, bool $payload = false){
-        if(is_array($message_id)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $message_id ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['message_id' => $message_id] + ($args ?? []);
-        }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+    public function stopPoll(bool $payload = false){
+        $params = [];
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("stopPoll", $params, $payload);
     }
 
@@ -317,12 +316,13 @@ class Message extends \Telegram\Message{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['user_id' => $user_id] + ($args ?? []);
         }
-        $params['message_id'] = $this->presetToValue('message_id');
-        $params['chat_id'] = $this->presetToValue('chat/id');
+        $params['message_id'] ??= $this->presetToValue('message_id');
+        $params['chat_id'] ??= $this->presetToValue('chat/id');
+        $params['from_chat_id'] ??= $this->presetToValue('chat/id');
         return $this->Bot->APICall("setGameScore", $params, $payload);
     }
 }

@@ -59,11 +59,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['text' => $text] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendMessage", $params, $payload);
     }
 
@@ -75,11 +75,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['from_chat_id' => $from_chat_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("forwardMessage", $params, $payload);
     }
 
@@ -91,11 +91,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['photo' => $photo] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendPhoto", $params, $payload);
     }
 
@@ -107,11 +107,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['audio' => $audio] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendAudio", $params, $payload);
     }
 
@@ -123,11 +123,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['document' => $document] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendDocument", $params, $payload);
     }
 
@@ -139,11 +139,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['video' => $video] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendVideo", $params, $payload);
     }
 
@@ -155,11 +155,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['animation' => $animation] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendAnimation", $params, $payload);
     }
 
@@ -171,11 +171,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['voice' => $voice] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendVoice", $params, $payload);
     }
 
@@ -187,11 +187,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['video_note' => $video_note] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendVideoNote", $params, $payload);
     }
 
@@ -203,11 +203,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['media' => $media] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendMediaGroup", $params, $payload);
     }
 
@@ -219,11 +219,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['latitude' => $latitude] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendLocation", $params, $payload);
     }
 
@@ -235,11 +235,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['message_id' => $message_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("editMessageLiveLocation", $params, $payload);
     }
 
@@ -251,11 +251,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['message_id' => $message_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("stopMessageLiveLocation", $params, $payload);
     }
 
@@ -267,11 +267,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['latitude' => $latitude] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendVenue", $params, $payload);
     }
 
@@ -283,11 +283,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['phone_number' => $phone_number] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendContact", $params, $payload);
     }
 
@@ -299,11 +299,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['question' => $question] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendPoll", $params, $payload);
     }
 
@@ -315,27 +315,17 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['emoji' => $emoji] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendDice", $params, $payload);
     }
 
     public function sendAction($action = null, bool $payload = false){
-        if(is_array($action)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $action ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['action' => $action] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("sendChatAction", $params, $payload);
     }
 
@@ -347,27 +337,17 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['user_id' => $user_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("kickChatMember", $params, $payload);
     }
 
     public function unbanMember($user_id = null, bool $payload = false){
-        if(is_array($user_id)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $user_id ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['user_id' => $user_id] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("unbanChatMember", $params, $payload);
     }
 
@@ -379,11 +359,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['user_id' => $user_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("restrictChatMember", $params, $payload);
     }
 
@@ -395,11 +375,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['user_id' => $user_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("promoteChatMember", $params, $payload);
     }
 
@@ -411,87 +391,47 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['user_id' => $user_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setChatAdministratorCustomTitle", $params, $payload);
     }
 
     public function setPermissions($permissions = null, bool $payload = false){
-        if(is_array($permissions)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $permissions ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['permissions' => $permissions] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setChatPermissions", $params, $payload);
     }
 
     public function exportInviteLink(bool $payload = false){
         $params = [];
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("exportChatInviteLink", $params, $payload);
     }
 
     public function setPhoto($photo = null, bool $payload = false){
-        if(is_array($photo)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $photo ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['photo' => $photo] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setChatPhoto", $params, $payload);
     }
 
     public function deletePhoto(bool $payload = false){
         $params = [];
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("deleteChatPhoto", $params, $payload);
     }
 
     public function setTitle($title = null, bool $payload = false){
-        if(is_array($title)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $title ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['title' => $title] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setChatTitle", $params, $payload);
     }
 
     public function setDescription($description = null, bool $payload = false){
-        if(is_array($description)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $description ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['description' => $description] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setChatDescription", $params, $payload);
     }
 
@@ -503,79 +443,59 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['message_id' => $message_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("pinChatMessage", $params, $payload);
     }
 
     public function unpinMessage(bool $payload = false){
         $params = [];
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("unpinChatMessage", $params, $payload);
     }
 
     public function leave(bool $payload = false){
         $params = [];
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("leaveChat", $params, $payload);
     }
 
     public function get(bool $payload = false){
         $params = [];
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("getChat", $params, $payload);
     }
 
     public function getAdministrators(bool $payload = false){
         $params = [];
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("getChatAdministrators", $params, $payload);
     }
 
     public function getMembersCount(bool $payload = false){
         $params = [];
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("getChatMembersCount", $params, $payload);
     }
 
     public function getMember($user_id = null, bool $payload = false){
-        if(is_array($user_id)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $user_id ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['user_id' => $user_id] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("getChatMember", $params, $payload);
     }
 
     public function setStickerSet($sticker_set_name = null, bool $payload = false){
-        if(is_array($sticker_set_name)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $sticker_set_name ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['sticker_set_name' => $sticker_set_name] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setChatStickerSet", $params, $payload);
     }
 
     public function deleteStickerSet(bool $payload = false){
         $params = [];
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("deleteChatStickerSet", $params, $payload);
     }
 
@@ -587,11 +507,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['message_id' => $message_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("editMessageText", $params, $payload);
     }
 
@@ -603,11 +523,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['message_id' => $message_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("editMessageCaption", $params, $payload);
     }
 
@@ -619,11 +539,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['message_id' => $message_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("editMessageMedia", $params, $payload);
     }
 
@@ -635,27 +555,17 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['message_id' => $message_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("editMessageReplyMarkup", $params, $payload);
     }
 
     public function stopPoll($message_id = null, bool $payload = false){
-        if(is_array($message_id)){
-            $payload = $payload ?? false; // 2nd param
-            $params = $message_id ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = null;
-            }
-            $params = ['message_id' => $message_id] + ($args ?? []);
-        }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params = [];
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("stopPoll", $params, $payload);
     }
 
@@ -667,11 +577,11 @@ class Chat extends \Telegram\Chat{
         else{
             if(is_bool($args)){
                 $payload = $args;
-                $args = null;
+                $args = [];
             }
             $params = ['user_id' => $user_id] + ($args ?? []);
         }
-        $params['chat_id'] = $this->presetToValue('id');
+        $params['chat_id'] ??= $this->presetToValue('id');
         return $this->Bot->APICall("setGameScore", $params, $payload);
     }
 }
