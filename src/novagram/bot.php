@@ -118,7 +118,7 @@ class Bot {
                 if(!$this->payloaded){
                     $this->payloaded = true;
                     header('Content-Type: application/json');
-                    $json = json_encode($data + ['method' => $method])
+                    $json = json_encode($data + ['method' => $method]);
                     echo $json;
                     return $json;
                 }
