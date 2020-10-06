@@ -27,27 +27,7 @@ class Document extends \Telegram\Document{
     /** @var int|null File size */
     public ?int $file_size = null;
 
-    public function getFile(bool $payload = false){
-        $params = [];
-        $params['file_id'] ??= $this->presetToValue('file_id');
-        return $this->Bot->APICall("getFile", $params, $payload);
-    }
-
-    public function deleteMessage($file_unique_id = null, $args = null, bool $payload = false){
-        if(is_array($file_unique_id)){
-            $payload = $args ?? false; // 2nd param
-            $params = $file_unique_id ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = [];
-            }
-            $params = ['file_unique_id' => $file_unique_id] + ($args ?? []);
-        }
-        $params['file_id'] ??= $this->presetToValue('file_id');
-        return $this->Bot->APICall("deleteMessage", $params, $payload);
-    }
+    
 }
 
 ?>

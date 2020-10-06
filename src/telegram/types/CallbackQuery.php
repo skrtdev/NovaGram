@@ -30,21 +30,7 @@ class CallbackQuery extends \Telegram\CallbackQuery{
     /** @var string|null Short name of a Game to be returned, serves as the unique identifier for the game */
     public ?string $game_short_name = null;
 
-    public function answer($text = null, $args = null, bool $payload = false){
-        if(is_array($text)){
-            $payload = $args ?? false; // 2nd param
-            $params = $text ?? [];
-        }
-        else{
-            if(is_bool($args)){
-                $payload = $args;
-                $args = [];
-            }
-            $params = ['text' => $text] + ($args ?? []);
-        }
-        $params['callback_query_id'] ??= $this->presetToValue('id');
-        return $this->Bot->APICall("answerCallbackQuery", $params, $payload);
-    }
+    
 }
 
 ?>

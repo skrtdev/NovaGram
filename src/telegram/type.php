@@ -59,9 +59,17 @@ class Type {
                 $data[$this_method->just_one_parameter_needed] = $arguments[0];
             }
         }
+        if(isset($arguments[1])){
+            if(is_array($arguments[1])){
+                $payload = $arguments[2] ?? false;
+                $data += $arguments[1];
+            }
+            else{
+                $payload = $arguments[1] ?? false;
+            }
+        }
         if(count($data) === 0) throw new \ArgumentCountError("Too few arguments to function ".get_class($this)."::$name(), 0 passed");
-
-        return $this->Bot->{$this_method->alias ?? $name}($data, $arguments[1] ?? false);
+        return $this->Bot->APICall($this_method->alias ?? $name, $data, $payload ?? false);
     }
 
     protected function presetToValue(string $preset){
