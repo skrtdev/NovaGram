@@ -15,8 +15,9 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 - [Object Methods](https://docs.novagram.ga/objects.html#objects-methods) for a smarter code (and a nice syntax)
 - [JSON based](https://github.com/skrtdev/NovaGram/blob/master/src/novagram/json.json), so all methods and types are dinamically created.
 - Native Debug, so you will be able to fix bugs immediately.
-- Telegram IP check, in order to protect from Fake Update attacks (with Cloudflare too!)
+- Telegram IP check, in order to protect from Fake Update attacks. (with Cloudflare too!)
 - Optional Telegram Exceptions, for handling Telegram API Errors as you like.
+- Native Telegram Entities Parser. (Message::getHTMLText() and Message::getMarkdownText())
 - Global Parse Mode, so you won't need to specify it in each method
 - Global disable_web_page_preview, so you won't need to specify it in each method
 - Global disable_notification, so you won't need to specify it in each method
@@ -27,17 +28,15 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 
 - Database
 - Conversations
-- Message Entities -> HTML (Message::getHTMLText() and Message::getMarkdownText())
-- non-dinamic object methods
+- Message Entities -> Markdown (Message::getMarkdownText())
 
 ## Upcoming Features
 
-- Full Entities Parser
+- Markdown Entities Parser
 - Database
 - Conversations (full getters)
 - TTL in Conversations
 - Long Polling (async) - [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)
-- Message Entities to Markdown
 
 ### Installation via [Composer](https://getcomposer.org)
 If Composer is installed globally:
@@ -73,4 +72,5 @@ $message->forward(); // forward() with no parameters will forward the Message ba
 ```
 
 More info in the [Documentation](https://docs.novagram.ga)
+
 Public support group at [https://t.me/joinchat/JdBNOEqGheC33G476FiB2g](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)
