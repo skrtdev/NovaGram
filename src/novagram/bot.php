@@ -155,15 +155,7 @@ class Bot {
     }
 
     private function getMethodReturned(string $method){
-        if(isset($this->json['available_methods'][$method]['returns']) ){
-            return $this->json['available_methods'][$method]['returns'] !== "_" ? $this->json['available_methods'][$method]['returns'] : false;
-        }
-        foreach ($this->json['available_methods_regxs'] as $key => $value){
-            if(preg_match('/'.$key.'/', $method) === 1){
-                return $value['returns'];
-            }
-        }
-        return false;
+        return $this->json['available_methods'][$method]['returns'] ?? false;
     }
 
     private function getObjectType(string $parameter_name, string $object_name = ""){
