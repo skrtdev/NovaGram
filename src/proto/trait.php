@@ -8,7 +8,7 @@ trait proto{
     }
 
     public static function addMethod(string $name, \Closure $fun){
-        return Prototype::addMethod(get_class($this), $name, $fun);
+        return Prototype::addMethod(__CLASS__, $name, $fun);
     }
 }
 
