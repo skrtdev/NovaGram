@@ -71,6 +71,5 @@ $user = $message->from;
 $message->forward(); // forward() with no parameters will forward the Message back to the sender
 ```
 
-More info in the [Documentation](https://docs.novagram.ga)
-
+More info in the [Documentation](https://docs.novagram.ga)  
 Public support group at [https://t.me/joinchat/JdBNOEqGheC33G476FiB2g](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)
