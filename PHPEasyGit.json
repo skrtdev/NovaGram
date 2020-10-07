@@ -16,7 +16,6 @@
         "src/bc/1.2.php",
         "src/bc/1.0.php",
         "src/bc/0.x.php",
-        "src/proto/temp.php",
         "src/telegram/types/Update.php",
         "src/telegram/types/WebhookInfo.php",
         "src/telegram/types/User.php",
