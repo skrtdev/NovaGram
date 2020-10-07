@@ -8,7 +8,7 @@ use skrtdev\Prototypes\proto;
 
 class Bot {
 
-    use methods;
+    use Methods;
     use proto;
 
     private string $token; // read-only
