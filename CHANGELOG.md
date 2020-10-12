@@ -1,20 +1,29 @@
 # CHANGELOG
 
-## v1.4
+## v1.4 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.4)
 
 - Added **Typed Properties** with Description to every Object
 - Added non-dinamic Methods to Bot Class
 - Added **positional arguments** and **named arguments** (like `python kwargs`) to Bot Methods (in a BC way)
+
+    > Check [updated docs](https://docs.novagram.ga/requests.html)
+
 - Added Entities Parser, and Message::toHTML() Method
 
-## v1.5 - _not released yet_
+## v1.5 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.5)
 
 - Added **positional arguments** and **named arguments** (like `python kwargs`) to Types Methods (in a BC way)
+
+    > Check [updated docs](https://docs.novagram.ga/objects.html)
+
 - Bot and Database Classes are now prototypeable
+
+    > Learn more about prototypes [here](https://docs.novagram.ga/prototypes.html)
+
 - Full Return Types implementation
 - Added some HTML tags to Entities Parser
 
-    > Message::toHTML() is now deprecated in favor of Message::getHTMLText())
+    > Message::toHTML() is now removed in favor of Message::getHTMLText()
 
 - Built-in debug now looks like a normal exception
 - `NULL` properties aren no longer displayed in debug functions (such as `var_dump`, `print_r` and similar)
@@ -22,5 +31,6 @@
 
 ## v1.6 - _not released yet_
 
-- Markdown Entities Parser
+- getUpdates mode (async handlers)
 - Conversations (full getters)
+- Markdown Entities Parser

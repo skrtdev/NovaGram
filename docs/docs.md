@@ -1,13 +1,12 @@
 # Documentation
---------
-> All the BOTApi's methods can be used as methods of the TelegramBot class.
-> There are only this library own methods
---------
+--------  
+> All the BOTApi's methods can be used as methods of the Bot class.  
+> There are only this library own methods  
+--------  
 
 ### Setup Script
 All the methods explained here are supposed to be in a script with this setup:
 ```php
-header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 
 $Bot = new \skrtdev\NovaGram\Bot("YOUR_TOKEN");
@@ -39,25 +38,14 @@ $Bot->METHOD_NAME([
 
 
 ### sendMessage
-sendMessage can be used directly as a method of the main class, or as a method of a Chat Object.
-
+sendMessage can be used directly as a method of the main class, or as a method of a Chat Object.  
 > Returns the sent Message object.
 
 ```php
 // main class
-$Bot->sendMessage([
-    "chat_id" => 01234567,
-    "text" => "message_text"
-]);
+$Bot->sendMessage(01234567, "message_text");
 
 // Chat object
-$chat->sendMessage([
-    "text" => "message_text"
-]);
-
-/* or simply */
-
-// Chat object with just text
 $chat->sendMessage("message_text");
 ```
 
@@ -84,7 +72,7 @@ $chat->forwardTo([
 ```
 
 ### deleteMessage
-deleteMessage can be used directly as a method of the main class, as a method of a Message Object (just delete that message) or as a metod of a Chat Object, in order to delete a message in that Chat.
+deleteMessage can be used directly as a method of the main class, as a method of a Message Object (just delete that message) or as a method of a Chat Object, in order to delete a message in that Chat.
 
 ```php
 // main class
@@ -116,8 +104,7 @@ $Bot->answerCallbackQuery([
 $CallbackQuery->answer(); // just answer
 $CallbackQuery->answer("text"); // just text
 
-$CallbackQuery->answer([
-    "text" => "some text",
+$CallbackQuery->answer("text", [
     "show_alert" => true
 ]);
 ```
@@ -136,8 +123,7 @@ $Bot->editMessageText([
 // Message object
 $message->editText("new text"); // just text
 
-$message->editText([
-    "text" => "<b>new text</b>",
+$message->editText("<b>new text</b>", [
     "parse_mode" => "html"
 ]);
 ```
@@ -174,8 +160,7 @@ $Bot->getUserProfilePhotos([
 $user->getProfilePhotos(); // just nothing
 $user->getProfilePhotos(10); // just limit
 
-$user->getProfilePhotos([
-    "limit" => 10,
+$user->getProfilePhotos(10, [
     "offset" => 5
 ]);
 ```
@@ -195,7 +180,7 @@ getDC will throw a \\NovaGram\\Exception if Object is not an User, or if User ha
 
 ```php
 // main class
-\Telegram\Bot::getUsernameDC("skrtdev");
+Bot::getUsernameDC("skrtdev");
 
 // User object
 $user->getDC();
