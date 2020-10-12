@@ -59,7 +59,6 @@ require __DIR__ . '/vendor/autoload.php';
 An example code of a simple bot that just forwards back what you send.
 
 ```php
-header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 use skrtdev\NovaGram\Bot;
 $Bot = new Bot("YOUR_TOKEN");

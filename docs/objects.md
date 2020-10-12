@@ -54,16 +54,44 @@ An immediate example:
 Normal Method:
 ```php
 $Bot->sendMessage([
-    "chat_id" => 01234567,
-    "text" => "This is the text of a Message"
+    "chat_id" => $chat->id,
+    "text" => "This is the text of a Message",
+    "reply_to_message_id" => 1234
+]);
+// from v1.4
+$Bot->sendMessage($chat->id, "This is the text of a Message", [
+    "reply_to_message_id" => $message->id
 ]);
 ```
 Object Method:
 ```php
-$chat->sendMessage("This is the text of a Message");
+$message->reply("This is the text of a Message");
 ```
 
 Using the Object Method is surely easier and faster, and it makes code well-readable.
+
+## Named and positional arguments
+
+From v1.5, you can use object methods in a different way.  
+Instead of putting all parameters in the array, you can pass required parameter as positional argument.
+If you need to specify additional optional parameters, just put them in an array (as old mode) an pass it after required parameter.  
+```php
+public function $method($required_parameter, array $optional_parameters = [], bool $payload = false);
+```
+```php
+$message->reply($text, array $optional_parameters = [], bool $payload = false);
+```  
+Example:
+```php
+$message->reply([
+    "text" => "message_text",
+    "disable_notification" => true
+]);
+// same as
+$message->reply("message_text", [
+    "disable_notification" => true
+]); // from v1.5
+```  
 
 ## Debugging
 

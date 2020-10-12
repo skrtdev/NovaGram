@@ -8,7 +8,6 @@ $Bot = new \Telegram\Bot("YOUR_TOKEN");
 An example code of a simple bot that just forwards back what you send.
 
 ```php
-header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 
 $Bot = new skrtdev\NovaGram\Bot("YOUR_TOKEN", [

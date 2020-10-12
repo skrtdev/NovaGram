@@ -13,6 +13,7 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 - Native Debug, so you will be able to fix bugs immediately.
 - Telegram IP check, in order to protect from Fake Update attacks (with Cloudflare too!)
 - Optional Telegram Exceptions, for handling Telegram API Errors as you like.
+- Native Telegram Entities Parser. (Message::getHTMLText() and Message::getMarkdownText())
 - Global Parse Mode, so you won't need to specify it in each method
 - Global disable_web_page_preview, so you won't need to specify it in each method
 - Global disable_notification, so you won't need to specify it in each method
@@ -27,3 +28,4 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
    * [Object](objects.md)
    * [Database](database.md)
    * [All the Methods](docs.md)
+   * [Extend the Library](prototypes.md)

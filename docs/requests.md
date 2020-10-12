@@ -16,10 +16,33 @@ $Bot->sendMessage([
     "text" => "message_text"
 ]);
 // same as
-$Bot->sendMessage(01234567, "message_text");
-```
+$Bot->sendMessage(01234567, "message_text"); // from v1.4
+```  
+This will send a Message in the specified chat with the specified text.  
 
-This will send a Message in the specified chat with the specified text.
+## Named and positional arguments
+
+From v1.4, you can use methods in a different way.  
+Instead of putting all parameters in the array, you can pass required parameters as positional arguments in the same order as they are in Bot Api Documentation.  
+If you need to specify additional optional parameters, just put them in an array (as old mode) an pass it after required parameters.  
+```php
+$Bot->$method(...$required_parameters, array $optional_parameters = [], bool $payload = false);
+```
+```php
+$Bot->sendMessage($chat_id, $text, array $optional_parameters = [], bool $payload = false);
+```  
+Example:
+```php
+$Bot->sendMessage([
+    "chat_id" => 01234567,
+    "text" => "message_text",
+    "disable_notification" => true
+]);
+// same as
+$Bot->sendMessage(01234567, "message_text", [
+    "disable_notification" => true
+]); // from v1.4
+```  
 
 ### JSON Payload
 
@@ -38,7 +61,6 @@ Argument `$payload` is `true`, so this will be made as Payload (if a Payload was
 
 ## Exceptions
 
-If NovaGram receives an error from Telegram, a `\skrdtev\Telegram\Exception` is raised (if Exceptions are not disabled in NovaGram settings)
-`\skrdtev\Telegram\Exception(s)` can be handled like normal Exceptions, with a try/catch block
+If NovaGram receives an error from Telegram, a `\skrdtev\Telegram\Exception` is raised (if Exceptions are not disabled in NovaGram settings)  
 
 [NovaGram Objects](construct.md)
