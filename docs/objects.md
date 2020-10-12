@@ -90,7 +90,11 @@ $message->reply([
 // same as
 $message->reply("message_text", [
     "disable_notification" => true
+<<<<<<< HEAD
 ]); // from v1.5
+=======
+]); // from v1.4
+>>>>>>> 0e50248f2131b25476747c1c8d1f2d0f839967b1
 ```  
 
 ## Debugging
