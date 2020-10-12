@@ -22,6 +22,7 @@ class Database{
             "driver" => "mysql",
             "host" => "localhost:3306",
             "dbpass" => "",
+            "prefix" => "novagram"
         ];
 
         foreach ($settings_array as $name => $default) $settings[$name] ??= $default;
@@ -53,10 +54,10 @@ class Database{
 
         $this->PDO = new PDO("$driver:$connection", $dbuser, $dbpass, $options);
 
-        $prefix = $settings['prefix'];
+        $prefix = $settings['prefix'] ?? null;
         $this->prefix = isset($prefix) ? $prefix."_" : "";
 
-
+        $this->auto_increment = $driver === "sqlite" ? "AUTOINCREMENT" : "AUTO_INCREMENT";
         $this->initializeTableNames();
         $this->initializeQueries();
         $this->initializeDatabase();
@@ -84,14 +85,14 @@ class Database{
 
     private function initializeDatabase(): void{
         $this->query("CREATE TABLE IF NOT EXISTS {$this->tableNames['users']} (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id INTEGER PRIMARY KEY {$this->auto_increment},
             user_id BIGINT(255) UNIQUE
         )");
     }
 
     public function initializeConversations(): void{
         $this->query("CREATE TABLE IF NOT EXISTS {$this->tableNames['conversations']} (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id INTEGER PRIMARY KEY {$this->auto_increment},
             chat_id BIGINT(255) NOT NULL,
             name VARCHAR(64) NOT NULL,
             value BLOB(4096) NOT NULL,

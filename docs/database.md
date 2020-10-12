@@ -4,7 +4,7 @@ NovaGram has a built-in Database, (from v1.3), that allows you to store some use
 
 ## Connecting to Database
 
-- ```database``` key of settings array is structured as follows:
+`database` key of settings array is structured as follows:
 
 ```php
 [
@@ -17,7 +17,7 @@ NovaGram has a built-in Database, (from v1.3), that allows you to store some use
 ]
 ```
 
-```driver```, ```host```, ```dbname```, ```dbuser``` and ```dbpass``` are Database connection variables, while ```prefix``` is table names prefix
+`driver`, `host`, `dbname`, `dbuser` and `dbpass` are Database connection variables, while `prefix` is table names prefix
 
 ## Statuses & Conversations
 
@@ -26,7 +26,7 @@ Conversations are **chat-related** variables (a chat can also be an _User_).
 Here is the function:
 
 ```php
-public function conversation(string $name, $value = null, bool $permanent = true){
+public function conversation(string $name, $value = null, bool $permanent = true)
 ```
 
 Let's do an example: you want to store an User birthplace, so that can be retrieved later
@@ -43,7 +43,7 @@ $user->conversation("birthplace");
 
 Statuses are just Conversations whose key is ```status```, except that ```$permanent``` is default to false:
 ```php
-public function status(string $value = null, bool $permanent = false){
+public function status(string $value = null, bool $permanent = false)
 ```
 
 Statuses are useful when you need to store some **temporary** data, and can be used together with conversations
