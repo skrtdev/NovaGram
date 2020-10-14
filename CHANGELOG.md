@@ -29,6 +29,13 @@
 - `NULL` properties aren no longer displayed in debug functions (such as `var_dump`, `print_r` and similar)
 - Updated docs
 
+## v1.5.1 - Bug Fix Release
+
+- Fixed a bug with Prototypes and Objects
+
+    > Prototypes Methods couldn't be added directly to objects
+
+
 ## v1.6 - _not released yet_
 
 - getUpdates mode (async handlers)
