@@ -40,4 +40,8 @@
 
 - getUpdates mode (async handlers)
 - Conversations (full getters)
+- Some improvements to Prototypes
+
+    > `$this` inside prototype now refers to the Object, so that `$self` is no longer needed
+
 - Markdown Entities Parser
