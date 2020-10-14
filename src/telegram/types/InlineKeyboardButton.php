@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
 */
 class InlineKeyboardButton extends \Telegram\InlineKeyboardButton{
+
+    use simpleProto;
 
     /** @var string Label text on the button */
     public string $text;

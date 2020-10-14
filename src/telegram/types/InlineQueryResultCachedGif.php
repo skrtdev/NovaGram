@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with specified content instead of the animation.
 */
 class InlineQueryResultCachedGif extends \Telegram\InlineQueryResultCachedGif{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be mpeg4_gif */
     public string $type;

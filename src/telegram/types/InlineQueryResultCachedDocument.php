@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
 */
 class InlineQueryResultCachedDocument extends \Telegram\InlineQueryResultCachedDocument{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be video */
     public string $type;

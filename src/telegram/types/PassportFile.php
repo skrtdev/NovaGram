@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a file uploaded to Telegram Passport. Currently all Telegram Passport files are in JPEG format when decrypted and don't exceed 10MB.
 */
 class PassportFile extends \Telegram\PassportFile{
+
+    use simpleProto;
 
     /** @var string Element type. One of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”, “phone_number”, “email”. */
     public string $type;

@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
 */
 class ReplyKeyboardMarkup extends \Telegram\ReplyKeyboardMarkup{
+
+    use simpleProto;
 
     /** @var stdClass Array of button rows, each represented by an Array of KeyboardButton objects */
     public stdClass $keyboard;

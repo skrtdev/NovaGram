@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents an answer of a user in a non-anonymous poll.
 */
 class PollAnswer extends \Telegram\PollAnswer{
+
+    use simpleProto;
 
     /** @var string Unique poll identifier */
     public string $poll_id;

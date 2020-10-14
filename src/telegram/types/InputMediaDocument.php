@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a general file to be sent.
 */
 class InputMediaDocument extends \Telegram\InputMediaDocument{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be document */
     public string $type;

@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Contains information about documents or other Telegram Passport elements shared with the bot by the user.
 */
 class EncryptedPassportElement extends \Telegram\EncryptedPassportElement{
+
+    use simpleProto;
 
     /** @var string Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for EncryptedPassportElement decryption and authentication */
     public string $data;

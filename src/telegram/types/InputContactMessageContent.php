@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents the content of a contact message to be sent as the result of an inline query.
 */
 class InputContactMessageContent extends \Telegram\InputContactMessageContent{
+
+    use simpleProto;
 
     /** @var string The unique identifier for the result that was chosen */
     public string $result_id;

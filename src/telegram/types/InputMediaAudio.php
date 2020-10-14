@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents an audio file to be treated as music to be sent.
 */
 class InputMediaAudio extends \Telegram\InputMediaAudio{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be audio */
     public string $type;

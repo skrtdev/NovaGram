@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object contains information about an incoming shipping query.
 */
 class ShippingQuery extends \Telegram\ShippingQuery{
+
+    use simpleProto;
 
     /** @var string Unique query identifier */
     public string $id;

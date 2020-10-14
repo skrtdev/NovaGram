@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object contains information about one member of a chat.
 */
 class ChatMember extends \Telegram\ChatMember{
+
+    use simpleProto;
 
     /** @var User Information about the user */
     public User $user;

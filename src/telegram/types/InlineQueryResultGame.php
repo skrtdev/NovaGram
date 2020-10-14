@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a Game.
 */
 class InlineQueryResultGame extends \Telegram\InlineQueryResultGame{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be photo */
     public string $type;

@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents an issue in an unspecified place. The error is considered resolved when new data is added.
 */
 class PassportElementErrorUnspecified extends \Telegram\PassportElementErrorUnspecified{
+
+    use simpleProto;
 
     /** @var int Yes */
     public int $chat_id;

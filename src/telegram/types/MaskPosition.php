@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object describes the position on faces where a mask should be placed by default.
 */
 class MaskPosition extends \Telegram\MaskPosition{
+
+    use simpleProto;
 
     /** @var int|string Yes */
     public $chat_id;

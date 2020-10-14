@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a game. Use BotFather to create and edit games, their short names will act as unique identifiers.
 */
 class Game extends \Telegram\Game{
+
+    use simpleProto;
 
     /** @var int Yes */
     public int $user_id;

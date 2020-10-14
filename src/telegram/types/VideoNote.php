@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a video message (available in Telegram apps as of v.4.0).
 */
 class VideoNote extends \Telegram\VideoNote{
+
+    use simpleProto;
 
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;

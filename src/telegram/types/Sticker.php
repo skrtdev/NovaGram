@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a sticker.
 */
 class Sticker extends \Telegram\Sticker{
+
+    use simpleProto;
 
     /** @var string Sticker set name */
     public string $name;

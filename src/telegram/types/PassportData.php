@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Contains information about Telegram Passport data shared with the bot by the user.
 */
 class PassportData extends \Telegram\PassportData{
+
+    use simpleProto;
 
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;

@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
 */
 class InputMediaAnimation extends \Telegram\InputMediaAnimation{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be animation */
     public string $type;

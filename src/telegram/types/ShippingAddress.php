@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a shipping address.
 */
 class ShippingAddress extends \Telegram\ShippingAddress{
+
+    use simpleProto;
 
     /** @var string|null User name */
     public ?string $name = null;

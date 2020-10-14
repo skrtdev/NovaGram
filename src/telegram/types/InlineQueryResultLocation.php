@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
 */
 class InlineQueryResultLocation extends \Telegram\InlineQueryResultLocation{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be venue */
     public string $type;

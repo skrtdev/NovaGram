@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents an issue with the front side of a document. The error is considered resolved when the file with the front side of the document changes.
 */
 class PassportElementErrorFrontSide extends \Telegram\PassportElementErrorFrontSide{
+
+    use simpleProto;
 
     /** @var string Error source, must be reverse_side */
     public string $source;

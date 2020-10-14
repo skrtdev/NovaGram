@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
 */
 class InlineQuery extends \Telegram\InlineQuery{
+
+    use simpleProto;
 
     /** @var string Yes */
     public string $inline_query_id;

@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a message.
 */
 class Message extends \Telegram\Message{
+
+    use simpleProto;
 
     /** @var int Unique message identifier inside this chat */
     public int $message_id;
@@ -156,10 +159,7 @@ class Message extends \Telegram\Message{
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons. */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-
-    public function getHTMLText(){
-        return \skrtdev\NovaGram\EntityParser::TextEntitiesToHTML($this->text, $this->entities);
-    }
+    
 }
 
 ?>

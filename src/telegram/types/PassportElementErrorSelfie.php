@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents an issue with the selfie with a document. The error is considered resolved when the file with the selfie changes.
 */
 class PassportElementErrorSelfie extends \Telegram\PassportElementErrorSelfie{
+
+    use simpleProto;
 
     /** @var string Error source, must be file */
     public string $source;

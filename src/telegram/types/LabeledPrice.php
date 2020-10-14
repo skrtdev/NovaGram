@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a portion of the price for goods or services.
 */
 class LabeledPrice extends \Telegram\LabeledPrice{
+
+    use simpleProto;
 
     /** @var string Product name */
     public string $title;

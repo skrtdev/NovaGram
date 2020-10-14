@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
 */
 class InlineQueryResultCachedAudio extends \Telegram\InlineQueryResultCachedAudio{
+
+    use simpleProto;
 
     /** @var string Text of the message to be sent, 1-4096 characters */
     public string $message_text;

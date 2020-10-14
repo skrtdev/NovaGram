@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object contains information about a poll.
 */
 class Poll extends \Telegram\Poll{
+
+    use simpleProto;
 
     /** @var string Unique poll identifier */
     public string $id;

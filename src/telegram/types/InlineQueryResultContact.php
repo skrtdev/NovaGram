@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
 */
 class InlineQueryResultContact extends \Telegram\InlineQueryResultContact{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be game */
     public string $type;

@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a video file.
 */
 class Video extends \Telegram\Video{
+
+    use simpleProto;
 
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;

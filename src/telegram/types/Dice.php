@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents an animated emoji that displays a random value.
 */
 class Dice extends \Telegram\Dice{
+
+    use simpleProto;
 
     /** @var string Emoji on which the dice throw animation is based */
     public string $emoji;

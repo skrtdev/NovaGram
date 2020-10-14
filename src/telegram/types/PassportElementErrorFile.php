@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents an issue with a document scan. The error is considered resolved when the file with the document scan changes.
 */
 class PassportElementErrorFile extends \Telegram\PassportElementErrorFile{
+
+    use simpleProto;
 
     /** @var string Error source, must be files */
     public string $source;

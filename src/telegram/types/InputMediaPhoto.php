@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a photo to be sent.
 */
 class InputMediaPhoto extends \Telegram\InputMediaPhoto{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be photo */
     public string $type;

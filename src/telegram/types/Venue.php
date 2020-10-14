@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a venue.
 */
 class Venue extends \Telegram\Venue{
+
+    use simpleProto;
 
     /** @var Location Venue location */
     public Location $location;

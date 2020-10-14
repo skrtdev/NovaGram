@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a result of an inline query that was chosen by the user and sent to their chat partner.
 */
 class ChosenInlineResult extends \Telegram\ChosenInlineResult{
+
+    use simpleProto;
 
     /** @var int Yes */
     public int $chat_id;

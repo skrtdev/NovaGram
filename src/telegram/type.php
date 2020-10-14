@@ -4,13 +4,14 @@ namespace skrtdev\Telegram;
 
 use skrtdev\NovaGram\Bot;
 use skrtdev\Prototypes\{Prototype, proto};
+use stdClass;
 
 class Type {
 
     use proto;
 
     protected Bot $Bot;
-    private \stdClass $config;
+    private stdClass $config;
     private string $_;
 
     public function __construct(string $type, array $json, Bot $Bot){
@@ -29,14 +30,16 @@ class Type {
         }
 
     }
+
     public function __call(string $name, array $arguments){
 
-        if(!isset($this->config->types_methods->{$this->_})) throw new \skrtdev\NovaGram\Exception("There are no available Methods for a {$this->_} Object (trying to call $name)");
+        if(!isset($this->config->types_methods->{$this->_})){
+            return Prototype::call($this, $name, $arguments);
+        }
         $this_obj = $this->config->types_methods->{$this->_};
 
         if(!isset($this_obj->{$name})){
             return Prototype::call($this, $name, $arguments);
-            #throw new \Error("Call to undefined method ".get_class($this)."::$name()");
         }
         $this_method = $this_obj->{$name};
 

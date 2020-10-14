@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents an issue in one of the data fields that was provided by the user. The error is considered resolved when the field's value changes.
 */
 class PassportElementErrorDataField extends \Telegram\PassportElementErrorDataField{
+
+    use simpleProto;
 
     /** @var string Error source, must be front_side */
     public string $source;

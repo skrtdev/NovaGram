@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents the content of a venue message to be sent as the result of an inline query.
 */
 class InputVenueMessageContent extends \Telegram\InputVenueMessageContent{
+
+    use simpleProto;
 
     /** @var string Contact's phone number */
     public string $phone_number;

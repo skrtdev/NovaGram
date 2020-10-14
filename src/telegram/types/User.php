@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a Telegram user or bot.
 */
 class User extends \Telegram\User{
+
+    use simpleProto;
 
     /** @var int Unique identifier for this user or bot */
     public int $id;

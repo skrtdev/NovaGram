@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents a video to be sent.
 */
 class InputMediaVideo extends \Telegram\InputMediaVideo{
+
+    use simpleProto;
 
     /** @var string Type of the result, must be video */
     public string $type;

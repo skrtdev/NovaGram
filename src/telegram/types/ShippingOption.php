@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents one shipping option.
 */
 class ShippingOption extends \Telegram\ShippingOption{
+
+    use simpleProto;
 
     /** @var string Three-letter ISO 4217 currency code */
     public string $currency;

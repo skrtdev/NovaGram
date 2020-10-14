@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object represents a phone contact.
 */
 class Contact extends \Telegram\Contact{
+
+    use simpleProto;
 
     /** @var string Contact's phone number */
     public string $phone_number;

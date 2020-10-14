@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * This object contains basic information about an invoice.
 */
 class Invoice extends \Telegram\Invoice{
+
+    use simpleProto;
 
     /** @var string ISO 3166-1 alpha-2 country code */
     public string $country_code;

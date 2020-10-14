@@ -2,12 +2,15 @@
 
 namespace skrtdev\Telegram;
 
-use \stdClass;
+use stdClass;
+use skrtdev\Prototypes\simpleProto;
 
 /**
  * Represents an issue with one of the files that constitute the translation of a document. The error is considered resolved when the file changes.
 */
 class PassportElementErrorTranslationFile extends \Telegram\PassportElementErrorTranslationFile{
+
+    use simpleProto;
 
     /** @var string Error source, must be translation_files */
     public string $source;
