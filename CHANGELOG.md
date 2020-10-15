@@ -29,7 +29,7 @@
 - `NULL` properties aren no longer displayed in debug functions (such as `var_dump`, `print_r` and similar)
 - Updated docs
 
-## v1.5.1 - Bug Fix Release
+## v1.5.1 - [Bug Fix Release](https://github.com/skrtdev/NovaGram/releases/tag/v1.5.1)
 
 - Fixed a bug with Prototypes and Objects
 

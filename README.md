@@ -4,6 +4,7 @@
 
 An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 
+[Full Documentation](https://docs.novagram.ga) - [Public support group](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)  
 **If you wanna test async getUpdates [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)**
 
 ## Features
