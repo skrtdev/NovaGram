@@ -9,7 +9,7 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 ## Why another PHP library?
 
 I decided to build my own php library for telegram bot api because all the libraries i found on the web [made too difficult even to do a simple thing](docs/compare.md), such as a sendMessage.  
-NovaGram is built for bringing a lightweight alternative to make bots, made simple even for newbies, but powerful for who already knows how to implement it.
+NovaGram is built in order to bring a lightweight alternative to make bots, made simple even for beginners, but powerful for who already knows how to implement it.
 
 
 ## Features
