@@ -2,10 +2,15 @@
 [![GitHub license](https://img.shields.io/github/license/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/stargazers) [![Version](https://poser.pugx.org/skrtdev/novagram/version)](https://github.com/skrtdev/NovaGram/releases) [![Latest Unstable Version](https://poser.pugx.org/skrtdev/novagram/v/unstable)](https://github.com/skrtdev/NovaGram/tree/beta) [![Total Downloads](https://poser.pugx.org/skrtdev/novagram/downloads)](https://packagist.org/packages/skrtdev/novagram)
 
 
-An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
+An elegant, Object-Oriented, reliable PHP Telegram Bot Interface  
 
 [Full Documentation](https://docs.novagram.ga) - [Public support group](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)  
-**If you wanna test async getUpdates [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)**
+
+## Why another PHP library?
+
+I decided to build my own php library for telegram bot api because all the libraries i found on the web [made too difficult even to do a simple thing](docs/compare.md), such as a sendMessage.  
+NovaGram is built for bringing a lightweight alternative to make bots, made simple even for newbies, but powerful for who already knows how to implement it.
+
 
 ## Features
 
@@ -28,8 +33,9 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 
 ## Being implemented
 
+> **If you wanna test async getUpdates [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)**  
+
 - Database
-- Conversations
 - Message Entities -> Markdown (Message::getMarkdownText())
 
 ## Upcoming Features
@@ -41,14 +47,10 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface
 - Long Polling (async) - [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)
 
 ### Installation via [Composer](https://getcomposer.org)
-If Composer is installed globally:
+
+Install NovaGram via Composer  
 ```
 composer require skrtdev/novagram
-```
-
-If Composer is installed in the current directory:
-```
-php composer.phar require skrtdev/novagram
 ```
 
 After Installation, include NovaGram with:
