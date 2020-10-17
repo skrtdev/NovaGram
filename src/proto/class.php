@@ -22,7 +22,7 @@ class Prototype{
 
             $reflection = new ReflectionFunction($closure);
             $parameters = $reflection->getParameters();
-            $has_self = isset($parameters[0]) and $parameters[0]->getName() === "self";
+            $has_self = isset($parameters[0]) && $parameters[0]->getName() === "self";
 
             $closure_args = [ ...($has_self ? [$obj] : []), ...$args ];
             return $closure->call($obj, ...$closure_args);
