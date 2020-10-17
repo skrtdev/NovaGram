@@ -552,7 +552,7 @@
                 "just_one_parameter_needed":"custom_title"
             },
             "getChatMember":{
-
+                "just_one_parameter_needed":"chat_id"
             },
             "uploadStickerFile":{
                 "just_one_parameter_needed":"png_sticker"
