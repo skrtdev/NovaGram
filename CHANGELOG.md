@@ -26,7 +26,7 @@
     > Message::toHTML() is now removed in favor of Message::getHTMLText()
 
 - Built-in debug now looks like a normal exception
-- `NULL` properties aren no longer displayed in debug functions (such as `var_dump`, `print_r` and similar)
+- `NULL` properties are no longer displayed in debug functions (such as `var_dump`, `print_r` and similar)
 - Updated docs
 
 ## v1.5.1 - [Bug Fix Release](https://github.com/skrtdev/NovaGram/releases/tag/v1.5.1)
@@ -44,4 +44,5 @@
 
     > `$this` inside prototype now refers to the Object, so that `$self` is no longer needed
 
+- Fixed some bugs in HTML Entities Parser
 - Markdown Entities Parser
