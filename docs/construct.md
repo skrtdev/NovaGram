@@ -1,7 +1,8 @@
 # Create a Bot Instance
 
 ```php
-new \skrtdev\NovaGram\Bot(string $token, array $settings = []);
+use skrtdev\NovaGram\Bot;
+new Bot(string $token, array $settings = []);
 ```
 
 ### Token
@@ -13,16 +14,21 @@ $settings is an array which contains some NovaGram configurations.
 
 | key                      | value   | default | description                                                                                        |
 |--------------------------|---------|---------|----------------------------------------------------------------------------------------------------|
+| mode                     | integer | auto    | Mode for update handling (or not handling at all)                                                  |
 | json_payload             | boolean | true    | Whether or not print json payload                                                                  |
 | log_updates              | integer | false   | Chat id where raw json updates will be sent (set to false to disable)                              |
 | debug                    | integer | false   | Chat id where debug logs will be sent if an api error occurs (set to false to disable)             |
 | disable_ip_check         | boolean | false   | Whether or not disable telegram ip check (could be useful in case of reverse proxy, such as ngrok) |
-| disable_webhook          | boolean | false   | Whether or not disable update receiving                                                            |
 | parse_mode               | string  | no      | Default `parse_mode` for methods that require it                                                   |
 | disable_web_page_preview | bool    | no      | Default `disable_web_page_preview` for methods that require it                                     |
 | disable_notification     | bool    | no      | Default `disable_notification` for methods that require it                                         |
 | exceptions               | bool    | true    | Whether or not throw \skrtdev\Telegram\Exception(s) when API Errors occurs                         |
 | database                 | array   | no      | [Database](database.md) connection info                                                            |
+
+### Mode
+
+Can be either `skrtdev\NovaGram\Bot::WEBHOOK`, `skrtdev\NovaGram\Bot::CLI` or `skrtdev\NovaGram\Bot::NONE`.
+Normally it is automatic, and you can not specify it at all
 
 ### JSON Payload
 
