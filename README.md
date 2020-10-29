@@ -2,55 +2,54 @@
 [![GitHub license](https://img.shields.io/github/license/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/stargazers) [![Version](https://poser.pugx.org/skrtdev/novagram/version)](https://github.com/skrtdev/NovaGram/releases) [![Latest Unstable Version](https://poser.pugx.org/skrtdev/novagram/v/unstable)](https://github.com/skrtdev/NovaGram/tree/beta) [![Total Downloads](https://poser.pugx.org/skrtdev/novagram/downloads)](https://packagist.org/packages/skrtdev/novagram)
 
 
-An elegant, Object-Oriented, reliable PHP Telegram Bot Interface  
+<center>
+An elegant, Object-Oriented, reliable PHP Telegram Bot Interface<br>
+<a href="https://docs.novagram.ga">Full Documentation</a> •
+<a href="https://t.me/joinchat/JdBNOEqGheC33G476FiB2g">Public support group</a>
+</center>
 
-[Full Documentation](https://docs.novagram.ga) - [Public support group](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)  
+### Example
+An example code of a simple bot that just forwards back what you send.  
+Works with both getUpdates and Webhooks
+```php
+use skrtdev\NovaGram\Bot;
 
-## Why another PHP library?
+$Bot = new Bot("YOUR_TOKEN");
+
+$Bot->onUpdate(function (Update $update) use ($Bot) {
+
+    if(isset($update->message)){ // update is a message
+        $message = $update->message;
+        $chat = $message->chat;
+
+        if(isset($message->from)){ // message has a sender
+            $user = $message->from;
+
+            $message->forward(); // forward() with no parameters will forward the Message back to the sender
+        }
+    }
+});
+```
+
+## Features
+
+- **Full**: All the Methods and Types implemented in Bot Api 4.9  
+- **Extendable**: With [Prototypes](https://docs.novagram.ga/prototypes.html), you can add your custom functionalities  
+- **Easy**: Exactly like original Bot Api, with Objects too  
+- **Ready**: You can start creating your amazing bot right now, thanks to many Built-in features, such as [Conversations](https://docs.novagram.ga/database.html), [Entities Parser](/) and [getDC](https://docs.novagram.ga/docs.html#getUsernameDC)  
+- **Secure**: When using Webhooks, there is a Built-in Telegram IP Check, that works with Cloudflare too!  
+
+### Why another PHP library?
 
 I decided to build my own php library for telegram bot api because all the libraries i found on the web [made too difficult even to do a simple thing](docs/compare.md), such as a sendMessage.  
 NovaGram is built in order to bring a lightweight alternative to make bots, made simple even for beginners, but powerful for who already knows how to implement it.
 
 
-## Features
-
-- All the Methods and Types implemented in Bot Api as of September 2020.
-- Typed Properties for each Object (with description too)
-- Exactly like Bot Api (so you don't really need documentation)
-- [JSON Payload](https://docs.novagram.ga/construct.html#json-payload) implementation, for a faster Bot.
-- Auto JSON-Encode in parameters that require it (when passing an array)
-- [Object Methods](https://docs.novagram.ga/objects.html#objects-methods) for a smarter code (and a nice syntax)
-- [JSON based](https://github.com/skrtdev/NovaGram/blob/master/src/novagram/json.json), so all methods and types are dinamically created.
-- Native Debug, so you will be able to fix bugs immediately.
-- Telegram IP check, in order to protect from Fake Update attacks. (with Cloudflare too!)
-- Optional Telegram Exceptions, for handling Telegram API Errors as you like.
-- Native Telegram Entities Parser. (Message::getHTMLText() and Message::getMarkdownText())
-- Global Parse Mode, so you won't need to specify it in each method
-- Global disable_web_page_preview, so you won't need to specify it in each method
-- Global disable_notification, so you won't need to specify it in each method
-- Ability to [retrieve DC](https://docs.novagram.ga/docs.html#getUsernameDC) of Users that has an Username
-- Usable with Composer, but also in Hosting Panels that doesn't provide it, with PHPEasyGit
-
-## Being implemented
-
-> **If you wanna test async getUpdates [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)**  
-
-- Database
-- Message Entities -> Markdown (Message::getMarkdownText())
-
-## Upcoming Features
-
-- Markdown Entities Parser
-- Database
-- Conversations (full getters)
-- TTL in Conversations
-- Long Polling (async) - [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)
-
 ### Installation via [Composer](https://getcomposer.org)
 
 Install NovaGram via Composer  
 ```
-composer require skrtdev/novagram
+composer require skrtdev/novagram dev-beta
 ```
 
 After Installation, include NovaGram with:
@@ -58,21 +57,7 @@ After Installation, include NovaGram with:
 require __DIR__ . '/vendor/autoload.php';
 ```
 
-### Example
-An example code of a simple bot that just forwards back what you send.
-
-```php
-require __DIR__ . '/vendor/autoload.php';
-use skrtdev\NovaGram\Bot;
-$Bot = new Bot("YOUR_TOKEN");
-
-$update = $Bot->update;
-$message = $update->message;
-$chat = $message->chat;
-$user = $message->from;
-
-$message->forward(); // forward() with no parameters will forward the Message back to the sender
-```
+If you wanna test features under development [check out beta branch](https://github.com/skrtdev/NovaGram/tree/beta)  
 
 More info in the [Documentation](https://docs.novagram.ga)  
 Public support group at [https://t.me/joinchat/JdBNOEqGheC33G476FiB2g](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)

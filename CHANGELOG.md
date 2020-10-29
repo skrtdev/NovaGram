@@ -1,14 +1,46 @@
 # CHANGELOG
 
-## v1.4 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.4)
+## v2.0 - _Future Deprecations_
 
-- Added **Typed Properties** with Description to every Object
-- Added non-dinamic Methods to Bot Class
-- Added **positional arguments** and **named arguments** (like `python kwargs`) to Bot Methods (in a BC way)
+- Classes
+    - `TelegramBot`
+    - `Telegram\Bot`
+    - `NovaGram\Bot`
+    - `Telegram\*` Types
+- Bot Class
+    - Settings
+        - `disable_webhook` parameter
+        - `getUpdates` mode
+        - `webhook` mode
+    - Methods
+        - `setErrorHandler` -> `addErrorHandler`
+        - `addHandler` -> `onUpdate`
 
-    > Check [updated docs](https://docs.novagram.ga/requests.html)
+## v1.6 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
 
-- Added Entities Parser, and Message::toHTML() Method
+- [x] Improved Composer Autoloader (**PSR-4**)
+- [x] getUpdates (**multi-processing**)
+    - [x] Update handler
+    - [x] Mode (Webhook/getUpdates/None) is recognized **automatically**
+    - [x] Auto restart when Bot file is edited (optional)
+
+- [x] Many **new Exceptions** (e.g. `ForbiddenException`, `BadRequestException`)
+- [x] Error Handlers
+- [ ] Conversations (**full getters**)
+- [ ] TTL in Conversations
+- [x] Changed behaviour of settings' `debug` parameter: now it creates an Error Handler  
+- [x] Some improvements to Prototypes
+
+    > `$this` inside prototype now refers to the Object, so that `$self` is no longer needed
+
+- [x] Fixed many bugs in HTML Entities Parser
+- [ ] Markdown Entities Parser
+
+## v1.5.1 - [Bug Fix Release](https://github.com/skrtdev/NovaGram/releases/tag/v1.5.1)
+
+- Fixed a bug with Prototypes and Objects
+
+    > Prototypes Methods couldn't be added directly to objects
 
 ## v1.5 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.5)
 
@@ -29,20 +61,12 @@
 - `NULL` properties are no longer displayed in debug functions (such as `var_dump`, `print_r` and similar)
 - Updated docs
 
-## v1.5.1 - [Bug Fix Release](https://github.com/skrtdev/NovaGram/releases/tag/v1.5.1)
+## v1.4 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.4)
 
-- Fixed a bug with Prototypes and Objects
+- Added **Typed Properties** with Description to every Object
+- Added non-dinamic Methods to Bot Class
+- Added **positional arguments** and **named arguments** (like `python kwargs`) to Bot Methods (in a BC way)
 
-    > Prototypes Methods couldn't be added directly to objects
+    > Check [updated docs](https://docs.novagram.ga/requests.html)
 
-
-## v1.6 - _not released yet_
-
-- getUpdates mode (async handlers)
-- Conversations (full getters)
-- Some improvements to Prototypes
-
-    > `$this` inside prototype now refers to the Object, so that `$self` is no longer needed
-
-- Fixed some bugs in HTML Entities Parser
-- Markdown Entities Parser
+- Added Entities Parser, and Message::toHTML() Method
