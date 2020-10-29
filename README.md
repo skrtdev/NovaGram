@@ -2,11 +2,11 @@
 [![GitHub license](https://img.shields.io/github/license/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/stargazers) [![Version](https://poser.pugx.org/skrtdev/novagram/version)](https://github.com/skrtdev/NovaGram/releases) [![Latest Unstable Version](https://poser.pugx.org/skrtdev/novagram/v/unstable)](https://github.com/skrtdev/NovaGram/tree/beta) [![Total Downloads](https://poser.pugx.org/skrtdev/novagram/downloads)](https://packagist.org/packages/skrtdev/novagram)
 
 
-<center>
+<p align="center">
 An elegant, Object-Oriented, reliable PHP Telegram Bot Interface<br>
 <a href="https://docs.novagram.ga">Full Documentation</a> •
 <a href="https://t.me/joinchat/JdBNOEqGheC33G476FiB2g">Public support group</a>
-</center>
+</p>
 
 ### Example
 An example code of a simple bot that just forwards back what you send.  
