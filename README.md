@@ -18,14 +18,14 @@ $Bot = new Bot("YOUR_TOKEN");
 
 $Bot->onUpdate(function (Update $update) use ($Bot) {
 
-    if(isset($update->message)){ // update is a message
+    if(isset($update->message) && isset($message->from)){ // update is a message and has a sender
         $message = $update->message;
         $chat = $message->chat;
+        $user = $message->from;
+        $text = $message->text;
 
-        if(isset($message->from)){ // message has a sender
-            $user = $message->from;
-
-            $message->forward(); // forward() with no parameters will forward the Message back to the sender
+        if($text === "/start"){
+            $message->reply("Hey! Nice to meet you.")
         }
     }
 });
@@ -36,7 +36,7 @@ $Bot->onUpdate(function (Update $update) use ($Bot) {
 - **Full**: All the Methods and Types implemented in Bot Api 4.9  
 - **Extendable**: With [Prototypes](https://docs.novagram.ga/prototypes.html), you can add your custom functionalities  
 - **Easy**: Exactly like original Bot Api, with Objects too  
-- **Ready**: You can start creating your amazing bot right now, thanks to many Built-in features, such as [Conversations](https://docs.novagram.ga/database.html), [Entities Parser](/) and [getDC](https://docs.novagram.ga/docs.html#getUsernameDC)  
+- **Ready**: You can start creating your amazing bot right now, thanks to many Built-in features, such as [Conversations](https://docs.novagram.ga/database.html), [Entities Parser](https://docs.novagram.ga/objects.html) and [getDC](https://docs.novagram.ga/docs.html#getUsernameDC)  
 - **Secure**: When using Webhooks, there is a Built-in Telegram IP Check, that works with Cloudflare too!  
 
 ### Why another PHP library?
