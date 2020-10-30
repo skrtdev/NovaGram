@@ -5,6 +5,7 @@
         "src/NovaGram/Utils.php",
         "src/NovaGram/parser.php",
         "src/NovaGram/Methods.php",
+        "src/NovaGram/Beta.php",
         "src/NovaGram/Bot.php",
         "src/NovaGram/Database.php",
         "src/NovaGram/Exception.php",
