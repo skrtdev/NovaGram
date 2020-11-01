@@ -13,7 +13,7 @@ trait Methods{
      */
     public function getUpdates($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("getUpdates", $params, $payload);
+        return $this->APICall("getUpdates", $params ?? [], $payload);
     }
 
     /**
@@ -31,7 +31,7 @@ trait Methods{
         else{
             $params = ["url" => $url] + ($args ?? []);
         }
-        return $this->APICall("setWebhook", $params, $payload);
+        return $this->APICall("setWebhook", $params ?? [], $payload);
     }
 
     /**
@@ -43,7 +43,7 @@ trait Methods{
      */
     public function deleteWebhook(bool $payload = false){
         $params = [];
-        return $this->APICall("deleteWebhook", $params, $payload);
+        return $this->APICall("deleteWebhook", $params ?? [], $payload);
     }
 
     /**
@@ -55,7 +55,7 @@ trait Methods{
      */
     public function getWebhookInfo(bool $payload = false){
         $params = [];
-        return $this->APICall("getWebhookInfo", $params, $payload);
+        return $this->APICall("getWebhookInfo", $params ?? [], $payload);
     }
 
     /**
@@ -67,7 +67,7 @@ trait Methods{
      */
     public function getMe(bool $payload = false){
         $params = [];
-        return $this->APICall("getMe", $params, $payload);
+        return $this->APICall("getMe", $params ?? [], $payload);
     }
 
     /**
@@ -85,7 +85,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "text" => $text] + ($args ?? []);
         }
-        return $this->APICall("sendMessage", $params, $payload);
+        return $this->APICall("sendMessage", $params ?? [], $payload);
     }
 
     /**
@@ -103,7 +103,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "from_chat_id" => $from_chat_id, "message_id" => $message_id] + ($args ?? []);
         }
-        return $this->APICall("forwardMessage", $params, $payload);
+        return $this->APICall("forwardMessage", $params ?? [], $payload);
     }
 
     /**
@@ -121,7 +121,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "photo" => $photo] + ($args ?? []);
         }
-        return $this->APICall("sendPhoto", $params, $payload);
+        return $this->APICall("sendPhoto", $params ?? [], $payload);
     }
 
     /**
@@ -139,7 +139,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "audio" => $audio] + ($args ?? []);
         }
-        return $this->APICall("sendAudio", $params, $payload);
+        return $this->APICall("sendAudio", $params ?? [], $payload);
     }
 
     /**
@@ -157,7 +157,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "document" => $document] + ($args ?? []);
         }
-        return $this->APICall("sendDocument", $params, $payload);
+        return $this->APICall("sendDocument", $params ?? [], $payload);
     }
 
     /**
@@ -175,7 +175,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "video" => $video] + ($args ?? []);
         }
-        return $this->APICall("sendVideo", $params, $payload);
+        return $this->APICall("sendVideo", $params ?? [], $payload);
     }
 
     /**
@@ -193,7 +193,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "animation" => $animation] + ($args ?? []);
         }
-        return $this->APICall("sendAnimation", $params, $payload);
+        return $this->APICall("sendAnimation", $params ?? [], $payload);
     }
 
     /**
@@ -211,7 +211,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "voice" => $voice] + ($args ?? []);
         }
-        return $this->APICall("sendVoice", $params, $payload);
+        return $this->APICall("sendVoice", $params ?? [], $payload);
     }
 
     /**
@@ -229,7 +229,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "video_note" => $video_note] + ($args ?? []);
         }
-        return $this->APICall("sendVideoNote", $params, $payload);
+        return $this->APICall("sendVideoNote", $params ?? [], $payload);
     }
 
     /**
@@ -247,7 +247,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "media" => $media] + ($args ?? []);
         }
-        return $this->APICall("sendMediaGroup", $params, $payload);
+        return $this->APICall("sendMediaGroup", $params ?? [], $payload);
     }
 
     /**
@@ -265,7 +265,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "latitude" => $latitude, "longitude" => $longitude] + ($args ?? []);
         }
-        return $this->APICall("sendLocation", $params, $payload);
+        return $this->APICall("sendLocation", $params ?? [], $payload);
     }
 
     /**
@@ -283,7 +283,7 @@ trait Methods{
         else{
             $params = ["latitude" => $latitude, "longitude" => $longitude] + ($args ?? []);
         }
-        return $this->APICall("editMessageLiveLocation", $params, $payload);
+        return $this->APICall("editMessageLiveLocation", $params ?? [], $payload);
     }
 
     /**
@@ -295,7 +295,7 @@ trait Methods{
      */
     public function stopMessageLiveLocation($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("stopMessageLiveLocation", $params, $payload);
+        return $this->APICall("stopMessageLiveLocation", $params ?? [], $payload);
     }
 
     /**
@@ -313,7 +313,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "latitude" => $latitude, "longitude" => $longitude, "title" => $title, "address" => $address] + ($args ?? []);
         }
-        return $this->APICall("sendVenue", $params, $payload);
+        return $this->APICall("sendVenue", $params ?? [], $payload);
     }
 
     /**
@@ -331,7 +331,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "phone_number" => $phone_number, "first_name" => $first_name] + ($args ?? []);
         }
-        return $this->APICall("sendContact", $params, $payload);
+        return $this->APICall("sendContact", $params ?? [], $payload);
     }
 
     /**
@@ -349,7 +349,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "question" => $question, "options" => $options] + ($args ?? []);
         }
-        return $this->APICall("sendPoll", $params, $payload);
+        return $this->APICall("sendPoll", $params ?? [], $payload);
     }
 
     /**
@@ -367,7 +367,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("sendDice", $params, $payload);
+        return $this->APICall("sendDice", $params ?? [], $payload);
     }
 
     /**
@@ -385,7 +385,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "action" => $action] + ($args ?? []);
         }
-        return $this->APICall("sendChatAction", $params, $payload);
+        return $this->APICall("sendChatAction", $params ?? [], $payload);
     }
 
     /**
@@ -403,7 +403,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("getUserProfilePhotos", $params, $payload);
+        return $this->APICall("getUserProfilePhotos", $params ?? [], $payload);
     }
 
     /**
@@ -421,7 +421,7 @@ trait Methods{
         else{
             $params = ["file_id" => $file_id] + ($args ?? []);
         }
-        return $this->APICall("getFile", $params, $payload);
+        return $this->APICall("getFile", $params ?? [], $payload);
     }
 
     /**
@@ -439,7 +439,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("kickChatMember", $params, $payload);
+        return $this->APICall("kickChatMember", $params ?? [], $payload);
     }
 
     /**
@@ -457,7 +457,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("unbanChatMember", $params, $payload);
+        return $this->APICall("unbanChatMember", $params ?? [], $payload);
     }
 
     /**
@@ -475,7 +475,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id, "permissions" => $permissions] + ($args ?? []);
         }
-        return $this->APICall("restrictChatMember", $params, $payload);
+        return $this->APICall("restrictChatMember", $params ?? [], $payload);
     }
 
     /**
@@ -493,7 +493,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("promoteChatMember", $params, $payload);
+        return $this->APICall("promoteChatMember", $params ?? [], $payload);
     }
 
     /**
@@ -511,7 +511,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id, "custom_title" => $custom_title] + ($args ?? []);
         }
-        return $this->APICall("setChatAdministratorCustomTitle", $params, $payload);
+        return $this->APICall("setChatAdministratorCustomTitle", $params ?? [], $payload);
     }
 
     /**
@@ -529,7 +529,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "permissions" => $permissions] + ($args ?? []);
         }
-        return $this->APICall("setChatPermissions", $params, $payload);
+        return $this->APICall("setChatPermissions", $params ?? [], $payload);
     }
 
     /**
@@ -547,7 +547,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("exportChatInviteLink", $params, $payload);
+        return $this->APICall("exportChatInviteLink", $params ?? [], $payload);
     }
 
     /**
@@ -565,7 +565,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "photo" => $photo] + ($args ?? []);
         }
-        return $this->APICall("setChatPhoto", $params, $payload);
+        return $this->APICall("setChatPhoto", $params ?? [], $payload);
     }
 
     /**
@@ -583,7 +583,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("deleteChatPhoto", $params, $payload);
+        return $this->APICall("deleteChatPhoto", $params ?? [], $payload);
     }
 
     /**
@@ -601,7 +601,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "title" => $title] + ($args ?? []);
         }
-        return $this->APICall("setChatTitle", $params, $payload);
+        return $this->APICall("setChatTitle", $params ?? [], $payload);
     }
 
     /**
@@ -619,7 +619,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("setChatDescription", $params, $payload);
+        return $this->APICall("setChatDescription", $params ?? [], $payload);
     }
 
     /**
@@ -637,7 +637,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "message_id" => $message_id] + ($args ?? []);
         }
-        return $this->APICall("pinChatMessage", $params, $payload);
+        return $this->APICall("pinChatMessage", $params ?? [], $payload);
     }
 
     /**
@@ -655,7 +655,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("unpinChatMessage", $params, $payload);
+        return $this->APICall("unpinChatMessage", $params ?? [], $payload);
     }
 
     /**
@@ -673,7 +673,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("leaveChat", $params, $payload);
+        return $this->APICall("leaveChat", $params ?? [], $payload);
     }
 
     /**
@@ -691,7 +691,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("getChat", $params, $payload);
+        return $this->APICall("getChat", $params ?? [], $payload);
     }
 
     /**
@@ -709,7 +709,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("getChatAdministrators", $params, $payload);
+        return $this->APICall("getChatAdministrators", $params ?? [], $payload);
     }
 
     /**
@@ -727,7 +727,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("getChatMembersCount", $params, $payload);
+        return $this->APICall("getChatMembersCount", $params ?? [], $payload);
     }
 
     /**
@@ -745,7 +745,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("getChatMember", $params, $payload);
+        return $this->APICall("getChatMember", $params ?? [], $payload);
     }
 
     /**
@@ -763,7 +763,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "sticker_set_name" => $sticker_set_name] + ($args ?? []);
         }
-        return $this->APICall("setChatStickerSet", $params, $payload);
+        return $this->APICall("setChatStickerSet", $params ?? [], $payload);
     }
 
     /**
@@ -781,7 +781,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("deleteChatStickerSet", $params, $payload);
+        return $this->APICall("deleteChatStickerSet", $params ?? [], $payload);
     }
 
     /**
@@ -799,7 +799,7 @@ trait Methods{
         else{
             $params = ["callback_query_id" => $callback_query_id] + ($args ?? []);
         }
-        return $this->APICall("answerCallbackQuery", $params, $payload);
+        return $this->APICall("answerCallbackQuery", $params ?? [], $payload);
     }
 
     /**
@@ -811,7 +811,7 @@ trait Methods{
      */
     public function setMyCommands($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("setMyCommands", $params, $payload);
+        return $this->APICall("setMyCommands", $params ?? [], $payload);
     }
 
     /**
@@ -823,7 +823,7 @@ trait Methods{
      */
     public function getMyCommands(bool $payload = false){
         $params = [];
-        return $this->APICall("getMyCommands", $params, $payload);
+        return $this->APICall("getMyCommands", $params ?? [], $payload);
     }
 
     /**
@@ -835,7 +835,7 @@ trait Methods{
      */
     public function editMessageText($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("editMessageText", $params, $payload);
+        return $this->APICall("editMessageText", $params ?? [], $payload);
     }
 
     /**
@@ -853,7 +853,7 @@ trait Methods{
         else{
             $params = ["media" => $media] + ($args ?? []);
         }
-        return $this->APICall("editMessageCaption", $params, $payload);
+        return $this->APICall("editMessageCaption", $params ?? [], $payload);
     }
 
     /**
@@ -865,7 +865,7 @@ trait Methods{
      */
     public function editMessageMedia($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("editMessageMedia", $params, $payload);
+        return $this->APICall("editMessageMedia", $params ?? [], $payload);
     }
 
     /**
@@ -883,7 +883,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "message_id" => $message_id] + ($args ?? []);
         }
-        return $this->APICall("editMessageReplyMarkup", $params, $payload);
+        return $this->APICall("editMessageReplyMarkup", $params ?? [], $payload);
     }
 
     /**
@@ -901,7 +901,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "message_id" => $message_id] + ($args ?? []);
         }
-        return $this->APICall("stopPoll", $params, $payload);
+        return $this->APICall("stopPoll", $params ?? [], $payload);
     }
 
     /**
@@ -913,7 +913,7 @@ trait Methods{
      */
     public function deleteMessage($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("deleteMessage", $params, $payload);
+        return $this->APICall("deleteMessage", $params ?? [], $payload);
     }
 
     /**
@@ -931,7 +931,7 @@ trait Methods{
         else{
             $params = ["name" => $name] + ($args ?? []);
         }
-        return $this->APICall("sendSticker", $params, $payload);
+        return $this->APICall("sendSticker", $params ?? [], $payload);
     }
 
     /**
@@ -949,7 +949,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id, "png_sticker" => $png_sticker] + ($args ?? []);
         }
-        return $this->APICall("getStickerSet", $params, $payload);
+        return $this->APICall("getStickerSet", $params ?? [], $payload);
     }
 
     /**
@@ -967,7 +967,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id, "name" => $name, "title" => $title, "emojis" => $emojis] + ($args ?? []);
         }
-        return $this->APICall("uploadStickerFile", $params, $payload);
+        return $this->APICall("uploadStickerFile", $params ?? [], $payload);
     }
 
     /**
@@ -985,7 +985,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id, "name" => $name, "emojis" => $emojis] + ($args ?? []);
         }
-        return $this->APICall("createNewStickerSet", $params, $payload);
+        return $this->APICall("createNewStickerSet", $params ?? [], $payload);
     }
 
     /**
@@ -1003,7 +1003,7 @@ trait Methods{
         else{
             $params = ["sticker" => $sticker, "position" => $position] + ($args ?? []);
         }
-        return $this->APICall("addStickerToSet", $params, $payload);
+        return $this->APICall("addStickerToSet", $params ?? [], $payload);
     }
 
     /**
@@ -1021,7 +1021,7 @@ trait Methods{
         else{
             $params = ["sticker" => $sticker] + ($args ?? []);
         }
-        return $this->APICall("setStickerPositionInSet", $params, $payload);
+        return $this->APICall("setStickerPositionInSet", $params ?? [], $payload);
     }
 
     /**
@@ -1039,7 +1039,7 @@ trait Methods{
         else{
             $params = ["name" => $name, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("deleteStickerFromSet", $params, $payload);
+        return $this->APICall("deleteStickerFromSet", $params ?? [], $payload);
     }
 
     /**
@@ -1051,7 +1051,7 @@ trait Methods{
      */
     public function setStickerSetThumb($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("setStickerSetThumb", $params, $payload);
+        return $this->APICall("setStickerSetThumb", $params ?? [], $payload);
     }
 
     /**
@@ -1063,7 +1063,7 @@ trait Methods{
      */
     public function answerInlineQuery($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("answerInlineQuery", $params, $payload);
+        return $this->APICall("answerInlineQuery", $params ?? [], $payload);
     }
 
     /**
@@ -1081,7 +1081,7 @@ trait Methods{
         else{
             $params = ["shipping_query_id" => $shipping_query_id, "ok" => $ok] + ($args ?? []);
         }
-        return $this->APICall("sendInvoice", $params, $payload);
+        return $this->APICall("sendInvoice", $params ?? [], $payload);
     }
 
     /**
@@ -1099,7 +1099,7 @@ trait Methods{
         else{
             $params = ["pre_checkout_query_id" => $pre_checkout_query_id, "ok" => $ok] + ($args ?? []);
         }
-        return $this->APICall("answerShippingQuery", $params, $payload);
+        return $this->APICall("answerShippingQuery", $params ?? [], $payload);
     }
 
     /**
@@ -1111,7 +1111,7 @@ trait Methods{
      */
     public function answerPreCheckoutQuery($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("answerPreCheckoutQuery", $params, $payload);
+        return $this->APICall("answerPreCheckoutQuery", $params ?? [], $payload);
     }
 
     /**
@@ -1123,7 +1123,7 @@ trait Methods{
      */
     public function setPassportDataErrors($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("setPassportDataErrors", $params, $payload);
+        return $this->APICall("setPassportDataErrors", $params ?? [], $payload);
     }
 
     /**
@@ -1135,7 +1135,7 @@ trait Methods{
      */
     public function sendGame($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("sendGame", $params, $payload);
+        return $this->APICall("sendGame", $params ?? [], $payload);
     }
 
     /**
@@ -1153,7 +1153,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("setGameScore", $params, $payload);
+        return $this->APICall("setGameScore", $params ?? [], $payload);
     }
 
     /**
@@ -1165,7 +1165,7 @@ trait Methods{
      */
     public function getGameHighScores($args = null, bool $payload = false){
         $params = $args;
-        return $this->APICall("getGameHighScores", $params, $payload);
+        return $this->APICall("getGameHighScores", $params ?? [], $payload);
     }
 
 }
