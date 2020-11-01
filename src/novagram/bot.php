@@ -1,16 +1,25 @@
 <?php
 
-namespace NovaGram;
+namespace skrtdev\NovaGram;
+
+use skrtdev\Telegram\Exception as TelegramException;
+use skrtdev\Telegram\Update;
+use skrtdev\Prototypes\proto;
 
 class Bot {
-    private string $token;
+
+    use Methods;
+    use proto;
+
+    private string $token; // read-only
     private \stdClass $settings;
     private array $json;
-    private bool $payloaded = false;
+    private bool $payloaded = false; // read-only
 
-    public \Telegram\Update $update; // read-only
+    public Update $update; // read-only
     public array $raw_update; // read-only
     public int $id; // read-only
+    public Database $database; // read-only
 
 
     public function __construct(string $token, array $settings = []) {
@@ -31,12 +40,17 @@ class Bot {
             "exceptions" => true
         ];
 
-        foreach ($settings_array as $name => $default) $this->settings->{$name} = $this->settings->{$name} ?? $default;
+        foreach ($settings_array as $name => $default){
+            $this->settings->{$name} ??= $default;
+        }
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
+        if(isset($this->settings->database)){
+            $this->database = $this->db = new Database($this->settings->database);
+        }
+
         if(!$this->settings->disable_webhook){
-            http_response_code(200);
             if(!$this->settings->disable_ip_check){
                 if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and Utils::isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
                 if(!Utils::ip_in_range($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !Utils::ip_in_range($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) exit("Access Denied");
@@ -45,36 +59,53 @@ class Bot {
 
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
 
-            if($this->settings->log_updates) $this->sendMessage(["chat_id" => $this->settings->log_updates, "text" => "<pre>".json_encode($this->raw_update, JSON_PRETTY_PRINT)."</pre>", "parse_mode" => "HTML"]);
+            if($this->settings->log_updates) $this->APICall("sendMessage", ["chat_id" => $this->settings->log_updates, "text" => "<pre>".json_encode($this->raw_update, JSON_PRETTY_PRINT)."</pre>", "parse_mode" => "HTML"]);
 
             $this->update = $this->JSONToTelegramObject($this->raw_update, "Update");
         }
         else $this->settings->json_payload = false;
 
+    }
 
+    private function methodHasParamater(string $method, string $parameter){
+        return in_array($method, $this->json["require_params"][$parameter]);
+    }
 
-        if(isset($this->settings->database)){
-            $this->db = new \Database($this->settings->database, $this->settings->database['prefix']);
+    private function normalizeRequest(string $method, array $data){
+        if($this->methodHasParamater($method, "parse_mode") and isset($this->settings->parse_mode)){
+            $data['parse_mode'] ??= $this->settings->parse_mode;
         }
+        if($this->methodHasParamater($method, "disable_web_page_preview") and isset($this->settings->disable_web_page_preview)){
+            $data['disable_web_page_preview'] ??= $this->settings->disable_web_page_preview;
+        }
+        if($this->methodHasParamater($method, "disable_notification") and isset($this->settings->disable_notification)){
+            $data['disable_notification'] ??= $this->settings->disable_notification;
+        }
+        foreach ($this->json['require_json_encode'] as $key){
+
+            if(isset($data[$key]) and is_array($data[$key])){
+
+                $data[$key] = json_encode($data[$key]);
+            }
+        }
+        return $data;
     }
 
-    public function __call(string $name, array $arguments){
-        return $this->APICall($name, ...$arguments);
-    }
+    public function APICall(string $method, array $data = [], bool $payload = false, bool $is_debug = false){
 
-    public function APICall(string $method, array $data, bool $payload = false, bool $force_throw_exception = false){
-        if(in_array($method, $this->json['require_parse_mode']) and isset($this->settings->parse_mode)) $data['parse_mode'] = $data['parse_mode'] ?? $this->settings->parse_mode;
-        foreach ($this->json['require_json_encode'] as $key) if(isset($data[$key]) and is_array($data[$key])) $data[$key] = json_encode($data[$key]);
+        $data = $this->normalizeRequest($method, $data);
 
         if($this->settings->json_payload){
             if($payload){
                 if(!$this->payloaded){
                     $this->payloaded = true;
-                    echo json_encode($data + ['method' => $method]);
-                    return true;
+                    header('Content-Type: application/json');
+                    $json = json_encode($data + ['method' => $method]);
+                    echo $json;
+                    return $json;
                 }
                 else{
-                    trigger_error("Trying to use JSON Payload more than one time");
+                    Utils::trigger_error("Trying to use JSON Payload more than one time");
                 }
             }
         }
@@ -84,16 +115,18 @@ class Bot {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $output = curl_exec($ch);
+        $response = curl_exec($ch);
         curl_close($ch);
-        $decoded =  json_decode($output, TRUE);
+        $decoded =  json_decode($response, true);
 
         if($decoded['ok'] !== true){
-            if($force_throw_exception) throw new \Telegram\Exception("[DURING DEBUG] $method", $decoded, $data);
+            if($is_debug) throw new TelegramException("[DURING DEBUG] $method", $decoded, $data);
+            $e = new TelegramException($method, $decoded, $data);
             if($this->settings->debug){
-                $this->sendMessage(["chat_id" => $this->settings->debug, "text" => "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", "parse_mode" => "HTML"], false, true);
+                #$this->sendMessage($this->settings->debug, "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", ["parse_mode" => "HTML"], false, true);
+                $this->debug( (string) $e );
             }
-            if($this->settings->exceptions) throw new \Telegram\Exception($method, $decoded, $data);
+            if($this->settings->exceptions) throw $e;
             else return (object) $decoded;
         }
 
@@ -104,9 +137,7 @@ class Bot {
     }
 
     private function getMethodReturned(string $method){
-        if(isset($this->json['available_methods'][$method]['returns']) ) return $this->json['available_methods'][$method]['returns'] !== "_" ? $this->json['available_methods'][$method]['returns'] : false;
-        foreach ($this->json['available_methods_regxs'] as $key => $value) if(preg_match('/'.$key.'/', $method) === 1) return $value['returns'];
-        return false;
+        return $this->json['available_methods'][$method]['returns'] ?? false;
     }
 
     private function getObjectType(string $parameter_name, string $object_name = ""){
@@ -116,21 +147,21 @@ class Bot {
 
     public function JSONToTelegramObject(array $json, string $parameter_name){
         if($this->getObjectType($parameter_name)) $parameter_name = $this->getObjectType($parameter_name);
-        if(preg_match('/\[\w+\]/', $parameter_name) === 1) return $this->TelegramObjectArrayToTelegramObject($json, $parameter_name);
-        foreach($json as $key => $value){
+        if(preg_match('/\[\w+\]/', $parameter_name) === 1) return $this->TelegramObjectArrayToStdClass($json, $parameter_name);
+        foreach($json as $key => &$value){
             if(is_array($value)){
                 $ObjectType = $this->getObjectType($key, $parameter_name);
                 if($ObjectType){
-                    if($this->getObjectType($ObjectType)) $json[$key] = $this->TelegramObjectArrayToTelegramObject($value, $ObjectType);
-                    else $json[$key] = $this->JSONToTelegramObject($value, $ObjectType);
+                    if($this->getObjectType($ObjectType)) $value = $this->TelegramObjectArrayToStdClass($value, $ObjectType);
+                    else $value = $this->JSONToTelegramObject($value, $ObjectType);
                 }
-                else $json[$key] = (object) $value;
+                else $value = (object) $value;
             }
         }
         return $this->createObject($parameter_name, $json);
     }
 
-    private function TelegramObjectArrayToTelegramObject(array $json, string $name){
+    private function TelegramObjectArrayToStdClass(array $json, string $name){
         $parent_name = $name;
         $ObjectType = $this->getObjectType($name) !== false ? $this->getObjectType($name) : $name;
 
@@ -140,14 +171,14 @@ class Bot {
         }
         else $childs_name = $ObjectType;
 
-        foreach($json as $key => $value){
+        foreach($json as $key => &$value){
             if(is_array($value)){
                 if(is_int($key)){
-                    if($this->getObjectType($childs_name)) $json[$key] = $this->TelegramObjectArrayToTelegramObject($value, $childs_name);
-                    //else $json[$key] = $this->createObject($childs_name, $value);
-                    else $json[$key] = $this->JSONToTelegramObject($value, $childs_name);
+                    if($this->getObjectType($childs_name)) $value = $this->TelegramObjectArrayToStdClass($value, $childs_name);
+                    //else $value = $this->createObject($childs_name, $value);
+                    else $value = $this->JSONToTelegramObject($value, $childs_name);
                 }
-                else $json[$key] = $this->JSONToTelegramObject($value, $this->getObjectType($childs_name, $parent_name));
+                else $value = $this->JSONToTelegramObject($value, $this->getObjectType($childs_name, $parent_name));
 
             }
         }
@@ -159,34 +190,39 @@ class Bot {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $output = curl_exec($ch);
+        $response = curl_exec($ch);
         curl_close($ch);
-        return $output;
+        return $response;
     }
 
 
     public static function getUsernameDC(string $username){
-        preg_match('/cdn(\d)/', self::curl("https://t.me/{$username}"), $matches);
+        preg_match('/cdn(\d)/', self::curl("https://t.me/$username"), $matches);
         return isset($matches[1]) ? (int) $matches[1] : false;
     }
 
     public function createObject(string $type, array $json){
-        $obj = "\\Telegram\\$type";
+        $obj = "\\skrtdev\\Telegram\\$type";
         return new $obj($type, $json, $this);
     }
 
     public function debug($value){
         if($this->settings->debug){
-            return $this->sendMessage([
+            return $this->APICall("sendMessage", [
                 "chat_id" => $this->settings->debug,
                 "text" => "<pre>".htmlspecialchars(print_r($value, true))."</pre>",
-            ]);
+                "parse_mode" => "HTML"
+            ], false, true);
         }
         else throw new Exception("debug chat id is not set");
     }
 
     public function getJSON(): array{
         return $this->json;
+    }
+
+    public function getDatabase(): Database{
+        return $this->database;
     }
 
     public function __debugInfo() {
