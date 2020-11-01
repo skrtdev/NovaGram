@@ -1,8 +1,14 @@
 <?php
 
-# namespace NovaGram;
+namespace skrtdev\NovaGram;
+
+use \PDO;
+use \skrtdev\Prototypes\proto;
+use \skrtdev\Telegram\User;
 
 class Database{
+
+    use proto;
 
     const driver_options = [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY];
 
@@ -10,11 +16,13 @@ class Database{
     private PDO $PDO;
     private string $prefix;
 
-    public function __construct(array $settings, ?string $prefix = "novagram"){
+    public function __construct(array $settings){
 
         $settings_array = [
             "driver" => "mysql",
-            "host" => "localhost:3306"
+            "host" => "localhost:3306",
+            "dbpass" => "",
+            "prefix" => "novagram"
         ];
 
         foreach ($settings_array as $name => $default) $settings[$name] ??= $default;
@@ -44,11 +52,12 @@ class Database{
            # PDO::ATTR_EMULATE_PREPARES => false,
         ];
 
-        $this->PDO = new \PDO("$driver:$connection", $dbuser, $dbpass, $options);
+        $this->PDO = new PDO("$driver:$connection", $dbuser, $dbpass, $options);
 
+        $prefix = $settings['prefix'] ?? null;
         $this->prefix = isset($prefix) ? $prefix."_" : "";
 
-
+        $this->auto_increment = $driver === "sqlite" ? "AUTOINCREMENT" : "AUTO_INCREMENT";
         $this->initializeTableNames();
         $this->initializeQueries();
         $this->initializeDatabase();
@@ -76,17 +85,17 @@ class Database{
 
     private function initializeDatabase(): void{
         $this->query("CREATE TABLE IF NOT EXISTS {$this->tableNames['users']} (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id INTEGER PRIMARY KEY {$this->auto_increment},
             user_id BIGINT(255) UNIQUE
         )");
     }
 
     public function initializeConversations(): void{
         $this->query("CREATE TABLE IF NOT EXISTS {$this->tableNames['conversations']} (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
-            chat_id BIGINT(255),
+            id INTEGER PRIMARY KEY {$this->auto_increment},
+            chat_id BIGINT(255) NOT NULL,
             name VARCHAR(64) NOT NULL,
-            value VARCHAR(64) NOT NULL,
+            value BLOB(4096) NOT NULL,
             additional_param VARCHAR(256) NOT NULL
         )");
     }
@@ -101,11 +110,12 @@ class Database{
         $this->query($this->queries['setConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
-            ':value' => $value,
-            ':additional_param' => serialize($additional_param) ?? "",
+            ':value' => serialize($value),
+            ':additional_param' => serialize($additional_param),
         ]);
     }
-    public function getConversation(int $chat_id, string $name, ?\Telegram\Update $update){
+    public function getConversation(int $chat_id, string $name, $update = null){
+        if(isset($update)) Utils::trigger_error("Passing \$update to DB::getConversation()");
         $row = $this->query($this->queries['getConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
@@ -114,50 +124,23 @@ class Database{
         if($row === false) return;
 
         $value = $row['value'];
+        @$unserialized_value = unserialize($value);
+        $value = $unserialized_value !== false ? $unserialized_value : $value;
+
         $additional_param = unserialize($row['additional_param']);
 
-        $is_permanent = $additional_param['is_permanent'];
-        unset($additional_param['is_permanent']);
+        $is_permanent = $additional_param['is_permanent'] ?? true ;
 
-        if($name === "status"){
-            if(!empty($additional_param)){
-                //var_dump($update);
-                //if(!isset($update) || !isset($update->message->text)){
-                /*if(!isset($update)){
-                    echo "\n\n\n\n\nNO UPDATE \n\n\n\n\n";
-                    return;
-                }*/
-                if(!isset($update->message)){
-                    echo "\n\n\n\n\nNO UPDATE MESSAGE \n\n\n\n\n";
-                    return;
-                }
-
-                foreach ($additional_param as $key => $value) {
-                    if($key === "regex"){
-                        if(isset($update->message->text)){
-                            var_dump("ora dovrebbe checkare la regex"); // >TODO
-                        }
-                        else return;
-                    }
-                    else{
-                        if(isset($update->message->{$value})) break;
-                    }
-                }
-            }
-        }
-        var_dump($additional_param);
-        #['value'];
         if(!$is_permanent){
-            trigger_error("$chat_id->$name has to be deleted (is_permanent: $is_permanent)");
             $this->deleteConversation($chat_id, $name);
         }
         return $value;
     }
 
 
-    public function insertUser(\Telegram\User $user): void {
+    public function insertUser(User $user): void {
         if(!$this->existQuery($this->queries['selectUser'], [':user_id' => $user->id])){
-            $sth = $this->query($this->queries['insertUser'], [
+            $this->query($this->queries['insertUser'], [
                 ':user_id' => $user->id,
             ]);
         }
@@ -174,7 +157,6 @@ class Database{
     }
     public function existQuery(string $query, array $params = []): bool{
         $sth = $this->query($query, $params);
-        var_dump($sth);
         return !is_bool($sth->fetch());
     }
 
