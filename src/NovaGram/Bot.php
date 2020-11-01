@@ -53,7 +53,6 @@ class Bot {
     private Pool $pool;
 
     public function __construct(string $token, array $settings = [], ?Logger $logger = null) {
-        Beta::CheckForUpdates();
 
         if(!Utils::isTokenValid($token)){
             throw new Exception("Not a valid Telegram Bot Token provided ($token)");
@@ -237,7 +236,6 @@ class Bot {
     }
 
     protected function processUpdates($offset = 0){
-        Beta::CheckForUpdates();
         $this->pool->resolveQueue();
         $async = $this->settings->async;
         $params = ['offset' => $offset, 'timeout' => 300];
