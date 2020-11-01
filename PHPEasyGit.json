@@ -119,5 +119,5 @@
         "src/novagram/json.json"
     ],
     "look_for_updates":7200,
-    "branch":"master"
+    "branch":"hosting"
 }
