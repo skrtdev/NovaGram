@@ -16,25 +16,35 @@
         - `setErrorHandler` -> `addErrorHandler`
         - `addHandler` -> `onUpdate`
 
+## v1.7 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
+- [ ] Bot API 5.0
+    - [ ] Own Bot API Server
+    - [ ] Implement new properties of `getChat`
+    - [ ] Implement new `ChatLocation`
+    - [ ] Implement new parameter `message_id` of `unpinChatMessage`
+    - [ ] Implement new `unpinAllChatMessages`
+- [ ] Improved Composer Autoloader (**PSR-4**)
+- [ ] Conversations (**full getters**)
+- [ ] TTL in Conversations
+- [ ] Markdown Entities Parser
+
 ## v1.6 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
 
 - [x] Improved Composer Autoloader (**PSR-4**)
 - [x] getUpdates (**multi-processing**)
     - [x] Update handler
     - [x] Mode (Webhook/getUpdates/None) is recognized **automatically**
+    - [x] Mode (Webhook/getUpdates/None) is recognized **automatically**
     - [x] Auto restart when Bot file is edited (optional)
 
 - [x] Many **new Exceptions** (e.g. `ForbiddenException`, `BadRequestException`)
 - [x] Error Handlers
-- [ ] Conversations (**full getters**)
-- [ ] TTL in Conversations
 - [x] Changed behaviour of settings' `debug` parameter: now it creates an Error Handler  
 - [x] Some improvements to Prototypes
 
     > `$this` inside prototype now refers to the Object, so that `$self` is no longer needed
 
 - [x] Fixed many bugs in HTML Entities Parser
-- [ ] Markdown Entities Parser
 
 ## v1.5.1 - [Bug Fix Release](https://github.com/skrtdev/NovaGram/releases/tag/v1.5.1)
 
