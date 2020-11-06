@@ -9,7 +9,7 @@ An elegant, Object-Oriented, reliable PHP Telegram Bot Interface<br>
 </p>
 
 ### Example
-An example code of a simple bot that just forwards back what you send.  
+An example code of a simple bot.  
 Works with both getUpdates and Webhooks
 ```php
 use skrtdev\NovaGram\Bot;
@@ -25,7 +25,7 @@ $Bot->onUpdate(function (Update $update) use ($Bot) {
         $text = $message->text;
 
         if($text === "/start"){
-            $message->reply("Hey! Nice to meet you.")
+            $message->reply("Hey! Nice to meet you.");
         }
     }
 });
