@@ -14,15 +14,15 @@
         - `webhook` mode
     - Methods
         - `setErrorHandler` -> `addErrorHandler`
-        - `addHandler` -> `onUpdate`
 
 ## v1.7 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
 - [ ] Bot API 5.0
     - [ ] Own Bot API Server
-    - [ ] Implement new properties of `getChat`
-    - [ ] Implement new `ChatLocation`
-    - [ ] Implement new parameter `message_id` of `unpinChatMessage`
-    - [ ] Implement new `unpinAllChatMessages`
+    - [ ] Implement new properties of `Chat` Object
+    - [ ] Implement new `ChatLocation` Object
+    - [ ] Implement new parameter `message_id` of `unpinChatMessage` Method
+    - [ ] Implement new `unpinAllChatMessages` Method
+- [ ] New more specific Exceptions
 - [ ] Improved Composer Autoloader (**PSR-4**)
 - [ ] Conversations (**full getters**)
 - [ ] TTL in Conversations
@@ -30,21 +30,32 @@
 
 ## v1.6 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
 
-- [x] Improved Composer Autoloader (**PSR-4**)
-- [x] getUpdates (**multi-processing**)
-    - [x] Update handler
-    - [x] Mode (Webhook/getUpdates/None) is recognized **automatically**
-    - [x] Mode (Webhook/getUpdates/None) is recognized **automatically**
-    - [x] Auto restart when Bot file is edited (optional)
+- Improved Composer Autoloader (**PSR-4**)
+- getUpdates (**multi-processing**)
+    - New `Dispatcher` class
+    - Mode (Webhook/getUpdates/None) is recognized **automatically**
+    - Optional async handling of updates
+    - Closure Handlers ([skrtdev/async](https://github.com/skrtdev/php-async))
+        - Update handler
+        - Error handler
+    - Class Handlers ([amphp/amp](https://github.com/amphp/amp))
+        - Update handler
+        - [ ] Error handler
+    - Auto restart when Bot file is edited (optional)
 
-- [x] Many **new Exceptions** (e.g. `ForbiddenException`, `BadRequestException`)
-- [x] Error Handlers
-- [x] Changed behaviour of settings' `debug` parameter: now it creates an Error Handler  
-- [x] Some improvements to Prototypes
+- Many **new Exceptions**
+    - `BadRequestException`
+    - `ForbiddenException`
+    - `ConflictException`
+    - `TooManyRequestsException`
+    - `BadGatewayException` (yes, sometimes it happens)
+- Error Handlers
+- Changed behaviour of settings' `debug` parameter: now it creates an Error Handler  
+- Some improvements to Prototypes
 
     > `$this` inside prototype now refers to the Object, so that `$self` is no longer needed
 
-- [x] Fixed many bugs in HTML Entities Parser
+- Fixed many bugs in HTML Entities Parser
 
 ## v1.5.1 - [Bug Fix Release](https://github.com/skrtdev/NovaGram/releases/tag/v1.5.1)
 
