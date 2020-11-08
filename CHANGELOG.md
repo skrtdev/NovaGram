@@ -16,6 +16,7 @@
         - `setErrorHandler` -> `addErrorHandler`
 
 ## v1.7 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
+- [ ] Use amp in Closures?
 - [ ] Bot API 5.0
     - [ ] Own Bot API Server
     - [ ] Implement new properties of `Chat` Object
@@ -31,16 +32,15 @@
 ## v1.6 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
 
 - Improved Composer Autoloader (**PSR-4**)
-- getUpdates (**multi-processing**)
+- Added **getUpdates** mode (_multi-processing_)
     - New `Dispatcher` class
     - Mode (Webhook/getUpdates/None) is recognized **automatically**
     - Optional async handling of updates
     - Closure Handlers ([skrtdev/async](https://github.com/skrtdev/php-async))
-        - Update handler
+        - Full handlers (onUpdate, onMessage, onCallbackQuery, etc.)
         - Error handler
     - Class Handlers ([amphp/amp](https://github.com/amphp/amp))
-        - Update handler
-        - [ ] Error handler
+        - Only Update handler
     - Auto restart when Bot file is edited (optional)
 
 - Many **new Exceptions**
@@ -49,8 +49,14 @@
     - `ConflictException`
     - `TooManyRequestsException`
     - `BadGatewayException` (yes, sometimes it happens)
-- Error Handlers
-- Changed behaviour of settings' `debug` parameter: now it creates an Error Handler  
+
+- Changes in Bot settings
+    - Changed behaviour of settings' `debug` parameter: now it creates an Error Handler  
+    - `async`: Concurrent handling of updates
+    - `restart_on_changes`: Auto restart when Bot file is edited (optional)  
+    - `logger`: `Monolog\Logger` constant for logging
+
+- Now you can pass your custom `Monolog\Logger`, as the 3rd parameter of the Bot constructor  
 - Some improvements to Prototypes
 
     > `$this` inside prototype now refers to the Object, so that `$self` is no longer needed
