@@ -348,6 +348,13 @@
             },
             "setGameScore":{
                 "just_one_parameter_needed":"inline_message_id"
+            },
+            "copy":{
+                "alias":"copyMessage",
+                "presets":{
+                    "from_chat_id": "chat/id"
+                }
+                "just_one_parameter_needed":"chat_id"
             }
         },
         "Document":{
@@ -519,6 +526,15 @@
             },
             "setGameScore":{
                 "just_one_parameter_needed":"message_id"
+            },
+            "copyMessage":{
+                "presets":{
+                    "from_chat_id": "chat/id"
+                }
+                "just_one_parameter_needed":"message_id"
+            },
+            "unpinAllMessages":{
+                "alias":"unpinAllChatMessages"
             }
         },
         "User":{
