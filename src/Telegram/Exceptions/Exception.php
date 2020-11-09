@@ -19,20 +19,24 @@ class Exception extends \Exception{
     public static function create(string $method, array $response, array $data, Exception $previous = null) {
         $args = func_get_args();
         switch ($response['error_code']) {
-            case '400':
+            case 400:
                 return new BadRequestException(...$args);
                 break;
 
-            case '403':
+            case 403:
                 return new ForbiddenException(...$args);
                 break;
 
-            case '409':
+            case 409:
                 return new ConflictException(...$args);
                 break;
 
-            case '429':
-                return new FloodwaitException(...$args);
+            case 429:
+                return new TooManyRequestsException(...$args);
+                break;
+
+            case 502:
+                return new BadGatewayException(...$args);
                 break;
 
             default:

@@ -2,12 +2,13 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+#use skrtdev\NovaGram\Bot;
 use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\Update;
 use skrtdev\NovaGram\Exception as NovaGramException;
 use skrtdev\Telegram\Exception as TelegramException;
 
-$Bot = new Bot(readline("Insert Bot token: "));
+$Bot = new Bot(/*readline("Insert Bot token: ")*/"722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs");
 
 $Bot->onUpdate(function (Update $update) use ($Bot) {
 
