@@ -29,7 +29,7 @@
 - [ ] TTL in Conversations
 - [ ] Markdown Entities Parser
 
-## v1.6 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
+## v1.6 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.6)
 
 - Improved Composer Autoloader (**PSR-4**)
 - Added **getUpdates** mode (_multi-processing_)
