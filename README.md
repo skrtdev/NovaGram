@@ -13,13 +13,13 @@ An example code of a simple bot.
 Works with both getUpdates and Webhooks
 ```php
 use skrtdev\NovaGram\Bot;
+use skrtdev\Telegram\Message;
 
 $Bot = new Bot("YOUR_TOKEN");
 
-$Bot->onUpdate(function (Update $update) use ($Bot) {
+$Bot->onMessage(function (Messsage $message) use ($Bot) {
 
-    if(isset($update->message) && isset($message->from)){ // update is a message and has a sender
-        $message = $update->message;
+    if(isset($message->text)){ // update is a message and has text 
         $chat = $message->chat;
         $user = $message->from;
         $text = $message->text;
@@ -34,6 +34,7 @@ $Bot->onUpdate(function (Update $update) use ($Bot) {
 ## Features
 
 - **Full**: All the Methods and Types implemented in Bot Api 4.9  
+- **Fast**: Support for JSON payload, and async handling of updates  
 - **Extendable**: With [Prototypes](https://docs.novagram.ga/prototypes.html), you can add your custom functionalities  
 - **Easy**: Exactly like original Bot Api, with Objects too  
 - **Ready**: You can start creating your amazing bot right now, thanks to many Built-in features, such as [Conversations](https://docs.novagram.ga/database.html), [Entities Parser](https://docs.novagram.ga/objects.html) and [getDC](https://docs.novagram.ga/docs.html#getUsernameDC)  
