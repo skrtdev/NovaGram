@@ -12,14 +12,17 @@ class PassportElementErrorDataField extends \Telegram\PassportElementErrorDataFi
 
     use simpleProto;
 
-    /** @var string Error source, must be front_side */
+    /** @var string Error source, must be data */
     public string $source;
 
-    /** @var string The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport” */
+    /** @var string The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address” */
     public string $type;
 
-    /** @var string Base64-encoded hash of the file with the front side of the document */
-    public string $file_hash;
+    /** @var string Name of the data field which has the error */
+    public string $field_name;
+
+    /** @var string Base64-encoded data hash */
+    public string $data_hash;
 
     /** @var string Error message */
     public string $message;

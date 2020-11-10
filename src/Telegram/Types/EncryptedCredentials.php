@@ -12,11 +12,14 @@ class EncryptedCredentials extends \Telegram\EncryptedCredentials{
 
     use simpleProto;
 
-    /** @var int Yes */
-    public int $user_id;
+    /** @var string Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for EncryptedPassportElement decryption and authentication */
+    public string $data;
 
-    /** @var stdClass Yes */
-    public stdClass $errors;
+    /** @var string Base64-encoded data hash for data authentication */
+    public string $hash;
+
+    /** @var string Base64-encoded secret, encrypted with the bot's public RSA key, required for data decryption */
+    public string $secret;
 
     
 }

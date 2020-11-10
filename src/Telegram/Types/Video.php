@@ -30,6 +30,9 @@ class Video extends \Telegram\Video{
     /** @var PhotoSize|null Video thumbnail */
     public ?PhotoSize $thumb = null;
 
+    /** @var string|null Original filename as defined by sender */
+    public ?string $file_name = null;
+
     /** @var string|null Mime type of a file as defined by sender */
     public ?string $mime_type = null;
 

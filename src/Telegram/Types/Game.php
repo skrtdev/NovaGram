@@ -12,26 +12,23 @@ class Game extends \Telegram\Game{
 
     use simpleProto;
 
-    /** @var int Yes */
-    public int $user_id;
+    /** @var string Title of the game */
+    public string $title;
 
-    /** @var int Yes */
-    public int $score;
+    /** @var string Description of the game */
+    public string $description;
 
-    /** @var bool Optional */
-    public bool $force;
+    /** @var stdClass Photo that will be displayed in the game message in chats. */
+    public stdClass $photo;
 
-    /** @var bool Optional */
-    public bool $disable_edit_message;
+    /** @var string|null Brief description of the game or high scores included in the game message. Can be automatically edited to include current high scores for the game when the bot calls setGameScore, or manually edited using editMessageText. 0-4096 characters. */
+    public ?string $text = null;
 
-    /** @var int Optional */
-    public int $chat_id;
+    /** @var stdClass|null Special entities that appear in text, such as usernames, URLs, bot commands, etc. */
+    public ?stdClass $text_entities = null;
 
-    /** @var int Optional */
-    public int $message_id;
-
-    /** @var string Optional */
-    public string $inline_message_id;
+    /** @var Animation|null Animation that will be displayed in the game message in chats. Upload via BotFather */
+    public ?Animation $animation = null;
 
     
 }

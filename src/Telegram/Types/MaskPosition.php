@@ -12,20 +12,17 @@ class MaskPosition extends \Telegram\MaskPosition{
 
     use simpleProto;
 
-    /** @var int|string Yes */
-    public $chat_id;
+    /** @var string The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”. */
+    public string $point;
 
-    /** @var InputFile|string Yes */
-    public $sticker;
+    /** @var float Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. For example, choosing -1.0 will place mask just to the left of the default mask position. */
+    public float $x_shift;
 
-    /** @var bool Optional */
-    public bool $disable_notification;
+    /** @var float Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. For example, 1.0 will place the mask just below the default mask position. */
+    public float $y_shift;
 
-    /** @var int Optional */
-    public int $reply_to_message_id;
-
-    /** @var InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply Optional */
-    public $reply_markup;
+    /** @var float Mask scaling coefficient. For example, 2.0 means double size. */
+    public float $scale;
 
     
 }

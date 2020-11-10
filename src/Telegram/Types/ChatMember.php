@@ -21,8 +21,8 @@ class ChatMember extends \Telegram\ChatMember{
     /** @var string|null Owner and administrators only. Custom title for this user */
     public ?string $custom_title = null;
 
-    /** @var int|null Restricted and kicked only. Date when restrictions will be lifted for this user; unix time */
-    public ?int $until_date = null;
+    /** @var bool|null Owner and administrators only. True, if the user's presence in the chat is hidden */
+    public ?bool $is_anonymous = null;
 
     /** @var bool|null Administrators only. True, if the bot is allowed to edit administrator privileges of that user */
     public ?bool $can_be_edited = null;
@@ -68,6 +68,9 @@ class ChatMember extends \Telegram\ChatMember{
 
     /** @var bool|null Restricted only. True, if the user is allowed to add web page previews to their messages */
     public ?bool $can_add_web_page_previews = null;
+
+    /** @var int|null Restricted and kicked only. Date when restrictions will be lifted for this user; unix time */
+    public ?int $until_date = null;
 
     
 }

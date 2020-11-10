@@ -12,14 +12,17 @@ class OrderInfo extends \Telegram\OrderInfo{
 
     use simpleProto;
 
-    /** @var string Shipping option identifier */
-    public string $id;
+    /** @var string|null User name */
+    public ?string $name = null;
 
-    /** @var string Option title */
-    public string $title;
+    /** @var string|null User's phone number */
+    public ?string $phone_number = null;
 
-    /** @var stdClass List of price portions */
-    public stdClass $prices;
+    /** @var string|null User email */
+    public ?string $email = null;
+
+    /** @var ShippingAddress|null User shipping address */
+    public ?ShippingAddress $shipping_address = null;
 
     
 }

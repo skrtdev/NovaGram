@@ -24,6 +24,9 @@ class InputMediaPhoto extends \Telegram\InputMediaPhoto{
     /** @var string|null Mode for parsing entities in the photo caption. See formatting options for more details. */
     public ?string $parse_mode = null;
 
+    /** @var stdClass|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    public ?stdClass $caption_entities = null;
+
     
 }
 

@@ -12,46 +12,46 @@ class InlineQueryResultMpeg4Gif extends \Telegram\InlineQueryResultMpeg4Gif{
 
     use simpleProto;
 
-    /** @var string Type of the result, must be video */
+    /** @var string Type of the result, must be mpeg4_gif */
     public string $type;
 
     /** @var string Unique identifier for this result, 1-64 bytes */
     public string $id;
 
-    /** @var string A valid URL for the embedded video player or video file */
-    public string $video_url;
-
-    /** @var string Mime type of the content of video url, “text/html” or “video/mp4” */
-    public string $mime_type;
-
-    /** @var string URL of the thumbnail (jpeg only) for the video */
-    public string $thumb_url;
-
-    /** @var string Title for the result */
-    public string $title;
-
-    /** @var string|null Caption of the video to be sent, 0-1024 characters after entities parsing */
-    public ?string $caption = null;
-
-    /** @var string|null Mode for parsing entities in the video caption. See formatting options for more details. */
-    public ?string $parse_mode = null;
+    /** @var string A valid URL for the MP4 file. File size must not exceed 1MB */
+    public string $mpeg4_url;
 
     /** @var int|null Video width */
-    public ?int $video_width = null;
+    public ?int $mpeg4_width = null;
 
     /** @var int|null Video height */
-    public ?int $video_height = null;
+    public ?int $mpeg4_height = null;
 
-    /** @var int|null Video duration in seconds */
-    public ?int $video_duration = null;
+    /** @var int|null Video duration */
+    public ?int $mpeg4_duration = null;
 
-    /** @var string|null Short description of the result */
-    public ?string $description = null;
+    /** @var string URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result */
+    public string $thumb_url;
+
+    /** @var string|null MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg” */
+    public ?string $thumb_mime_type = null;
+
+    /** @var string|null Title for the result */
+    public ?string $title = null;
+
+    /** @var string|null Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing */
+    public ?string $caption = null;
+
+    /** @var string|null Mode for parsing entities in the caption. See formatting options for more details. */
+    public ?string $parse_mode = null;
+
+    /** @var stdClass|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    public ?stdClass $caption_entities = null;
 
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-    /** @var InputMessageContent|null Content of the message to be sent instead of the video. This field is required if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video). */
+    /** @var InputMessageContent|null Content of the message to be sent instead of the video animation */
     public ?InputMessageContent $input_message_content = null;
 
     

@@ -12,13 +12,13 @@ class PassportElementErrorSelfie extends \Telegram\PassportElementErrorSelfie{
 
     use simpleProto;
 
-    /** @var string Error source, must be file */
+    /** @var string Error source, must be selfie */
     public string $source;
 
-    /** @var string The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration” */
+    /** @var string The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport” */
     public string $type;
 
-    /** @var string Base64-encoded file hash */
+    /** @var string Base64-encoded hash of the file with the selfie */
     public string $file_hash;
 
     /** @var string Error message */

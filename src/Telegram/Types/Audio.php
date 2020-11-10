@@ -27,6 +27,9 @@ class Audio extends \Telegram\Audio{
     /** @var string|null Title of the audio as defined by sender or by audio tags */
     public ?string $title = null;
 
+    /** @var string|null Original filename as defined by sender */
+    public ?string $file_name = null;
+
     /** @var string|null MIME type of the file as defined by sender */
     public ?string $mime_type = null;
 

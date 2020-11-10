@@ -4,7 +4,6 @@ namespace skrtdev\Telegram;
 
 use stdClass;
 use skrtdev\Prototypes\simpleProto;
-use skrtdev\NovaGram\EntityParser;
 
 /**
  * This object represents a message.
@@ -19,6 +18,9 @@ class Message extends \Telegram\Message{
     /** @var User|null Sender, empty for messages sent to channels */
     public ?User $from = null;
 
+    /** @var Chat|null Sender of the message, sent on behalf of a chat. The channel itself for channel messages. The supergroup itself for messages from anonymous group administrators. The linked channel for messages automatically forwarded to the discussion group */
+    public ?Chat $sender_chat = null;
+
     /** @var int Date the message was sent in Unix time */
     public int $date;
 
@@ -28,7 +30,7 @@ class Message extends \Telegram\Message{
     /** @var User|null For forwarded messages, sender of the original message */
     public ?User $forward_from = null;
 
-    /** @var Chat|null For messages forwarded from channels, information about the original channel */
+    /** @var Chat|null For messages forwarded from channels or from anonymous administrators, information about the original sender chat */
     public ?Chat $forward_from_chat = null;
 
     /** @var int|null For messages forwarded from channels, identifier of the original message in the channel */
@@ -55,7 +57,7 @@ class Message extends \Telegram\Message{
     /** @var string|null The unique identifier of a media message group this message belongs to */
     public ?string $media_group_id = null;
 
-    /** @var string|null Signature of the post author for messages in channels */
+    /** @var string|null Signature of the post author for messages in channels, or the custom title of an anonymous group administrator */
     public ?string $author_signature = null;
 
     /** @var string|null For text messages, the actual UTF-8 text of the message, 0-4096 characters */
@@ -157,12 +159,13 @@ class Message extends \Telegram\Message{
     /** @var PassportData|null Telegram Passport data */
     public ?PassportData $passport_data = null;
 
+    /** @var ProximityAlertTriggered|null Service message. A user in the chat triggered another user's proximity alert while sharing Live Location. */
+    public ?ProximityAlertTriggered $proximity_alert_triggered = null;
+
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons. */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-    public function getHTMLText(){
-        return EntityParser::TextEntitiesToHTML($this->text, $this->entities);
-    }
+    
 }
 
 ?>

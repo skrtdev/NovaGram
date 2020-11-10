@@ -12,26 +12,20 @@ class InlineQuery extends \Telegram\InlineQuery{
 
     use simpleProto;
 
-    /** @var string Yes */
-    public string $inline_query_id;
+    /** @var string Unique identifier for this query */
+    public string $id;
 
-    /** @var stdClass Yes */
-    public stdClass $results;
+    /** @var User Sender */
+    public User $from;
 
-    /** @var int Optional */
-    public int $cache_time;
+    /** @var Location|null Sender location, only for bots that request user location */
+    public ?Location $location = null;
 
-    /** @var bool Optional */
-    public bool $is_personal;
+    /** @var string Text of the query (up to 256 characters) */
+    public string $query;
 
-    /** @var string Optional */
-    public string $next_offset;
-
-    /** @var string Optional */
-    public string $switch_pm_text;
-
-    /** @var string Optional */
-    public string $switch_pm_parameter;
+    /** @var string Offset of the results to be returned, can be controlled by the bot */
+    public string $offset;
 
     
 }

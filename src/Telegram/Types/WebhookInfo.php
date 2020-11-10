@@ -21,6 +21,9 @@ class WebhookInfo extends \Telegram\WebhookInfo{
     /** @var int Number of updates awaiting delivery */
     public int $pending_update_count;
 
+    /** @var string|null Currently used webhook IP address */
+    public ?string $ip_address = null;
+
     /** @var int|null Unix time for the most recent error that happened when trying to deliver an update via webhook */
     public ?int $last_error_date = null;
 

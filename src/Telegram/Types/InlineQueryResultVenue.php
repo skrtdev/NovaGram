@@ -12,28 +12,40 @@ class InlineQueryResultVenue extends \Telegram\InlineQueryResultVenue{
 
     use simpleProto;
 
-    /** @var string Type of the result, must be contact */
+    /** @var string Type of the result, must be venue */
     public string $type;
 
     /** @var string Unique identifier for this result, 1-64 Bytes */
     public string $id;
 
-    /** @var string Contact's phone number */
-    public string $phone_number;
+    /** @var float Latitude of the venue location in degrees */
+    public float $latitude;
 
-    /** @var string Contact's first name */
-    public string $first_name;
+    /** @var float Longitude of the venue location in degrees */
+    public float $longitude;
 
-    /** @var string|null Contact's last name */
-    public ?string $last_name = null;
+    /** @var string Title of the venue */
+    public string $title;
 
-    /** @var string|null Additional data about the contact in the form of a vCard, 0-2048 bytes */
-    public ?string $vcard = null;
+    /** @var string Address of the venue */
+    public string $address;
+
+    /** @var string|null Foursquare identifier of the venue if known */
+    public ?string $foursquare_id = null;
+
+    /** @var string|null Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.) */
+    public ?string $foursquare_type = null;
+
+    /** @var string|null Google Places identifier of the venue */
+    public ?string $google_place_id = null;
+
+    /** @var string|null Google Places type of the venue. (See supported types.) */
+    public ?string $google_place_type = null;
 
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-    /** @var InputMessageContent|null Content of the message to be sent instead of the contact */
+    /** @var InputMessageContent|null Content of the message to be sent instead of the venue */
     public ?InputMessageContent $input_message_content = null;
 
     /** @var string|null Url of the thumbnail for the result */

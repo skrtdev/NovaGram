@@ -12,14 +12,14 @@ class PassportElementErrorFile extends \Telegram\PassportElementErrorFile{
 
     use simpleProto;
 
-    /** @var string Error source, must be files */
+    /** @var string Error source, must be file */
     public string $source;
 
     /** @var string The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration” */
     public string $type;
 
-    /** @var stdClass List of base64-encoded file hashes */
-    public stdClass $file_hashes;
+    /** @var string Base64-encoded file hash */
+    public string $file_hash;
 
     /** @var string Error message */
     public string $message;

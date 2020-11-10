@@ -12,23 +12,23 @@ class InputLocationMessageContent extends \Telegram\InputLocationMessageContent{
 
     use simpleProto;
 
-    /** @var float Latitude of the venue in degrees */
+    /** @var float Latitude of the location in degrees */
     public float $latitude;
 
-    /** @var float Longitude of the venue in degrees */
+    /** @var float Longitude of the location in degrees */
     public float $longitude;
 
-    /** @var string Name of the venue */
-    public string $title;
+    /** @var float|null The radius of uncertainty for the location, measured in meters; 0-1500 */
+    public ?float $horizontal_accuracy = null;
 
-    /** @var string Address of the venue */
-    public string $address;
+    /** @var int|null Period in seconds for which the location can be updated, should be between 60 and 86400. */
+    public ?int $live_period = null;
 
-    /** @var string|null Foursquare identifier of the venue, if known */
-    public ?string $foursquare_id = null;
+    /** @var int|null For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified. */
+    public ?int $heading = null;
 
-    /** @var string|null Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.) */
-    public ?string $foursquare_type = null;
+    /** @var int|null For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified. */
+    public ?int $proximity_alert_radius = null;
 
     
 }

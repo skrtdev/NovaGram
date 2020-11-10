@@ -27,6 +27,9 @@ class InputMediaAudio extends \Telegram\InputMediaAudio{
     /** @var string|null Mode for parsing entities in the audio caption. See formatting options for more details. */
     public ?string $parse_mode = null;
 
+    /** @var stdClass|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    public ?stdClass $caption_entities = null;
+
     /** @var int|null Duration of the audio in seconds */
     public ?int $duration = null;
 

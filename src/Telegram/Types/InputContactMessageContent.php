@@ -12,20 +12,17 @@ class InputContactMessageContent extends \Telegram\InputContactMessageContent{
 
     use simpleProto;
 
-    /** @var string The unique identifier for the result that was chosen */
-    public string $result_id;
+    /** @var string Contact's phone number */
+    public string $phone_number;
 
-    /** @var User The user that chose the result */
-    public User $from;
+    /** @var string Contact's first name */
+    public string $first_name;
 
-    /** @var Location|null Sender location, only for bots that require user location */
-    public ?Location $location = null;
+    /** @var string|null Contact's last name */
+    public ?string $last_name = null;
 
-    /** @var string|null Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message. */
-    public ?string $inline_message_id = null;
-
-    /** @var string The query that was used to obtain the result */
-    public string $query;
+    /** @var string|null Additional data about the contact in the form of a vCard, 0-2048 bytes */
+    public ?string $vcard = null;
 
     
 }

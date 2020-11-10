@@ -12,41 +12,38 @@ class InlineQueryResultArticle extends \Telegram\InlineQueryResultArticle{
 
     use simpleProto;
 
-    /** @var string Type of the result, must be photo */
+    /** @var string Type of the result, must be article */
     public string $type;
 
-    /** @var string Unique identifier for this result, 1-64 bytes */
+    /** @var string Unique identifier for this result, 1-64 Bytes */
     public string $id;
 
-    /** @var string A valid URL of the photo. Photo must be in jpeg format. Photo size must not exceed 5MB */
-    public string $photo_url;
+    /** @var string Title of the result */
+    public string $title;
 
-    /** @var string URL of the thumbnail for the photo */
-    public string $thumb_url;
-
-    /** @var int|null Width of the photo */
-    public ?int $photo_width = null;
-
-    /** @var int|null Height of the photo */
-    public ?int $photo_height = null;
-
-    /** @var string|null Title for the result */
-    public ?string $title = null;
-
-    /** @var string|null Short description of the result */
-    public ?string $description = null;
-
-    /** @var string|null Caption of the photo to be sent, 0-1024 characters after entities parsing */
-    public ?string $caption = null;
-
-    /** @var string|null Mode for parsing entities in the photo caption. See formatting options for more details. */
-    public ?string $parse_mode = null;
+    /** @var InputMessageContent Content of the message to be sent */
+    public InputMessageContent $input_message_content;
 
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-    /** @var InputMessageContent|null Content of the message to be sent instead of the photo */
-    public ?InputMessageContent $input_message_content = null;
+    /** @var string|null URL of the result */
+    public ?string $url = null;
+
+    /** @var bool|null Pass True, if you don't want the URL to be shown in the message */
+    public ?bool $hide_url = null;
+
+    /** @var string|null Short description of the result */
+    public ?string $description = null;
+
+    /** @var string|null Url of the thumbnail for the result */
+    public ?string $thumb_url = null;
+
+    /** @var int|null Thumbnail width */
+    public ?int $thumb_width = null;
+
+    /** @var int|null Thumbnail height */
+    public ?int $thumb_height = null;
 
     
 }

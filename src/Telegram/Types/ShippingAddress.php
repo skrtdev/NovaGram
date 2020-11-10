@@ -12,17 +12,23 @@ class ShippingAddress extends \Telegram\ShippingAddress{
 
     use simpleProto;
 
-    /** @var string|null User name */
-    public ?string $name = null;
+    /** @var string ISO 3166-1 alpha-2 country code */
+    public string $country_code;
 
-    /** @var string|null User's phone number */
-    public ?string $phone_number = null;
+    /** @var string State, if applicable */
+    public string $state;
 
-    /** @var string|null User email */
-    public ?string $email = null;
+    /** @var string City */
+    public string $city;
 
-    /** @var ShippingAddress|null User shipping address */
-    public ?ShippingAddress $shipping_address = null;
+    /** @var string First line for the address */
+    public string $street_line1;
+
+    /** @var string Second line for the address */
+    public string $street_line2;
+
+    /** @var string Address post code */
+    public string $post_code;
 
     
 }

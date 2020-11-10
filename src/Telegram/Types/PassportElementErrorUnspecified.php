@@ -12,20 +12,17 @@ class PassportElementErrorUnspecified extends \Telegram\PassportElementErrorUnsp
 
     use simpleProto;
 
-    /** @var int Yes */
-    public int $chat_id;
+    /** @var string Error source, must be unspecified */
+    public string $source;
 
-    /** @var string Yes */
-    public string $game_short_name;
+    /** @var string Type of element of the user's Telegram Passport which has the issue */
+    public string $type;
 
-    /** @var bool Optional */
-    public bool $disable_notification;
+    /** @var string Base64-encoded element hash */
+    public string $element_hash;
 
-    /** @var int Optional */
-    public int $reply_to_message_id;
-
-    /** @var InlineKeyboardMarkup Optional */
-    public InlineKeyboardMarkup $reply_markup;
+    /** @var string Error message */
+    public string $message;
 
     
 }

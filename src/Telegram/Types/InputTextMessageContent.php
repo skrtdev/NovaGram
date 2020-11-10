@@ -12,14 +12,17 @@ class InputTextMessageContent extends \Telegram\InputTextMessageContent{
 
     use simpleProto;
 
-    /** @var float Latitude of the location in degrees */
-    public float $latitude;
+    /** @var string Text of the message to be sent, 1-4096 characters */
+    public string $message_text;
 
-    /** @var float Longitude of the location in degrees */
-    public float $longitude;
+    /** @var string|null Mode for parsing entities in the message text. See formatting options for more details. */
+    public ?string $parse_mode = null;
 
-    /** @var int|null Period in seconds for which the location can be updated, should be between 60 and 86400. */
-    public ?int $live_period = null;
+    /** @var stdClass|null List of special entities that appear in message text, which can be specified instead of parse_mode */
+    public ?stdClass $entities = null;
+
+    /** @var bool|null Disables link previews for links in the sent message */
+    public ?bool $disable_web_page_preview = null;
 
     
 }

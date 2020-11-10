@@ -12,7 +12,7 @@ class Venue extends \Telegram\Venue{
 
     use simpleProto;
 
-    /** @var Location Venue location */
+    /** @var Location Venue location. Can't be a live location */
     public Location $location;
 
     /** @var string Name of the venue */
@@ -26,6 +26,12 @@ class Venue extends \Telegram\Venue{
 
     /** @var string|null Foursquare type of the venue. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.) */
     public ?string $foursquare_type = null;
+
+    /** @var string|null Google Places identifier of the venue */
+    public ?string $google_place_id = null;
+
+    /** @var string|null Google Places type of the venue. (See supported types.) */
+    public ?string $google_place_type = null;
 
     
 }
