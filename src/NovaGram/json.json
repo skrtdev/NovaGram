@@ -353,7 +353,7 @@
                 "alias":"copyMessage",
                 "presets":{
                     "from_chat_id": "chat/id"
-                }
+                },
                 "just_one_parameter_needed":"chat_id"
             }
         },
@@ -530,7 +530,7 @@
             "copyMessage":{
                 "presets":{
                     "from_chat_id": "chat/id"
-                }
+                },
                 "just_one_parameter_needed":"message_id"
             },
             "unpinAllMessages":{
