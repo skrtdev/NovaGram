@@ -129,9 +129,7 @@ class Bot {
         if($this->settings->mode === self::WEBHOOK){
             if(!$this->settings->disable_ip_check){
                 $logger->debug("IP Check is enabled");
-                if(!isset($_SERVER['REMOTE_ADDR'])) exit;
-                if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and Utils::isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-                if(!Utils::ip_in_range($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !Utils::ip_in_range($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) exit("Access Denied - Telegram IP Protection by NovaGram.ga");
+                if(!Utils::isTelegram()) exit("Access Denied - Telegram IP Protection by NovaGram.ga");
             }
             if(file_get_contents("php://input") === "") exit("Access Denied");
 

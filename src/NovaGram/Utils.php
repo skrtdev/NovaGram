@@ -54,6 +54,14 @@ class Utils{
         curl_close($ch);
         return $response;
     }
+
+    public static function isTelegram($value='')
+    {
+        if(!isset($_SERVER['REMOTE_ADDR'])) exit;
+        if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and self::isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        if(!self::IPInRange($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !self::IPInRange($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) return false;
+        return true;
+    }
 }
 
 ?>
