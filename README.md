@@ -19,7 +19,7 @@ $Bot = new Bot("YOUR_TOKEN");
 
 $Bot->onMessage(function (Messsage $message) use ($Bot) {
 
-    if(isset($message->text)){ // update is a message and has text 
+    if(isset($message->text)){ // update is a message and has text
         $chat = $message->chat;
         $user = $message->from;
         $text = $message->text;
@@ -50,7 +50,7 @@ NovaGram is built in order to bring a lightweight alternative to make bots, made
 
 Install NovaGram via Composer  
 ```
-composer require skrtdev/novagram dev-beta
+composer require skrtdev/novagram ^1.6
 ```
 
 After Installation, include NovaGram with:
