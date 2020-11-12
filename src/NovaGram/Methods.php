@@ -1276,19 +1276,19 @@ trait Methods{
      * Use this method to send invoices.
      * On success, the sent Message is returned.
      *
-     * @param bool $payload Whether to use payload for this method.
+     * @param bool $json_payload Whether to use JSON payload for this method.
      *
      * @return \skrtdev\Telegram\Type|bool|string
      */
-    public function sendInvoice($chat_id, $title = null, string $description = null, string $payload = null, string $provider_token = null, string $start_parameter = null, string $currency = null, array $prices = null, array $args = null, bool $payload = false){
+    public function sendInvoice($chat_id, $title = null, string $description = null, string $payload = null, string $provider_token = null, string $start_parameter = null, string $currency = null, array $prices = null, array $args = null, bool $json_payload = false){
         if(is_array($chat_id)){
-            $payload = $title ?? false; // 2nd param
+            $json_payload = $title ?? false; // 2nd param
             $params = $chat_id ?? [];
         }
         else{
             $params = ["chat_id" => $chat_id, "title" => $title, "description" => $description, "payload" => $payload, "provider_token" => $provider_token, "start_parameter" => $start_parameter, "currency" => $currency, "prices" => $prices] + ($args ?? []);
         }
-        return $this->APICall("sendInvoice", $params ?? [], $payload);
+        return $this->APICall("sendInvoice", $params ?? [], $json_payload);
     }
 
     /**
