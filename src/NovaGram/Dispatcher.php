@@ -59,34 +59,19 @@ class Dispatcher {
             }
         }
 
-        #Loop::run(function () use ($handler, $update) {
-            // code...
-            foreach ($this->class_handlers as $handler) {
-                $real_handler = function () use ($handler, $update) {
-                    try{
-                        $handler->handleSync($this->Bot, $update);
-                    }
-                    catch(Throwable $e){
-                        $this->handleError($e); // TODO MOVE ERRORS IN DISPATCHER
-                    }
-                };
-                if($this->async){
-                    #Loop::defer($real_handler);
-                    Loop::defer(function () use ($handler, $update) { // TODO ERROR HANDLER
-                        \Amp\asyncCall([$handler, "handle"], $this->Bot, $update);
-                        #\Amp\coroutine([$handler, "handle"], $this->Bot, $update)();
-                    });
-                }
-                else{
-                    $real_handler();
-                }
-            }
-
+        foreach ($this->class_handlers as $handler) {
             if($this->async){
-                #Loop::run();
+                \Amp\call([$handler, "handle"], $this->Bot, $update); // TODO ERROR HANDLING
             }
-        #});
-        #$this->onUpdate($update);
+            else{
+                try{
+                    $handler->handleSync($this->Bot, $update);
+                }
+                catch(Throwable $e){
+                    $this->handleError($e);
+                }
+            }
+        }
     }
 
     protected function handleError(Throwable $e): void
