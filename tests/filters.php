@@ -112,6 +112,10 @@ $Bot->onMessage_(new Filters(Filters::commands("start")), function (Message $mes
     $message->reply("start!");
 });
 
+$Bot->onMessage_(new Filters(Filters::commands("dc")), function (Message $message) {
+    $message->reply($message->from->getDC());
+});
+
 $Bot->onUpdate(function (Update $update) use ($Bot) {
 
     if(isset($update->message)){ // update is a message
