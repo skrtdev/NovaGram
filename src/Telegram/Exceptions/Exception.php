@@ -23,6 +23,10 @@ class Exception extends \Exception{
                 return new BadRequestException(...$args);
                 break;
 
+            case 401:
+                return new UnauthorizedException(...$args);
+                break;
+
             case 403:
                 return new ForbiddenException(...$args);
                 break;
