@@ -77,6 +77,7 @@ class Bot {
             "async" => true,
             "restart_on_changes" => false,
             "logger" => Logger::INFO,
+            "bot_api_url" => "https://api.telegram.org",
             "debug_mode" => "classic", // BC
         ];
 
@@ -129,7 +130,10 @@ class Bot {
         if($this->settings->mode === self::WEBHOOK){
             if(!$this->settings->disable_ip_check){
                 $logger->debug("IP Check is enabled");
-                if(!Utils::isTelegram()) exit("Access Denied - Telegram IP Protection by NovaGram.ga");
+                if(!Utils::isTelegram()){
+                    http_response_code(403);
+                    exit("Access Denied - Telegram IP Protection by NovaGram.ga");
+                }
             }
             if(file_get_contents("php://input") === "") exit("Access Denied");
 
@@ -288,7 +292,7 @@ class Bot {
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot{$this->token}/$method");
+        curl_setopt($ch, CURLOPT_URL, $this->settings->bot_api_url."/bot{$this->token}/$method");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -301,7 +305,7 @@ class Bot {
             $this->logger->debug("Response: ".$response);
             if($is_debug) throw TelegramException::create("[DURING DEBUG] $method", $decoded, $data, $previous_exception);
             $e = TelegramException::create($method, $decoded, $data);
-            if($this->settings->debug_mode === "classic"){
+            if($this->settings->debug_mode === "classic" && isset($this->settings->debug)){
                 #$this->sendMessage($this->settings->debug, "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", ["parse_mode" => "HTML"], false, true);
                 $this->debug( (string) $e, $previous_exception);
             }
