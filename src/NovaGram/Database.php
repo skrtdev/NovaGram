@@ -114,8 +114,7 @@ class Database{
             ':additional_param' => serialize($additional_param),
         ]);
     }
-    public function getConversation(int $chat_id, string $name, $update = null){
-        if(isset($update)) Utils::trigger_error("Passing \$update to DB::getConversation()");
+    public function getConversation(int $chat_id, string $name){
         $row = $this->query($this->queries['getConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
