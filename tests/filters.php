@@ -73,6 +73,7 @@ Bot::addMethod("onMessage_", function (Filters $filters, Closure $handler) {
 
 $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
     "restart_on_changes" => true,
+    "bot_api_url" => "http://localhost:8081",
     #"async" => false
 ]);
 
