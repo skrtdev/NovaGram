@@ -165,7 +165,10 @@ class Message extends \Telegram\Message{
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons. */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-    
+
+    public function getHTMLText(){
+        return EntityParser::TextEntitiesToHTML($this->text, $this->entities);
+    }
 }
 
 ?>
