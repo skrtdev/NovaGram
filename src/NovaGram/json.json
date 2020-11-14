@@ -191,6 +191,7 @@
         ]
     },
     "require_json_encode":[
+        "allowed_updates",
         "reply_markup",
         "mask_position",
         "media",

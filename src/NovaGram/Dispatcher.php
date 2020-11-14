@@ -154,6 +154,12 @@ class Dispatcher {
         $str = str_replace('_', '', ucwords($string, '_'));
         return "on".$str;
     }
+
+    public function getAllowedUpdates(): array
+    {
+        if(!empty($this->class_handlers)) return [];
+        return array_diff(array_keys($this->closure_handlers), ["update"]);
+    }
 }
 
 

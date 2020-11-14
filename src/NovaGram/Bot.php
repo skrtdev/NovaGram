@@ -186,7 +186,7 @@ class Bot {
 
     protected function processUpdates($offset = 0){
         $async = $this->settings->async;
-        $params = ['offset' => $offset, 'timeout' => 300];
+        $params = ['offset' => $offset, 'timeout' => 300, "allowed_updates" => $this->dispatcher->getAllowedUpdates()];
         $this->logger->debug('Processing Updates (async: '.(int) $async.')', $params);
         $updates = $this->getUpdates($params);
         $this->logger->debug('Processed Updates (async: '.(int) $async.')', $params);
@@ -273,8 +273,8 @@ class Bot {
     }
 
     public function APICall(string $method, array $data = [], bool $payload = false, bool $is_debug = false, \Exception $previous_exception = null){
-        $this->logger->debug("APICall: $method");
         $data = $this->normalizeRequest($method, $data);
+        $this->logger->debug("APICall: $method", $data);
 
         if($this->settings->json_payload){
             if($payload){
