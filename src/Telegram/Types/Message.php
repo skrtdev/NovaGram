@@ -4,6 +4,7 @@ namespace skrtdev\Telegram;
 
 use stdClass;
 use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\EntityParser;
 
 /**
  * This object represents a message.
