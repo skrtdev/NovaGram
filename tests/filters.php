@@ -8,6 +8,7 @@ use skrtdev\Telegram\{Update, Message};
 use skrtdev\NovaGram\Exception as NovaGramException;
 use skrtdev\Telegram\Exception as TelegramException;
 use function Amp\delay;
+use Monolog\Logger;
 
 class Filters{
 
@@ -73,8 +74,9 @@ Bot::addMethod("onMessage_", function (Filters $filters, Closure $handler) {
 
 $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
     "restart_on_changes" => true,
-    "bot_api_url" => "http://localhost:8081",
+    #"bot_api_url" => "http://localhost:8081",
     #"async" => false
+    "logger" => Logger::DEBUG,
 ]);
 
 class Handler extends BaseHandler{
@@ -117,6 +119,10 @@ $Bot->onMessage_(new Filters(Filters::commands("dc")), function (Message $messag
     $message->reply($message->from->getDC());
 });
 
+$Bot->onCallbackQuery(function (CallbackQuery $callback_query) {
+    $message->reply($message->from->getDC());
+});
+
 $Bot->onUpdate(function (Update $update) use ($Bot) {
 
     if(isset($update->message)){ // update is a message
@@ -133,7 +139,7 @@ $Bot->addErrorHandler(function (Throwable $e) {
     print($e.PHP_EOL);
 });
 */
-$Bot->handleClass(new Handler);
+#$Bot->handleClass(new Handler);
 
 #$Bot->idle();
 
