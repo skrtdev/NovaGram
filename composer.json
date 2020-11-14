@@ -14,7 +14,7 @@
         "ext-json":"*",
         "ext-mbstring":"*",
         "ext-curl":"*",
-        "skrtdev/async":"^0.2",
+        "skrtdev/async":"~0.3",
         "monolog/monolog":"^2.1",
         "amphp/amp": "^2.5"
     },
