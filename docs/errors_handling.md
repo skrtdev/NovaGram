@@ -2,7 +2,7 @@
 
 In order to avoid a `try/catch` block in every handler, NovaGram offers you error handlers.
 You can set an handler for every error of a specific kind, or just one handler for all the errors.
-You can specify the type of the errors handled by the handler directly in the Closure type hinting
+You can specify the type of the errors handled by the handler directly in the Closure type hinting.
 
 ```php
 $Bot->addErrorHandler(function ($e) {
@@ -27,7 +27,7 @@ $Bot->addErrorHandler(function (skrtdev\Telegram\Exception $e) {
 The same exception can be caught by more than one handler, if the type corresponds.  
 In this example, a `skrtdev\Telegram\Exception` is handled by both the `Throwable` and `skrtdev\Telegram\Exception` handlers.
 
-If you don't set an Error Handler, the errors will be printed if you're using by CLI, or thrown if you're using Webhook
+If you don't set an Error Handler, the errors will be printed if you're using by CLI, or thrown if you're using Webhook.
 
 ## Settings debug
 
@@ -38,4 +38,17 @@ $this->addErrorHandler(function (Throwable $e) {
 });
 ```
 
-where `$this` is the `Bot` instance
+where `$this` is the `Bot` instance.
+
+## Telegram Exceptions
+
+Telegram Exceptions thrown by NovaGram are `skrtdev\Telegram\Exceptions`, but sometimes they are more speficic Exceptions that extend the main one, according to `error_code` number. Here's the full list:  
+
+- `BadRequestException` (400)
+- `UnauthorizedException` (401)
+- `ForbiddenException` (403)
+- `ConflictException` (409)
+- `TooManyRequestsException` (429)
+- `BadGatewayException` (502) (yes, sometimes it happens)
+
+These exception are exactly the same as the main one.
