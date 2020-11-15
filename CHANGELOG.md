@@ -15,19 +15,28 @@
     - Methods
         - `setErrorHandler` -> `addErrorHandler`
 
-## v1.7 - [_Not released yet_](https://github.com/skrtdev/NovaGram/tree/beta)
-- [ ] Use amp in Closures?
-- [ ] Bot API 5.0
-    - [ ] Own Bot API Server
-    - [ ] Implement new properties of `Chat` Object
-    - [ ] Implement new `ChatLocation` Object
-    - [ ] Implement new parameter `message_id` of `unpinChatMessage` Method
-    - [ ] Implement new `unpinAllChatMessages` Method
-- [ ] New more specific Exceptions
-- [ ] Improved Composer Autoloader (**PSR-4**)
+## v1.8 - [_Not released yet_](https://github.com/skrtdev/NovaGram/)
 - [ ] Conversations (**full getters**)
 - [ ] TTL in Conversations
-- [ ] Markdown Entities Parser
+
+## v1.7 - [_Not released yet_](https://github.com/skrtdev/NovaGram/)
+- Improved performances of [skrtdev/async](https://github.com/skrtdev/php-async)
+- Bot API 5.0
+    - **Own Bot API Server**: added new `bot_api_url` parameter to bot settings
+    - Added `allow_sending_without_reply` global parameter to bot settings
+    - Updated **all** objects and methods
+    - Added the new [ChatLocation](https://core.telegram.org/bots/api#chatlocation) Object
+    - Added all new Methods
+        - [logOut](https://core.telegram.org/bots/api#logout)
+        - [close](https://core.telegram.org/bots/api#close)
+        - [unpinAllChatMessages](https://core.telegram.org/bots/api#unpinallchatmessages)
+- New Exception: `UnauthorizedException` (401)
+- Improved Composer Autoloader (**PSR-4**)
+
+## v1.6.1 - [Bug Fix Release](https://github.com/skrtdev/NovaGram/releases/tag/v1.6.1)
+
+- Fixed a bug that affected webhook
+
 
 ## v1.6 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.6)
 
@@ -44,11 +53,11 @@
     - Auto restart when Bot file is edited (optional)
 
 - Many **new Exceptions**
-    - `BadRequestException`
-    - `ForbiddenException`
-    - `ConflictException`
-    - `TooManyRequestsException`
-    - `BadGatewayException` (yes, sometimes it happens)
+    - `BadRequestException` (400)
+    - `ForbiddenException` (403)
+    - `ConflictException` (409)
+    - `TooManyRequestsException` (429)
+    - `BadGatewayException` (502) (yes, sometimes it happens)
 
 - Changes in Bot settings
     - Changed behaviour of settings' `debug` parameter: now it creates an Error Handler  
