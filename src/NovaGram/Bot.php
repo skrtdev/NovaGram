@@ -253,19 +253,15 @@ class Bot {
     }
 
     private function normalizeRequest(string $method, array $data){
-        if($this->methodHasParamater($method, "parse_mode") and isset($this->settings->parse_mode)){
-            $data['parse_mode'] ??= $this->settings->parse_mode;
+        $params = ['parse_mode', 'disable_web_page_preview', 'disable_notification', 'allow_sending_without_reply'];
+        foreach ($params as $param) {
+            if($this->methodHasParamater($method, $param) and isset($this->settings->$param)){
+                $data[$param] ??= $this->settings->$param;
+            }
         }
-        if($this->methodHasParamater($method, "disable_web_page_preview") and isset($this->settings->disable_web_page_preview)){
-            $data['disable_web_page_preview'] ??= $this->settings->disable_web_page_preview;
-        }
-        if($this->methodHasParamater($method, "disable_notification") and isset($this->settings->disable_notification)){
-            $data['disable_notification'] ??= $this->settings->disable_notification;
-        }
+
         foreach ($this->json['require_json_encode'] as $key){
-
             if(isset($data[$key]) and is_array($data[$key])){
-
                 $data[$key] = json_encode($data[$key]);
             }
         }
