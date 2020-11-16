@@ -13,7 +13,6 @@ use skrtdev\Telegram\Exception as TelegramException;
 use skrtdev\Telegram\Update;
 use skrtdev\Prototypes\proto;
 
-use skrtdev\async\Pool;
 use Amp\Loop;
 #use Amp\Http\Client\HttpClientBuilder;
 #use Amp\Http\Client\Request;
@@ -33,6 +32,7 @@ class Bot {
     const NONE    = 0;
     const WEBHOOK = 1;
     const CLI     = 2;
+    const TIMEOUT = 300;
 
     private string $token;
     private stdClass $settings;
@@ -51,8 +51,6 @@ class Bot {
 
     private ?string $file_sha = null;
 
-    private Pool $pool; // TODO MOVE TO DISPATCHER
-
     private Dispatcher $dispatcher;
 
     public function __construct(string $token, array $settings = [], ?Logger $logger = null) {
@@ -63,9 +61,6 @@ class Bot {
         $this->token = $token;
         $this->id = Utils::getIDByToken($token);
         $this->settings = (object) $settings;
-        if(Utils::isCLI()){
-            $this->pool = new Pool();
-        }
 
         $settings_array = [
             "json_payload" => true,
@@ -186,7 +181,13 @@ class Bot {
 
     protected function processUpdates($offset = 0){
         $async = $this->settings->async;
-        $params = ['offset' => $offset, 'timeout' => 300, "allowed_updates" => $this->dispatcher->getAllowedUpdates()];
+        if($async){
+            $this->dispatcher->resolveQueue();
+            $pool = $this->dispatcher->getPool();
+            $timeout = !$pool->hasQueue() ? self::TIMEOUT : 0;
+        }
+        else $timeout = self::TIMEOUT;
+        $params = ['offset' => $offset, 'timeout' => $timeout, "allowed_updates" => $this->dispatcher->getAllowedUpdates()];
         $this->logger->debug('Processing Updates (async: '.(int) $async.')', $params);
         $updates = $this->getUpdates($params);
         $this->logger->debug('Processed Updates (async: '.(int) $async.')', $params);
@@ -195,11 +196,10 @@ class Bot {
             $this->logger->info("Update handling started.", ['update_id' => $update->update_id]);
             $started = hrtime(true)/10**9;
             $this->handleUpdate($update);
-            $this->logger->info("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
+            #$this->logger->info("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
 
             $offset = $update->update_id+1;
         }
-        #Loop::run();
         return $offset;
     }
 
@@ -217,7 +217,7 @@ class Bot {
                 $this->deleteWebhook();
                 $this->started = true;
                 self::showLicense();
-                if(!isset($this->error_handlers)){
+                if(!$this->dispatcher->hasErrorHandlers()){
                     $this->logger->error("Error handler is not set."); // TODO THIS ERROR IN DISPATCHER
                 }
                 while (true) {
@@ -392,10 +392,6 @@ class Bot {
 
     public function getDatabase(): Database{
         return $this->database;
-    }
-
-    public function getPool(): Pool{
-        return $this->pool;
     }
 
     public function __debugInfo() {

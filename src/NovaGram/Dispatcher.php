@@ -3,6 +3,7 @@
 namespace skrtdev\NovaGram;
 
 use skrtdev\Telegram\Update;
+use skrtdev\async\Pool;
 use Amp\Loop;
 use Closure;
 use Throwable;
@@ -16,6 +17,7 @@ class Dispatcher {
 
     private Bot $Bot;
     private bool $async;
+    private Pool $pool;
     private array $closure_handlers = [];
     private array $class_handlers = [];
     private array $error_handlers = [];
@@ -23,14 +25,19 @@ class Dispatcher {
     public function __construct(Bot $Bot, bool $async = true)
     {
         $this->Bot = $Bot;
+        if($async){
+            $async = extension_loaded("pcntl");
+        }
         $this->async = $async;
-        // TODO MOVE POOL TO DISPATCHER
+        if($async){
+            $this->pool = new Pool();
+        }
         // TODO ERROR HANDLERS IN CLASSES
     }
 
     public function handleUpdate(Update $update): void
     {
-        if(!empty($this->closure_handlers) && $this->async) $this->Bot->getPool()->resolveQueue();
+        $this->resolveQueue();
         foreach ($this->closure_handlers as $parameter => $handlers) {
             if($parameter === "update"){
                 $handler_update = $update;
@@ -51,7 +58,7 @@ class Dispatcher {
                     }
                 };
                 if($this->async){
-                    $this->Bot->getPool()->parallel($real_handler);
+                    $this->pool->parallel($real_handler);
                 }
                 else{
                     $real_handler();
@@ -85,7 +92,7 @@ class Dispatcher {
         }
         if(!$handled){
             if(Utils::isCLI()){
-                print(PHP_EOL.$e.PHP_EOL.PHP_EOL);
+                print(PHP_EOL.'An exception has not been handled: '.PHP_EOL.$e.PHP_EOL.PHP_EOL);
             }
             else{
                 throw $e;
@@ -158,7 +165,20 @@ class Dispatcher {
     public function getAllowedUpdates(): array
     {
         if(!empty($this->class_handlers)) return [];
-        return array_diff(array_keys($this->closure_handlers), ["update"]);
+        if(isset($this->closure_handlers['update'])){
+            // there is a general update handler, should retrieve all kind of updates
+            return [];
+        }
+        else return array_keys($this->closure_handlers);
+    }
+
+    public function resolveQueue(): void
+    {
+        if(!empty($this->closure_handlers) && $this->async) $this->pool->resolveQueue();
+    }
+
+    public function getPool(): Pool{
+        return $this->pool;
     }
 }
 
