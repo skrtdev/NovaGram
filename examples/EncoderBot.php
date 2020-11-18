@@ -6,6 +6,7 @@ require __DIR__ . '/vendor/autoload.php';
 */
 
 use skrtdev\NovaGram\Bot;
+use skrtdev\Telegram\{Message, CallbackQuery};
 
 $Bot = new Bot("YOUR_TOKEN", [
     "debug" => YOURCHATID, // chat id where debug will be sent when api errors occurs
@@ -13,11 +14,8 @@ $Bot = new Bot("YOUR_TOKEN", [
     "parse_mode" => "HTML" // will set parse_mode automatically in methods that require it if not providedå
 ]);
 
-$update = $Bot->update; // this is the update received from the bot
+$Bot->onMessage(function (Messsage $message) use ($Bot) { // update is a message
 
-if(isset($update->message)){ // update is a message
-
-    $message = $update->message;
     $chat = $message->chat;
     $user = $message->from;
 
@@ -47,10 +45,10 @@ if(isset($update->message)){ // update is a message
     }
     else $chat->sendMessage("that's not text", true); // Message doesn't cointain text
 
-}
-if(isset($update->callback_query)){ // update is a callback query
+});
 
-    $callback_query = $update->callback_query;
+$Bot->onMessage(function (CallbackQuery $callback_query) use ($Bot) { // update is a callback query
+
     $user = $callback_query->from;
 
     $message = $callback_query->message;
@@ -60,6 +58,6 @@ if(isset($update->callback_query)){ // update is a callback query
 
     $message->editText($callback_query->data, true); // edit previously sent Message text with the data of this CallbackQuery
 
-}
+});
 
 ?>
