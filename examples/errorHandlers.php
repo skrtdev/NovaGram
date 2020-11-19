@@ -1,43 +1,49 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+if (file_exists('vendor')) {
+    require 'vendor/autoload.php';
+}
+else{
+    if (!file_exists('novagram.phar')) {
+        copy('http://gaetano.cf/novagram/phar.php', 'novagram.phar');
+    }
+    require_once 'novagram.phar';
+}
 
 #use skrtdev\NovaGram\Bot;
 use skrtdev\NovaGram\Bot;
-use skrtdev\Telegram\Update;
+use skrtdev\Telegram\Message;
 use skrtdev\NovaGram\Exception as NovaGramException;
 use skrtdev\Telegram\Exception as TelegramException;
 
-$Bot = new Bot(/*readline("Insert Bot token: ")*/"722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs");
+$Bot = new Bot(readline("Insert Bot token: "));
 
-$Bot->onUpdate(function (Update $update) use ($Bot) {
 
-    if(isset($update->message)){ // update is a message
-        $message = $update->message;
-        $chat = $message->chat;
+$Bot->onMessage(function (Messsage $message) use ($Bot) { // update is a message
 
-        if(isset($message->from)){ // message has a sender
-            $user = $message->from;
-            $text = $message->text;
+    $chat = $message->chat;
 
-            if($text === "/novagram"){
-                throw new NovaGramException("Sample Exception");
-            }
-            if($text === "/telegram"){
-                $Bot->sendMessage(0, "uh");
-            }
-            if($text === "/getUpdates"){
+    if(isset($message->from)){ // message has a sender
+        $user = $message->from;
+        $text = $message->text;
+
+        if($text === "/novagram"){
+            throw new NovaGramException("Sample Exception");
+        }
+        if($text === "/telegram"){
+            $Bot->sendMessage(0, "uh");
+        }
+        if($text === "/getUpdates"){
+            $Bot->getUpdates(["timeout" => 300]);
+            (new skrtdev\async\Pool)->parallel(function () use ($Bot) {
                 $Bot->getUpdates(["timeout" => 300]);
-                (new skrtdev\async\Pool)->parallel(function () use ($Bot) {
-                    $Bot->getUpdates(["timeout" => 300]);
-                });
-            }
-            if($text === "/exception"){
-                throw new \Exception("Sample Exception");
-            }
-            if($text === "/error"){
-                throw new \Error("Sample Error");
-            }
+            });
+        }
+        if($text === "/exception"){
+            throw new \Exception("Sample Exception");
+        }
+        if($text === "/error"){
+            throw new \Error("Sample Error");
         }
     }
 });
@@ -54,12 +60,6 @@ $Bot->addErrorHandler(function (Throwable $e) {
     print("Caught ".get_class($e)." exception from general handler".PHP_EOL);
     print($e.PHP_EOL);
 });
-
-#
-/*
-722952667:AAFoPOkdyWXTT3j-Efm5PrwDGW20AhB_9T8
-*/
-
 // the same exception can be handled by more than one handler
 
 ?>

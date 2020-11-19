@@ -1,5 +1,13 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
+if (file_exists('vendor')) {
+    require 'vendor/autoload.php';
+}
+else{
+    if (!file_exists('novagram.phar')) {
+        copy('http://gaetano.cf/novagram/phar.php', 'novagram.phar');
+    }
+    require_once 'novagram.phar';
+}
 /*
     if hosting:
     require "../PHPEasyGit/autoload.php";
@@ -10,7 +18,6 @@ use skrtdev\Telegram\{Message, CallbackQuery};
 
 $Bot = new Bot("YOUR_TOKEN", [
     "debug" => YOURCHATID, // chat id where debug will be sent when api errors occurs
-    "json_payload" => true, // allow use of json payload (without this, all the api calls will be made normally, even if they should be made as json payload)
     "parse_mode" => "HTML" // will set parse_mode automatically in methods that require it if not providedå
 ]);
 
