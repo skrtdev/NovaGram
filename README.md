@@ -33,10 +33,10 @@ $Bot->onMessage(function (Messsage $message) use ($Bot) {
 
 ## Features
 
-- **Full**: All the Methods and Types implemented in Bot Api 4.9  
+- **Full**: All the Methods and Types implemented in Bot Api 5.0 (support **local Bot Api** too)  
 - **Fast**: Support for JSON payload, and async handling of updates  
 - **Extendable**: With [Prototypes](https://docs.novagram.ga/prototypes.html), you can add your custom functionalities  
-- **Easy**: Exactly like original Bot Api, with Objects too  
+- **Easy**: Exactly like original Bot Api, with many methods simplified in a very nice way  
 - **Ready**: You can start creating your amazing bot right now, thanks to many Built-in features, such as [Conversations](https://docs.novagram.ga/database.html), [Entities Parser](https://docs.novagram.ga/objects.html) and [getDC](https://docs.novagram.ga/docs.html#getUsernameDC)  
 - **Secure**: When using Webhooks, there is a Built-in Telegram IP Check, that works with Cloudflare too!  
 
@@ -50,7 +50,7 @@ NovaGram is built in order to bring a lightweight alternative to make bots, made
 
 Install NovaGram via Composer  
 ```
-composer require skrtdev/novagram ^1.6
+composer require skrtdev/novagram
 ```
 
 After Installation, include NovaGram with:
