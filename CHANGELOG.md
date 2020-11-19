@@ -9,9 +9,9 @@
     - `Telegram\*` Types
 - Bot Class
     - Settings
-        - `disable_webhook` parameter
-        - `getUpdates` mode
-        - `webhook` mode
+        - `disable_webhook` parameter (`Bot::NONE`)
+        - `getUpdates` mode (`Bot::CLI`)
+        - `webhook` mode (`Bot::WEBHOOK`)
     - Methods
         - `setErrorHandler` -> `addErrorHandler`
 
@@ -19,7 +19,7 @@
 - [ ] Conversations (**full getters**)
 - [ ] TTL in Conversations
 
-## v1.7 - [_Not released yet_](https://github.com/skrtdev/NovaGram/)
+## v1.7 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.7)
 - Improved performances of [skrtdev/async](https://github.com/skrtdev/php-async)
 - Bot API 5.0
     - **Own Bot API Server**: added new `bot_api_url` parameter to bot settings
@@ -31,6 +31,7 @@
         - [close](https://core.telegram.org/bots/api#close)
         - [unpinAllChatMessages](https://core.telegram.org/bots/api#unpinallchatmessages)
 - New Exception: `UnauthorizedException` (401)
+- `allowed_updates` is automatically generated when using _getUpdates_, so bot is faster if it receives many unwanted updates
 - Improved Composer Autoloader (**PSR-4**)
 
 ## v1.6.1 - [Bug Fix Release](https://github.com/skrtdev/NovaGram/releases/tag/v1.6.1)
