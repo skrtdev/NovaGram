@@ -16,6 +16,7 @@
         - `setErrorHandler` -> `addErrorHandler`
 
 ## v1.8 - [_Not released yet_](https://github.com/skrtdev/NovaGram/)
+- [x] New handlers: `onTextMessage`, `onText`, and `onCommand`
 - [ ] Conversations (**full getters**)
 - [ ] TTL in Conversations
 

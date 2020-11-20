@@ -76,6 +76,7 @@ $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
     "restart_on_changes" => true,
     #"bot_api_url" => "http://localhost:8081",
     #"async" => false
+    "command_prefixes" => ['/', '.'],
     "logger" => Logger::DEBUG,
 ]);
 
@@ -117,6 +118,26 @@ $Bot->onMessage_(new Filters(Filters::commands("start")), function (Message $mes
 
 $Bot->onMessage_(new Filters(Filters::commands("dc")), function (Message $message) {
     $message->reply($message->from->getDC());
+});
+
+$Bot->onTextMessage(function (Message $message) {
+    $message->reply("on text message handler");
+});
+
+$Bot->onText('ae', function (Message $message) {
+    $message->reply("ae anche a te lol");
+});
+
+$Bot->onText('lol', function (Message $message) {
+    $message->reply("lololololol");
+});
+
+$Bot->onCommand(['lol', 'lol2'], function (Message $message) {
+    $message->reply("lololololol ma come comando");
+});
+
+$Bot->onCommand('start', function (Message $message) {
+    $message->reply("ae comando start");
 });
 
 $Bot->onCallbackQuery(function (CallbackQuery $callback_query) {

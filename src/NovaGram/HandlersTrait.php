@@ -2,6 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
+use skrtdev\Telegram\Message;
 use Closure;
 
 trait HandlersTrait{
@@ -54,6 +55,33 @@ trait HandlersTrait{
         $this->dispatcher->addClosureHandler($handler, "poll_answer");
     }
 
+    // utilities
+    
+    public function onTextMessage(Closure $handler){
+        $this->onMessage(function (Message $message) use ($handler) {
+            if(isset($message->text)){
+                $handler($message);
+            }
+        });
+    }
+
+    public function onText(string $pattern, Closure $handler){
+        if(preg_match('/^\/.+\/$/', $pattern) === 0){ // $pattern is not a regex
+            $pattern = '/^'.preg_quote($pattern, '/').'$/'; // $pattern becomes a regex
+        }
+        $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
+            if(preg_match($pattern, $message->text)){
+                $handler($message);
+            }
+        });
+    }
+
+    public function onCommand($commands, Closure $handler){
+        if(is_string($commands)){
+            $commands = [$commands];
+        }
+        $this->onText('/(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')/', $handler);
+    }
 }
 
 

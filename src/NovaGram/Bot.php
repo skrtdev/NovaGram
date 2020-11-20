@@ -34,6 +34,8 @@ class Bot {
     const CLI     = 2;
     const TIMEOUT = 300;
 
+    const COMMAND_PREFIX = '/';
+
     private string $token;
     private stdClass $settings;
     private array $json;
@@ -73,11 +75,16 @@ class Bot {
             "restart_on_changes" => false,
             "logger" => Logger::INFO,
             "bot_api_url" => "https://api.telegram.org",
+            "command_prefixes" => [self::COMMAND_PREFIX],
             "debug_mode" => "classic", // BC
         ];
 
         foreach ($settings_array as $name => $default){
             $this->settings->{$name} ??= $default;
+        }
+
+        foreach ($this->settings->command_prefixes as &$prefix){
+            $prefix = preg_quote($prefix, '/');
         }
 
         if(!isset($logger)){
