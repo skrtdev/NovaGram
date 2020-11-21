@@ -17,7 +17,7 @@ use skrtdev\Telegram\Message;
 
 $Bot = new Bot("YOUR_TOKEN");
 
-$Bot->onTextMessage(function (Message $message) use ($Bot) {
+$Bot->onMessage(function (Message $message) use ($Bot) {
 
     if(isset($message->text)){ // update is a message and has text
         $chat = $message->chat;
@@ -25,7 +25,10 @@ $Bot->onTextMessage(function (Message $message) use ($Bot) {
         $text = $message->text;
 
         if($text === "/start"){
-            $message->reply("Hey! Nice to meet you.");
+            $message->reply("Hey! Nice to meet you. Use /info to know more about me.");
+        }
+        if($text === "/info"){
+            $message->reply("Well, I'm just an example, but you can learn more about NovaGram at docs.novagram.ga");
         }
     }
 });
