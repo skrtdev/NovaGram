@@ -11,7 +11,7 @@ else{
 }
 
 use skrtdev\NovaGram\Bot;
-use skrtdev\Telegram\Messsage;
+use skrtdev\Telegram\Message;
 
 
 $Bot = new Bot("YOUR_TOKEN", [
@@ -23,7 +23,7 @@ $Bot = new Bot("YOUR_TOKEN", [
     ]*/
 ]);
 
-$Bot->onMessage(function (Messsage $message) use ($Bot) { // update is a message
+$Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
 
     $chat = $message->chat;
 

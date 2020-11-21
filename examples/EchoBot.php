@@ -20,7 +20,7 @@ $Bot = new Bot("YOUR_TOKEN", [
     "debug" => YOURCHATID, // chat id where debug will be sent when api errors occurs
 ]);
 
-$Bot->onMessage(function (Messsage $message) use ($Bot) { // update is a message
+$Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
 
     $chat = $message->chat;
     $user = $message->from;

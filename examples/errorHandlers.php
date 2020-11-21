@@ -19,7 +19,7 @@ use skrtdev\Telegram\Exception as TelegramException;
 $Bot = new Bot(readline("Insert Bot token: "));
 
 
-$Bot->onMessage(function (Messsage $message) use ($Bot) { // update is a message
+$Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
 
     $chat = $message->chat;
 

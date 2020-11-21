@@ -21,7 +21,7 @@ $Bot = new Bot("YOUR_TOKEN", [
     "parse_mode" => "HTML" // will set parse_mode automatically in methods that require it if not providedå
 ]);
 
-$Bot->onMessage(function (Messsage $message) use ($Bot) { // update is a message
+$Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
 
     $chat = $message->chat;
     $user = $message->from;
