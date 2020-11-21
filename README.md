@@ -17,7 +17,7 @@ use skrtdev\Telegram\Message;
 
 $Bot = new Bot("YOUR_TOKEN");
 
-$Bot->onMessage(function (Messsage $message) use ($Bot) {
+$Bot->onTextMessage(function (Message $message) use ($Bot) {
 
     if(isset($message->text)){ // update is a message and has text
         $chat = $message->chat;
