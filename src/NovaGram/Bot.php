@@ -117,7 +117,7 @@ class Bot {
                 $this->file_sha = Utils::getFileSHA();
             }
             else{
-                $logger->warning("restart_on_changes can be used only on CLI");
+                $this->settings->restart_on_changes = false;
             }
         }
 
@@ -168,10 +168,6 @@ class Bot {
         $this->dispatcher->addErrorHandler($handler);
     }
 
-    protected function handleUpdate(Update $update): void {
-        $this->dispatcher->handleUpdate($update);
-    }
-
     protected function restartOnChanges(){
         if($this->settings->restart_on_changes){
             if($this->file_sha !== Utils::getFileSHA()){
@@ -202,7 +198,7 @@ class Bot {
         foreach ($updates as $update) {
             $this->logger->info("Update handling started.", ['update_id' => $update->update_id]);
             $started = hrtime(true)/10**9;
-            $this->handleUpdate($update);
+            $this->dispatcher->handleUpdate($update);
             #$this->logger->info("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
 
             $offset = $update->update_id+1;
@@ -239,7 +235,7 @@ class Bot {
     public function __destruct(){
         if(!$this->started){
             $this->logger->debug("Triggered destructor");
-            if($this->dispatcher->hasHandlers()){
+            if(isset($this->dispatcher) && $this->dispatcher->hasHandlers()){
                 $this->settings->debug_mode = "new";
 
                 if($this->settings->mode === self::CLI){
@@ -248,7 +244,7 @@ class Bot {
                 }
                 if($this->settings->mode === self::WEBHOOK){
                     if(isset($this->update)){
-                        $this->handleUpdate($this->update);
+                        $this->dispatcher->handleUpdate($this->update);
                     }
                 }
             }
