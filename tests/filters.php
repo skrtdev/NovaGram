@@ -4,7 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use skrtdev\NovaGram\Bot;
 use skrtdev\NovaGram\BaseHandler;
-use skrtdev\Telegram\{Update, Message};
+use skrtdev\Telegram\{Update, Message, CallbackQuery};
 use skrtdev\NovaGram\Exception as NovaGramException;
 use skrtdev\Telegram\Exception as TelegramException;
 use function Amp\delay;
@@ -132,27 +132,34 @@ $Bot->onText('lol', function (Message $message) {
     $message->reply("lololololol");
 });
 
+$Bot->onText('/ciao (\w+)/', function (Message $message) {
+    $message->reply(print_r($matches, true));
+});
+
 $Bot->onCommand(['lol', 'lol2'], function (Message $message) {
     $message->reply("lololololol ma come comando");
 });
 
 $Bot->onCommand('start', function (Message $message) {
+    $message->reply(print_r($message, true));
     $message->reply("ae comando start");
 });
 
 $Bot->onCallbackQuery(function (CallbackQuery $callback_query) {
-    $message->reply($message->from->getDC());
+    $callback_query->answer($callback_query->from->getDC());
 });
 
+/*
 $Bot->onUpdate(function (Update $update) use ($Bot) {
 
     if(isset($update->message)){ // update is a message
         $message = $update->message;
         $chat = $message->chat;
 
-        #$message->reply("from Update handler");
+        $message->reply("from Update handler");
     }
 });
+*/
 
 /*
 $Bot->addErrorHandler(function (Throwable $e) {
