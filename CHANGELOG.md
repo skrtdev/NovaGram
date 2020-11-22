@@ -17,6 +17,9 @@
 
 ## v1.8 - [_Not released yet_](https://github.com/skrtdev/NovaGram/)
 - [x] New handlers: `onTextMessage`, `onText`, and `onCommand`
+- [x] New Bot settings:
+    - `command_prefixes`: Characters for commands prefixes. e.g. /start, .info
+    - `group_handlers`: Whether to execute all the handlers of an update in the same process (`true`), or fork a process for each handler (`false`)
 - [ ] Conversations (**full getters**)
 - [ ] TTL in Conversations
 
