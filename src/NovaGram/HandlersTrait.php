@@ -70,8 +70,15 @@ trait HandlersTrait{
             $pattern = '/^'.preg_quote($pattern, '/').'$/'; // $pattern becomes a regex
         }
         $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
-            if(preg_match($pattern, $message->text)){
-                $handler($message);
+            if(preg_match_all($pattern, $message->text, $matches) !== 0){
+                var_dump($matches);
+                if(count($matches) === 1){
+                    $handler($message);
+                }
+                else{
+                    unset($matches[0]);
+                    $handler($message, array_values($matches));
+                }
             }
         });
     }
