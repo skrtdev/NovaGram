@@ -78,6 +78,7 @@ $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
     #"async" => false
     "command_prefixes" => ['/', '.'],
     "logger" => Logger::DEBUG,
+    "group_handlers" => false,
 ]);
 
 class Handler extends BaseHandler{

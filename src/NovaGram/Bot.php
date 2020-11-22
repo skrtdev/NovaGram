@@ -76,6 +76,7 @@ class Bot {
             "logger" => Logger::INFO,
             "bot_api_url" => "https://api.telegram.org",
             "command_prefixes" => [self::COMMAND_PREFIX],
+            "group_handlers" => true,
             "debug_mode" => "classic", // BC
         ];
 
@@ -149,7 +150,7 @@ class Bot {
             $this->settings->json_payload = false;
         }
 
-        $this->dispatcher = new Dispatcher($this, Utils::isCLI() && $this->settings->async);
+        $this->dispatcher = new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers);
 
         if($this->settings->debug !== false){
             $this->addErrorHandler(function (Throwable $e) {

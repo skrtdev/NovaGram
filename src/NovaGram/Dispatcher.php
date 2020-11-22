@@ -17,12 +17,13 @@ class Dispatcher {
 
     private Bot $Bot;
     private bool $async;
+    private bool $group_handlers;
     private Pool $pool;
     private array $closure_handlers = [];
     private array $class_handlers = [];
     private array $error_handlers = [];
 
-    public function __construct(Bot $Bot, bool $async = true)
+    public function __construct(Bot $Bot, bool $async = true, bool $group_handlers = true)
     {
         $this->Bot = $Bot;
         if($async){
@@ -32,12 +33,14 @@ class Dispatcher {
         if($async){
             $this->pool = new Pool();
         }
+        $this->group_handlers = $group_handlers;
         // TODO ERROR HANDLERS IN CLASSES
     }
 
     public function handleUpdate(Update $update): void
     {
         $this->resolveQueue();
+        $final_handlers = [];
         foreach ($this->closure_handlers as $parameter => $handlers) {
             if($parameter === "update"){
                 $handler_update = $update;
@@ -58,12 +61,24 @@ class Dispatcher {
                     }
                 };
                 if($this->async){
-                    $this->pool->parallel($real_handler);
+                    if($this->group_handlers){
+                        $final_handlers[] = $real_handler;
+                    }
+                    else{
+                        $this->pool->parallel($real_handler);
+                    }
                 }
                 else{
                     $real_handler();
                 }
             }
+        }
+        if(!empty($final_handlers)){
+            $this->pool->parallel(function () use ($final_handlers) {
+                foreach ($final_handlers as $handler) {
+                    $handler();
+                }
+            });
         }
 
         foreach ($this->class_handlers as $handler) {
