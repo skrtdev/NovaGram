@@ -8,6 +8,7 @@ class Exception extends \Exception{
 
         $this->method = $method;
         $this->data = $data;
+        $this->response = $response;
 
         parent::__construct($response['description'], $response['error_code'], $previous);
     }
