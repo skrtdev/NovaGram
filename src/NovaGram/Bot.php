@@ -44,6 +44,7 @@ class Bot {
     public ?Update $update = null; // read-only
     public ?array $raw_update = null; // read-only
     public int $id; // read-only
+    private string $username; // read-only
     public ?Database $database = null; // read-only
 
     private bool $started = false;
@@ -156,6 +157,10 @@ class Bot {
             $this->addErrorHandler(function (Throwable $e) {
                 $this->debug( (string) $e );
             });
+        }
+
+        if($this->settings->mode === self::CLI){
+            $this->username = $this->getMe()->username;
         }
 
     }
@@ -396,6 +401,10 @@ class Bot {
 
     public function getDatabase(): Database{
         return $this->database;
+    }
+
+    public function getUsername(): string{
+        return $this->username ??= $this->getMe()->username;
     }
 
     public function __debugInfo() {
