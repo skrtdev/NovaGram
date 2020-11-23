@@ -45,8 +45,8 @@ $Bot->onMessage(function (Message $message) use ($Bot) {
 
 ### Why another PHP library?
 
-I decided to build my own php library for telegram bot api because all the libraries i found on the web [made too difficult even to do a simple thing](docs/compare.md), such as a sendMessage.  
-NovaGram is built in order to bring a lightweight alternative to make bots, made simple even for beginners, but powerful for who already knows how to implement it.
+I decided to build my own php library for telegram bot api because all the libraries i found on the web [made it difficult even to do the simplest things](docs/compare.md), such as a sendMessage.
+NovaGram is built in order to bring a lightweight alternative to make bots, so that it is simple for beginners, but powerful for who already knows how to implement it.
 
 
 ### Installation via [Composer](https://getcomposer.org)
