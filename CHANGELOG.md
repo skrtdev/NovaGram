@@ -20,7 +20,9 @@
 - [x] New Bot settings:
     - `command_prefixes`: Characters for commands prefixes. e.g. /start, .info
     - `group_handlers`: Whether to execute all the handlers of an update in the same process (`true`), or fork a process for each handler (`false`)
-- [ ] Conversations (**full getters**)
+- [ ] Conversations **full getters**
+    - `getConversationsByChat` (`User|Chat::getConversations()`)
+    - `getConversationsByValue`
 - [ ] TTL in Conversations
 
 ## v1.7 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.7)
