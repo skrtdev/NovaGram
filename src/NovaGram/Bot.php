@@ -400,6 +400,9 @@ class Bot {
     }
 
     public function getDatabase(): Database{
+        if(!isset($this->database)){
+            throw new Exception("Bot instance has no linked Database");
+        }
         return $this->database;
     }
 

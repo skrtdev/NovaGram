@@ -85,7 +85,6 @@ trait HandlersTrait{
         }
         $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
             if(preg_match_all($pattern, $message->text, $matches) !== 0){
-                var_dump($matches);
                 if(count($matches) === 1){
                     $handler($message);
                 }
@@ -97,7 +96,8 @@ trait HandlersTrait{
         });
     }
 
-    public function onCommand($commands, Closure $handler): void{
+    public function onCommand($commands, Closure $handler): void
+    {
         if(is_string($commands)){
             $commands = [$commands];
         }
