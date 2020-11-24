@@ -202,10 +202,10 @@ class Bot {
         $this->logger->debug('Processed Updates (async: '.(int) $async.')', $params);
         $this->restartOnChanges();
         foreach ($updates as $update) {
-            $this->logger->info("Update handling started.", ['update_id' => $update->update_id]);
+            $this->logger->debug("Update handling started.", ['update_id' => $update->update_id]);
             $started = hrtime(true)/10**9;
             $this->dispatcher->handleUpdate($update);
-            #$this->logger->info("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
+            #$this->logger->debug("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
 
             $offset = $update->update_id+1;
         }
