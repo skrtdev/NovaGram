@@ -72,6 +72,14 @@ Bot::addMethod("onMessage_", function (Filters $filters, Closure $handler) {
     });
 });
 
+Bot::addMethod("onMessageFilter", function (Closure $filters, Closure $handler) {
+    $this->onMessage(function (Message $message) use ($filters, $handler) {
+        if($filters($message)){
+            $handler($message);
+        }
+    });
+});
+
 $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
     "restart_on_changes" => true,
     #"bot_api_url" => "http://localhost:8081",
@@ -79,6 +87,10 @@ $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
     "command_prefixes" => ['/', '.'],
     "logger" => Logger::DEBUG,
     "group_handlers" => false,
+    "database" => [
+        "driver" => "sqlite", // default to mysql
+        "host" => "db.sqlite3", // default to localhost:3306
+    ]
 ]);
 
 class Handler extends BaseHandler{
@@ -114,7 +126,7 @@ $Bot->onMessage_(new Filters(Filters::TextRegex('/ciao/')), function (Message $m
 
 
 $Bot->onMessage_(new Filters(Filters::commands("start")), function (Message $message) {
-    $message->reply("start!");
+    #$message->reply("start!");
 });
 
 $Bot->onMessage_(new Filters(Filters::commands("dc")), function (Message $message) {
@@ -141,9 +153,25 @@ $Bot->onCommand(['lol', 'lol2'], function (Message $message) {
     $message->reply("lololololol ma come comando");
 });
 
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 $Bot->onCommand('start', function (Message $message) {
-    $message->reply(print_r($message, true));
+    #$message->reply(print_r($message, true));
+    $message->reply(print_r($message->from->getConversations(), true));
+    $message->from->conversation(generateRandomString(), generateRandomString(), false);
     $message->reply("ae comando start");
+});
+
+$Bot->onMessageFilter(fn($message) => $message->text === "F", function (Message $message) {
+    $message->reply("onMessageFilter F FOR YOU");
 });
 
 $Bot->onCallbackQuery(function (CallbackQuery $callback_query) {
