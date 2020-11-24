@@ -4,8 +4,7 @@ namespace skrtdev\NovaGram;
 
 trait conversations{
     public function conversation(string $name, $value = null, bool $permanent = true){
-
-        $db = $this->Bot->database or exit(trigger_error("404 DB NOT FOUND"));
+        $db = $this->Bot->getDatabase();
 
         if(isset($value)){
             return $db->setConversation($this->id, $name, $value, ["is_permanent" => $permanent]);
@@ -16,28 +15,23 @@ trait conversations{
     }
 
     public function clearConversation(string $name){
-
-        #echo "conversation to {$this->id}; \nname: $name\nvalue: $value\n\n";
-
-        $db = $this->Bot->database or exit(trigger_error("404 DB NOT FOUND"));
-
+        $db = $this->Bot->getDatabase();
         return $db->deleteConversation($this->id, $name);
-
     }
 
-    // $options is string|array;;;
-    public function status(string $value = null, $options = null, bool $permanent = false){
-        if(is_bool($options)){
-            $permanent = $options;
-        }
-        elseif(isset($options)){
-            Utils::trigger_error("Using v1.2 for conversations, check updated docs at https://docs.novagram.ga/database.html", E_USER_DEPRECATED);
-        }
+    public function status(string $value = null, bool $permanent = false){
         return $this->conversation("status", $value, $permanent);
     }
+
     public function clearStatus(){
         return $this->clearConversation("status");
     }
+
+    public function getConversations(): array
+    {
+        return $this->Bot->getDatabase()->getConversationsByChat($this->id);
+    }
+
 }
 
 ?>

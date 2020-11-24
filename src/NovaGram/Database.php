@@ -80,6 +80,8 @@ class Database{
             "deleteConversation" => "DELETE FROM {$this->tableNames['conversations']} WHERE chat_id = :chat_id AND name = :name",
             "setConversation" => "INSERT INTO {$this->tableNames['conversations']}(chat_id, name, value, additional_param) VALUES (:chat_id, :name, :value, :additional_param)",
             "getConversation" => "SELECT * FROM {$this->tableNames['conversations']} WHERE chat_id = :chat_id AND name = :name",
+            "getConversationsByChat" => "SELECT * FROM {$this->tableNames['conversations']} WHERE chat_id = :chat_id",
+            "getConversationsByValue" => "SELECT * FROM {$this->tableNames['conversations']} WHERE value = :value",
         ];
     }
 
@@ -99,12 +101,14 @@ class Database{
             additional_param VARCHAR(256) NOT NULL
         )");
     }
+
     public function deleteConversation(int $chat_id, string $name): void{
         $this->query($this->queries['deleteConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
         ]);
     }
+
     public function setConversation(int $chat_id, string $name, $value, array $additional_param = []): void{
         $this->deleteConversation($chat_id, $name);
         $this->query($this->queries['setConversation'], [
@@ -114,6 +118,7 @@ class Database{
             ':additional_param' => serialize($additional_param),
         ]);
     }
+
     public function getConversation(int $chat_id, string $name){
         $row = $this->query($this->queries['getConversation'], [
             ':chat_id' => $chat_id,
@@ -134,6 +139,38 @@ class Database{
             $this->deleteConversation($chat_id, $name);
         }
         return $value;
+    }
+
+    public function getConversationsByChat(int $chat_id){
+        $rows = $this->query($this->queries['getConversationsByChat'], [
+            ':chat_id' => $chat_id
+        ])->fetchAll();
+
+        $result = [];
+        foreach ($rows as $row) {
+            $row = $this->normalizeConversation($row);
+
+            $value = $row['value'];
+            $name = $row['name'];
+            $result[$name] = $value;
+        }   
+        return $result;
+    }
+
+    public function getConversationsByValue($value){
+        $rows = $this->query($this->queries['getConversationsByValue'], [
+            ':value' => serialize($value),
+        ])->fetchAll();
+
+        $result = [];
+        foreach ($rows as &$row) {
+            $row = $this->normalizeConversation($row);
+
+            $value = $row['value'];
+            $name = $row['name'];
+            $result[$name] = $value;
+        }
+        return $result;
     }
 
 
@@ -161,6 +198,25 @@ class Database{
 
     public function getPDO(): PDO{
         return $this->PDO;
+    }
+
+    public function normalizeConversation(array $conversation)
+    {
+        $chat_id = $conversation['chat_id'];
+        $name = $conversation['name'];
+        $value =& $conversation['value'];
+
+        @$unserialized_value = unserialize($value);
+        $value = $unserialized_value !== false ? $unserialized_value : $value;
+
+        $additional_param = unserialize($conversation['additional_param']);
+        $is_permanent = $additional_param['is_permanent'] ?? true ;
+
+        if(!$is_permanent){
+            $this->deleteConversation($chat_id, $name);
+        }
+
+        return $conversation;
     }
 }
 
