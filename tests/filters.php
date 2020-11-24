@@ -7,7 +7,6 @@ use skrtdev\NovaGram\BaseHandler;
 use skrtdev\Telegram\{Update, Message, CallbackQuery};
 use skrtdev\NovaGram\Exception as NovaGramException;
 use skrtdev\Telegram\Exception as TelegramException;
-use function Amp\delay;
 use Monolog\Logger;
 
 class Filters{
@@ -85,7 +84,7 @@ $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
     #"bot_api_url" => "http://localhost:8081",
     #"async" => false
     "command_prefixes" => ['/', '.'],
-    "logger" => Logger::DEBUG,
+    #"logger" => Logger::DEBUG,
     "group_handlers" => false,
     "database" => [
         "driver" => "sqlite", // default to mysql
@@ -109,8 +108,6 @@ class Handler extends BaseHandler{
             print("afammoc\n");
             #yield delay(1000);
         }
-
-        return yield new Amp\Success(true);
     }
 }
 
@@ -196,7 +193,7 @@ $Bot->addErrorHandler(function (Throwable $e) {
     print($e.PHP_EOL);
 });
 */
-#$Bot->handleClass(new Handler);
+$Bot->handleClass(Handler::class);
 
 #$Bot->idle();
 

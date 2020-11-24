@@ -73,26 +73,33 @@ class Dispatcher {
                 }
             }
         }
+
+        foreach ($this->class_handlers as $handler) {
+            $real_handler = fn() => Closure::fromCallable([$handler, "handle"])($update); // TODO ERROR HANDLING
+            if($this->async){
+                if($this->group_handlers){
+                    $final_handlers[] = $real_handler;
+                }
+                else{
+                    $this->pool->parallel($real_handler);
+                }
+            }
+            else{
+                try{
+                    $real_handler();
+                }
+                catch(Throwable $e){
+                    $this->handleError($e);
+                }
+            }
+        }
+
         if(!empty($final_handlers)){
             $this->pool->parallel(function () use ($final_handlers) {
                 foreach ($final_handlers as $handler) {
                     $handler();
                 }
             });
-        }
-
-        foreach ($this->class_handlers as $handler) {
-            if($this->async){
-                \Amp\call([$handler, "handle"], $this->Bot, $update); // TODO ERROR HANDLING
-            }
-            else{
-                try{
-                    $handler->handleSync($this->Bot, $update);
-                }
-                catch(Throwable $e){
-                    $this->handleError($e);
-                }
-            }
         }
     }
 
@@ -151,8 +158,12 @@ class Dispatcher {
         $this->closure_handlers[$parameter][] = $handler;
     }
 
-    public function addClassHandler(BaseHandler $handler): void
+    // BaseHandler|string
+    public function addClassHandler($handler): void
     {
+        if(is_string($handler)){
+            $handler = new $handler($this->Bot);
+        }
         $this->class_handlers[] = $handler;
     }
 

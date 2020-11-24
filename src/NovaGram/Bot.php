@@ -13,10 +13,6 @@ use skrtdev\Telegram\Exception as TelegramException;
 use skrtdev\Telegram\Update;
 use skrtdev\Prototypes\proto;
 
-use Amp\Loop;
-#use Amp\Http\Client\HttpClientBuilder;
-#use Amp\Http\Client\Request;
-
 use Closure;
 use Throwable;
 use stdClass;
@@ -231,7 +227,6 @@ class Bot {
                 }
                 while (true) {
                     $offset = $this->processUpdates($offset ?? 0);
-                    Loop::run();
                 }
             }
             else $this->logger->error("No handler is found, but idle() method has been called");

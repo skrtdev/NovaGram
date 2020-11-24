@@ -9,19 +9,16 @@ use skrtdev\Telegram\Update;
  */
 class BaseHandler {
 
-    final public function __construct()
+    protected Bot $Bot;
+
+    final public function __construct(Bot $Bot)
     {
-        // code...
+        $this->Bot = $Bot;
     }
 
-    final public function handle(Bot $Bot, Update $update): \Generator
+    final public function handle(Update $update)
     {
-        yield from $this->onUpdate($Bot, $update);
-    }
-
-    final public function handleSync(Bot $Bot, Update $update)
-    {
-        $this->onUpdate($Bot, $update);
+        return $this->onUpdate($this->Bot, $update);
     }
 
 }
