@@ -142,12 +142,13 @@ $Bot->onText('lol', function (Message $message) {
     $message->reply("lololololol");
 });
 
-$Bot->onText('/ciao (\w+)/', function (Message $message) {
+$Bot->onText('/ciao (\w+)/', function (Message $message, array $matches) {
     $message->reply(print_r($matches, true));
 });
 
-$Bot->onCommand(['lol', 'lol2'], function (Message $message) {
+$Bot->onCommand(['lol', 'lol2'], function (Message $message, array $matches) {
     $message->reply("lololololol ma come comando");
+    $message->reply(print_r($matches, true));
 });
 
 function generateRandomString($length = 10) {

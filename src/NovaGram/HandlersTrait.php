@@ -85,13 +85,10 @@ trait HandlersTrait{
         }
         $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
             if(preg_match_all($pattern, $message->text, $matches) !== 0){
-                if(count($matches) === 1){
-                    $handler($message);
-                }
-                else{
+                if(count($matches) > 0){
                     unset($matches[0]);
-                    $handler($message, array_values($matches));
                 }
+                $handler($message, array_values($matches));
             }
         });
     }
@@ -102,6 +99,7 @@ trait HandlersTrait{
             $commands = [$commands];
         }
         $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'.$this->getUsername().')?(?: |$)/', $handler);
+        #$this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'.$this->getUsername().')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, explode(' ', $matches[0][0])));
     }
 }
 
