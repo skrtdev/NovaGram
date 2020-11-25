@@ -26,7 +26,7 @@ $settings is an array which contains some NovaGram configurations.
 | logger                      | int     | `Monolog\Logger::INFO`   | `Monolog\Logger` constant for logging                                                                                   |
 | disable_ip_check            | boolean | `false`                  | Whether or not disable telegram ip check (could be useful in case of reverse proxy, such as ngrok)                      |
 | exceptions                  | bool    | `true`                   | Whether or not throw \skrtdev\Telegram\Exception(s) when API Errors occurs                                              |
-| database                    | array   | no                       | [Database](database.md) connection info                                                                                 |
+| database                    | array   | no                       | [Database](database.md) array connection info or instance of an existing `PDO` database                                 |
 | parse_mode                  | string  | no                       | Default `parse_mode` for methods that require it                                                                        |
 | disable_web_page_preview    | bool    | no                       | Default `disable_web_page_preview` for methods that require it                                                          |
 | disable_notification        | bool    | no                       | Default `disable_notification` for methods that require it                                                              |

@@ -74,6 +74,10 @@ class Bot {
             "bot_api_url" => "https://api.telegram.org",
             "command_prefixes" => [self::COMMAND_PREFIX],
             "group_handlers" => true,
+            "database" => null,
+            "parse_mode" => null,
+            "disable_web_page_preview" => null,
+            "disable_notification" => null,
             "debug_mode" => "classic", // BC
         ];
 
@@ -121,8 +125,17 @@ class Bot {
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
-        if(isset($this->settings->database)){
-            $this->database = $this->db = new Database($this->settings->database);
+        $database = $this->settings->database;
+        if(isset($database)){
+            if(is_array($database)){
+                $this->database = new Database($database);
+            }
+            elseif($database instanceof \PDO){
+                $this->database = new Database([], $database);
+            }
+            else{
+                throw new Exception("Bot database parameter must be an array or an instance of PDO, ".gettype($database)." passed");
+            }
         }
 
         $logger->debug("Chosen mode is: ".$this->settings->mode);

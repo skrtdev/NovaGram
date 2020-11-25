@@ -2,9 +2,9 @@
 
 namespace skrtdev\NovaGram;
 
-use \PDO;
-use \skrtdev\Prototypes\proto;
-use \skrtdev\Telegram\User;
+use PDO;
+use skrtdev\Prototypes\proto;
+use skrtdev\Telegram\User;
 
 class Database{
 
@@ -13,10 +13,10 @@ class Database{
     const driver_options = [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY];
 
     private array $settings;
-    private PDO $PDO;
+    private PDO $pdo;
     private string $prefix;
 
-    public function __construct(array $settings){
+    public function __construct(array $settings, PDO $pdo = null){
 
         $settings_array = [
             "driver" => "mysql",
@@ -52,7 +52,7 @@ class Database{
            # PDO::ATTR_EMULATE_PREPARES => false,
         ];
 
-        $this->PDO = new PDO("$driver:$connection", $dbuser, $dbpass, $options);
+        $this->pdo = $pdo ?? new PDO("$driver:$connection", $dbuser, $dbpass, $options);
 
         $prefix = $settings['prefix'] ?? null;
         $this->prefix = isset($prefix) ? $prefix."_" : "";
@@ -153,7 +153,7 @@ class Database{
             $value = $row['value'];
             $name = $row['name'];
             $result[$name] = $value;
-        }   
+        }
         return $result;
     }
 
@@ -183,11 +183,11 @@ class Database{
     }
 
     public function getLastInsertId(): int{
-        return $this->PDO->query("SELECT LAST_INSERT_ID() as id")->fetch()['id'];
+        return $this->pdo->query("SELECT LAST_INSERT_ID() as id")->fetch()['id'];
     }
 
     public function query(string $query, array $params = []){
-        $sth = $this->PDO->prepare($query, self::driver_options);
+        $sth = $this->pdo->prepare($query, self::driver_options);
         $sth->execute($params);
         return $sth;
     }
@@ -197,7 +197,7 @@ class Database{
     }
 
     public function getPDO(): PDO{
-        return $this->PDO;
+        return $this->pdo;
     }
 
     public function normalizeConversation(array $conversation)
