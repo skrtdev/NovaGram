@@ -54,7 +54,7 @@ $Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
 
 });
 
-$Bot->onMessage(function (CallbackQuery $callback_query) use ($Bot) { // update is a callback query
+$Bot->onCallbackQuery(function (CallbackQuery $callback_query) use ($Bot) { // update is a callback query
 
     $user = $callback_query->from;
 
