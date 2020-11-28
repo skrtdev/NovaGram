@@ -23,6 +23,7 @@ $settings is an array which contains some NovaGram configurations.
 | bot_api_url                 | string  | https://api.telegram.org | Url for custom bot api                                                                                                  |
 | restart_on_changes          | bool    | `false`                  | Auto restart when Bot file is edited                                                                                    |
 | group_handlers              | bool    | `true`                   | Whether to execute all the handlers of an update in the same process (true), or fork a process for each handler (false) |
+| wait_handlers               | bool    | `false`                  | Whether to wait for handlers to finish when closing script                                                              |
 | logger                      | int     | `Monolog\Logger::INFO`   | `Monolog\Logger` constant for logging                                                                                   |
 | disable_ip_check            | boolean | `false`                  | Whether or not disable telegram ip check (could be useful in case of reverse proxy, such as ngrok)                      |
 | exceptions                  | bool    | `true`                   | Whether or not throw \skrtdev\Telegram\Exception(s) when API Errors occurs                                              |

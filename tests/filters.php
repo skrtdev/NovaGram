@@ -80,12 +80,13 @@ Bot::addMethod("onMessageFilter", function (Closure $filters, Closure $handler) 
 });
 
 $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
-    "restart_on_changes" => true,
+    #"restart_on_changes" => true,
     #"bot_api_url" => "http://localhost:8081",
     #"async" => false
     "command_prefixes" => ['/', '.'],
     #"logger" => Logger::DEBUG,
     "group_handlers" => false,
+    "wait_handlers" => true,
     "database" => [
         "driver" => "sqlite", // default to mysql
         "host" => "db.sqlite3", // default to localhost:3306
@@ -163,9 +164,17 @@ function generateRandomString($length = 10) {
 
 $Bot->onCommand('start', function (Message $message) {
     #$message->reply(print_r($message, true));
-    $message->reply(print_r($message->from->getConversations(), true));
-    $message->from->conversation(generateRandomString(), generateRandomString(), false);
+    #$message->reply(print_r($message->from->getConversations(), true));
+    #$message->from->conversation(generateRandomString(), generateRandomString(), false);
     $message->reply("ae comando start");
+    sleep(10);
+    $message->reply("after 10");
+});
+
+$Bot->onCommand('stop', function (Message $message) use ($Bot) {
+    $message->reply("Stopping...");
+    sleep(1);
+    posix_kill(posix_getppid(), SIGINT);
 });
 
 $Bot->onMessageFilter(fn($message) => $message->text === "F", function (Message $message) {
@@ -188,14 +197,14 @@ $Bot->onUpdate(function (Update $update) use ($Bot) {
 });
 */
 
-/*
+
 $Bot->addErrorHandler(function (Throwable $e) {
     print("Caught ".get_class($e)." exception from general handler".PHP_EOL);
-    print($e.PHP_EOL);
+    #print($e.PHP_EOL);
 });
-*/
-$Bot->handleClass(Handler::class);
 
-#$Bot->idle();
+#$Bot->handleClass(Handler::class);
+
+$Bot->idle();
 
 ?>

@@ -16,7 +16,6 @@ use skrtdev\Prototypes\proto;
 use Closure;
 use Throwable;
 use stdClass;
-use ReflectionFunction;
 
 class Bot {
 
@@ -44,12 +43,12 @@ class Bot {
     public ?Database $database = null; // read-only
 
     private bool $started = false;
+    private bool $running = false;
     private static bool $shown_license = false;
-
-    public Logger $logger;
-
+    private bool $is_handling = false;
     private ?string $file_sha = null;
 
+    public Logger $logger;
     private Dispatcher $dispatcher;
 
     public function __construct(string $token, array $settings = [], ?Logger $logger = null) {
@@ -74,6 +73,7 @@ class Bot {
             "bot_api_url" => "https://api.telegram.org",
             "command_prefixes" => [self::COMMAND_PREFIX],
             "group_handlers" => true,
+            "wait_handlers" => false,
             "database" => null,
             "parse_mode" => null,
             "disable_web_page_preview" => null,
@@ -114,14 +114,6 @@ class Bot {
             Utils::trigger_error("Using deprecated \"webhook\" mode in settings, check updated docs at https://docs.novagram.ga/construct.html", E_USER_DEPRECATED);
             $this->settings->mode = self::WEBHOOK;
         }
-        if($this->settings->restart_on_changes){
-            if($this->settings->mode === self::CLI){
-                $this->file_sha = Utils::getFileSHA();
-            }
-            else{
-                $this->settings->restart_on_changes = false;
-            }
-        }
 
         $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
@@ -160,7 +152,7 @@ class Bot {
             $this->settings->json_payload = false;
         }
 
-        $this->dispatcher = new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers);
+        $this->dispatcher = new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers);
 
         if($this->settings->debug !== false){
             $this->addErrorHandler(function (Throwable $e) {
@@ -170,8 +162,40 @@ class Bot {
 
         if($this->settings->mode === self::CLI){
             $this->username = $this->getMe()->username;
+
+            if($this->settings->wait_handlers){
+                pcntl_async_signals(true);
+                pcntl_signal(SIGINT, [$this, "stop"]);
+            }
+            if($this->settings->restart_on_changes){
+                $this->file_sha = Utils::getFileSHA();
+            }
         }
 
+    }
+
+    public function stop(int $signo = null)
+    {
+        if(!$this->settings->wait_handlers || $this->settings->mode !== self::CLI || !$this->settings->async) return;
+
+        print("Stopping...".PHP_EOL);
+        if($this->running){
+            if($this->is_handling){
+                var_dump($this->is_handling);
+                print("Could not stop, Bot is handling updates".PHP_EOL);
+                sleep(1);
+            }
+            else{
+                $this->running = false;
+                $pool = $this->dispatcher->getPool();
+                $pool->checkChilds();
+                if($pool->hasChilds() || $pool->hasQueue()){
+                    print("Waiting for handlers to finish...".PHP_EOL);
+                    $pool->wait();
+                }
+                exit;
+            }
+        }
     }
 
     public function setErrorHandler(...$args){
@@ -211,13 +235,14 @@ class Bot {
         $this->logger->debug('Processed Updates (async: '.(int) $async.')', $params);
         $this->restartOnChanges();
         foreach ($updates as $update) {
+            $this->is_handling = true;
             $this->logger->debug("Update handling started.", ['update_id' => $update->update_id]);
             $started = hrtime(true)/10**9;
             $this->dispatcher->handleUpdate($update);
             #$this->logger->debug("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
-
             $offset = $update->update_id+1;
         }
+        $this->is_handling = false;
         return $offset;
     }
 
@@ -234,11 +259,12 @@ class Bot {
                 $this->logger->debug('Idling...');
                 $this->deleteWebhook();
                 $this->started = true;
+                $this->running = true;
                 self::showLicense();
                 if(!$this->dispatcher->hasErrorHandlers()){
                     $this->logger->error("Error handler is not set."); // TODO THIS ERROR IN DISPATCHER
                 }
-                while (true) {
+                while ($this->running) {
                     $offset = $this->processUpdates($offset ?? 0);
                 }
             }
