@@ -20,10 +20,14 @@
 - [x] New Bot settings:
     - `command_prefixes`: Characters for commands prefixes. e.g. /start, .info
     - `group_handlers`: Whether to execute all the handlers of an update in the same process (`true`), or fork a process for each handler (`false`)
+    - `wait_handlers`: Whether to wait for handlers to finish when closing script
 - [ ] Conversations **full getters**
-    - `getConversationsByChat` (`User|Chat::getConversations()`)
-    - `getConversationsByValue`
+    - [x] `getConversationsByChat` (`User|Chat::getConversations()`)
+    - [x] `getConversationsByValue`
 - [ ] TTL in Conversations
+- `amphp` has been removed, now [skrtdev/async](https://github.com/skrtdev/php-async) is used in classes too
+- A custom `PDO` instance can now be used as database. Pass it in the database Bot setting instead of the Database array (`novagram` will be used as prefix)
+- `Exception::$response_parameters` is now an instance of `ResponseParameters` or null
 
 ## v1.7 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.7)
 - Improved performances of [skrtdev/async](https://github.com/skrtdev/php-async)
