@@ -10,18 +10,16 @@ class Type {
 
     use proto;
 
-    protected Bot $Bot;
+    protected ?Bot $Bot;
     private stdClass $config;
     private string $_;
 
-    public function __construct(string $type, array $json, Bot $Bot){
+    public function __construct(string $type, array $json, Bot $Bot = null){
 
         $this->_ = $type;
         $this->Bot = $Bot;
 
         foreach ($json as $key => $value) $this->$key = $value;
-
-        $this->config = json_decode(json_encode($Bot->getJSON()));
 
         if($type === "User"){
             if(isset($Bot->database)){
@@ -32,6 +30,8 @@ class Type {
     }
 
     public function __call(string $name, array $arguments){
+
+        $this->config ??= json_decode(json_encode($this->Bot->getJSON()));
 
         if(!isset($this->config->types_methods->{$this->_})){
             return Prototype::call($this, $name, $arguments);
