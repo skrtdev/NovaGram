@@ -21,7 +21,7 @@ for ($i=0; $i < 300; $i++) {
                 break;
             }
             catch(TooManyRequestsException $e){
-                $seconds = $e->response['parameters']['retry_after'];
+                $seconds = $e->response_parameters->retry_after;
                 echo "Sleeping for $seconds seconds", PHP_EOL;
                 sleep($seconds);
             }
