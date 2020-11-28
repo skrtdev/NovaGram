@@ -4,13 +4,15 @@ namespace skrtdev\Telegram;
 
 class Exception extends \Exception{
 
-    public ResponseParameters $response_parameters; // read-only
+    public ?ResponseParameters $response_parameters = null; // read-only
 
     public function __construct(string $method, array $response, array $data, Exception $previous = null) {
 
         $this->method = $method;
         $this->data = $data;
-        $this->response_parameters = new ResponseParameters("ResponseParameters", $response['parameters']);
+        if (isset($response['parameters'])) {
+            $this->response_parameters = new ResponseParameters("ResponseParameters", $response['parameters']);
+        }
 
         parent::__construct($response['description'], $response['error_code'], $previous);
     }
