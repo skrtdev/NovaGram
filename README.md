@@ -1,5 +1,5 @@
 # NovaGram
-[![GitHub license](https://img.shields.io/github/license/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/stargazers) [![Version](https://poser.pugx.org/skrtdev/novagram/version)](https://github.com/skrtdev/NovaGram/releases)  [![Total Downloads](https://poser.pugx.org/skrtdev/novagram/downloads)](https://packagist.org/packages/skrtdev/novagram)
+[![GitHub license](https://img.shields.io/github/license/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/skrtdev/NovaGram)](https://github.com/skrtdev/NovaGram/stargazers) [![Version](https://poser.pugx.org/skrtdev/novagram/version)](https://github.com/skrtdev/NovaGram/releases)  [![Total Downloads](https://poser.pugx.org/skrtdev/novagram/downloads)](https://packagist.org/packages/skrtdev/novagram) [![Total Downloads](https://img.shields.io/static/v1?label=telegram&message=group&color=blue&logo=telegram)](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)
 
 
 <p align="center">
@@ -45,7 +45,7 @@ $Bot->onMessage(function (Message $message) use ($Bot) {
 
 ### Why another PHP library?
 
-I decided to build my own php library for telegram bot api because all the libraries i found on the web [made it difficult even to do the simplest things](docs/compare.md), such as a sendMessage.
+I decided to build my own php library for telegram bot api because all the libraries i found on the web [made it difficult even to do the simplest things](docs/compare.md), such as a sendMessage.  
 NovaGram is built in order to bring a lightweight alternative to make bots, so that it is simple for beginners, but powerful for who already knows how to implement it.
 
 
@@ -61,5 +61,14 @@ After Installation, include NovaGram with:
 require __DIR__ . '/vendor/autoload.php';
 ```
 
+### Installation via Phar
+
+Include the `phar` file in your bot file:
+```php
+if (!file_exists('novagram.phar')) {
+    copy('http://gaetano.cf/novagram/phar.php', 'novagram.phar');
+}
+require_once 'novagram.phar';
+```
+
 More info in the [Documentation](https://docs.novagram.ga)  
-Public support group at [https://t.me/joinchat/JdBNOEqGheC33G476FiB2g](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)
