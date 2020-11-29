@@ -12,10 +12,14 @@
     "require":{
         "php":">=7.4",
         "ext-json":"*",
-        "ext-mbstring":"*",
         "ext-curl":"*",
-        "skrtdev/async":"~0.5",
+        "skrtdev/async":"~0.6",
         "monolog/monolog":"^2.1"
+    },
+    "suggest": {
+        "ext-mbstring":"Needed to use the built-in Telegram Entites Parser",
+        "ext-pdo":"Needed to use the built-in Database",
+        "ext-pcntl":"Needed to process updates with multi-processing"
     },
     "autoload": {
         "psr-4":{
