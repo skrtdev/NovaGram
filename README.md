@@ -62,4 +62,4 @@ require __DIR__ . '/vendor/autoload.php';
 ```
 
 More info in the [Documentation](https://docs.novagram.ga)  
-Public support group at [https://t.me/joinchat/JdBNOEqGheC33G476FiB2g](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)
+Public support group at [this link](https://t.me/joinchat/JdBNOEqGheC33G476FiB2g)
