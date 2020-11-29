@@ -10,11 +10,11 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Update[]
      */
-    public function getUpdates($args = null, bool $payload = false){
+    public function getUpdates($args = null, bool $payload = false, ...$kwargs){
         $params = $args;
-        return $this->APICall("getUpdates", $params ?? [], $payload);
+        return $this->APICall("getUpdates", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -25,9 +25,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function setWebhook($url, $args = null, bool $payload = false){
+    public function setWebhook($url, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($url)){
             $payload = $args ?? false; // 2nd param
             $params = $url ?? [];
@@ -35,7 +35,7 @@ trait Methods{
         else{
             $params = ["url" => $url] + ($args ?? []);
         }
-        return $this->APICall("setWebhook", $params ?? [], $payload);
+        return $this->APICall("setWebhook", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -44,11 +44,11 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function deleteWebhook($args = null, bool $payload = false){
+    public function deleteWebhook($args = null, bool $payload = false, ...$kwargs){
         $params = $args;
-        return $this->APICall("deleteWebhook", $params ?? [], $payload);
+        return $this->APICall("deleteWebhook", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -59,7 +59,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\WebhookInfo
      */
     public function getWebhookInfo(bool $payload = false){
         return $this->APICall("getWebhookInfo", $params ?? [], $payload);
@@ -72,7 +72,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\User
      */
     public function getMe(bool $payload = false){
         return $this->APICall("getMe", $params ?? [], $payload);
@@ -87,7 +87,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function logOut(bool $payload = false){
         return $this->APICall("logOut", $params ?? [], $payload);
@@ -102,7 +102,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function close(bool $payload = false){
         return $this->APICall("close", $params ?? [], $payload);
@@ -114,9 +114,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendMessage($chat_id, $text = null, $args = null, bool $payload = false){
+    public function sendMessage($chat_id, $text = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $text ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -124,7 +124,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "text" => $text] + ($args ?? []);
         }
-        return $this->APICall("sendMessage", $params ?? [], $payload);
+        return $this->APICall("sendMessage", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -133,9 +133,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function forwardMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = null, bool $payload = false){
+    public function forwardMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $from_chat_id ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -143,7 +143,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "from_chat_id" => $from_chat_id, "message_id" => $message_id] + ($args ?? []);
         }
-        return $this->APICall("forwardMessage", $params ?? [], $payload);
+        return $this->APICall("forwardMessage", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -153,9 +153,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\MessageId
      */
-    public function copyMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = null, bool $payload = false){
+    public function copyMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $from_chat_id ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -163,7 +163,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "from_chat_id" => $from_chat_id, "message_id" => $message_id] + ($args ?? []);
         }
-        return $this->APICall("copyMessage", $params ?? [], $payload);
+        return $this->APICall("copyMessage", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -172,9 +172,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendPhoto($chat_id, $photo = null, $args = null, bool $payload = false){
+    public function sendPhoto($chat_id, $photo = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $photo ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -182,7 +182,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "photo" => $photo] + ($args ?? []);
         }
-        return $this->APICall("sendPhoto", $params ?? [], $payload);
+        return $this->APICall("sendPhoto", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -193,9 +193,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendAudio($chat_id, $audio = null, $args = null, bool $payload = false){
+    public function sendAudio($chat_id, $audio = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $audio ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -203,7 +203,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "audio" => $audio] + ($args ?? []);
         }
-        return $this->APICall("sendAudio", $params ?? [], $payload);
+        return $this->APICall("sendAudio", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -213,9 +213,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendDocument($chat_id, $document = null, $args = null, bool $payload = false){
+    public function sendDocument($chat_id, $document = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $document ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -223,7 +223,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "document" => $document] + ($args ?? []);
         }
-        return $this->APICall("sendDocument", $params ?? [], $payload);
+        return $this->APICall("sendDocument", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -233,9 +233,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendVideo($chat_id, $video = null, $args = null, bool $payload = false){
+    public function sendVideo($chat_id, $video = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $video ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -243,7 +243,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "video" => $video] + ($args ?? []);
         }
-        return $this->APICall("sendVideo", $params ?? [], $payload);
+        return $this->APICall("sendVideo", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -253,9 +253,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendAnimation($chat_id, $animation = null, $args = null, bool $payload = false){
+    public function sendAnimation($chat_id, $animation = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $animation ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -263,7 +263,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "animation" => $animation] + ($args ?? []);
         }
-        return $this->APICall("sendAnimation", $params ?? [], $payload);
+        return $this->APICall("sendAnimation", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -274,9 +274,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendVoice($chat_id, $voice = null, $args = null, bool $payload = false){
+    public function sendVoice($chat_id, $voice = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $voice ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -284,7 +284,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "voice" => $voice] + ($args ?? []);
         }
-        return $this->APICall("sendVoice", $params ?? [], $payload);
+        return $this->APICall("sendVoice", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -294,9 +294,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendVideoNote($chat_id, $video_note = null, $args = null, bool $payload = false){
+    public function sendVideoNote($chat_id, $video_note = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $video_note ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -304,7 +304,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "video_note" => $video_note] + ($args ?? []);
         }
-        return $this->APICall("sendVideoNote", $params ?? [], $payload);
+        return $this->APICall("sendVideoNote", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -314,9 +314,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message[]
      */
-    public function sendMediaGroup($chat_id, $media = null, $args = null, bool $payload = false){
+    public function sendMediaGroup($chat_id, $media = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $media ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -324,7 +324,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "media" => $media] + ($args ?? []);
         }
-        return $this->APICall("sendMediaGroup", $params ?? [], $payload);
+        return $this->APICall("sendMediaGroup", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -333,9 +333,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendLocation($chat_id, $latitude = null, float $longitude = null, array $args = null, bool $payload = false){
+    public function sendLocation($chat_id, $latitude = null, float $longitude = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $latitude ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -343,7 +343,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "latitude" => $latitude, "longitude" => $longitude] + ($args ?? []);
         }
-        return $this->APICall("sendLocation", $params ?? [], $payload);
+        return $this->APICall("sendLocation", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -353,9 +353,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message|bool
      */
-    public function editMessageLiveLocation($latitude, $longitude = null, $args = null, bool $payload = false){
+    public function editMessageLiveLocation($latitude, $longitude = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($latitude)){
             $payload = $longitude ?? false; // 2nd param
             $params = $latitude ?? [];
@@ -363,7 +363,7 @@ trait Methods{
         else{
             $params = ["latitude" => $latitude, "longitude" => $longitude] + ($args ?? []);
         }
-        return $this->APICall("editMessageLiveLocation", $params ?? [], $payload);
+        return $this->APICall("editMessageLiveLocation", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -372,11 +372,11 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message|bool
      */
-    public function stopMessageLiveLocation($args = null, bool $payload = false){
+    public function stopMessageLiveLocation($args = null, bool $payload = false, ...$kwargs){
         $params = $args;
-        return $this->APICall("stopMessageLiveLocation", $params ?? [], $payload);
+        return $this->APICall("stopMessageLiveLocation", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -385,9 +385,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendVenue($chat_id, $latitude = null, float $longitude = null, string $title = null, string $address = null, array $args = null, bool $payload = false){
+    public function sendVenue($chat_id, $latitude = null, float $longitude = null, string $title = null, string $address = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $latitude ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -395,7 +395,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "latitude" => $latitude, "longitude" => $longitude, "title" => $title, "address" => $address] + ($args ?? []);
         }
-        return $this->APICall("sendVenue", $params ?? [], $payload);
+        return $this->APICall("sendVenue", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -404,9 +404,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendContact($chat_id, $phone_number = null, string $first_name = null, array $args = null, bool $payload = false){
+    public function sendContact($chat_id, $phone_number = null, string $first_name = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $phone_number ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -414,7 +414,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "phone_number" => $phone_number, "first_name" => $first_name] + ($args ?? []);
         }
-        return $this->APICall("sendContact", $params ?? [], $payload);
+        return $this->APICall("sendContact", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -423,9 +423,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendPoll($chat_id, $question = null, array $options = null, array $args = null, bool $payload = false){
+    public function sendPoll($chat_id, $question = null, array $options = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $question ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -433,7 +433,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "question" => $question, "options" => $options] + ($args ?? []);
         }
-        return $this->APICall("sendPoll", $params ?? [], $payload);
+        return $this->APICall("sendPoll", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -442,9 +442,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendDice($chat_id, $args = null, bool $payload = false){
+    public function sendDice($chat_id, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $args ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -452,7 +452,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("sendDice", $params ?? [], $payload);
+        return $this->APICall("sendDice", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -462,7 +462,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function sendChatAction($chat_id, $action = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -481,9 +481,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\UserProfilePhotos
      */
-    public function getUserProfilePhotos($user_id, $args = null, bool $payload = false){
+    public function getUserProfilePhotos($user_id, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($user_id)){
             $payload = $args ?? false; // 2nd param
             $params = $user_id ?? [];
@@ -491,7 +491,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("getUserProfilePhotos", $params ?? [], $payload);
+        return $this->APICall("getUserProfilePhotos", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -504,7 +504,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\File
      */
     public function getFile($file_id, bool $payload = false){
         if(is_array($file_id)){
@@ -525,9 +525,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function kickChatMember($chat_id, $user_id = null, $args = null, bool $payload = false){
+    public function kickChatMember($chat_id, $user_id = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $user_id ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -535,7 +535,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("kickChatMember", $params ?? [], $payload);
+        return $this->APICall("kickChatMember", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -549,9 +549,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function unbanChatMember($chat_id, $user_id = null, $args = null, bool $payload = false){
+    public function unbanChatMember($chat_id, $user_id = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $user_id ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -559,7 +559,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("unbanChatMember", $params ?? [], $payload);
+        return $this->APICall("unbanChatMember", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -570,9 +570,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function restrictChatMember($chat_id, $user_id = null, ChatPermissions $permissions = null, array $args = null, bool $payload = false){
+    public function restrictChatMember($chat_id, $user_id = null, ChatPermissions $permissions = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $user_id ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -580,7 +580,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id, "permissions" => $permissions] + ($args ?? []);
         }
-        return $this->APICall("restrictChatMember", $params ?? [], $payload);
+        return $this->APICall("restrictChatMember", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -591,9 +591,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function promoteChatMember($chat_id, $user_id = null, $args = null, bool $payload = false){
+    public function promoteChatMember($chat_id, $user_id = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $user_id ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -601,7 +601,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("promoteChatMember", $params ?? [], $payload);
+        return $this->APICall("promoteChatMember", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -610,7 +610,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function setChatAdministratorCustomTitle($chat_id, $user_id = null, string $custom_title = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -630,7 +630,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function setChatPermissions($chat_id, $permissions = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -650,7 +650,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return string
      */
     public function exportChatInviteLink($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -671,7 +671,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function setChatPhoto($chat_id, $photo = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -692,7 +692,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function deleteChatPhoto($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -713,7 +713,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function setChatTitle($chat_id, $title = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -733,9 +733,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function setChatDescription($chat_id, $args = null, bool $payload = false){
+    public function setChatDescription($chat_id, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $args ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -743,7 +743,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("setChatDescription", $params ?? [], $payload);
+        return $this->APICall("setChatDescription", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -753,9 +753,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function pinChatMessage($chat_id, $message_id = null, $args = null, bool $payload = false){
+    public function pinChatMessage($chat_id, $message_id = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $message_id ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -763,7 +763,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "message_id" => $message_id] + ($args ?? []);
         }
-        return $this->APICall("pinChatMessage", $params ?? [], $payload);
+        return $this->APICall("pinChatMessage", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -773,9 +773,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function unpinChatMessage($chat_id, $args = null, bool $payload = false){
+    public function unpinChatMessage($chat_id, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $args ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -783,7 +783,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
-        return $this->APICall("unpinChatMessage", $params ?? [], $payload);
+        return $this->APICall("unpinChatMessage", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -793,7 +793,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function unpinAllChatMessages($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -812,7 +812,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function leaveChat($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -831,7 +831,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Chat
      */
     public function getChat($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -851,7 +851,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\ChatMember[]
      */
     public function getChatAdministrators($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -870,7 +870,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return int
      */
     public function getChatMembersCount($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -889,7 +889,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\ChatMember
      */
     public function getChatMember($chat_id, $user_id = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -910,7 +910,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function setChatStickerSet($chat_id, $sticker_set_name = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -931,7 +931,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function deleteChatStickerSet($chat_id, bool $payload = false){
         if(is_array($chat_id)){
@@ -951,9 +951,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function answerCallbackQuery($callback_query_id, $args = null, bool $payload = false){
+    public function answerCallbackQuery($callback_query_id, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($callback_query_id)){
             $payload = $args ?? false; // 2nd param
             $params = $callback_query_id ?? [];
@@ -961,7 +961,7 @@ trait Methods{
         else{
             $params = ["callback_query_id" => $callback_query_id] + ($args ?? []);
         }
-        return $this->APICall("answerCallbackQuery", $params ?? [], $payload);
+        return $this->APICall("answerCallbackQuery", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -970,11 +970,11 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function setMyCommands($args = null, bool $payload = false){
+    public function setMyCommands($args = null, bool $payload = false, ...$kwargs){
         $params = $args;
-        return $this->APICall("setMyCommands", $params ?? [], $payload);
+        return $this->APICall("setMyCommands", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -984,7 +984,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\BotCommand[]
      */
     public function getMyCommands(bool $payload = false){
         return $this->APICall("getMyCommands", $params ?? [], $payload);
@@ -996,9 +996,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message|bool
      */
-    public function editMessageText($text, $args = null, bool $payload = false){
+    public function editMessageText($text, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($text)){
             $payload = $args ?? false; // 2nd param
             $params = $text ?? [];
@@ -1006,7 +1006,7 @@ trait Methods{
         else{
             $params = ["text" => $text] + ($args ?? []);
         }
-        return $this->APICall("editMessageText", $params ?? [], $payload);
+        return $this->APICall("editMessageText", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1015,11 +1015,11 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message|bool
      */
-    public function editMessageCaption($args = null, bool $payload = false){
+    public function editMessageCaption($args = null, bool $payload = false, ...$kwargs){
         $params = $args;
-        return $this->APICall("editMessageCaption", $params ?? [], $payload);
+        return $this->APICall("editMessageCaption", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1031,9 +1031,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message|bool
      */
-    public function editMessageMedia($media, $args = null, bool $payload = false){
+    public function editMessageMedia($media, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($media)){
             $payload = $args ?? false; // 2nd param
             $params = $media ?? [];
@@ -1041,7 +1041,7 @@ trait Methods{
         else{
             $params = ["media" => $media] + ($args ?? []);
         }
-        return $this->APICall("editMessageMedia", $params ?? [], $payload);
+        return $this->APICall("editMessageMedia", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1050,11 +1050,11 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message|bool
      */
-    public function editMessageReplyMarkup($args = null, bool $payload = false){
+    public function editMessageReplyMarkup($args = null, bool $payload = false, ...$kwargs){
         $params = $args;
-        return $this->APICall("editMessageReplyMarkup", $params ?? [], $payload);
+        return $this->APICall("editMessageReplyMarkup", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1063,9 +1063,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Poll
      */
-    public function stopPoll($chat_id, $message_id = null, $args = null, bool $payload = false){
+    public function stopPoll($chat_id, $message_id = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $message_id ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -1073,7 +1073,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "message_id" => $message_id] + ($args ?? []);
         }
-        return $this->APICall("stopPoll", $params ?? [], $payload);
+        return $this->APICall("stopPoll", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1081,7 +1081,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function deleteMessage($chat_id, $message_id = null, bool $payload = false){
         if(is_array($chat_id)){
@@ -1100,9 +1100,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendSticker($chat_id, $sticker = null, $args = null, bool $payload = false){
+    public function sendSticker($chat_id, $sticker = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $sticker ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -1110,7 +1110,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "sticker" => $sticker] + ($args ?? []);
         }
-        return $this->APICall("sendSticker", $params ?? [], $payload);
+        return $this->APICall("sendSticker", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1119,7 +1119,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\StickerSet
      */
     public function getStickerSet($name, bool $payload = false){
         if(is_array($name)){
@@ -1138,7 +1138,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\File
      */
     public function uploadStickerFile($user_id, $png_sticker = null, bool $payload = false){
         if(is_array($user_id)){
@@ -1159,9 +1159,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function createNewStickerSet($user_id, $name = null, string $title = null, string $emojis = null, array $args = null, bool $payload = false){
+    public function createNewStickerSet($user_id, $name = null, string $title = null, string $emojis = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($user_id)){
             $payload = $name ?? false; // 2nd param
             $params = $user_id ?? [];
@@ -1169,7 +1169,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id, "name" => $name, "title" => $title, "emojis" => $emojis] + ($args ?? []);
         }
-        return $this->APICall("createNewStickerSet", $params ?? [], $payload);
+        return $this->APICall("createNewStickerSet", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1182,9 +1182,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function addStickerToSet($user_id, $name = null, string $emojis = null, array $args = null, bool $payload = false){
+    public function addStickerToSet($user_id, $name = null, string $emojis = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($user_id)){
             $payload = $name ?? false; // 2nd param
             $params = $user_id ?? [];
@@ -1192,7 +1192,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id, "name" => $name, "emojis" => $emojis] + ($args ?? []);
         }
-        return $this->APICall("addStickerToSet", $params ?? [], $payload);
+        return $this->APICall("addStickerToSet", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1201,7 +1201,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function setStickerPositionInSet($sticker, $position = null, bool $payload = false){
         if(is_array($sticker)){
@@ -1220,7 +1220,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function deleteStickerFromSet($sticker, bool $payload = false){
         if(is_array($sticker)){
@@ -1240,9 +1240,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function setStickerSetThumb($name, $user_id = null, $args = null, bool $payload = false){
+    public function setStickerSetThumb($name, $user_id = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($name)){
             $payload = $user_id ?? false; // 2nd param
             $params = $name ?? [];
@@ -1250,7 +1250,7 @@ trait Methods{
         else{
             $params = ["name" => $name, "user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("setStickerSetThumb", $params ?? [], $payload);
+        return $this->APICall("setStickerSetThumb", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1259,9 +1259,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function answerInlineQuery($inline_query_id, $results = null, $args = null, bool $payload = false){
+    public function answerInlineQuery($inline_query_id, $results = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($inline_query_id)){
             $payload = $results ?? false; // 2nd param
             $params = $inline_query_id ?? [];
@@ -1269,26 +1269,26 @@ trait Methods{
         else{
             $params = ["inline_query_id" => $inline_query_id, "results" => $results] + ($args ?? []);
         }
-        return $this->APICall("answerInlineQuery", $params ?? [], $payload);
+        return $this->APICall("answerInlineQuery", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
      * Use this method to send invoices.
      * On success, the sent Message is returned.
      *
-     * @param bool $json_payload Whether to use JSON payload for this method.
+     * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendInvoice($chat_id, $title = null, string $description = null, string $payload = null, string $provider_token = null, string $start_parameter = null, string $currency = null, array $prices = null, array $args = null, bool $json_payload = false){
+    public function sendInvoice($chat_id, $title = null, string $description = null, string $payload = null, string $provider_token = null, string $start_parameter = null, string $currency = null, array $prices = null, array $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
-            $json_payload = $title ?? false; // 2nd param
+            $payload = $title ?? false; // 2nd param
             $params = $chat_id ?? [];
         }
         else{
             $params = ["chat_id" => $chat_id, "title" => $title, "description" => $description, "payload" => $payload, "provider_token" => $provider_token, "start_parameter" => $start_parameter, "currency" => $currency, "prices" => $prices] + ($args ?? []);
         }
-        return $this->APICall("sendInvoice", $params ?? [], $json_payload);
+        return $this->APICall("sendInvoice", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1298,9 +1298,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function answerShippingQuery($shipping_query_id, $ok = null, $args = null, bool $payload = false){
+    public function answerShippingQuery($shipping_query_id, $ok = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($shipping_query_id)){
             $payload = $ok ?? false; // 2nd param
             $params = $shipping_query_id ?? [];
@@ -1308,7 +1308,7 @@ trait Methods{
         else{
             $params = ["shipping_query_id" => $shipping_query_id, "ok" => $ok] + ($args ?? []);
         }
-        return $this->APICall("answerShippingQuery", $params ?? [], $payload);
+        return $this->APICall("answerShippingQuery", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1319,9 +1319,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
-    public function answerPreCheckoutQuery($pre_checkout_query_id, $ok = null, $args = null, bool $payload = false){
+    public function answerPreCheckoutQuery($pre_checkout_query_id, $ok = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($pre_checkout_query_id)){
             $payload = $ok ?? false; // 2nd param
             $params = $pre_checkout_query_id ?? [];
@@ -1329,7 +1329,7 @@ trait Methods{
         else{
             $params = ["pre_checkout_query_id" => $pre_checkout_query_id, "ok" => $ok] + ($args ?? []);
         }
-        return $this->APICall("answerPreCheckoutQuery", $params ?? [], $payload);
+        return $this->APICall("answerPreCheckoutQuery", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1339,7 +1339,7 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return bool
      */
     public function setPassportDataErrors($user_id, $errors = null, bool $payload = false){
         if(is_array($user_id)){
@@ -1358,9 +1358,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message
      */
-    public function sendGame($chat_id, $game_short_name = null, $args = null, bool $payload = false){
+    public function sendGame($chat_id, $game_short_name = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $payload = $game_short_name ?? false; // 2nd param
             $params = $chat_id ?? [];
@@ -1368,7 +1368,7 @@ trait Methods{
         else{
             $params = ["chat_id" => $chat_id, "game_short_name" => $game_short_name] + ($args ?? []);
         }
-        return $this->APICall("sendGame", $params ?? [], $payload);
+        return $this->APICall("sendGame", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1378,9 +1378,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\Message|bool
      */
-    public function setGameScore($user_id, $score = null, $args = null, bool $payload = false){
+    public function setGameScore($user_id, $score = null, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($user_id)){
             $payload = $score ?? false; // 2nd param
             $params = $user_id ?? [];
@@ -1388,7 +1388,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id, "score" => $score] + ($args ?? []);
         }
-        return $this->APICall("setGameScore", $params ?? [], $payload);
+        return $this->APICall("setGameScore", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
     /**
@@ -1398,9 +1398,9 @@ trait Methods{
      *
      * @param bool $payload Whether to use payload for this method.
      *
-     * @return \skrtdev\Telegram\Type|bool|string
+     * @return skrtdev\Telegram\GameHighScore[]
      */
-    public function getGameHighScores($user_id, $args = null, bool $payload = false){
+    public function getGameHighScores($user_id, $args = null, bool $payload = false, ...$kwargs){
         if(is_array($user_id)){
             $payload = $args ?? false; // 2nd param
             $params = $user_id ?? [];
@@ -1408,7 +1408,7 @@ trait Methods{
         else{
             $params = ["user_id" => $user_id] + ($args ?? []);
         }
-        return $this->APICall("getGameHighScores", $params ?? [], $payload);
+        return $this->APICall("getGameHighScores", ($kwargs ?? []) + ($params ?? []), $payload);
     }
 
 }

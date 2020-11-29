@@ -29,7 +29,7 @@ class Type {
 
     }
 
-    public function __call(string $name, array $arguments){
+    public function __call(string $name, array $arguments, ...$kwargs){
 
         $this->config ??= json_decode(json_encode($this->Bot->getJSON()));
 
@@ -71,6 +71,7 @@ class Type {
                 $payload = $arguments[1] ?? false;
             }
         }
+        $data = $kwargs + $data;
         if(count($data) === 0) throw new \ArgumentCountError("Too few arguments to function ".get_class($this)."::$name(), 0 passed");
         return $this->Bot->APICall($this_method->alias ?? $name, $data, $payload ?? false);
     }
