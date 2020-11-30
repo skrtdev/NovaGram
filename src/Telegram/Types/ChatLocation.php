@@ -8,7 +8,7 @@ use skrtdev\Prototypes\simpleProto;
 /**
  * Represents a location to which a chat is connected.
 */
-class ChatLocation extends \Telegram\ChatLocation{
+class ChatLocation extends Type{
 
     use simpleProto;
 
