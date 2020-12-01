@@ -1,5 +1,5 @@
 ### Composer ###
-composer.phar
+*.phar
 /vendor/
 composer.lock
 
