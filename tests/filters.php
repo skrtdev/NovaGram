@@ -80,13 +80,13 @@ Bot::addMethod("onMessageFilter", function (Closure $filters, Closure $handler) 
 });
 
 $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
-    #"restart_on_changes" => true,
+    "restart_on_changes" => true,
     #"bot_api_url" => "http://localhost:8081",
     #"async" => false
     "command_prefixes" => ['/', '.'],
     #"logger" => Logger::DEBUG,
     "group_handlers" => false,
-    "wait_handlers" => true,
+    #"wait_handlers" => true,
     "database" => [
         "driver" => "sqlite", // default to mysql
         "host" => "db.sqlite3", // default to localhost:3306
@@ -162,11 +162,12 @@ function generateRandomString($length = 10) {
     return $randomString;
 }
 
-$Bot->onCommand('start', function (Message $message) {
+$Bot->onCommand('start', function (Message $message) use ($Bot) {
     #$message->reply(print_r($message, true));
     #$message->reply(print_r($message->from->getConversations(), true));
     #$message->from->conversation(generateRandomString(), generateRandomString(), false);
-    $message->reply("ae comando start");
+    $Bot->sendMessage(chat_id: $message->from->id, text: "Ciao kek");
+    $message->reply("ae comando start", text: "Ops sovrascritto");
     sleep(10);
     $message->reply("after 10");
 });
