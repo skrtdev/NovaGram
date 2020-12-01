@@ -254,21 +254,29 @@ class Bot {
     }
 
     public function idle(){
-        if($this->settings->mode === self::CLI and !$this->started){
-            if($this->dispatcher->hasHandlers()){
+        if(!$this->started){
+            if(!$this->dispatcher->hasHandlers()){
+                throw new Exception("No handler is found, but idle() method has been called");
+            }
+            if(!$this->dispatcher->hasErrorHandlers()){
+                $this->logger->error("Error handler is not set."); // TODO THIS ERROR IN DISPATCHER
+            }
+
+            $this->started = true;
+            if($this->settings->mode === self::CLI){
                 $this->logger->debug('Idling...');
                 $this->deleteWebhook();
-                $this->started = true;
                 $this->running = true;
                 self::showLicense();
-                if(!$this->dispatcher->hasErrorHandlers()){
-                    $this->logger->error("Error handler is not set."); // TODO THIS ERROR IN DISPATCHER
-                }
                 while ($this->running) {
                     $offset = $this->processUpdates($offset ?? 0);
                 }
             }
-            else $this->logger->error("No handler is found, but idle() method has been called");
+            if($this->settings->mode === self::WEBHOOK){
+                if(isset($this->update)){
+                    $this->dispatcher->handleUpdate($this->update);
+                }
+            }
         }
     }
 
@@ -280,12 +288,11 @@ class Bot {
 
                 if($this->settings->mode === self::CLI){
                     $this->logger->debug('Idling by destructor');
+                    $this->logger->error('No call to Bot::idle() has been done, idling by destructor. NovaGram will not idle automatically anymore in v2.0');
                     $this->idle();
                 }
                 if($this->settings->mode === self::WEBHOOK){
-                    if(isset($this->update)){
-                        $this->dispatcher->handleUpdate($this->update);
-                    }
+                    $this->idle();
                 }
             }
         }
