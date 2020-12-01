@@ -1,31 +1,14 @@
 # CHANGELOG
 
-## v2.0 - _Future Deprecations_
-
-- Classes
-    - `TelegramBot`
-    - `Telegram\Bot`
-    - `NovaGram\Bot`
-    - `Telegram\*` Types
-- Bot Class
-    - Settings
-        - `disable_webhook` parameter (`Bot::NONE`)
-        - `getUpdates` mode (`Bot::CLI`)
-        - `webhook` mode (`Bot::WEBHOOK`)
-    - Methods
-        - `setErrorHandler` -> `addErrorHandler`
-- If PHP8 only:
-    - remove `$args` array in favor of PHP8 `named arguments`
-
 ## v1.8 - [_Not released yet_](https://github.com/skrtdev/NovaGram/)
-- [x] New handlers: `onTextMessage`, `onText`, and `onCommand`
-- [x] New Bot settings:
-    - `command_prefixes`: Array of characters for commands prefixes. e.g. /start, .info
+- New handlers: `onTextMessage`, `onText`, and `onCommand`
+- New Bot settings:
+    - `command_prefixes`: Array of characters for commands prefixes. e.g. `/start`, `.info`
     - `group_handlers`: Whether to execute all the handlers of an update in the same process (`true`), or fork a process for each handler (`false`)
     - `wait_handlers`: Whether to wait for handlers to finish when closing script
-- [ ] Conversations **full getters**
-    - [x] `getConversationsByChat` (`User|Chat::getConversations()`)
-    - [x] `getConversationsByValue`
+- Conversations **full getters**
+    - `getConversationsByChat` (`User|Chat::getConversations()`)
+    - `getConversationsByValue`
 - [ ] TTL in Conversations
 - `amphp` has been removed, now [skrtdev/async](https://github.com/skrtdev/php-async) is used in classes too
 - You can now use PHP8 `named arguments` instead of the `$args` array
