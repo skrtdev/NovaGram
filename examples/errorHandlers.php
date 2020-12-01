@@ -10,7 +10,6 @@ else{
     require_once 'novagram.phar';
 }
 
-#use skrtdev\NovaGram\Bot;
 use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\Message;
 use skrtdev\NovaGram\Exception as NovaGramException;
@@ -20,11 +19,8 @@ $Bot = new Bot(readline("Insert Bot token: "));
 
 
 $Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
-
-    $chat = $message->chat;
-
+    
     if(isset($message->from)){ // message has a sender
-        $user = $message->from;
         $text = $message->text;
 
         if($text === "/novagram"){
@@ -34,10 +30,7 @@ $Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
             $Bot->sendMessage(0, "uh");
         }
         if($text === "/getUpdates"){
-            $Bot->getUpdates(["timeout" => 300]);
-            (new skrtdev\async\Pool)->parallel(function () use ($Bot) {
-                $Bot->getUpdates(["timeout" => 300]);
-            });
+            $Bot->getUpdates();
         }
         if($text === "/exception"){
             throw new \Exception("Sample Exception");

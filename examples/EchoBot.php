@@ -8,10 +8,6 @@ else{
     }
     require_once 'novagram.phar';
 }
-/*
-    if hosting:
-    require "../PHPEasyGit/autoload.php";
-*/
 
 use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\Message;
@@ -33,6 +29,5 @@ $Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
     }
 
 });
-
 
 ?>

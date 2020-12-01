@@ -8,10 +8,6 @@ else{
     }
     require_once 'novagram.phar';
 }
-/*
-    if hosting:
-    require "../PHPEasyGit/autoload.php";
-*/
 
 use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\{Message, CallbackQuery};
@@ -47,7 +43,7 @@ $Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
                     ]
                 ]
             ]
-        ], true); // this true will print this api call as json payload
+        ], true); // this true will execute this api call as json payload
 
     }
     else $chat->sendMessage("that's not text", true); // Message doesn't cointain text
@@ -57,7 +53,6 @@ $Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
 $Bot->onCallbackQuery(function (CallbackQuery $callback_query) use ($Bot) { // update is a callback query
 
     $user = $callback_query->from;
-
     $message = $callback_query->message;
     $chat = $message->chat;
 
