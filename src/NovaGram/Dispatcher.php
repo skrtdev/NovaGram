@@ -182,10 +182,20 @@ class Dispatcher {
         return !empty($this->error_handlers);
     }
 
-    public static function paramaterToHandler(string $string): string
+    public static function parameterToHandler(string $string): string
     {
         $str = str_replace('_', '', ucwords($string, '_'));
         return "on".$str;
+    }
+
+    public static function getUpdateType(Update $update): string
+    {
+        $properties = get_object_vars($update);
+        foreach ($properties as $key => $value) {
+            if($key !== "update_id" && isset($value)){
+                return $key;
+            }
+        }
     }
 
     public function getAllowedUpdates(): array
