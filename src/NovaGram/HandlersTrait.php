@@ -98,8 +98,7 @@ trait HandlersTrait{
         if(is_string($commands)){
             $commands = [$commands];
         }
-        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'.$this->getUsername().')?(?: |$)/', $handler);
-        #$this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'.$this->getUsername().')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, explode(' ', $matches[0][0])));
+        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'.$this->getUsername().')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, explode(' ', $matches[0][0])));
     }
 }
 
