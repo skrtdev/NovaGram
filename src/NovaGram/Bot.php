@@ -9,8 +9,11 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\FirePHPHandler;
 
-use skrtdev\Telegram\Exception as TelegramException;
-use skrtdev\Telegram\Update;
+use skrtdev\Telegram\{
+    Update,
+    Exception as TelegramException,
+    BadGatewayException
+};
 use skrtdev\Prototypes\proto;
 
 use Closure;
@@ -231,7 +234,14 @@ class Bot {
         else $timeout = self::TIMEOUT;
         $params = ['offset' => $offset, 'timeout' => $timeout, "allowed_updates" => $this->dispatcher->getAllowedUpdates()];
         $this->logger->debug('Processing Updates (async: '.(int) $async.')', $params);
-        $updates = $this->getUpdates($params);
+        try{
+            $updates = $this->getUpdates($params);
+        }
+        catch(BadGatewayException $e){
+            $this->logger->critical("A BadGatewayException has occured while long polling, trying to reconnect...");
+            sleep(1);
+            return $offset;
+        }
         $this->logger->debug('Processed Updates (async: '.(int) $async.')', $params);
         $this->restartOnChanges();
         foreach ($updates as $update) {
