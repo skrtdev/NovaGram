@@ -36,9 +36,16 @@ class Utils{
         trigger_error($error_msg." in {$caller['file']}:{$caller['line']}", $error_type);
     }
 
+    public static function var_dump($mixed) {
+        ob_start();
+        var_dump($mixed);
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    }
+
     public static function isCLI(){
-        self::$is_cli ??= http_response_code() === false;
-        return self::$is_cli;
+        return self::$is_cli ??= http_response_code() === false;
     }
 
     public static function getFileSHA(){

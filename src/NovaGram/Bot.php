@@ -437,11 +437,19 @@ class Bot {
 
     public function debug($value, ?Throwable $previous_exception = null){
         if($this->settings->debug){
-            return $this->APICall("sendMessage", [
-                "chat_id" => $this->settings->debug,
-                "text" => "<pre>".htmlspecialchars(print_r($value, true))."</pre>",
-                "parse_mode" => "HTML"
-            ], false, true, $previous_exception);
+            if(is_string($value)){
+                return $this->APICall("sendMessage", [
+                    "chat_id" => $this->settings->debug,
+                    "text" => $value,
+                ], false, true, $previous_exception);
+            }
+            else{
+                return $this->APICall("sendMessage", [
+                    "chat_id" => $this->settings->debug,
+                    "text" => "<pre>".htmlspecialchars(Utils::var_dump($value))."</pre>",
+                    "parse_mode" => "HTML"
+                ], false, true, $previous_exception);
+            }
         }
         else throw new Exception("debug chat id is not set");
     }
