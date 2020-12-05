@@ -11,6 +11,11 @@
     - `getConversationsByValue`
 - [ ] TTL in Conversations
 - `amphp` has been removed, now [skrtdev/async](https://github.com/skrtdev/php-async) is used in classes too
+- Added all class handlers: `onMessage`, `onEditedMessage`, `onChannelPost`, etc
+    - `allowed_updates` is automatically generated from classes too
+    - `$this->Bot` can be used to get `Bot` instance inside Class handlers
+    - More classes can be handled in a single `handleClass` call  
+- Now when using `getUpdates` bot won't exit on `BadGatewayException`s, it will retry to connect every second instead
 - You can now use PHP8 `named arguments` instead of the `$args` array
 - A custom `PDO` instance can now be used as database. Pass it in the database Bot setting instead of the Database array (`novagram` will be used as prefix)
 - `Exception::$response_parameters` is now an instance of `ResponseParameters` or null
