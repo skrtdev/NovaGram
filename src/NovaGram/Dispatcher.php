@@ -191,8 +191,16 @@ class Dispatcher {
 
     public static function parameterToHandler(string $string): string
     {
-        $str = str_replace('_', '', ucwords($string, '_'));
-        return "on".$str;
+        return "on".str_replace('_', '', ucwords($string, '_'));
+    }
+
+    public static function handlerToParameter(string $string): string
+    {
+        $string = substr($string, 2);
+        $string[0] = strtolower($string[0]);
+        $string = preg_replace('/([A-Z])/', '_${1}', $string);
+        $string = strtolower($string);
+        return $string;
     }
 
     public static function getUpdateType(Update $update): string
@@ -207,12 +215,24 @@ class Dispatcher {
 
     public function getAllowedUpdates(): array
     {
-        if(!empty($this->class_handlers)) return [];
+        $params = [];
+        if(!empty($this->class_handlers)){
+            foreach ($this->class_handlers as $class_handler) {
+                foreach ($class_handler->getHandlers() as $value) {
+                    $value = self::handlerToParameter($value);
+                    if($value === "update"){
+                        // there is a general update handler, should retrieve all kind of updates
+                        return [];
+                    }
+                    $params[] = $value;
+                }
+            }
+        }
         if(isset($this->closure_handlers['update'])){
             // there is a general update handler, should retrieve all kind of updates
             return [];
         }
-        else return array_keys($this->closure_handlers);
+        else return array_unique(array_merge($params, array_keys($this->closure_handlers)));
     }
 
     public function resolveQueue(): void

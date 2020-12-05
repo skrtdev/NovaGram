@@ -4,6 +4,9 @@ namespace skrtdev\NovaGram;
 
 use skrtdev\Telegram\{Update, Message, InlineQuery, ChosenInlineResult, CallbackQuery, ShippingQuery, PreCheckoutQuery, Poll, PollAnswer};
 
+use ReflectionMethod;
+use ReflectionClass;
+
 /**
  * Base Handler for handling updates
  */
@@ -16,12 +19,24 @@ class BaseHandler {
         $this->Bot = $Bot;
     }
 
-    final public function handle(Update $update)
+    final public function handle(Update $update): void
     {
         $this->onUpdate($update);
         $update_type = Dispatcher::getUpdateType($update);
         $handler_name = Dispatcher::parameterToHandler($update_type);
         $this->$handler_name($update->$update_type);
+    }
+
+    final public function getHandlers(): array
+    {
+        $methods = (new ReflectionClass(self::class))->getMethods();
+        $handlers = [];
+        foreach ($methods as $method) {
+            if((new ReflectionMethod($this, $method->getName()))->getDeclaringClass()->getName() === static::class){
+                $handlers[] = $method->getName();
+            }
+        }
+        return $handlers;
     }
 
 

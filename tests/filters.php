@@ -94,7 +94,25 @@ $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
 ]);
 
 class Handler extends BaseHandler{
-    public function onUpdate(Update $update)
+/*    public function onUpdate(Update $update)
+    {
+        $Bot = $this->Bot;
+        #print("afammoc");
+
+        if(isset($update->message)){ // update is a message
+            $message = $update->message;
+            $chat = $message->chat;
+
+            #yield delay(1000);
+            #print("there");
+            #sleep(1);
+            $message->reply("afammoc from class");
+            print("afammoc\n");
+            #yield delay(1000);
+        }
+    }
+*/
+    public function onEditedMessage(Message $message)
     {
         $Bot = $this->Bot;
         #print("afammoc");
@@ -210,7 +228,7 @@ $Bot->addErrorHandler(function (Throwable $e) {
     #print($e.PHP_EOL);
 });
 
-$Bot->handleClass(Handler::class);
+$Bot->handleClass([Handler::class, Handler::class]);
 
 $Bot->idle();
 
