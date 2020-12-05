@@ -232,7 +232,7 @@ class Dispatcher {
             // there is a general update handler, should retrieve all kind of updates
             return [];
         }
-        else return array_unique(array_merge($params, array_keys($this->closure_handlers)));
+        else return array_values(array_unique(array_merge($params, array_keys($this->closure_handlers))));
     }
 
     public function resolveQueue(): void

@@ -30,8 +30,8 @@ class InlineQueryResultVoice extends \Telegram\InlineQueryResultVoice{
     /** @var string|null Mode for parsing entities in the voice message caption. See formatting options for more details. */
     public ?string $parse_mode = null;
 
-    /** @var stdClass|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    public ?stdClass $caption_entities = null;
+    /** @var ObjectsList|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    public ?ObjectsList $caption_entities = null;
 
     /** @var int|null Recording duration in seconds */
     public ?int $voice_duration = null;

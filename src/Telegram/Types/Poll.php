@@ -18,8 +18,8 @@ class Poll extends \Telegram\Poll{
     /** @var string Poll question, 1-255 characters */
     public string $question;
 
-    /** @var stdClass List of poll options */
-    public stdClass $options;
+    /** @var ObjectsList List of poll options */
+    public ObjectsList $options;
 
     /** @var int Total number of users that voted in the poll */
     public int $total_voter_count;
@@ -42,8 +42,8 @@ class Poll extends \Telegram\Poll{
     /** @var string|null Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters */
     public ?string $explanation = null;
 
-    /** @var stdClass|null Special entities like usernames, URLs, bot commands, etc. that appear in the explanation */
-    public ?stdClass $explanation_entities = null;
+    /** @var ObjectsList|null Special entities like usernames, URLs, bot commands, etc. that appear in the explanation */
+    public ?ObjectsList $explanation_entities = null;
 
     /** @var int|null Amount of time in seconds the poll will be active after creation */
     public ?int $open_period = null;

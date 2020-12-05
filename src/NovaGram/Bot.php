@@ -11,6 +11,7 @@ use Monolog\Handler\FirePHPHandler;
 
 use skrtdev\Telegram\{
     Update,
+    ObjectsList,
     Exception as TelegramException,
     BadGatewayException
 };
@@ -386,12 +387,12 @@ class Bot {
 
     public function JSONToTelegramObject(array $json, string $parameter_name){
         if($this->getObjectType($parameter_name)) $parameter_name = $this->getObjectType($parameter_name);
-        if(preg_match('/\[\w+\]/', $parameter_name) === 1) return $this->TelegramObjectArrayToStdClass($json, $parameter_name);
+        if(preg_match('/\[\w+\]/', $parameter_name) === 1) return $this->TelegramObjectArrayToObjectsList($json, $parameter_name);
         foreach($json as $key => &$value){
             if(is_array($value)){
                 $ObjectType = $this->getObjectType($key, $parameter_name);
                 if($ObjectType){
-                    if($this->getObjectType($ObjectType)) $value = $this->TelegramObjectArrayToStdClass($value, $ObjectType);
+                    if($this->getObjectType($ObjectType)) $value = $this->TelegramObjectArrayToObjectsList($value, $ObjectType);
                     else $value = $this->JSONToTelegramObject($value, $ObjectType);
                 }
                 else $value = (object) $value;
@@ -400,7 +401,7 @@ class Bot {
         return $this->createObject($parameter_name, $json);
     }
 
-    private function TelegramObjectArrayToStdClass(array $json, string $name){
+    private function TelegramObjectArrayToObjectsList(array $json, string $name){
         $parent_name = $name;
         $ObjectType = $this->getObjectType($name) !== false ? $this->getObjectType($name) : $name;
 
@@ -413,7 +414,7 @@ class Bot {
         foreach($json as $key => &$value){
             if(is_array($value)){
                 if(is_int($key)){
-                    if($this->getObjectType($childs_name)) $value = $this->TelegramObjectArrayToStdClass($value, $childs_name);
+                    if($this->getObjectType($childs_name)) $value = $this->TelegramObjectArrayToObjectsList($value, $childs_name);
                     //else $value = $this->createObject($childs_name, $value);
                     else $value = $this->JSONToTelegramObject($value, $childs_name);
                 }
@@ -421,7 +422,7 @@ class Bot {
 
             }
         }
-        return (object) $json;
+        return new ObjectsList($json);
 
     }
 
@@ -437,19 +438,11 @@ class Bot {
 
     public function debug($value, ?Throwable $previous_exception = null){
         if($this->settings->debug){
-            if(is_string($value)){
-                return $this->APICall("sendMessage", [
-                    "chat_id" => $this->settings->debug,
-                    "text" => $value,
-                ], false, true, $previous_exception);
-            }
-            else{
-                return $this->APICall("sendMessage", [
-                    "chat_id" => $this->settings->debug,
-                    "text" => "<pre>".htmlspecialchars(Utils::var_dump($value))."</pre>",
-                    "parse_mode" => "HTML"
-                ], false, true, $previous_exception);
-            }
+            return $this->APICall("sendMessage", [
+                "chat_id" => $this->settings->debug,
+                "text" => "<pre>".( is_string($value) ? $value : htmlspecialchars(Utils::var_dump($value)) )."</pre>",
+                "parse_mode" => "HTML"
+            ], false, true, $previous_exception);
         }
         else throw new Exception("debug chat id is not set");
     }

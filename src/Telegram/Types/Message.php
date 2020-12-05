@@ -4,7 +4,6 @@ namespace skrtdev\Telegram;
 
 use stdClass;
 use skrtdev\Prototypes\simpleProto;
-use skrtdev\NovaGram\EntityParser;
 
 /**
  * This object represents a message.
@@ -64,8 +63,8 @@ class Message extends \Telegram\Message{
     /** @var string|null For text messages, the actual UTF-8 text of the message, 0-4096 characters */
     public ?string $text = null;
 
-    /** @var stdClass|null For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text */
-    public ?stdClass $entities = null;
+    /** @var ObjectsList|null For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text */
+    public ?ObjectsList $entities = null;
 
     /** @var Animation|null Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set */
     public ?Animation $animation = null;
@@ -76,8 +75,8 @@ class Message extends \Telegram\Message{
     /** @var Document|null Message is a general file, information about the file */
     public ?Document $document = null;
 
-    /** @var stdClass|null Message is a photo, available sizes of the photo */
-    public ?stdClass $photo = null;
+    /** @var ObjectsList|null Message is a photo, available sizes of the photo */
+    public ?ObjectsList $photo = null;
 
     /** @var Sticker|null Message is a sticker, information about the sticker */
     public ?Sticker $sticker = null;
@@ -94,8 +93,8 @@ class Message extends \Telegram\Message{
     /** @var string|null Caption for the animation, audio, document, photo, video or voice, 0-1024 characters */
     public ?string $caption = null;
 
-    /** @var stdClass|null For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption */
-    public ?stdClass $caption_entities = null;
+    /** @var ObjectsList|null For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption */
+    public ?ObjectsList $caption_entities = null;
 
     /** @var Contact|null Message is a shared contact, information about the contact */
     public ?Contact $contact = null;
@@ -115,8 +114,8 @@ class Message extends \Telegram\Message{
     /** @var Location|null Message is a shared location, information about the location */
     public ?Location $location = null;
 
-    /** @var stdClass|null New members that were added to the group or supergroup and information about them (the bot itself may be one of these members) */
-    public ?stdClass $new_chat_members = null;
+    /** @var ObjectsList|null New members that were added to the group or supergroup and information about them (the bot itself may be one of these members) */
+    public ?ObjectsList $new_chat_members = null;
 
     /** @var User|null A member was removed from the group, information about them (this member may be the bot itself) */
     public ?User $left_chat_member = null;
@@ -124,8 +123,8 @@ class Message extends \Telegram\Message{
     /** @var string|null A chat title was changed to this value */
     public ?string $new_chat_title = null;
 
-    /** @var stdClass|null A chat photo was change to this value */
-    public ?stdClass $new_chat_photo = null;
+    /** @var ObjectsList|null A chat photo was change to this value */
+    public ?ObjectsList $new_chat_photo = null;
 
     /** @var bool|null Service message: the chat photo was deleted */
     public ?bool $delete_chat_photo = null;
@@ -166,10 +165,7 @@ class Message extends \Telegram\Message{
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons. */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-
-    public function getHTMLText(){
-        return EntityParser::TextEntitiesToHTML($this->text, $this->entities);
-    }
+    
 }
 
 ?>

@@ -132,7 +132,7 @@ class Handler extends BaseHandler{
 
     public function onMessage(Message $message)
     {
-        $message->reply("afammoc from class ONMESSAGE AEEEEE");
+        #$message->reply("afammoc from class ONMESSAGE AEEEEE");
     }
 }
 
@@ -196,6 +196,13 @@ $Bot->onCommand('start', function (Message $message) use ($Bot) {
     $message->reply("after 10");
 });
 
+$Bot->onCommand('propic', function (Message $message) use ($Bot) {
+    $photos = $message->from->getProfilePhotos();
+    foreach ($photos->photos as $photo) {
+        $message->chat->sendPhoto($photo[0]->file_id);
+    }
+});
+
 $Bot->onCommand('stop', function (Message $message) use ($Bot) {
     $message->reply("Stopping...");
     sleep(1);
@@ -228,7 +235,7 @@ $Bot->addErrorHandler(function (Throwable $e) {
     #print($e.PHP_EOL);
 });
 
-$Bot->handleClass([Handler::class, Handler::class]);
+$Bot->handleClass(Handler::class);
 
 $Bot->idle();
 

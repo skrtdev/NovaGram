@@ -27,8 +27,8 @@ class InputMediaVideo extends \Telegram\InputMediaVideo{
     /** @var string|null Mode for parsing entities in the video caption. See formatting options for more details. */
     public ?string $parse_mode = null;
 
-    /** @var stdClass|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    public ?stdClass $caption_entities = null;
+    /** @var ObjectsList|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    public ?ObjectsList $caption_entities = null;
 
     /** @var int|null Video width */
     public ?int $width = null;

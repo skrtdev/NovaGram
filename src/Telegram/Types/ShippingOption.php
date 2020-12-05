@@ -18,8 +18,8 @@ class ShippingOption extends \Telegram\ShippingOption{
     /** @var string Option title */
     public string $title;
 
-    /** @var stdClass List of price portions */
-    public stdClass $prices;
+    /** @var ObjectsList List of price portions */
+    public ObjectsList $prices;
 
     
 }

@@ -33,8 +33,8 @@ class WebhookInfo extends \Telegram\WebhookInfo{
     /** @var int|null Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery */
     public ?int $max_connections = null;
 
-    /** @var stdClass|null A list of update types the bot is subscribed to. Defaults to all update types */
-    public ?stdClass $allowed_updates = null;
+    /** @var ObjectsList|null A list of update types the bot is subscribed to. Defaults to all update types */
+    public ?ObjectsList $allowed_updates = null;
 
     
 }

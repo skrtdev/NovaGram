@@ -30,8 +30,8 @@ class InlineQueryResultCachedMpeg4Gif extends \Telegram\InlineQueryResultCachedM
     /** @var string|null Mode for parsing entities in the caption. See formatting options for more details. */
     public ?string $parse_mode = null;
 
-    /** @var stdClass|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    public ?stdClass $caption_entities = null;
+    /** @var ObjectsList|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    public ?ObjectsList $caption_entities = null;
 
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message */
     public ?InlineKeyboardMarkup $reply_markup = null;
