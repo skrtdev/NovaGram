@@ -158,13 +158,20 @@ class Dispatcher {
         $this->closure_handlers[$parameter][] = $handler;
     }
 
-    // BaseHandler|string
-    public function addClassHandler($handler): void
+    // string|array
+    public function addClassHandler($handlers): void
     {
-        if(is_string($handler)){
-            $handler = new $handler($this->Bot);
+        if(is_string($handlers)){
+            $handlers = [$handlers];
         }
-        $this->class_handlers[] = $handler;
+        foreach ($handlers as $handler) {
+            if(is_a($handler, BaseHandler::class, true)){
+                $this->class_handlers[] = new $handler($this->Bot);
+            }
+            else{
+                throw new Exception("Invalid class handler provided: $handler");
+            }
+        }
     }
 
     public function addErrorHandler(Closure $handler): void
