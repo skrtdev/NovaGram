@@ -51,9 +51,6 @@ class Type {
         foreach ($this_method->presets ?? [] as $key => $value) {
             $data[$key] = $this->presetToValue($value);
         }
-        foreach ($this_method->defaults ?? [] as $key => $value) {
-            $data[$key] = $value;
-        }
         if(isset($arguments[0])){
             if(is_array($arguments[0])) foreach ($arguments[0] as $key => $value) {
                 $data[$key] = $value;
@@ -72,6 +69,9 @@ class Type {
             }
         }
         $data = $kwargs + $data;
+        foreach ($this_method->defaults ?? [] as $key => $value) {
+            $data[$key] ??= $value;
+        }
         if(count($data) === 0) throw new \ArgumentCountError("Too few arguments to function ".get_class($this)."::$name(), 0 passed");
         return $this->Bot->APICall($this_method->alias ?? $name, $data, $payload ?? false);
     }
