@@ -13,7 +13,7 @@ class ObjectsList implements Iterator, ArrayAccess {
     private int $position = 0;
     private array $elements;
 
-    public function __construct(array $elements){
+    public function __construct(array $elements) {
 
         $this->elements = $elements;
     }
@@ -34,8 +34,7 @@ class ObjectsList implements Iterator, ArrayAccess {
         return isset($this->elements[$offset]) ? $this->elements[$offset] : null;
     }
 
-    public function __get(string $name)
-    {
+    public function __get(string $name) {
         if(isset($this->elements->$name)){
             return $this->elements->$name;
         }
@@ -62,6 +61,10 @@ class ObjectsList implements Iterator, ArrayAccess {
 
     public function valid() {
         return isset($this->elements[$this->position]);
+    }
+
+    public function __debugInfo() {
+        return $this->elements;
     }
 
 }
