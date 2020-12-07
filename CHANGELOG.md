@@ -18,7 +18,7 @@
 - Now when using `getUpdates` bot won't exit on `BadGatewayException`s, it will retry to connect every second instead
 - Now `var_dump` is used instead of `print_r` in `debug` functions  
 - Now list of Objects are instances of `ObjectsList` rather than instances of `stdClass`  
-- You can now use PHP8 `named arguments` instead of the `$args` array
+- You can now use PHP8 `named arguments` instead of the `$args` array in both `Bot` and `Objects` methods  
 - A custom `PDO` instance can now be used as database. Pass it in the database Bot setting instead of the Database array (`novagram` will be used as prefix)
 - `Exception::$response_parameters` is now an instance of `ResponseParameters` or null
 - Return types of every method has been updated

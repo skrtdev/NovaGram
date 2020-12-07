@@ -85,13 +85,11 @@ An immediate example:
 
 Normal Method:
 ```php
-$Bot->sendMessage([
-    "chat_id" => $chat->id,
-    "text" => "This is the text of a Message",
-    "reply_to_message_id" => 1234
-]);
-// from v1.4
 $Bot->sendMessage($chat->id, "This is the text of a Message", [
+    "reply_to_message_id" => $message->id
+]);
+// or
+$chat->sendMessage("This is the text of a Message", [
     "reply_to_message_id" => $message->id
 ]);
 ```
@@ -135,7 +133,7 @@ is the same as
 ```php
 $Bot->sendMessage([
     "chat_id" => $Bot->settings->debug,
-    "text" => "<pre>".htmlspecialchars(print_r($value, true))."</pre>",
+    "text" => "<pre>".htmlspecialchars( is_string($value) ? $value : Utils::var_dump($value) )."</pre>",
     "parse_mode" => "HTML"
 ]);
 ```

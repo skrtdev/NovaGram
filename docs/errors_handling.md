@@ -31,14 +31,12 @@ If you don't set an Error Handler, the errors will be printed if you're using by
 
 ## Settings debug
 
-The settings debug parameter just creates this error handler:
+The settings debug parameter just creates this error handler:  
 ```php
-$this->addErrorHandler(function (Throwable $e) {
-    $this->debug( (string) $e );
+$Bot->addErrorHandler(function (Throwable $e) use ($Bot) {
+    $Bot->debug( (string) $e );
 });
 ```
-
-where `$this` is the `Bot` instance.
 
 ## Telegram Exceptions
 
@@ -51,4 +49,4 @@ Telegram Exceptions thrown by NovaGram are `skrtdev\Telegram\Exceptions`, but so
 - `TooManyRequestsException` (429)
 - `BadGatewayException` (502) (yes, sometimes it happens)
 
-These exception are exactly the same as the main one.
+These can be treated like the main one.

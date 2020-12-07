@@ -43,13 +43,13 @@ In this example, all the handlers do the same thing.
 
 ```php
 $Bot->onMessage(function (Message $message) {
-    if(isset($message->text) && $message->text === "start"){
+    if(isset($message->text) && $message->text === "/start"){
         $message->reply("This is the Start command");
     }
 });
 
 $Bot->onTextMessage(function (Message $message) {
-    if($message->text === "start"){
+    if($message->text === "/start"){
         $message->reply("This is the Start command");
     }
 });
@@ -58,6 +58,14 @@ $Bot->onText('/start', function (Message $message) {
     $message->reply("This is the Start command");
 });
 
+
+/**
+ * NOTE
+ *
+ * onCommand will handle every message starting with /start.
+ * you can also find command arguments in the 2nd parameter of the handler
+ *
+ */
 $Bot->onCommand('start', function (Message $message) {
     $message->reply("This is the Start command");
 });

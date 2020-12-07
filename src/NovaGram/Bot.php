@@ -440,7 +440,7 @@ class Bot {
         if($this->settings->debug){
             return $this->APICall("sendMessage", [
                 "chat_id" => $this->settings->debug,
-                "text" => "<pre>".( is_string($value) ? $value : htmlspecialchars(Utils::var_dump($value)) )."</pre>",
+                "text" => "<pre>".htmlspecialchars( is_string($value) ? $value : Utils::var_dump($value) )."</pre>",
                 "parse_mode" => "HTML"
             ], false, true, $previous_exception);
         }
@@ -468,4 +468,5 @@ class Bot {
         return $result;
     }
 }
+
 ?>

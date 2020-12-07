@@ -45,10 +45,6 @@ $loop->run();
 Lines count: 11  
 Characters count: 442  
 
-## php-telegram-bot/core
-
-I didn't understand how it works  
-
 ## irazasyed/telegram-bot-sdk
 
 From an [example](https://github.com/irazasyed/telegram-bot-sdk):  

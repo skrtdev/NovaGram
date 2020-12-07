@@ -2,6 +2,8 @@
 
 ```php
 use skrtdev\NovaGram\Bot;
+```
+```php
 new Bot(string $token, array $settings = [], $logger = null);
 ```
 
@@ -36,7 +38,7 @@ $settings is an array which contains some NovaGram configurations.
 
 ### Mode
 
-Can be either `skrtdev\NovaGram\Bot::WEBHOOK`, `skrtdev\NovaGram\Bot::CLI` or `skrtdev\NovaGram\Bot::NONE`.
+Can be either `Bot::WEBHOOK`, `Bot::CLI` or `Bot::NONE`.
 Normally it is automatic, and you can not specify it at all
 
 ### JSON Payload

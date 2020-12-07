@@ -49,22 +49,13 @@ public function status(string $value = null, bool $permanent = false)
 Statuses are useful when you need to store some **temporary** data, and can be used together with conversations
 
 ```php
+$user_status = $user->status();
+
 if($message->text === "/setbirthplace"){
     $message->reply("Your birthplace is:");
     $user->status("setbirthplace");
 }
-
-$user_status = $user->status();
-if(isset($user_status)){
-
-    if($user_status === "setbirthplace"){
-        $user->conversation("birthplace", $message->text);
-        $message->reply("What a nice place!");
-    }
-
-}
-
-if($message->text === "/mybirthplace"){
+elseif($message->text === "/mybirthplace"){
     $birthplace = $user->conversation("birthplace");
     if(isset($birthplace)){
         $message->reply("Your birthplace is $birthplace.");
@@ -72,5 +63,13 @@ if($message->text === "/mybirthplace"){
     else{
         $message->reply("You didn't set a birthplace yet.\nSet it with /setbirthplace");
     }
+}
+elseif(isset($user_status)){
+
+    if($user_status === "setbirthplace"){
+        $user->conversation("birthplace", $message->text);
+        $message->reply("What a nice place!");
+    }
+
 }
 ```
