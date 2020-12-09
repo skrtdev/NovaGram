@@ -276,7 +276,11 @@ class Bot {
             $this->started = true;
             if($this->settings->mode === self::CLI){
                 $this->logger->debug('Idling...');
-                $this->deleteWebhook();
+                $webhook_info = $this->getWebhookInfo();
+                if($webhook_info->url !== ""){ // there is a webhook set
+                    $this->deleteWebhook();
+                    $this->logger->warning("There was a set webhook. It has been deleted. (URL: {$webhook_info->url})");
+                }
                 $this->running = true;
                 self::showLicense();
                 while ($this->running) {
