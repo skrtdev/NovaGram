@@ -17,36 +17,32 @@ $Bot = new Bot("YOUR_TOKEN", [
     "parse_mode" => "HTML" // will set parse_mode automatically in methods that require it if not providedå
 ]);
 
-$Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
+$Bot->onTextMessage(function (Message $message) use ($Bot) { // update is a message and contains text
 
     $chat = $message->chat;
     $user = $message->from;
+    $text = $message->text;
 
-    if(isset($message->text)){ // update message contains text
-                            // Message Text
-        $chat->sendMessage("Text: \n<code>".$update->message->text."</code>", [ // send a Message in the Chat
-            "reply_markup" => [
-                "inline_keyboard" => [ // Message Inline Keyboard
+    $chat->sendMessage("Text: \n<code>".$text."</code>", [ // send a Message in the Chat
+        "reply_markup" => [
+            "inline_keyboard" => [ // Message Inline Keyboard
+                [
                     [
-                        [
-                            "text" => "MD5",
-                            "callback_data" => md5($message->text)
-                        ],
-                        [
-                            "text" => "sha256",
-                            "callback_data" => hash("sha256", $message->text)
-                        ],
-                        [
-                            "text" => "sha1",
-                            "callback_data" => hash("sha1", $message->text)
-                        ]
+                        "text" => "MD5",
+                        "callback_data" => md5($message->text)
+                    ],
+                    [
+                        "text" => "sha256",
+                        "callback_data" => hash("sha256", $message->text)
+                    ],
+                    [
+                        "text" => "sha1",
+                        "callback_data" => hash("sha1", $message->text)
                     ]
                 ]
             ]
-        ], true); // this true will execute this api call as json payload
-
-    }
-    else $chat->sendMessage("that's not text", true); // Message doesn't cointain text
+        ]
+    ], true); // this true will execute this api call as json payload
 
 });
 

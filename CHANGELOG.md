@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.8 - [_Not released yet_](https://github.com/skrtdev/NovaGram/)
+## v1.8 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.8)
 - New handlers: `onTextMessage`, `onText`, and `onCommand`
 - New Bot settings:
     - `command_prefixes`: Array of characters for commands prefixes. e.g. `/start`, `.info`
@@ -23,7 +23,8 @@
 - You can now use PHP8 `named arguments` instead of the `$args` array in both `Bot` and `Objects` methods  
 - A custom `PDO` instance can now be used as database. Pass it in the database Bot setting instead of the Database array (`novagram` will be used as prefix)
 - `Exception::$response_parameters` is now an instance of `ResponseParameters` or null
-- Return types of every method has been updated
+- Return types of every method has been updated  
+- Now a warning is emitted when using getUpdates if a webhook url is set
 
 ## v1.7 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.7)
 - Improved performances of [skrtdev/async](https://github.com/skrtdev/php-async)

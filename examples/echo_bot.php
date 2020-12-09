@@ -16,18 +16,9 @@ $Bot = new Bot("YOUR_TOKEN", [
     "debug" => YOURCHATID, // chat id where debug will be sent when api errors occurs
 ]);
 
-$Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
-
+$Bot->onTextMessage(function (Message $message) use ($Bot) { // update is a message and contains text
     $chat = $message->chat;
-    $user = $message->from;
-
-    if(isset($message->text)){ // update message contains text
-        $chat->sendMessage($message->text, true); // send a Message in the Chat. Text is the same as the just received message
-    }
-    else{
-        $chat->sendMessage("that's not text", true); // Message doesn't cointain text
-    }
-
+    $chat->sendMessage($message->text, true); // send a Message in the Chat. Text is the same as the just received message
 });
 
 ?>

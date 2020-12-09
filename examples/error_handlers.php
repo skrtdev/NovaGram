@@ -18,28 +18,26 @@ use skrtdev\Telegram\Exception as TelegramException;
 $Bot = new Bot(readline("Insert Bot token: "));
 
 
-$Bot->onMessage(function (Message $message) use ($Bot) { // update is a message
-    
-    if(isset($message->from)){ // message has a sender
-        $text = $message->text;
-
-        if($text === "/novagram"){
-            throw new NovaGramException("Sample Exception");
-        }
-        if($text === "/telegram"){
-            $Bot->sendMessage(0, "uh");
-        }
-        if($text === "/getUpdates"){
-            $Bot->getUpdates();
-        }
-        if($text === "/exception"){
-            throw new \Exception("Sample Exception");
-        }
-        if($text === "/error"){
-            throw new \Error("Sample Error");
-        }
-    }
+$Bot->onCommand("novagram", function (Message $message) {
+    throw new NovaGramException("Sample Exception");
 });
+
+$Bot->onCommand("telegram", function (Message $message) use ($Bot) {
+    $Bot->sendMessage(0, "uh");
+});
+
+$Bot->onCommand("getUpdates", function (Message $message) use ($Bot) {
+    $Bot->getUpdates();
+});
+
+$Bot->onCommand("exception", function (Message $message) {
+    throw new Exception("Sample Exception");
+});
+
+$Bot->onCommand("error", function (Message $message) {
+    throw new Error("Sample Error");
+});
+
 
 $Bot->addErrorHandler(function (NovaGramException $e) {
     print("Caught ".get_class($e)." exception from speficic handler".PHP_EOL);

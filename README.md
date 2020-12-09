@@ -17,21 +17,14 @@ use skrtdev\Telegram\Message;
 
 $Bot = new Bot("YOUR_TOKEN");
 
-$Bot->onMessage(function (Message $message) use ($Bot) {
-
-    if(isset($message->text)){ // update is a message and has text
-        $chat = $message->chat;
-        $user = $message->from;
-        $text = $message->text;
-
-        if($text === "/start"){
-            $message->reply("Hey! Nice to meet you. Use /info to know more about me.");
-        }
-        if($text === "/info"){
-            $message->reply("Well, I'm just an example, but you can learn more about NovaGram at docs.novagram.ga");
-        }
-    }
+$Bot->onCommand("start", function (Message $message) use ($Bot) {
+    $message->reply("Hey! Nice to meet you. Use /info to know more about me.");
 });
+
+$Bot->onCommand("info", function (Message $message) use ($Bot) {
+    $message->reply("Well, I'm just an example, but you can learn more about NovaGram at docs.novagram.ga");
+});
+
 ```
 
 ## Features
@@ -53,7 +46,7 @@ NovaGram is built in order to bring a lightweight alternative to make bots, so t
 
 Install NovaGram via Composer  
 ```
-composer require skrtdev/novagram
+composer require skrtdev/novagram ^1.8
 ```
 
 After Installation, include NovaGram with:
