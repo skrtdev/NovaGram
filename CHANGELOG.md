@@ -7,6 +7,7 @@
     - `group_handlers`: Whether to execute all the handlers of an update in the same process (`true`), or fork a process for each handler (`false`)
     - `wait_handlers`: Whether to wait for handlers to finish when closing script
     - `threshold`: Amount of max seconds the script will sleep instead of throwing a `TooManyRequestsException`. Defaults to 10 when using `getUpdates`  
+    - `only_if_banned`: Default value for `only_if_banned` parameter in `unbanChatMember` method  
 - Conversations **full getters**
     - `getConversationsByChat` (`User|Chat::getConversations()`)
     - `getConversationsByValue`

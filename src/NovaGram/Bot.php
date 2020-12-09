@@ -321,8 +321,7 @@ class Bot {
     }
 
     private function normalizeRequest(string $method, array $data){
-        $params = ['parse_mode', 'disable_web_page_preview', 'disable_notification', 'allow_sending_without_reply'];
-        foreach ($params as $param) {
+        foreach (array_keys($this->json['require_params']) as $param) {
             if($this->methodHasParamater($method, $param) and isset($this->settings->$param)){
                 $data[$param] ??= $this->settings->$param;
             }

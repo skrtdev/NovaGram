@@ -35,6 +35,7 @@ $settings is an array which contains some NovaGram configurations.
 | disable_web_page_preview    | bool    | null                     | Default `disable_web_page_preview` for methods that require it                                                                      |
 | disable_notification        | bool    | null                     | Default `disable_notification` for methods that require it                                                                          |
 | allow_sending_without_reply | bool    | null                     | Default `allow_sending_without_reply` for methods that require it                                                                   |
+| only_if_banned              | bool    | null                     | Default `only_if_banned` for unbanChatMember method                                                                                 |
 
 ### Mode
 
