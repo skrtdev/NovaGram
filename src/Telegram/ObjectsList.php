@@ -35,8 +35,9 @@ class ObjectsList implements Iterator, ArrayAccess {
     }
 
     public function __get(string $name) {
-        if(isset($this->elements->$name)){
-            return $this->elements->$name;
+        $name = is_numeric($name) ? (int) $name : $name;
+        if(isset($this->elements[$name])){
+            return $this->elements[$name];
         }
         else{
             throw new Exception("Trying to access undefined property $name of ObjectsList object");
