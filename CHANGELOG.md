@@ -6,6 +6,7 @@
     - `command_prefixes`: Array of characters for commands prefixes. e.g. `/start`, `.info`
     - `group_handlers`: Whether to execute all the handlers of an update in the same process (`true`), or fork a process for each handler (`false`)
     - `wait_handlers`: Whether to wait for handlers to finish when closing script
+    - `threshold`: Amount of max seconds the script will sleep instead of throwing a `TooManyRequestsException`. Defaults to 10 when using `getUpdates`  
 - Conversations **full getters**
     - `getConversationsByChat` (`User|Chat::getConversations()`)
     - `getConversationsByValue`

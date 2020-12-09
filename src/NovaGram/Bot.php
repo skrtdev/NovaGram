@@ -13,7 +13,8 @@ use skrtdev\Telegram\{
     Update,
     ObjectsList,
     Exception as TelegramException,
-    BadGatewayException
+    BadGatewayException,
+    TooManyRequestsException
 };
 use skrtdev\Prototypes\proto;
 
@@ -78,6 +79,7 @@ class Bot {
             "command_prefixes" => [self::COMMAND_PREFIX],
             "group_handlers" => true,
             "wait_handlers" => false,
+            "threshold" => null, // 10 is default when using getUpdates
             "database" => null,
             "parse_mode" => null,
             "disable_web_page_preview" => null,
@@ -180,7 +182,7 @@ class Bot {
 
     public function stop(int $signo = null)
     {
-        if(!$this->settings->wait_handlers || $this->settings->mode !== self::CLI || !$this->settings->async) return;
+        if(!$this->settings->wait_handlers || $this->settings->mode !== self::CLI || !$this->settings->async) exit;
 
         print("Stopping...".PHP_EOL);
         if($this->running){
@@ -282,6 +284,7 @@ class Bot {
                     $this->logger->warning("There was a set webhook. It has been deleted. (URL: {$webhook_info->url})");
                 }
                 $this->running = true;
+                $this->settings->threshold ??= 10; // set 10 as default when using getUpdates
                 self::showLicense();
                 while ($this->running) {
                     $offset = $this->processUpdates($offset ?? 0);
@@ -359,7 +362,7 @@ class Bot {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $response = curl_exec($ch);
         curl_close($ch);
-        #if(is_bool($response)) return $this->APICall(...func_get_args());
+        if(is_bool($response)) return $this->APICall(...func_get_args());
         $decoded = json_decode($response, true);
 
         if($decoded['ok'] !== true){
@@ -370,7 +373,13 @@ class Bot {
                 #$this->sendMessage($this->settings->debug, "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", ["parse_mode" => "HTML"], false, true);
                 $this->debug( (string) $e, $previous_exception);
             }
-            if($this->settings->exceptions) throw $e;
+            if($e instanceof TooManyRequestsException && $e->response_parameters->retry_after <= ($this->settings->threshold ?? 0) ){
+                $retry_after = $e->response_parameters->retry_after;
+                $this->logger->info("[Floodwait] Waiting for $retry_after seconds (caused by $method)");
+                sleep($retry_after);
+                return $this->APICall(...func_get_args());
+            }
+            elseif($this->settings->exceptions) throw $e;
             else return (object) $decoded;
         }
 
