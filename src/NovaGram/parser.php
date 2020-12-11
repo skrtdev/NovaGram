@@ -2,7 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
-use \stdClass;
+use skrtdev\Telegram\ObjectsList;
 
 class EntityParser{
 
@@ -24,7 +24,7 @@ class EntityParser{
     ];
 
 
-    public static function EntitiesToArray(stdClass $entities){
+    public static function EntitiesToArray(ObjectsList $entities){
         $real_entities = [];
         foreach ($entities as $entity) {
             $offset = $entity->offset;
@@ -71,7 +71,7 @@ class EntityParser{
         return $array;
     }
 
-    public static function TextEntitiesToHTML(string $text, stdClass $entities){
+    public static function TextEntitiesToHTML(string $text, ObjectsList $entities){
 
         $textToParse = mb_convert_encoding($text." ", 'UTF-16BE', 'UTF-8');
 
