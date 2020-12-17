@@ -40,6 +40,9 @@ class Dispatcher {
     public function handleUpdate(Update $update): void
     {
         $this->resolveQueue();
+        if($this->async){
+            $this->Bot->getDatabase()->resetPDO();
+        }
         $final_handlers = [];
         foreach ($this->closure_handlers as $parameter => $handlers) {
             if($parameter === "update"){

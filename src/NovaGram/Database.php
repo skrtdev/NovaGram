@@ -13,7 +13,11 @@ class Database{
     const driver_options = [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY];
 
     private array $settings;
-    private PDO $pdo;
+
+    /**
+     * @var PDO|PDOContainer $pdo
+     */
+    private /*PDO|PDOContainer*/ $pdo;
     private string $prefix;
 
     public function __construct(array $settings, PDO $pdo = null){
@@ -52,7 +56,7 @@ class Database{
            # PDO::ATTR_EMULATE_PREPARES => false,
         ];
 
-        $this->pdo = $pdo ?? new PDO("$driver:$connection", $dbuser, $dbpass, $options);
+        $this->pdo = $pdo ?? new PDOContainer("$driver:$connection", $dbuser, $dbpass, $options);
 
         $prefix = $settings['prefix'] ?? null;
         $this->prefix = isset($prefix) ? $prefix."_" : "";
@@ -183,11 +187,11 @@ class Database{
     }
 
     public function getLastInsertId(): int{
-        return $this->pdo->query("SELECT LAST_INSERT_ID() as id")->fetch()['id'];
+        return $this->getPDO()->query("SELECT LAST_INSERT_ID() as id")->fetch()['id'];
     }
 
     public function query(string $query, array $params = []){
-        $sth = $this->pdo->prepare($query, self::driver_options);
+        $sth = $this->getPDO()->prepare($query, self::driver_options);
         $sth->execute($params);
         return $sth;
     }
@@ -197,7 +201,14 @@ class Database{
     }
 
     public function getPDO(): PDO{
-        return $this->pdo;
+        return $this->pdo instanceof PDOContainer ? $this->pdo->getPDO() : $this->pdo;
+    }
+
+    public function resetPDO()
+    {
+        if($this->settings['driver'] === "mysql" && $this->pdo instanceof PDOContainer){
+            $this->pdo->reset();
+        }
     }
 
     public function normalizeConversation(array $conversation)
