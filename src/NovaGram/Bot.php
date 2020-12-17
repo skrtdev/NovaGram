@@ -249,10 +249,7 @@ class Bot {
         $this->restartOnChanges();
         foreach ($updates as $update) {
             $this->is_handling = true;
-            $this->logger->debug("Update handling started.", ['update_id' => $update->update_id]);
-            $started = hrtime(true)/10**9;
             $this->dispatcher->handleUpdate($update);
-            #$this->logger->debug("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
             $offset = $update->update_id+1;
         }
         $this->is_handling = false;
