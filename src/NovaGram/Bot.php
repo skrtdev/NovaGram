@@ -467,14 +467,26 @@ class Bot {
         return $this->database;
     }
 
+    public function hasDatabase(): bool
+    {
+        return isset($this->database);
+    }
+
     public function getUsername(): string{
         return $this->username ??= $this->getMe()->username;
     }
 
     public function __debugInfo() {
-        $result = get_object_vars($this);
-        foreach(['json', 'settings', 'payloaded', 'raw_update'] as $key) unset($result[$key]);
-        return $result;
+        $obj = get_object_vars($this);
+        foreach(['json', 'settings', 'payloaded', 'raw_update'] as $key) unset($obj[$key]);
+        return $obj;
+    }
+
+    public function __serialize()
+    {
+        $obj = get_object_vars($this);
+        unset($obj['dispatcher']);
+        return $obj;
     }
 }
 

@@ -23,6 +23,13 @@ class PDOContainer {
     {
         unset($this->instance);
     }
+
+    public function __serialize()
+    {
+        $obj = get_object_vars($this);
+        unset($obj['instance']);
+        return $obj;
+    }
 }
 
 
