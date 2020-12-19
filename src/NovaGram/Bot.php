@@ -56,14 +56,14 @@ class Bot {
     public Logger $logger;
     private Dispatcher $dispatcher;
 
-    public function __construct(string $token, array $settings = [], ?Logger $logger = null) {
+    public function __construct(string $token, array $settings = [], ?Logger $logger = null, ...$kwargs) {
 
         if(!Utils::isTokenValid($token)){
             throw new Exception("Not a valid Telegram Bot Token provided ($token)");
         }
         $this->token = $token;
         $this->id = Utils::getIDByToken($token);
-        $this->settings = (object) $settings;
+        $this->settings = (object) ($settings + $kwargs);
 
         $settings_array = [
             "json_payload" => true,
