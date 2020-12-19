@@ -1,13 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace skrtdev\NovaGram;
 
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\ErrorLogHandler;
-use Monolog\Handler\FirePHPHandler;
+use Monolog\Handler\{StreamHandler, ErrorLogHandler};
 
 use skrtdev\Telegram\{
     Update,
@@ -99,6 +95,9 @@ class Bot {
             $logger = new Logger("NovaGram");
             if(Utils::isCLI()) $logger->pushHandler(new StreamHandler(STDERR, $this->settings->logger));
             else $logger->pushHandler(new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->settings->logger));
+            if($this->settings->debug !== false){
+                $logger->pushHandler(new TelegramLogger($token, $this->settings->debug, Logger::WARNING));
+            }
             $logger->debug('Logger automatically replaced by a default one');
         }
         $this->logger = $logger;

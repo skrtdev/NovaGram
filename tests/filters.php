@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/../vendor/autoload.php';
+require 'TelegramHandler.php';
 
 use skrtdev\NovaGram\Bot;
 use skrtdev\NovaGram\BaseHandler;
@@ -8,6 +9,7 @@ use skrtdev\Telegram\{Update, Message, CallbackQuery};
 use skrtdev\NovaGram\Exception as NovaGramException;
 use skrtdev\Telegram\Exception as TelegramException;
 use Monolog\Logger;
+use Monolog\Handler\TelegramHandler;
 
 class Filters{
 
@@ -81,17 +83,29 @@ Bot::addMethod("onMessageFilter", function (Closure $filters, Closure $handler) 
 
 $Bot = new Bot("722952667:AAE-N5BNWRdDlAZQuNzUsxc7HKuoYHkyphs", [
     "restart_on_changes" => true,
+    "debug" => 634408248,
     #"bot_api_url" => "http://localhost:8081",
     #"async" => false
     "command_prefixes" => ['/', '.'],
     #"logger" => Logger::DEBUG,
     "group_handlers" => false,
+    "threshold" => 820,
     #"wait_handlers" => true,
     "database" => [
         "driver" => "sqlite", // default to mysql
         "host" => "db.sqlite3", // default to localhost:3306
     ]
 ]);
+
+set_error_handler(function (int $errno, string $errstr, $errfile, $errline) use ($Bot) {
+    // $errstr may need to be escaped:
+    $errstr = htmlspecialchars($errstr);
+
+    $str = "Error: $errstr in $errfile:$errline";
+    $Bot->debug($str);
+
+    return true;
+});
 
 class Handler extends BaseHandler{
 /*    public function onUpdate(Update $update)
@@ -198,6 +212,8 @@ $Bot->onCommand('start', function (Message $message) use ($Bot) {
 
 $Bot->onCommand('propic', function (Message $message) use ($Bot) {
     $photos = $message->from->getProfilePhotos();
+    #var_dump($photos);
+    var_dump($photos->photos->{'0'});
     foreach ($photos->photos as $photo) {
         $message->chat->sendPhoto($photo[0]->file_id);
     }
@@ -210,11 +226,13 @@ $Bot->onCommand('stop', function (Message $message) use ($Bot) {
 });
 
 $Bot->onMessageFilter(fn($message) => $message->text === "F", function (Message $message) {
-    $message->reply("onMessageFilter F FOR YOU");
+    $inline[] = [ ["text" => "Annulla", "callback_data" => "home"] ];
+
+    $message->reply("onMessageFilter F FOR YOU", reply_markup: ["inline_keyboard" => $inline]);
 });
 
 $Bot->onCallbackQuery(function (CallbackQuery $callback_query) {
-    $callback_query->answer($callback_query->from->getDC());
+    $callback_query->answer($callback_query->from->getDC(), ["show_alert" => true]);
 });
 
 /*
@@ -230,13 +248,14 @@ $Bot->onUpdate(function (Update $update) use ($Bot) {
 */
 
 
-$Bot->addErrorHandler(function (Throwable $e) {
-    print("Caught ".get_class($e)." exception from general handler".PHP_EOL);
-    #print($e.PHP_EOL);
+$Bot->setErrorHandler(function (Throwable $e) {
+    #print("Caught ".get_class($e)." exception from general handler".PHP_EOL);
+    print($e.PHP_EOL);
+    #exit;
 });
 
 $Bot->handleClass(Handler::class);
 
-$Bot->idle();
+#$Bot->idle();
 
 ?>
