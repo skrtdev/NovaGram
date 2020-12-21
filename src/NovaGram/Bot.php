@@ -403,7 +403,7 @@ class Bot {
                     if($this->getObjectType($ObjectType)) $value = $this->TelegramObjectArrayToObjectsList($value, $ObjectType);
                     else $value = $this->JSONToTelegramObject($value, $ObjectType);
                 }
-                else $value = new ObjectsList($value);;
+                else $value = (object) $value;
             }
         }
         return $this->createObject($parameter_name, $json);
