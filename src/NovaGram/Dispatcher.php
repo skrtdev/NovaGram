@@ -105,7 +105,7 @@ class Dispatcher {
                     $handler();
                 }
                 $this->Bot->logger->debug("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
-            });
+            }, "NovaGram: child process");
         }
     }
 

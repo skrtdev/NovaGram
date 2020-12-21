@@ -216,6 +216,7 @@ class Bot {
         if($this->settings->restart_on_changes){
             if($this->file_sha !== Utils::getFileSHA()){
                 print(PHP_EOL."Restarting script...".PHP_EOL.PHP_EOL);
+                @cli_set_process_title("NovaGram: died process ({$this->getUsername()})");
                 shell_exec("php ".realpath($_SERVER['SCRIPT_FILENAME']));
                 exit();
             }
@@ -281,6 +282,7 @@ class Bot {
                 }
                 $this->running = true;
                 $this->settings->threshold ??= 10; // set 10 as default when using getUpdates
+                @cli_set_process_title("NovaGram: main process ({$this->getUsername()})");
                 self::showLicense();
                 while ($this->running) {
                     $offset = $this->processUpdates($offset ?? 0);
