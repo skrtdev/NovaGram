@@ -405,7 +405,7 @@ class Bot {
                     if($this->getObjectType($ObjectType)) $value = $this->TelegramObjectArrayToObjectsList($value, $ObjectType);
                     else $value = $this->JSONToTelegramObject($value, $ObjectType);
                 }
-                else $value = (object) $value;
+                else $value = is_integer(array_keys($value)[0]) ? new ObjectsList($json) : (object) $value;
             }
         }
         return $this->createObject($parameter_name, $json);
