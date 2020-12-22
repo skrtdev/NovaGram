@@ -15,6 +15,7 @@ use Monolog\Logger;
 class TelegramLogger extends AbstractProcessingHandler
 {
     protected Bot $Bot;
+    protected int $chat_id;
 
     /**
      * @param string     $token          Telegram Bot Token that will be used for sending log messages
@@ -24,13 +25,17 @@ class TelegramLogger extends AbstractProcessingHandler
      */
     public function __construct(
         string $token,
-        protected int $chat_id,
+        /*protected*/ int $chat_id,
         $level = Logger::DEBUG,
         bool $bubble = true
     )
     {
         parent::__construct($level, $bubble);
-        $this->Bot = new Bot($token, mode: Bot::NONE, parse_mode: "HTML");
+        $this->Bot = new Bot($token, [
+            "mode"=> Bot::NONE,
+            "parse_mode"=> "HTML"
+        ]);
+        $this->chat_id = $chat_id;
     }
 
 
