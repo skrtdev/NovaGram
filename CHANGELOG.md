@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## v1.9 - [Not Released yet](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
+
+- New User mode: you can now run userbots with novagram using tdlight bot api
+- New Exceptions
+    - `NotFoundException` (404)
+    - `MethodNotAllowedException` (405)
+
+- moved properties initialization into getters
+- add PHP8 kwargs to Bot constructor  
+- Add TelegramLogger  
+- Fix ObjectsList in unknown objects  
+- add custom process titles  
+- fix a bug in excpetions when passing previous exception
+- fix Entities parser with ObjectsList  
+- bring getHTMLText back  
+- fixed a bug in onCommand handler arguments  
+- fix mysql with getUpdates  
+- move logging from Bot to Dispatcher class  
+- objects are now serializable, fixed some things  
+
+
 ## v1.8 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.8)
 - New handlers: `onTextMessage`, `onText`, and `onCommand`
 - New Bot settings:

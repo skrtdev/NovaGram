@@ -107,6 +107,7 @@ class Bot {
             "restart_on_changes" => false,
             "logger" => Logger::INFO,
             "bot_api_url" => "https://api.telegram.org",
+            "is_user" => false,
             "command_prefixes" => [self::COMMAND_PREFIX],
             "group_handlers" => true,
             "wait_handlers" => false,
