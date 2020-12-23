@@ -2,11 +2,13 @@
 
 namespace skrtdev\Telegram;
 
+use Throwable;
+
 class Exception extends \Exception{
 
     public ?ResponseParameters $response_parameters = null; // read-only
 
-    public function __construct(string $method, array $response, array $data, Exception $previous = null) {
+    public function __construct(string $method, array $response, array $data, Throwable $previous = null) {
 
         $this->method = $method;
         $this->data = $data;
@@ -21,7 +23,7 @@ class Exception extends \Exception{
         return get_class($this) . ": {$this->code} {$this->message} (caused by {$this->method}) in {$this->file}:{$this->line}\nStack trace:\n".$this->getTraceAsString();
     }
 
-    public static function create(string $method, array $response, array $data, Exception $previous = null) {
+    public static function create(string $method, array $response, array $data, Throwable $previous = null) {
         $args = func_get_args();
         switch ($response['error_code']) {
             case 400:
@@ -34,6 +36,14 @@ class Exception extends \Exception{
 
             case 403:
                 return new ForbiddenException(...$args);
+                break;
+
+            case 404:
+                return new NotFoundException(...$args);
+                break;
+
+            case 405:
+                return new MethodNotAllowedException(...$args);
                 break;
 
             case 409:
