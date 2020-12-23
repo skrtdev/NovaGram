@@ -9,62 +9,62 @@ trait HandlersTrait{
 
     public function onUpdate(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler);
+        $this->getDispatcher()->addClosureHandler($handler);
     }
 
     public function onMessage(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "message");
+        $this->getDispatcher()->addClosureHandler($handler, "message");
     }
 
     public function onEditedMessage(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "edited_message");
+        $this->getDispatcher()->addClosureHandler($handler, "edited_message");
     }
 
     public function onChannelPost(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "channel_post");
+        $this->getDispatcher()->addClosureHandler($handler, "channel_post");
     }
 
     public function onEditedChannelPost(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "edited_channel_post");
+        $this->getDispatcher()->addClosureHandler($handler, "edited_channel_post");
     }
 
     public function onInlineQuery(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "inline_query");
+        $this->getDispatcher()->addClosureHandler($handler, "inline_query");
     }
 
     public function onChosenInlineResult(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "chosen_inline_result");
+        $this->getDispatcher()->addClosureHandler($handler, "chosen_inline_result");
     }
 
     public function onCallbackQuery(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "callback_query");
+        $this->getDispatcher()->addClosureHandler($handler, "callback_query");
     }
 
     public function onShippingQuery(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "shipping_query");
+        $this->getDispatcher()->addClosureHandler($handler, "shipping_query");
     }
 
     public function onPreCheckoutQuery(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "pre_checkout_query");
+        $this->getDispatcher()->addClosureHandler($handler, "pre_checkout_query");
     }
 
     public function onPoll(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "poll");
+        $this->getDispatcher()->addClosureHandler($handler, "poll");
     }
 
     public function onPollAnswer(Closure $handler): void
     {
-        $this->dispatcher->addClosureHandler($handler, "poll_answer");
+        $this->getDispatcher()->addClosureHandler($handler, "poll_answer");
     }
 
     // utilities

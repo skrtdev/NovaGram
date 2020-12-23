@@ -33,7 +33,7 @@ class Bot {
     const COMMAND_PREFIX = '/';
 
     private string $token;
-    private stdClass $settings;
+    protected stdClass $settings;
     private array $json;
     private bool $payloaded = false;
 
@@ -42,6 +42,7 @@ class Bot {
     public int $id; // read-only
     private string $username; // read-only
     public ?Database $database = null; // read-only
+    protected string $endpoint;
 
     private bool $started = false;
     private bool $running = false;
@@ -120,7 +121,6 @@ class Bot {
             $this->settings->mode = self::WEBHOOK;
         }
 
-        $this->json = json_decode(implode(file(__DIR__."/json.json")), true);
 
         $database = $this->settings->database;
         if(isset($database)){
@@ -157,8 +157,6 @@ class Bot {
             $this->settings->json_payload = false;
         }
 
-        $this->dispatcher = new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers);
-
         if($this->settings->debug !== false){
             $this->addErrorHandler(function (Throwable $e) {
                 $this->debug( (string) $e );
@@ -192,7 +190,7 @@ class Bot {
             }
             else{
                 $this->running = false;
-                $pool = $this->dispatcher->getPool();
+                $pool = $this->getDispatcher()->getPool();
                 $pool->checkChilds();
                 if($pool->hasChilds() || $pool->hasQueue()){
                     print("Waiting for handlers to finish...".PHP_EOL);
@@ -209,7 +207,7 @@ class Bot {
     }
 
     public function addErrorHandler(Closure $handler){
-        $this->dispatcher->addErrorHandler($handler);
+        $this->getDispatcher()->addErrorHandler($handler);
     }
 
     protected function restartOnChanges(){
@@ -224,18 +222,18 @@ class Bot {
     }
 
     public function handleClass($class){
-        $this->dispatcher->addClassHandler($class);
+        $this->getDispatcher()->addClassHandler($class);
     }
 
     protected function processUpdates($offset = 0){
         $async = $this->settings->async;
         if($async){
-            $this->dispatcher->resolveQueue();
-            $pool = $this->dispatcher->getPool();
+            $this->getDispatcher()->resolveQueue();
+            $pool = $this->getDispatcher()->getPool();
             $timeout = !$pool->hasQueue() ? self::TIMEOUT : 0;
         }
         else $timeout = self::TIMEOUT;
-        $params = ['offset' => $offset, 'timeout' => $timeout, "allowed_updates" => $this->dispatcher->getAllowedUpdates()];
+        $params = ['offset' => $offset, 'timeout' => $timeout, "allowed_updates" => $this->getDispatcher()->getAllowedUpdates()];
         $this->logger->debug('Processing Updates (async: '.(int) $async.')', $params);
         try{
             $updates = $this->getUpdates($params);
@@ -249,7 +247,7 @@ class Bot {
         $this->restartOnChanges();
         foreach ($updates as $update) {
             $this->is_handling = true;
-            $this->dispatcher->handleUpdate($update);
+            $this->getDispatcher()->handleUpdate($update);
             $offset = $update->update_id+1;
         }
         $this->is_handling = false;
@@ -265,10 +263,10 @@ class Bot {
 
     public function idle(){
         if(!$this->started){
-            if(!$this->dispatcher->hasHandlers()){
+            if(!$this->getDispatcher()->hasHandlers()){
                 throw new Exception("No handler is found, but idle() method has been called");
             }
-            if(!$this->dispatcher->hasErrorHandlers()){
+            if(!$this->getDispatcher()->hasErrorHandlers()){
                 $this->logger->error("Error handler is not set."); // TODO THIS ERROR IN DISPATCHER
             }
 
@@ -290,7 +288,7 @@ class Bot {
             }
             if($this->settings->mode === self::WEBHOOK){
                 if(isset($this->update)){
-                    $this->dispatcher->handleUpdate($this->update);
+                    $this->getDispatcher()->handleUpdate($this->update);
                 }
             }
         }
@@ -299,7 +297,7 @@ class Bot {
     public function __destruct(){
         if(!$this->started){
             $this->logger->debug("Triggered destructor");
-            if(isset($this->dispatcher) && $this->dispatcher->hasHandlers()){
+            if($this->getDispatcher()->hasHandlers()){
                 $this->settings->debug_mode = "new";
 
                 if($this->settings->mode === self::CLI){
@@ -315,17 +313,17 @@ class Bot {
     }
 
     private function methodHasParamater(string $method, string $parameter){
-        return in_array($method, $this->json["require_params"][$parameter]);
+        return in_array($method, $this->getJSON()["require_params"][$parameter]);
     }
 
     private function normalizeRequest(string $method, array $data){
-        foreach (array_keys($this->json['require_params']) as $param) {
+        foreach (array_keys($this->getJSON()['require_params']) as $param) {
             if($this->methodHasParamater($method, $param) and isset($this->settings->$param)){
                 $data[$param] ??= $this->settings->$param;
             }
         }
 
-        foreach ($this->json['require_json_encode'] as $key){
+        foreach ($this->getJSON()['require_json_encode'] as $key){
             if(isset($data[$key]) and is_array($data[$key])){
                 $data[$key] = json_encode($data[$key]);
             }
@@ -387,12 +385,12 @@ class Bot {
     }
 
     private function getMethodReturned(string $method){
-        return $this->json['available_methods'][$method]['returns'] ?? false;
+        return $this->getJSON()['available_methods'][$method]['returns'] ?? false;
     }
 
     private function getObjectType(string $parameter_name, string $object_name = ""){
         if($object_name !== "") $object_name .= ".";
-        return $this->json['available_types'][$object_name.$parameter_name] ?? false;
+        return $this->getJSON()['available_types'][$object_name.$parameter_name] ?? false;
     }
 
     public function JSONToTelegramObject(array $json, string $parameter_name){
@@ -458,7 +456,12 @@ class Bot {
     }
 
     public function getJSON(): array{
-        return $this->json;
+        return $this->json ??= json_decode(implode(file(__DIR__."/json.json")), true);
+    }
+
+    protected function getDispatcher(): Dispatcher
+    {
+        return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers);
     }
 
     public function getDatabase(): Database{
