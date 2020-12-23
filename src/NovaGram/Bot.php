@@ -55,12 +55,46 @@ class Bot {
 
     public function __construct(string $token, array $settings = [], ?Logger $logger = null, ...$kwargs) {
 
+        $this->initializeToken($token);
+
+        $this->settings = $this->normalizeSettings($settings + $kwargs);
+
+        $this->initializeLogger($logger);
+        $this->initializeEndpoint();
+
+        $this->processSettings();
+    }
+
+    protected function initializeToken(string $token): void
+    {
         if(!Utils::isTokenValid($token)){
             throw new Exception("Not a valid Telegram Bot Token provided ($token)");
         }
         $this->token = $token;
         $this->id = Utils::getIDByToken($token);
-        $this->settings = (object) ($settings + $kwargs);
+    }
+
+    protected function initializeEndpoint(): void
+    {
+        $this->endpoint = trim($this->settings->bot_api_url, '/').'/'.($this->settings->is_user ? 'user' : 'bot')."{$this->token}/";
+    }
+
+    protected function initializeLogger(?Logger $logger = null)
+    {
+        if(!isset($logger)){
+            $logger = new Logger("NovaGram");
+            if(Utils::isCLI()) $logger->pushHandler(new StreamHandler(STDERR, $this->settings->logger));
+            else $logger->pushHandler(new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->settings->logger));
+            if($this->settings->debug !== false){
+                $logger->pushHandler(new TelegramLogger($this->token, $this->settings->debug, Logger::WARNING));
+            }
+            $logger->debug('Logger automatically replaced by a default one');
+        }
+        $this->logger = $logger;
+    }
+
+    protected function normalizeSettings(array $settings){
+        $settings = (object) ($settings);
 
         $settings_array = [
             "json_payload" => true,
@@ -85,23 +119,17 @@ class Bot {
         ];
 
         foreach ($settings_array as $name => $default){
-            $this->settings->{$name} ??= $default;
+            $settings->{$name} ??= $default;
         }
 
-        foreach ($this->settings->command_prefixes as &$prefix){
+        foreach ($settings->command_prefixes as &$prefix){
             $prefix = preg_quote($prefix, '/');
         }
+        return $settings;
+    }
 
-        if(!isset($logger)){
-            $logger = new Logger("NovaGram");
-            if(Utils::isCLI()) $logger->pushHandler(new StreamHandler(STDERR, $this->settings->logger));
-            else $logger->pushHandler(new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->settings->logger));
-            if($this->settings->debug !== false){
-                $logger->pushHandler(new TelegramLogger($token, $this->settings->debug, Logger::WARNING));
-            }
-            $logger->debug('Logger automatically replaced by a default one');
-        }
-        $this->logger = $logger;
+    protected function processSettings(): void
+    {
 
         if(!isset($this->settings->mode)){
             if($this->settings->disable_webhook){
@@ -135,7 +163,6 @@ class Bot {
             }
         }
 
-        $logger->debug("Chosen mode is: ".$this->settings->mode);
 
         if($this->settings->mode === self::WEBHOOK){
             if(!$this->settings->disable_ip_check){
@@ -175,6 +202,7 @@ class Bot {
             }
         }
 
+        $this->logger->debug("Chosen mode is: ".$this->settings->mode);
     }
 
     public function stop(int $signo = null)
