@@ -167,7 +167,7 @@ class Bot {
 
         if($this->settings->mode === self::WEBHOOK){
             if(!$this->settings->disable_ip_check){
-                $logger->debug("IP Check is enabled");
+                $this->logger->debug("IP Check is enabled");
                 if(!Utils::isTelegram()){
                     http_response_code(403);
                     exit("Access Denied - Telegram IP Protection by NovaGram.ga");
