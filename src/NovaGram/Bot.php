@@ -378,18 +378,18 @@ class Bot {
             }
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->settings->bot_api_url."/bot{$this->token}/$method");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $response = curl_exec($ch);
-        curl_close($ch);
+        $response = Utils::curl($this->endpoint.$method, $data);
+
         if(is_bool($response)) return $this->APICall(...func_get_args());
+
         $decoded = json_decode($response, true);
 
+        if(!is_array($decoded)){
+            throw new Exception("API returned a non-valid JSON: ".$response);
+        }
+
+        $this->logger->debug("Response: ".$response);
         if($decoded['ok'] !== true){
-            $this->logger->debug("Response: ".$response);
             if($is_debug) throw TelegramException::create("[DURING DEBUG] $method", $decoded, $data, $previous_exception);
             $e = TelegramException::create($method, $decoded, $data);
             if($this->settings->debug_mode === "classic" && $this->settings->debug){

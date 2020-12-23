@@ -6,7 +6,8 @@ class Utils{
 
     public static ?bool $is_cli = null;
 
-    public static function IPInRange(string $ip, string $range) {
+    public static function IPInRange(string $ip, string $range): bool
+    {
         if(strpos($range, '/') === false) $range .= '/32';
         [$range, $netmask] = explode( '/', $range, 2 );
         $range_decimal = ip2long($range);
@@ -16,27 +17,32 @@ class Utils{
         return ( ($ip_decimal & $netmask_decimal) == ($range_decimal & $netmask_decimal) );
     }
 
-    public static function isCloudFlare() {
+    public static function isCloudFlare(): bool
+    {
         $cf_ips = ['173.245.48.0/20','103.21.244.0/22','103.22.200.0/22','103.31.4.0/22','141.101.64.0/18','108.162.192.0/18','190.93.240.0/20','188.114.96.0/20','197.234.240.0/22','198.41.128.0/17','162.158.0.0/15','104.16.0.0/12','172.64.0.0/13','131.0.72.0/22'];
         foreach ($cf_ips as $cf_ip) if (self::IPInRange($_SERVER['REMOTE_ADDR'] ?? null, $cf_ip)) return true;
         return false;
     }
 
-    public static function isTokenValid(string $token){
+    public static function isTokenValid(string $token): bool
+    {
         return preg_match('/^\d+:[\w\d_-]+$/', $token) === 1;
     }
-    public static function getIDByToken(string $token){
+    public static function getIDByToken(string $token): int
+    {
         preg_match('/^(\d)+:[\w\d_-]+$/', $token, $matches);
         return (int) $matches[0];
     }
 
-    public static function trigger_error(string $error_msg, int $error_type = E_USER_NOTICE){
+    public static function trigger_error(string $error_msg, int $error_type = E_USER_NOTICE): void 
+    {
         $debug_backtrace = debug_backtrace();
         $caller = end($debug_backtrace);
         trigger_error($error_msg." in {$caller['file']}:{$caller['line']}", $error_type);
     }
 
-    public static function var_dump($mixed) {
+    public static function var_dump($mixed): string
+    {
         ob_start();
         var_dump($mixed);
         $content = ob_get_contents();
@@ -44,25 +50,45 @@ class Utils{
         return $content;
     }
 
-    public static function isCLI(){
+    public static function isCLI(): bool
+    {
         return self::$is_cli ??= http_response_code() === false;
     }
 
-    public static function getFileSHA(){
+    public static function getFileSHA(): string
+    {
         $file = file_get_contents(realpath($_SERVER['SCRIPT_FILENAME']));
         return hash("sha256", $file);
     }
 
-    public static function curl(string $url){
+    public static function curl(string $url, array $data = []): string
+    {
+        $options = [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_FOLLOWLOCATION => true
+        ];
+
+        if(!empty($data)){
+            $options += [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $data
+            ];
+        }
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
         curl_close($ch);
+        if(!empty(curl_error($ch))){
+            throw new Exception(curl_error($ch));
+        }
         return $response;
     }
 
-    public static function isTelegram($value='')
+    public static function isTelegram(): bool
     {
         if(!isset($_SERVER['REMOTE_ADDR'])) exit;
         if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and self::isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
