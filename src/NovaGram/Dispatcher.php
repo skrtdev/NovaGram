@@ -43,6 +43,7 @@ class Dispatcher {
         if($this->async && $this->Bot->hasDatabase()){
             $this->Bot->getDatabase()->resetPDO();
         }
+        $process_name = "NovaGram: child process ({$this->Bot->getUsername()}:{$update->update_id})";
         $final_handlers = [];
         foreach ($this->closure_handlers as $parameter => $handlers) {
             if($parameter === "update"){
@@ -68,7 +69,7 @@ class Dispatcher {
                         $final_handlers[] = $real_handler;
                     }
                     else{
-                        $this->pool->parallel($real_handler);
+                        $this->pool->parallel($real_handler, $process_name);
                     }
                 }
                 else{
@@ -78,13 +79,20 @@ class Dispatcher {
         }
 
         foreach ($this->class_handlers as $handler) {
-            $real_handler = fn() => Closure::fromCallable([$handler, "handle"])($update); // TODO ERROR HANDLING
+            $real_handler = function () use ($handler, $update) {
+                try{
+                    Closure::fromCallable([$handler, "handle"])($update);
+                }
+                catch(Throwable $e){
+                    $this->handleError($e);
+                }
+            };
             if($this->async){
                 if($this->group_handlers){
                     $final_handlers[] = $real_handler;
                 }
                 else{
-                    $this->pool->parallel($real_handler);
+                    $this->pool->parallel($real_handler, $process_name);
                 }
             }
             else{
@@ -105,7 +113,7 @@ class Dispatcher {
                     $handler();
                 }
                 $this->Bot->logger->debug("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
-            }, "NovaGram: child process");
+            }, $process_name);
         }
     }
 
