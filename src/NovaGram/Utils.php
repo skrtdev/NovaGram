@@ -34,7 +34,7 @@ class Utils{
         return (int) $matches[0];
     }
 
-    public static function trigger_error(string $error_msg, int $error_type = E_USER_NOTICE): void 
+    public static function trigger_error(string $error_msg, int $error_type = E_USER_NOTICE): void
     {
         $debug_backtrace = debug_backtrace();
         $caller = end($debug_backtrace);
@@ -81,10 +81,10 @@ class Utils{
         $ch = curl_init();
         curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
-        curl_close($ch);
         if(!empty(curl_error($ch))){
             throw new Exception(curl_error($ch));
         }
+        curl_close($ch);
         return $response;
     }
 
