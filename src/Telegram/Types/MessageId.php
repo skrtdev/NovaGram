@@ -8,7 +8,7 @@ use skrtdev\Prototypes\simpleProto;
 /**
  * This object represents a unique message identifier.
 */
-class MessageId extends \Telegram\MessageId{
+class MessageId {
 
     use simpleProto;
 
