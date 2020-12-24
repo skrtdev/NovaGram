@@ -7,6 +7,7 @@
     - `NotFoundException` (404)
     - `MethodNotAllowedException` (405)
 
+- added userbot login via browser
 - moved properties initialization into getters
 - fix Bot username to be faster on webhook  
 - fixed error handling in class handlers  
