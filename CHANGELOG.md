@@ -8,6 +8,7 @@
     - `MethodNotAllowedException` (405)
 
 - moved properties initialization into getters
+- fix Bot username to be faster on webhook
 - add PHP8 kwargs to Bot constructor  
 - Add TelegramLogger  
 - Fix ObjectsList in unknown objects  

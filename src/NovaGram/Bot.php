@@ -97,6 +97,7 @@ class Bot {
         $settings = (object) ($settings);
 
         $settings_array = [
+            "username" => null,
             "json_payload" => true,
             "log_updates" => false,
             "debug" => false,
@@ -192,7 +193,7 @@ class Bot {
         }
 
         if($this->settings->mode === self::CLI){
-            $this->username = $this->getMe()->username;
+            $this->getUsername();
 
             if($this->settings->wait_handlers){
                 pcntl_async_signals(true);
@@ -506,7 +507,10 @@ class Bot {
     }
 
     public function getUsername(): string{
-        return $this->username ??= $this->getMe()->username;
+        if(!isset($this->settings->username) && !Utils::isCLI()){
+            $this->logger->warning("Bot username is not specified in Bot settings");
+        }
+        return $this->settings->username ??= $this->getMe()->username;
     }
 
     public function __debugInfo() {
