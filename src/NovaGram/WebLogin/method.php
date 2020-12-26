@@ -15,7 +15,7 @@ $post = json_decode(file_get_contents("php://input"), true);
 
 if(isset($post['token']) && isset($post['session_name'])){
     file_put_contents($post['session_name'].'.token', $post['token']);
-    echo '{}';
+    unlink(__FILE__);
 }
 elseif(isset($post['url'])){
     echo Utils::curl($post['url'], $post['data'] ?? []);

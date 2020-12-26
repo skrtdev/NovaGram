@@ -12,7 +12,7 @@ const method = (method, data = [], token = null) => {
         return JSON.parse(xhttp.responseText);
     }
     else{
-        alert("error: "+xhttp.status);
+        alert("Error: "+xhttp.status);
     }
 }
 
@@ -22,11 +22,8 @@ const confirm = (token) => {
     xhttp.open("POST", "method.php", false);
     xhttp.send(JSON.stringify({token: token, session_name: NAME}));
 
-    if(xhttp.status === 200){
-        return JSON.parse(xhttp.responseText);
-    }
-    else{
-        alert("error: "+xhttp.status);
+    if(xhttp.status !== 200){
+        alert("Error: "+xhttp.status);
     }
 }
 
@@ -34,7 +31,7 @@ const confirm = (token) => {
 phone_number = prompt("Insert phone number:");
 
 while(true){
-    if(!phone_number) break;
+    if(!phone_number) throw '';
     phone_number = phone_number.replace(/(\+|\s)/g, "");
     result = method("login", {phone_number: phone_number});
     if (result.ok){
@@ -48,7 +45,7 @@ while(true){
 
 code = prompt("Insert code:");
 while(true){
-    if(!code) break;
+    if(!code) throw '';
     result = method("authcode", {code: code}, token);
     if (result.ok){
         break;
@@ -64,7 +61,7 @@ getme = method("getme", {}, token);
 if(!getme.ok){
     password = prompt("Insert 2fa password:");
     while(true){
-        if(!password) break;
+        if(!password) throw '';
         result = method("2fapassword", {password: password}, token);
         if (result.ok){
             break;
@@ -75,7 +72,7 @@ if(!getme.ok){
     }
 }
 
-confirm(token);
 method("setWebhook", {url: location.href}, token)
+confirm(token);
 
 alert("Successfully logged in!");
