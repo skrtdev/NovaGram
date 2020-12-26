@@ -11,7 +11,7 @@ class UserBot extends Bot{
         $this->initializeLogger($logger);
 
         if(!Utils::isTokenValid($token)){
-            $filename = "$token.token";
+            $filename = realpath("$token.token");
             if(file_exists($filename)){
                 $token = file_get_contents($filename);
                 $this->initializeToken($token);
