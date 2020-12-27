@@ -8,7 +8,7 @@ use skrtdev\Prototypes\simpleProto;
 /**
  * This object represents a unique message identifier.
 */
-class MessageId {
+class MessageId extends Type {
 
     use simpleProto;
 
