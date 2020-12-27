@@ -40,10 +40,13 @@ class Dispatcher {
     public function handleUpdate(Update $update): void
     {
         $this->resolveQueue();
-        if($this->async && $this->Bot->hasDatabase()){
-            $this->Bot->getDatabase()->resetPDO();
+        if($this->async){
+            if($this->Bot->hasDatabase()){
+                $this->Bot->getDatabase()->resetPDO();
+            }
+            $process_name = "NovaGram: child process ({$this->Bot->getUsername()}:{$update->update_id})";
         }
-        $process_name = "NovaGram: child process ({$this->Bot->getUsername()}:{$update->update_id})";
+        
         $final_handlers = [];
         foreach ($this->closure_handlers as $parameter => $handlers) {
             if($parameter === "update"){
