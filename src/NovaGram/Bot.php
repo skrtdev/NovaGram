@@ -348,13 +348,13 @@ class Bot {
 
     private function normalizeRequest(string $method, array $data){
         foreach (array_keys($this->getJSON()['require_params']) as $param) {
-            if($this->methodHasParamater($method, $param) and isset($this->settings->$param)){
+            if($this->methodHasParamater($method, $param) && isset($this->settings->$param)){
                 $data[$param] ??= $this->settings->$param;
             }
         }
 
         foreach ($this->getJSON()['require_json_encode'] as $key){
-            if(isset($data[$key]) and is_array($data[$key])){
+            if(isset($data[$key]) && is_array($data[$key])){
                 $data[$key] = json_encode($data[$key]);
             }
         }

@@ -972,9 +972,8 @@ trait Methods{
      *
      * @return bool
      */
-    public function setMyCommands($args = null, bool $json_payload = false, ...$kwargs){
-        $params = $args;
-        return $this->APICall("setMyCommands", ($kwargs ?? []) + ($params ?? []), $json_payload);
+    public function setMyCommands($commands = null, bool $json_payload = false){
+        return $this->APICall("setMyCommands", ["commands" => $commands], $json_payload);
     }
 
     /**
