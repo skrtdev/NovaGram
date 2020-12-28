@@ -16,7 +16,7 @@ $settings is an array which contains some NovaGram configurations.
 
 | key                         | type    | default                  | description                                                                                                                         |
 |-----------------------------|---------|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| username                    | string  | no                       | Bot username, recommended to pass only if using command handlers on webhook.                                                        |
+| username                    | string  | no                       | Bot username, recommended to pass only if using command handlers on webhook                                                         |
 | mode                        | integer | auto                     | Mode for update handling (or no handling at all)                                                                                    |
 | json_payload                | boolean | `true`                   | Whether or not print json payload                                                                                                   |
 | log_updates                 | integer | `false`                  | Chat id where raw json updates will be sent (set to false to disable)                                                               |
@@ -30,6 +30,7 @@ $settings is an array which contains some NovaGram configurations.
 | threshold                   | int     | null                     | Defaults to 10 when using `getUpdates`. Amount of max seconds the script will wait instead of throwing a `TooManyRequestsException` |
 | logger                      | int     | `Monolog\Logger::INFO`   | `Monolog\Logger` constant for logging                                                                                               |
 | disable_ip_check            | boolean | `false`                  | Whether or not disable telegram ip check (could be useful in case of reverse proxy, such as ngrok)                                  |
+| export_commands             | boolean | `true`                   | Whether to call exportCommands when idling on CLI                                                                                   |
 | exceptions                  | bool    | `true`                   | Whether or not throw \skrtdev\Telegram\Exception(s) when API Errors occurs                                                          |
 | database                    | array   | null                     | [Database](database.md) array connection info or instance of an existing `PDO` database (`novagram` will be used as prefix)         |
 | parse_mode                  | string  | null                     | Default `parse_mode` for methods that require it                                                                                    |

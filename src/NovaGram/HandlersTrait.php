@@ -7,6 +7,8 @@ use Closure;
 
 trait HandlersTrait{
 
+    protected array $commands = [];
+
     public function onUpdate(Closure $handler): void
     {
         $this->getDispatcher()->addClosureHandler($handler);
@@ -98,7 +100,20 @@ trait HandlersTrait{
         if(is_string($commands)){
             $commands = [$commands];
         }
+        $this->commands = array_merge($this->commands, $commands);
         $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'.$this->getUsername().')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $matches[0][0] !== "" ? explode(' ', $matches[0][0]) : []));
+    }
+
+    public function exportCommands(): void
+    {
+        $commands = [];
+        foreach($this->commands as $command){
+            $commands[] = [
+                "command" => $command,
+                "description" => $command." command"
+            ];
+        }
+        $this->setMyCommands($commands);
     }
 }
 

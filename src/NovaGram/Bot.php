@@ -113,6 +113,7 @@ class Bot {
             "group_handlers" => true,
             "wait_handlers" => false,
             "threshold" => null, // 10 is default when using getUpdates
+            "export_commands" => true,
             "database" => null,
             "parse_mode" => null,
             "disable_web_page_preview" => null,
@@ -307,6 +308,9 @@ class Bot {
                 if($webhook_info->url !== ""){ // there is a webhook set
                     $this->deleteWebhook();
                     $this->logger->warning("There was a set webhook. It has been deleted. (URL: {$webhook_info->url})");
+                }
+                if($this->settings->export_commands && !$this->settings->is_user){
+                    $this->exportCommands();
                 }
                 $this->running = true;
                 $this->settings->threshold ??= 10; // set 10 as default when using getUpdates

@@ -8,6 +8,12 @@
     - `MethodNotAllowedException` (405)
 
 - added userbot login via browser
+- fixed class MessageId
+- speed up on webhook
+- fix setMyCommands
+- add exportCommands (also automatically called on CLI)
+- add username to settings
+- add export_commands to settings
 - moved properties initialization into getters
 - fix Bot username to be faster on webhook  
 - fixed error handling in class handlers  
