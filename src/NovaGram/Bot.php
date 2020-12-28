@@ -508,7 +508,7 @@ class Bot {
 
     public function getUsername(): string{
         if(!isset($this->settings->username) && !Utils::isCLI()){
-            $this->logger->warning("Bot username is not specified in Bot settings");
+            $this->logger->warning("Bot username is not specified in Bot settings. When using command handlers on webhook it is recommended to pass username in settings, or a getMe call will be done on every update");
         }
         return $this->settings->username ??= $this->getMe()->username;
     }

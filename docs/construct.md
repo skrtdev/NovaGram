@@ -16,6 +16,7 @@ $settings is an array which contains some NovaGram configurations.
 
 | key                         | type    | default                  | description                                                                                                                         |
 |-----------------------------|---------|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| username                    | string  | no                       | Bot username, recommended to pass only if using command handlers on webhook.                                                        |
 | mode                        | integer | auto                     | Mode for update handling (or no handling at all)                                                                                    |
 | json_payload                | boolean | `true`                   | Whether or not print json payload                                                                                                   |
 | log_updates                 | integer | `false`                  | Chat id where raw json updates will be sent (set to false to disable)                                                               |
