@@ -14,6 +14,7 @@
 - add exportCommands (also automatically called on CLI)
 - add username to settings
 - add export_commands to settings
+- add Bot::onCallbackData()
 - moved properties initialization into getters
 - fix Bot username to be faster on webhook  
 - fixed error handling in class handlers  

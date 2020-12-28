@@ -2,7 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
-use skrtdev\Telegram\Message;
+use skrtdev\Telegram\{Message, CallbackQuery};
 use Closure;
 
 trait HandlersTrait{
@@ -114,6 +114,21 @@ trait HandlersTrait{
             ];
         }
         $this->setMyCommands($commands);
+    }
+
+    public function onCallbackData(string $pattern, Closure $handler): void
+    {
+        if(preg_match('/^\/.+\/$/', $pattern) === 0){ // $pattern is not a regex
+            $pattern = '/^'.preg_quote($pattern, '/').'$/'; // $pattern becomes a regex
+        }
+        $this->onCallbackQuery(function (CallbackQuery $callback_query) use ($handler, $pattern) {
+            if(preg_match_all($pattern, $callback_query->data, $matches) !== 0){
+                if(count($matches) > 0){
+                    unset($matches[0]);
+                }
+                $handler($callback_query, array_values($matches));
+            }
+        });
     }
 }
 
