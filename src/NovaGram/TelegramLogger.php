@@ -32,8 +32,9 @@ class TelegramLogger extends AbstractProcessingHandler
     {
         parent::__construct($level, $bubble);
         $this->Bot = new Bot($token, [
-            "mode"=> Bot::NONE,
-            "parse_mode"=> "HTML"
+            "mode" => Bot::NONE,
+            "parse_mode" => "HTML",
+            "exceptions" => false
         ]);
         $this->chat_id = $chat_id;
     }
