@@ -59,7 +59,7 @@ require __DIR__ . '/vendor/autoload.php';
 Include the `phar` file in your bot file:
 ```php
 if (!file_exists('novagram.phar')) {
-    copy('http://gaetano.cf/novagram/phar.php', 'novagram.phar');
+    copy('https://novagram.ga/phar', 'novagram.phar');
 }
 require_once 'novagram.phar';
 ```
