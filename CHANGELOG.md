@@ -1,34 +1,34 @@
 # CHANGELOG
 
 ## v1.9 - [Not Released yet](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
-
-- New User mode: you can now run userbots with novagram using tdlight bot api
+- [ ] Support for PostegreSQL  
+- New User mode: you can now run userbots with novagram using tdlight bot api  
+- You can now use PHP8 named arguments in Bot constructor instead of the `$settings` array  
+- New `onCallbackData` handler: similar to `onText` but for Callback Queries data.
+- New `exportCommands` method, that calls `setMyCommands` with the registered command handlers (`onCommand()`). Automatically called by default on CLI
 - New Exceptions
     - `NotFoundException` (404)
     - `MethodNotAllowedException` (405)
-
-- added userbot login via browser
-- fixed class MessageId
-- speed up on webhook
-- fix setMyCommands
-- add exportCommands (also automatically called on CLI)
-- add username to settings
-- add export_commands to settings
-- add Bot::onCallbackData()
-- moved properties initialization into getters
-- fix Bot username to be faster on webhook  
-- fixed error handling in class handlers  
-- add PHP8 kwargs to Bot constructor  
-- Add TelegramLogger  
-- Fix ObjectsList in unknown objects  
-- add custom process titles  
-- fix a bug in excpetions when passing previous exception
-- fix Entities parser with ObjectsList  
-- bring getHTMLText back  
-- fixed a bug in onCommand handler arguments  
-- fix mysql with getUpdates  
-- move logging from Bot to Dispatcher class  
-- objects are now serializable, fixed some things  
+- New Bot settings:  
+    - `username`: Bot username, needed to avoid a `getMe()` call when using command handlers and webhook.  
+    - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI  
+- Fixes:  
+    - Class `MessageId` didn't work properly  
+    - `setMyCommands` arguments were wrong  
+    - Errors weren't handled when thrown inside class handlers  
+    - `ObjectsList` in unknown objects   
+    - Exceptions constructor argument `$previous_exception` was an `Exception` instead of a `Throwable`  
+    - Entities parser didn't work with `ObjectsList`  
+    - `mysql` database couldn't be used with `getUpdates`  
+    - `onCommand` handler `$args` argument behaviour was incorrect  
+    - Removed overhead in `Bot::getUsername()`  
+- Minor:
+    - Now when using `getUpdates` process titles are customized in order to differenciate main process and child processes  
+    - added userbot login via browser  
+    - Moved properties initialization into getters  
+    - Add `TelegramLogger  `
+    - Move logging from `Bot` to `Dispatcher` class  
+    - Objects are now serializable  
 
 
 ## v1.8 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.8)
