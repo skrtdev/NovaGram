@@ -294,11 +294,14 @@ class Bot {
 
     public function idle(){
         if(!$this->started){
+            if($this->settings->mode === self::NONE){
+                throw new Exception("Cannot idle, Bot mode is NONE.");
+            }
             if(!$this->getDispatcher()->hasHandlers()){
                 throw new Exception("No handler is found, but idle() method has been called");
             }
             if(!$this->getDispatcher()->hasErrorHandlers()){
-                $this->logger->error("Error handler is not set."); // TODO THIS ERROR IN DISPATCHER
+                $this->logger->error("Error handler is not set.");
             }
 
             $this->started = true;
@@ -329,7 +332,7 @@ class Bot {
     }
 
     public function __destruct(){
-        if(!$this->started){
+        if($this->settings->mode !== self::NONE && !$this->started){
             $this->logger->debug("Triggered destructor");
             if($this->getDispatcher()->hasHandlers()){
                 $this->settings->debug_mode = "new";
