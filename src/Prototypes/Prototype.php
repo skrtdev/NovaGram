@@ -8,10 +8,31 @@ class Prototype{
 
     public static array $methods = [];
 
+    public static function isPrototypeable(string $class_name): bool
+    {
+        // method_exists is a bc, in v2 all classes should implement Prototypeable
+        return is_a($class_name, Prototypeable::class, true) || ( method_exists($class_name, "addMethod") && method_exists($class_name, "__call") );
+    }
+
     public static function addMethod(string $class_name, string $name, Closure $fun): void
     {
-        self::$methods[$class_name] ??= [];
-        self::$methods[$class_name][$name] = $fun;
+        if(self::isPrototypeable($class_name)){
+            if(!method_exists($class_name, $name)){
+                self::$methods[$class_name] ??= [];
+                if(!isset(self::$methods[$class_name][$name])){
+                    self::$methods[$class_name][$name] = $fun;
+                }
+                else{
+                    throw new Exception("Invalid method name provided for class '$class_name': method '$name' is already a Prototype");
+                }
+            }
+            else{
+                throw new Exception("Invalid method name provided for class '$class_name': method '$name' already exists");
+            }
+        }
+        else{
+            throw new Exception("Invalid class provided: class '$class_name' it's not Prototypeable");
+        }
     }
 
     public static function call(object $obj, string $name, array $args)
