@@ -41,7 +41,7 @@ class Bot {
     public ?array $raw_update = null; // read-only
     public int $id; // read-only
     private string $username; // read-only
-    public ?Database $database = null; // read-only
+    protected ?Database $database = null; // read-only
     protected string $endpoint;
 
     private bool $started = false;
@@ -114,6 +114,7 @@ class Bot {
             "wait_handlers" => false,
             "threshold" => null, // 10 is default when using getUpdates
             "export_commands" => true,
+            "include_classes" => false,
             "database" => null,
             "parse_mode" => null,
             "disable_web_page_preview" => null,
@@ -203,6 +204,10 @@ class Bot {
             if($this->settings->restart_on_changes){
                 $this->file_sha = Utils::getFileSHA();
             }
+        }
+
+        if($this->settings->include_classes){
+            $this->includeCommandHandlers();
         }
 
         $this->logger->debug("Chosen mode is: ".$this->settings->mode);
@@ -350,24 +355,6 @@ class Bot {
         }
     }
 
-    public function __destruct(){
-        if($this->settings->mode !== self::NONE && !$this->started){
-            $this->logger->debug("Triggered destructor");
-            if($this->getDispatcher()->hasHandlers()){
-                $this->settings->debug_mode = "new";
-
-                if($this->settings->mode === self::CLI){
-                    $this->logger->debug('Idling by destructor');
-                    $this->logger->error('No call to Bot::idle() has been done, idling by destructor. NovaGram will not idle automatically anymore in v2.0');
-                    $this->idle();
-                }
-                if($this->settings->mode === self::WEBHOOK){
-                    $this->idle();
-                }
-            }
-        }
-    }
-
     private function methodHasParamater(string $method, string $parameter){
         return in_array($method, $this->getJSON()["require_params"][$parameter]);
     }
@@ -407,9 +394,6 @@ class Bot {
         }
 
         $response = Utils::curl($this->endpoint.$method, $data);
-
-        if(is_bool($response)) return $this->APICall(...func_get_args());
-
         $decoded = json_decode($response, true);
 
         if(!is_array($decoded)){
@@ -511,7 +495,8 @@ class Bot {
         else throw new Exception("debug chat id is not set");
     }
 
-    public function getJSON(): array{
+    public function getJSON(): array
+    {
         return $this->json ??= json_decode(implode(file(__DIR__."/json.json")), true);
     }
 
@@ -520,7 +505,8 @@ class Bot {
         return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers);
     }
 
-    public function getDatabase(): Database{
+    public function getDatabase(): Database
+    {
         if(!isset($this->database)){
             throw new Exception("Bot instance has no linked Database");
         }
@@ -537,6 +523,32 @@ class Bot {
             $this->logger->warning("Bot username is not specified in Bot settings. When using command handlers on webhook it is recommended to pass username in settings, or a getMe call will be done on every update");
         }
         return $this->settings->username ??= $this->getMe()->username;
+    }
+
+    protected function includeCommandHandlers(): void
+    {
+        foreach (Utils::getCommandHandlersPaths() as $class => $path) {
+            require_once $path;
+            $_ = new $class($this);
+        }
+    }
+
+    public function __destruct(){
+        if($this->settings->mode !== self::NONE && !$this->started){
+            $this->logger->debug("Triggered destructor");
+            if($this->getDispatcher()->hasHandlers()){
+                $this->settings->debug_mode = "new";
+
+                if($this->settings->mode === self::CLI){
+                    $this->logger->debug('Idling by destructor');
+                    $this->logger->error('No call to Bot::idle() has been done, idling by destructor. NovaGram will not idle automatically anymore in v2.0');
+                    $this->idle();
+                }
+                if($this->settings->mode === self::WEBHOOK){
+                    $this->idle();
+                }
+            }
+        }
     }
 
     public function __debugInfo() {

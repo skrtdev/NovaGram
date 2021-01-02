@@ -73,7 +73,6 @@ class Utils{
 
         if(!empty($data)){
             $options += [
-                CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $data
             ];
         }
@@ -95,6 +94,20 @@ class Utils{
         if(!self::IPInRange($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !self::IPInRange($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) return false;
         return true;
     }
+
+    public static function getCommandHandlersPaths(string $directory = '.'): \Generator
+    {
+        $directory = realpath($directory);
+        foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
+            if(is_dir($filename)){
+                yield from self::getCommandHandlersPaths($filename);
+            }
+            elseif(preg_match('/([\w\d]+Command)\.php/', $filename, $matches) === 1){
+                yield $matches[1] => $directory.'/'.$filename;
+            }
+        }
+    }
+
 }
 
 ?>
