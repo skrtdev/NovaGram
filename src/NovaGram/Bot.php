@@ -253,7 +253,26 @@ class Bot {
     }
 
     public function handleClass($class){
+        Utils::trigger_error("Using deprecated handleClass, use addClassHandler instead", E_USER_DEPRECATED);
         $this->getDispatcher()->addClassHandler($class);
+    }
+
+    public function addClassHandler($class){
+        $this->getDispatcher()->addClassHandler($class);
+    }
+
+    public function addCommandHandler($class){
+        if(is_string($class)){
+            $class = [$class];
+        }
+        foreach ($class as $handler) {
+            if(is_a($handler, BaseCommandHandler::class, true)){
+                $_ = new $handler($this);
+            }
+            else{
+                throw new Exception("Invalid command handler provided: $handler");
+            }
+        }
     }
 
     protected function processUpdates($offset = 0){
