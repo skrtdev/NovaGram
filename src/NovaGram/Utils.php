@@ -90,20 +90,21 @@ class Utils{
     public static function isTelegram(): bool
     {
         if(!isset($_SERVER['REMOTE_ADDR'])) exit;
-        if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and self::isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-        if(!self::IPInRange($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") and !self::IPInRange($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) return false;
+        if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) && self::isCloudFlare()) $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        if(!self::IPInRange($_SERVER['REMOTE_ADDR'], "149.154.160.0/20") && !self::IPInRange($_SERVER['REMOTE_ADDR'], "91.108.4.0/22")) return false;
         return true;
     }
 
     public static function getCommandHandlersPaths(string $directory = '.'): \Generator
     {
-        $directory = realpath($directory);
+        $directory = realpath($directory).'/';
         foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
+            $filename = $directory.$filename;
             if(is_dir($filename)){
                 yield from self::getCommandHandlersPaths($filename);
             }
-            elseif(preg_match('/([\w\d]+Command)\.php/', $filename, $matches) === 1){
-                yield $matches[1] => $directory.'/'.$filename;
+            elseif(preg_match('/.+\/([\w\d]+Command)\.php/', $filename, $matches) === 1){
+                yield $matches[1] => $filename;
             }
         }
     }

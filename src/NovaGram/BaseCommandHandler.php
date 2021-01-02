@@ -22,7 +22,7 @@ abstract class BaseCommandHandler {
     {
         if(!(self::$fired[static::class] ?? false)){
             $this->Bot = $Bot;
-            $Bot->onCommand($this->commands, Closure::fromCallable([$this, "handle"]), $this->description);
+            $Bot->onCommand($this->commands, Closure::fromCallable([$this, "handle"]), $this->description ?? null);
             self::$fired[static::class] = true;
         }
         else{
