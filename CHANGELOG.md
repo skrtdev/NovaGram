@@ -3,6 +3,9 @@
 ## v1.9 - [Not Released yet](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
 - [ ] Support for PostegreSQL  
 - New User mode: you can now run userbots with novagram using tdlight bot api  
+- add command handler class  
+- improvements in prototypes  
+- add $description to onCommand and exportCommands  
 - You can now use PHP8 named arguments in Bot constructor instead of the `$settings` array  
 - New `onCallbackData` handler: similar to `onText` but for Callback Queries data.
 - New `exportCommands` method, that calls `setMyCommands` with the registered command handlers (`onCommand()`). Automatically called by default on CLI

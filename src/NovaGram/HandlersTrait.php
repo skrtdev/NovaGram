@@ -95,22 +95,25 @@ trait HandlersTrait{
         });
     }
 
-    public function onCommand($commands, Closure $handler): void
+    public function onCommand($commands, Closure $handler, string $description = null): void
     {
         if(is_string($commands)){
             $commands = [$commands];
         }
-        $this->commands = array_merge($this->commands, $commands);
+        $description ??= $commands[0]." command";
+        foreach($commands as $command){
+            $this->commands[$command] ??= $description;
+        }
         $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'.$this->getUsername().')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $matches[0][0] !== "" ? explode(' ', $matches[0][0]) : []));
     }
 
     public function exportCommands(): void
     {
         $commands = [];
-        foreach($this->commands as $command){
+        foreach($this->commands as $command => $description){
             $commands[] = [
                 "command" => $command,
-                "description" => $command." command"
+                "description" => $description
             ];
         }
         $this->setMyCommands($commands);
