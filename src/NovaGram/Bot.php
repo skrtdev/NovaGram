@@ -220,7 +220,6 @@ class Bot {
         print("Stopping...".PHP_EOL);
         if($this->running){
             if($this->is_handling){
-                var_dump($this->is_handling);
                 print("Could not stop, Bot is handling updates".PHP_EOL);
                 sleep(1);
             }
@@ -293,7 +292,7 @@ class Bot {
                 throw new Exception("No handler is found, but idle() method has been called");
             }
             if(!$this->getDispatcher()->hasErrorHandlers()){
-                $this->logger->error("Error handler is not set.");
+                $this->logger->warning("Error handler is not set.");
             }
 
             $this->started = true;
