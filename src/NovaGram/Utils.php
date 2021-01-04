@@ -26,11 +26,11 @@ class Utils{
 
     public static function isTokenValid(string $token): bool
     {
-        return preg_match('/^\d+:[\w\d_-]+$/', $token) === 1;
+        return preg_match('/^\d{5,12}:[\w\d_-]{30,40}$/', $token) === 1;
     }
     public static function getIDByToken(string $token): int
     {
-        preg_match('/^(\d)+:[\w\d_-]+$/', $token, $matches);
+        preg_match('/^(\d{5,12}):[\w\d_-]{30,40}$/', $token, $matches);
         return (int) $matches[0];
     }
 
