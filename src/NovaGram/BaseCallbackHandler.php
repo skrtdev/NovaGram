@@ -2,7 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
-use skrtdev\Telegram\Message;
+use skrtdev\Telegram\CallbackQuery;
 
 use Closure;
 
@@ -14,15 +14,13 @@ abstract class BaseCallbackHandler {
     protected Bot $Bot;
     public static array $fired = [];
 
-    /* @var string|array */
-    protected /* string|array */ $commands;
-    protected string $description;
+    protected string $pattern;
 
     final public function __construct(Bot $Bot)
     {
         if(!(self::$fired[static::class] ?? false)){
             $this->Bot = $Bot;
-            $Bot->onCallbackData($this->commands, Closure::fromCallable([$this, "handle"]), $this->description ?? null);
+            $Bot->onCallbackData($this->pattern, Closure::fromCallable([$this, "handle"]));
             self::$fired[static::class] = true;
         }
         else{
@@ -31,7 +29,7 @@ abstract class BaseCallbackHandler {
         }
     }
 
-    abstract public function handle(Message $message);
+    abstract public function handle(CallbackQuery $callback_query);
 
 
 }
