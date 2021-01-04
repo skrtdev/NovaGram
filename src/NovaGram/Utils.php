@@ -100,11 +100,13 @@ class Utils{
         $directory = realpath($directory).'/';
         foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
             $filename = $directory.$filename;
-            if(is_dir($filename)){
-                yield from self::getClassHandlersPaths($filename);
+            if(!is_dir($filename)){
+                if(preg_match('/.+\/([\w\d]+Handler)\.php/', $filename, $matches) === 1){
+                    yield $matches[1] => $filename;
+                }
             }
-            elseif(preg_match('/.+\/([\w\d]+Handler)\.php/', $filename, $matches) === 1){
-                yield $matches[1] => $filename;
+            else{
+                yield from self::getClassHandlersPaths($filename);
             }
         }
     }
@@ -114,11 +116,29 @@ class Utils{
         $directory = realpath($directory).'/';
         foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
             $filename = $directory.$filename;
-            if(is_dir($filename)){
-                yield from self::getCommandHandlersPaths($filename);
+            if(!is_dir($filename)){
+                if(preg_match('/.+\/([\w\d]+Command)\.php/', $filename, $matches) === 1){
+                    yield $matches[1] => $filename;
+                }
             }
-            elseif(preg_match('/.+\/([\w\d]+Command)\.php/', $filename, $matches) === 1){
-                yield $matches[1] => $filename;
+            else{
+                yield from self::getCommandHandlersPaths($filename.'/');
+            }
+        }
+    }
+
+    public static function getCallbackHandlersPaths(string $directory = '.'): \Generator
+    {
+        $directory = realpath($directory).'/';
+        foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
+            $filename = $directory.$filename;
+            if(!is_dir($filename)){
+                if(preg_match('/.+\/([\w\d]+Callback)\.php/', $filename, $matches) === 1){
+                    yield $matches[1] => $filename;
+                }
+            }
+            else{
+                yield from self::getCallbackHandlersPaths($filename);
             }
         }
     }

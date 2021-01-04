@@ -172,6 +172,20 @@ trait HandlersTrait{
         }
     }
 
+    public function addCallbackHandler($class){
+        if(is_string($class)){
+            $class = [$class];
+        }
+        foreach ($class as $handler) {
+            if(is_a($handler, BaseCallbackHandler::class, true)){
+                $_ = new $handler($this);
+            }
+            else{
+                throw new Exception("Invalid callback handler provided: $handler");
+            }
+        }
+    }
+
     // autoloader
 
     protected function autoloadHandlers(): void
@@ -184,7 +198,11 @@ trait HandlersTrait{
             require_once $path;
             $this->addCommandHandler($class);
         }
-
+        foreach (Utils::getCallbackHandlersPaths() as $class => $path) {
+            require_once $path;
+            $this->addCallbackHandler($class);
+        }
+    }
 }
 
 
