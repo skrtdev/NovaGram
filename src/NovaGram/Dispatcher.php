@@ -48,6 +48,33 @@ class Dispatcher {
         }
         
         $final_handlers = [];
+        foreach ($this->class_handlers as $handler) {
+            $real_handler = function () use ($handler, $update) {
+                try{
+                    Closure::fromCallable([$handler, "handle"])($update);
+                }
+                catch(Throwable $e){
+                    $this->handleError($e);
+                }
+            };
+            if($this->async){
+                if($this->group_handlers){
+                    $final_handlers[] = $real_handler;
+                }
+                else{
+                    $this->pool->parallel($real_handler, $process_name);
+                }
+            }
+            else{
+                try{
+                    $real_handler();
+                }
+                catch(Throwable $e){
+                    $this->handleError($e);
+                }
+            }
+        }
+
         foreach ($this->closure_handlers as $parameter => $handlers) {
             if($parameter === "update"){
                 $handler_update = $update;
@@ -77,33 +104,6 @@ class Dispatcher {
                 }
                 else{
                     $real_handler();
-                }
-            }
-        }
-
-        foreach ($this->class_handlers as $handler) {
-            $real_handler = function () use ($handler, $update) {
-                try{
-                    Closure::fromCallable([$handler, "handle"])($update);
-                }
-                catch(Throwable $e){
-                    $this->handleError($e);
-                }
-            };
-            if($this->async){
-                if($this->group_handlers){
-                    $final_handlers[] = $real_handler;
-                }
-                else{
-                    $this->pool->parallel($real_handler, $process_name);
-                }
-            }
-            else{
-                try{
-                    $real_handler();
-                }
-                catch(Throwable $e){
-                    $this->handleError($e);
                 }
             }
         }
