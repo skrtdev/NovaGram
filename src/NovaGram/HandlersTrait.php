@@ -9,6 +9,8 @@ trait HandlersTrait{
 
     protected array $commands = [];
 
+    // closure handlers
+
     public function onUpdate(Closure $handler): void
     {
         $this->getDispatcher()->addClosureHandler($handler);
@@ -133,6 +135,56 @@ trait HandlersTrait{
             }
         });
     }
+
+    // error handlers
+
+    public function setErrorHandler(...$args){
+        Utils::trigger_error("Using deprecated setErrorHandler, use addErrorHandler instead", E_USER_DEPRECATED);
+        $this->addErrorHandler(...$args);
+    }
+
+    public function addErrorHandler(Closure $handler){
+        $this->getDispatcher()->addErrorHandler($handler);
+    }
+
+    // class handlers
+
+    public function handleClass($class){
+        Utils::trigger_error("Using deprecated handleClass, use addClassHandler instead", E_USER_DEPRECATED);
+        $this->getDispatcher()->addClassHandler($class);
+    }
+
+    public function addClassHandler($class){
+        $this->getDispatcher()->addClassHandler($class);
+    }
+
+    public function addCommandHandler($class){
+        if(is_string($class)){
+            $class = [$class];
+        }
+        foreach ($class as $handler) {
+            if(is_a($handler, BaseCommandHandler::class, true)){
+                $_ = new $handler($this);
+            }
+            else{
+                throw new Exception("Invalid command handler provided: $handler");
+            }
+        }
+    }
+
+    // autoloader
+
+    protected function autoloadHandlers(): void
+    {
+        foreach (Utils::getClassHandlersPaths() as $class => $path) {
+            require_once $path;
+            $this->addClassHandler($class);
+        }
+        foreach (Utils::getCommandHandlersPaths() as $class => $path) {
+            require_once $path;
+            $this->addCommandHandler($class);
+        }
+
 }
 
 

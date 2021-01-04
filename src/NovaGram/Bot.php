@@ -207,7 +207,7 @@ class Bot {
         }
 
         if($this->settings->include_classes){
-            $this->includeCommandHandlers();
+            $this->autoloadHandlers();
         }
 
         $this->logger->debug("Chosen mode is: ".$this->settings->mode);
@@ -237,15 +237,6 @@ class Bot {
         }
     }
 
-    public function setErrorHandler(...$args){
-        Utils::trigger_error("Using deprecated setErrorHandler, use addErrorHandler instead", E_USER_DEPRECATED);
-        $this->addErrorHandler(...$args);
-    }
-
-    public function addErrorHandler(Closure $handler){
-        $this->getDispatcher()->addErrorHandler($handler);
-    }
-
     protected function restartOnChanges(){
         if($this->settings->restart_on_changes){
             if($this->file_sha !== Utils::getFileSHA()){
@@ -253,29 +244,6 @@ class Bot {
                 @cli_set_process_title("NovaGram: died process ({$this->getUsername()})");
                 shell_exec("php ".realpath($_SERVER['SCRIPT_FILENAME']));
                 exit();
-            }
-        }
-    }
-
-    public function handleClass($class){
-        Utils::trigger_error("Using deprecated handleClass, use addClassHandler instead", E_USER_DEPRECATED);
-        $this->getDispatcher()->addClassHandler($class);
-    }
-
-    public function addClassHandler($class){
-        $this->getDispatcher()->addClassHandler($class);
-    }
-
-    public function addCommandHandler($class){
-        if(is_string($class)){
-            $class = [$class];
-        }
-        foreach ($class as $handler) {
-            if(is_a($handler, BaseCommandHandler::class, true)){
-                $_ = new $handler($this);
-            }
-            else{
-                throw new Exception("Invalid command handler provided: $handler");
             }
         }
     }
@@ -523,18 +491,6 @@ class Bot {
             $this->logger->warning("Bot username is not specified in Bot settings. When using command handlers on webhook it is recommended to pass username in settings, or a getMe call will be done on every update");
         }
         return $this->settings->username ??= $this->getMe()->username;
-    }
-
-    protected function includeCommandHandlers(): void
-    {
-        foreach (Utils::getClassHandlersPaths() as $class => $path) {
-            require_once $path;
-            $this->addClassHandler($class);
-        }
-        foreach (Utils::getCommandHandlersPaths() as $class => $path) {
-            require_once $path;
-            $this->addCommandHandler($class);
-        }
     }
 
     public function __destruct(){
