@@ -95,6 +95,20 @@ class Utils{
         return true;
     }
 
+    public static function getClassHandlersPaths(string $directory = '.'): \Generator
+    {
+        $directory = realpath($directory).'/';
+        foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
+            $filename = $directory.$filename;
+            if(is_dir($filename)){
+                yield from self::getClassHandlersPaths($filename);
+            }
+            elseif(preg_match('/.+\/([\w\d]+Handler)\.php/', $filename, $matches) === 1){
+                yield $matches[1] => $filename;
+            }
+        }
+    }
+
     public static function getCommandHandlersPaths(string $directory = '.'): \Generator
     {
         $directory = realpath($directory).'/';

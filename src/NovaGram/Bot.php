@@ -527,9 +527,13 @@ class Bot {
 
     protected function includeCommandHandlers(): void
     {
+        foreach (Utils::getClassHandlersPaths() as $class => $path) {
+            require_once $path;
+            $this->addClassHandler($class);
+        }
         foreach (Utils::getCommandHandlersPaths() as $class => $path) {
             require_once $path;
-            $_ = new $class($this);
+            $this->addCommandHandler($class);
         }
     }
 

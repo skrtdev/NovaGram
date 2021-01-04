@@ -12,7 +12,7 @@ use Closure;
 abstract class BaseCommandHandler {
 
     protected Bot $Bot;
-    public /*protected*/ static array $fired = [];
+    protected static array $fired = [];
 
     /* @var string|array */
     protected /* string|array */ $commands;
