@@ -190,17 +190,26 @@ trait HandlersTrait{
 
     protected function autoloadHandlers(): void
     {
+        $classes = [];
         foreach (Utils::getClassHandlersPaths() as $class => $path) {
             require_once $path;
-            $this->addClassHandler($class);
+            $classes[] = $class;
         }
+        $this->addClassHandler($classes);
+        $commands = [];
         foreach (Utils::getCommandHandlersPaths() as $class => $path) {
             require_once $path;
-            $this->addCommandHandler($class);
+            $commands[] = $class;
         }
+        $this->addCommandHandler($commands);
+        $callbacks = [];
         foreach (Utils::getCallbackHandlersPaths() as $class => $path) {
             require_once $path;
-            $this->addCallbackHandler($class);
+            $callbacks[] = $class;
+        }
+        $this->addCallbackHandler($callbacks);
+        if($this->settings->mode === self::CLI && (!empty($classes) || !empty($commands) || !empty($callbacks))){
+            $this->logger->info('Loaded '.count($classes).' class handlers, '.count($commands).' commands handlers and '.count($callbacks).' callback handlers.');
         }
     }
 }
