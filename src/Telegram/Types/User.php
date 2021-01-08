@@ -40,6 +40,10 @@ class User extends \Telegram\User{
     public ?bool $supports_inline_queries = null;
 
     
+    public function getMention(): string
+    {
+        return "<a href=\"tg://user?id={$this->id}\">{$this->first_name}". ( isset($this->last_name) ? " ".$this->last_name : "" ) ."</a>";
+    }
 }
 
 ?>
