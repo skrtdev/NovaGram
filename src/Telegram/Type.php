@@ -96,6 +96,13 @@ class Type {
         }
         return $result;
     }
+
+    public function __serialize()
+    {
+        $obj = get_object_vars($this);
+        unset($obj['config']);
+        return $obj;
+    }
 }
 
 ?>
