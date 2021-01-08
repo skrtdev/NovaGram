@@ -6,12 +6,13 @@ use Closure, ReflectionFunction, Error;
 
 class Prototype{
 
-    public static array $methods = [];
+    protected static array $methods = [];
+    protected static array $classes = [];
 
     public static function isPrototypeable(string $class_name): bool
     {
         // method_exists is a bc, in v2 all classes should implement Prototypeable
-        return is_a($class_name, Prototypeable::class, true) || ( method_exists($class_name, "addMethod") && method_exists($class_name, "__call") );
+        return self::$classes[$class_name] ??= is_a($class_name, Prototypeable::class, true) || ( method_exists($class_name, 'addMethod') && method_exists($class_name, '__call') );
     }
 
     public static function addMethod(string $class_name, string $name, Closure $fun): void
