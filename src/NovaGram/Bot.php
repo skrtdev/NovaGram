@@ -512,14 +512,18 @@ class Bot {
 
     public function __debugInfo() {
         $obj = get_object_vars($this);
-        foreach(['json', 'settings', 'payloaded', 'raw_update'] as $key) unset($obj[$key]);
+        foreach(['json', 'settings', 'payloaded', 'raw_update'] as $key){
+            unset($obj[$key]);
+        }
         return $obj;
     }
 
     public function __serialize()
     {
         $obj = get_object_vars($this);
-        unset($obj['dispatcher']);
+        foreach(['dispatcher', 'json'] as $key){
+            unset($obj[$key]);
+        }
         return $obj;
     }
 }
