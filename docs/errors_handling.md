@@ -45,6 +45,8 @@ Telegram Exceptions thrown by NovaGram are `skrtdev\Telegram\Exceptions`, but so
 - `BadRequestException` (400)
 - `UnauthorizedException` (401)
 - `ForbiddenException` (403)
+- `NotFoundException` (404)
+- `MethodNotAllowedException` (405)
 - `ConflictException` (409)
 - `TooManyRequestsException` (429)
 - `BadGatewayException` (502) (yes, sometimes it happens)

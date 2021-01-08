@@ -5,9 +5,13 @@
 - New User mode: you can now run userbots with novagram using tdlight bot api  
 - class handlers are now autoloaded automatically  
 - class handlers are now fired **before** closure handlers  
+- add User::getMention()  
+- now user/chat dc and message html text are cached
 - add command handler class  
 - add callback handler class  
 - improvements in prototypes  
+- isPrototypeable is now cached  
+- deleted json from Bot when serializing  
 - add $description to onCommand and exportCommands  
 - You can now use PHP8 named arguments in Bot constructor instead of the `$settings` array  
 - New `onCallbackData` handler: similar to `onText` but for Callback Queries data.
