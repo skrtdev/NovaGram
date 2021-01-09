@@ -78,7 +78,7 @@ class Type {
 
     protected function presetToValue(string $preset){
         $obj = $this;
-        foreach(explode("/", $preset) as $key) $obj = $obj->$key;
+        foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? trigger_error("An internal error has occurred while loading object presets, please report issue including which method caused the issue.");
         return $obj;
     }
 
