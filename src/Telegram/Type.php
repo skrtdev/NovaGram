@@ -96,7 +96,7 @@ class Type {
             if(!isset($value)){
                 unset($result[$key]);
             }
-            elseif($value instanceof Type){
+            elseif($value instanceof Type || $value instanceof ObjectsList){
                 $value = $value->toArray();
             }
         }

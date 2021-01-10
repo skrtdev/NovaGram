@@ -64,6 +64,22 @@ class ObjectsList implements Iterator, ArrayAccess {
         return isset($this->elements[$this->position]);
     }
 
+    public function toArray(): array
+    {
+        $result = $this->elements;
+        foreach ($result as $key => &$value) {
+            if($value instanceof Type || $value instanceof ObjectsList){
+                $value = $value->toArray();
+            }
+        }
+        return $result;
+    }
+
+    public function toJSON(): string
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
+    }
+
     public function __debugInfo() {
         return $this->elements;
     }
