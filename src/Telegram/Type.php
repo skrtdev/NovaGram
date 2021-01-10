@@ -86,9 +86,33 @@ class Type {
         return $this->Bot->debug($this);
     }
 
+    public function toArray(): array
+    {
+        $result = get_object_vars($this);
+        foreach(['config', 'Bot'] as $key){
+            unset($result[$key]);
+        }
+        foreach ($result as $key => &$value) {
+            if(!isset($value)){
+                unset($result[$key]);
+            }
+            elseif($value instanceof Type){
+                $value = $value->toArray();
+            }
+        }
+        return $result;
+    }
+
+    public function toJSON(): string
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
+    }
+
     public function __debugInfo() {
         $result = get_object_vars($this);
-        foreach(['config', 'Bot', '_'] as $key) unset($result[$key]);
+        foreach(['config', 'Bot', '_'] as $key){
+            unset($result[$key]);
+        }
         foreach ($result as $key => $value) {
             if(!isset($value)){
                 unset($result[$key]);
