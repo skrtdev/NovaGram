@@ -22,7 +22,7 @@ class Type {
         foreach ($json as $key => $value) $this->$key = $value;
 
         if($type === "User"){
-            if(isset($Bot->database)){
+            if($Bot->hasDatabase()){
                 $Bot->getDatabase()->insertUser($this);
             }
         }
