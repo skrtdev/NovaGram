@@ -2,7 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
-use skrtdev\Telegram\{UnauthorizedException, NotFoundException};
+use skrtdev\Telegram\{UnauthorizedException, BadRequestException};
 
 class UserBot extends Bot{
 
@@ -29,7 +29,8 @@ class UserBot extends Bot{
                         $phone_number = trim(str_replace(["+", " "], "", fgets(STDIN)));
                         $this->endpoint = trim($this->settings->bot_api_url, '/').'/';
                         try{
-                            $token = $this->APICAll("userlogin", ["phone_number" => $phone_number]);
+                            $result = $this->APICAll("userlogin", ["phone_number" => $phone_number]);
+                            $token = $result->token;
                             break;
                         }
                         catch(UnauthorizedException $e){
@@ -45,32 +46,29 @@ class UserBot extends Bot{
                     while(true){
                         $code = (int) fgets(STDIN);
                         try{
-                            $this->APICAll("authcode", ["code" => $code]);
+                            $result = $this->APICAll("authcode", ["code" => $code]);
                             break;
                         }
-                        catch(UnauthorizedException $e){
+                        catch(BadRequestException $e){
                             print("Invalid code, retry: ");
                         }
                     }
 
-                    try {
-                        $this->getMe();
-                    }
-                    catch(NotFoundException $e){
-                        print("Insert 2fa password: ");
+                    if($result->authorization_state === "wait_password"){
+                        print("Insert 2fa password (hint: {$result->password_hint}): ");
                         while(true){
                             $password = trim(fgets(STDIN));
                             try{
                                 $this->APICAll("2fapassword", ["password" => $password]);
                                 break;
                             }
-                            catch(UnauthorizedException $e){
+                            catch(BadRequestException $e){
                                 print("Wrong password, retry: ");
                             }
                         }
                     }
 
-                    file_put_contents($filename, $token);
+                    file_put_contents("$token.token", $token);
                     $this->processSettings();
                 }
                 else{
