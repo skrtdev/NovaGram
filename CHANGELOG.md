@@ -24,7 +24,7 @@
 - New Bot settings:  
     - `username`: Bot username, needed to avoid a `getMe()` call when using command handlers and webhook.  
     - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI  
-    - `include_classes`: Whether to automatically include and fire Commands Class Handlers (include all files that ends with `Command.php` inside the main script directory)
+    - `include_classes`: Whether to automatically include and fire Commands Class Handlers (include all files that ends with `Command.php`, `Handler.php`, and `Callback.php` inside the main script directory). Defualt value is `true` on `CLI` and `false` on `Webhook`
 - Fixes:  
     - Class `MessageId` didn't work properly  
     - `setMyCommands` arguments were wrong  

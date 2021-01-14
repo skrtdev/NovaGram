@@ -114,7 +114,7 @@ class Bot {
             "wait_handlers" => false,
             "threshold" => null, // 10 is default when using getUpdates
             "export_commands" => true,
-            "include_classes" => false,
+            "include_classes" => Utils::isCLI(),
             "database" => null,
             "parse_mode" => null,
             "disable_web_page_preview" => null,
