@@ -114,7 +114,7 @@ class Bot {
             "wait_handlers" => false,
             "threshold" => null, // 10 is default when using getUpdates
             "export_commands" => true,
-            "include_classes" => Utils::isCLI(),
+            "include_classes" => false, // defined afterwards true if CLI mode
             "database" => null,
             "parse_mode" => null,
             "disable_web_page_preview" => null,
@@ -204,6 +204,7 @@ class Bot {
             if($this->settings->restart_on_changes){
                 $this->file_sha = Utils::getFileSHA();
             }
+            $this->settings->include_classes = true;
         }
 
         if($this->settings->include_classes){
