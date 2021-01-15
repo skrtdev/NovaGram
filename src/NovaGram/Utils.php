@@ -68,7 +68,8 @@ class Utils{
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_FOLLOWLOCATION => true
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_TIMEOUT => Bot::TIMEOUT
         ];
 
         if(!empty($data)){
