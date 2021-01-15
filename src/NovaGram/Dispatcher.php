@@ -66,12 +66,7 @@ class Dispatcher {
                 }
             }
             else{
-                try{
-                    $real_handler();
-                }
-                catch(Throwable $e){
-                    $this->handleError($e);
-                }
+                $real_handler();
             }
         }
 
