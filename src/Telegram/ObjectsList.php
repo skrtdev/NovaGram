@@ -80,6 +80,11 @@ class ObjectsList implements Iterator, ArrayAccess {
         return json_encode($this->toArray(), JSON_PRETTY_PRINT);
     }
 
+    public function getLast()
+    {
+        return end($this->elements);
+    }
+
     public function __debugInfo() {
         return $this->elements;
     }

@@ -12,8 +12,9 @@
 - improvements in prototypes  
 - isPrototypeable is now cached  
 - deleted json from Bot when serializing  
-- add `(ObjectsList|Type)::toArray|toJSON()`  
+- add `toArray()` and `toJSON()` methods to `ObjectsList` and `Type` objects    
 - improved `restart_on_changes`: now it uses `pcntl_exec` when possible  
+- Add `ObjectsList::getLast()`  
 - add $description to onCommand and exportCommands  
 - You can now use PHP8 named arguments in Bot constructor instead of the `$settings` array  
 - New `onCallbackData` handler: similar to `onText` but for Callback Queries data.
