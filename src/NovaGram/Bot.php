@@ -241,9 +241,14 @@ class Bot {
         if($this->settings->restart_on_changes){
             if($this->file_sha !== Utils::getFileSHA()){
                 print(PHP_EOL."Restarting script...".PHP_EOL.PHP_EOL);
-                @cli_set_process_title("NovaGram: died process ({$this->getUsername()})");
                 $path = realpath($_SERVER['SCRIPT_FILENAME']);
-                function_exists("pcntl_exec") ? pcntl_exec(PHP_BINARY, [$path]) : shell_exec("php $path");
+                if(function_exists("pcntl_exec")){
+                    pcntl_exec(PHP_BINARY, [$path]);
+                }
+                else{
+                    @cli_set_process_title("NovaGram: died process ({$this->getUsername()})");
+                    shell_exec(PHP_BINARY." $path");
+                }
                 exit();
             }
         }
