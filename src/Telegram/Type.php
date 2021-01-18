@@ -78,7 +78,7 @@ class Type {
 
     protected function presetToValue(string $preset){
         $obj = $this;
-        foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? Utils::trigger_error("NovaGram: An internal error has occurred while loading object presets, please report issue including which method caused the issue.");
+        foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? Utils::trigger_error("NovaGram: An internal error has occurred while loading object presets (undefined ".gettype($obj)."->$key), please report issue including which method caused the issue.");
         return $obj;
     }
 
