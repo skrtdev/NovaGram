@@ -12,13 +12,13 @@ class Database{
 
     const driver_options = [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY];
 
-    private array $settings;
+    protected array $settings;
 
     /**
      * @var PDO|PDOContainer $pdo
      */
-    private /*PDO|PDOContainer*/ $pdo;
-    private string $prefix;
+    protected /*PDO|PDOContainer*/ $pdo;
+    protected string $prefix;
 
     public function __construct(array $settings, PDO $pdo = null){
 

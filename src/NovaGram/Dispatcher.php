@@ -34,7 +34,6 @@ class Dispatcher {
             $this->pool = new Pool(null, !$wait_handlers);
         }
         $this->group_handlers = $group_handlers;
-        // TODO ERROR HANDLERS IN CLASSES
     }
 
     public function handleUpdate(Update $update): void
