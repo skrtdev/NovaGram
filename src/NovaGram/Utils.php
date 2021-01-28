@@ -52,6 +52,11 @@ class Utils{
         return $content;
     }
 
+    public static function htmlspecialchars(string $string): string
+    {
+        return str_replace(['<', '>', '&'], ['&lt;', '&gt;', '&amp;'], $string);
+    }
+
     public static function isCLI(): bool
     {
         return self::$is_cli ??= http_response_code() === false;
