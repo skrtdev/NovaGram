@@ -19,9 +19,6 @@ class UserBot extends Bot{
                 $this->processSettings();
             }
             else{
-                if(!isset($this->settings->bot_api_url)){
-                    throw new Exception("Bot Api URL has not been provided");
-                }
                 if(Utils::isCLI()){
                     print("Insert phone number: ");
 
