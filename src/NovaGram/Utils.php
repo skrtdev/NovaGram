@@ -4,6 +4,8 @@ namespace skrtdev\NovaGram;
 
 class Utils{
 
+    const EXCLUDE_FILES = ['..', '.', 'vendor'];
+
     public static ?bool $is_cli = null;
 
     public static function IPInRange(string $ip, string $range): bool
@@ -99,7 +101,7 @@ class Utils{
     public static function getClassHandlersPaths(string $directory = '.'): \Generator
     {
         $directory = realpath($directory).'/';
-        foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
+        foreach (array_diff(scandir($directory), self::EXCLUDE_FILES) as $filename) {
             $filename = $directory.$filename;
             if(!is_dir($filename)){
                 if(preg_match('/.+\/([\w\d]+Handler)\.php/', $filename, $matches) === 1){
@@ -115,7 +117,7 @@ class Utils{
     public static function getCommandHandlersPaths(string $directory = '.'): \Generator
     {
         $directory = realpath($directory).'/';
-        foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
+        foreach (array_diff(scandir($directory), self::EXCLUDE_FILES) as $filename) {
             $filename = $directory.$filename;
             if(!is_dir($filename)){
                 if(preg_match('/.+\/([\w\d]+Command)\.php/', $filename, $matches) === 1){
@@ -131,7 +133,7 @@ class Utils{
     public static function getCallbackHandlersPaths(string $directory = '.'): \Generator
     {
         $directory = realpath($directory).'/';
-        foreach (array_diff(scandir($directory), ['..', '.']) as $filename) {
+        foreach (array_diff(scandir($directory), self::EXCLUDE_FILES) as $filename) {
             $filename = $directory.$filename;
             if(!is_dir($filename)){
                 if(preg_match('/.+\/([\w\d]+Callback)\.php/', $filename, $matches) === 1){
