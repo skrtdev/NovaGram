@@ -21,7 +21,7 @@ class PDOContainer {
 
     public function reset(): void
     {
-        unset($this->instance);
+        $this->instance = null;
     }
 
     public function __serialize()
