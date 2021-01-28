@@ -84,7 +84,7 @@ class Utils{
         curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
         if(!empty(curl_error($ch))){
-            throw new Exception(curl_error($ch));
+            throw new Exception('Curl Error: '.curl_error($ch));
         }
         curl_close($ch);
         return $response;
