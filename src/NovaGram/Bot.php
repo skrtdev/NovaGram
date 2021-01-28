@@ -99,7 +99,7 @@ class Bot {
         $settings_array = [
             "username" => null,
             "json_payload" => true,
-            "log_updates" => false,
+            "log_updates" => null,
             "debug" => false,
             "disable_webhook" => false,
             "disable_ip_check" => false,
@@ -180,8 +180,6 @@ class Bot {
 
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
 
-            if($this->settings->log_updates) $this->sendMessage($this->settings->log_updates, "<pre>".json_encode($this->raw_update, JSON_PRETTY_PRINT)."</pre>", ["parse_mode" => "HTML"]);
-
             $this->update = $this->JSONToTelegramObject($this->raw_update, "Update");
         }
         else{
@@ -191,6 +189,11 @@ class Bot {
         if($this->settings->debug !== false){
             $this->addErrorHandler(function (Throwable $e) {
                 $this->debug( (string) $e );
+            });
+        }
+        if(isset($this->settings->log_updates)){
+            $this->onUpdate(function (Update $update){
+                $this->sendMessage($this->settings->log_updates, "<pre>".Utils::htmlspecialchars($update->toJSON())."</pre>", ["parse_mode" => "HTML"]);
             });
         }
 
