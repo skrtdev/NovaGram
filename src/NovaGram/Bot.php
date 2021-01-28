@@ -85,7 +85,7 @@ class Bot {
             $logger = new Logger("NovaGram");
             if(Utils::isCLI()) $logger->pushHandler(new StreamHandler(STDERR, $this->settings->logger));
             else $logger->pushHandler(new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->settings->logger));
-            if($this->settings->debug !== false){
+            if(isset($this->settings->debug)){
                 $logger->pushHandler(new TelegramLogger($this->token, $this->settings->debug, Logger::WARNING));
             }
             $logger->debug('Logger automatically replaced by a default one');
@@ -100,7 +100,7 @@ class Bot {
             "username" => null,
             "json_payload" => true,
             "log_updates" => null,
-            "debug" => false,
+            "debug" => null,
             "disable_webhook" => false,
             "disable_ip_check" => false,
             "exceptions" => true,
@@ -186,7 +186,7 @@ class Bot {
             $this->settings->json_payload = false;
         }
 
-        if($this->settings->debug !== false){
+        if(isset($this->settings->debug)){
             $this->addErrorHandler(function (Throwable $e) {
                 $this->debug( (string) $e );
             });
@@ -381,7 +381,7 @@ class Bot {
         if($decoded['ok'] !== true){
             if($is_debug) throw TelegramException::create("[DURING DEBUG] $method", $decoded, $data, $previous_exception);
             $e = TelegramException::create($method, $decoded, $data);
-            if($this->settings->debug_mode === "classic" && $this->settings->debug){
+            if($this->settings->debug_mode === "classic" && isset($this->settings->debug)){
                 #$this->sendMessage($this->settings->debug, "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", ["parse_mode" => "HTML"], false, true);
                 $this->debug( (string) $e, $previous_exception);
             }
@@ -462,7 +462,7 @@ class Bot {
     }
 
     public function debug($value, ?Throwable $previous_exception = null){
-        if($this->settings->debug){
+        if(isset($this->settings->debug)){
             return $this->APICall("sendMessage", [
                 "chat_id" => $this->settings->debug,
                 "text" => "<pre>".htmlspecialchars( is_string($value) ? $value : Utils::var_dump($value) )."</pre>",
