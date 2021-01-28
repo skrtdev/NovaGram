@@ -12,6 +12,7 @@
 - improvements in prototypes  
 - isPrototypeable is now cached  
 - deleted json from Bot when serializing  
+- JSON all all the methods related are now static in Bot, this makes faster using multiple bot instances  
 - add `toArray()` and `toJSON()` methods to `ObjectsList` and `Type` objects    
 - improved `restart_on_changes`: now it uses `pcntl_exec` when possible  
 - Add `ObjectsList::getLast()`  

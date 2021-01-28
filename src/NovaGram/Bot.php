@@ -34,7 +34,7 @@ class Bot {
 
     private string $token;
     protected stdClass $settings;
-    private array $json;
+    private static array $json;
     private bool $payloaded = false;
 
     public ?Update $update = null; // read-only
@@ -329,18 +329,18 @@ class Bot {
         }
     }
 
-    private function methodHasParamater(string $method, string $parameter){
-        return in_array($method, $this->getJSON()["require_params"][$parameter]);
+    private static function methodHasParamater(string $method, string $parameter){
+        return in_array($method, self::getJSON()["require_params"][$parameter]);
     }
 
     private function normalizeRequest(string $method, array $data){
-        foreach (array_keys($this->getJSON()['require_params']) as $param) {
-            if($this->methodHasParamater($method, $param) && isset($this->settings->$param)){
+        foreach (array_keys(self::getJSON()['require_params']) as $param) {
+            if(self::methodHasParamater($method, $param) && isset($this->settings->$param)){
                 $data[$param] ??= $this->settings->$param;
             }
         }
 
-        foreach ($this->getJSON()['require_json_encode'] as $key){
+        foreach (self::getJSON()['require_json_encode'] as $key){
             if(isset($data[$key]) && is_array($data[$key])){
                 $data[$key] = json_encode($data[$key]);
             }
@@ -394,27 +394,27 @@ class Bot {
 
         if(is_bool($decoded['result'])) return $decoded['result'];
 
-        if($this->getMethodReturned($method)) return $this->JSONToTelegramObject($decoded['result'], $this->getMethodReturned($method));
+        if(self::getMethodReturned($method)) return $this->JSONToTelegramObject($decoded['result'], self::getMethodReturned($method));
         else return is_array($decoded['result']) ? (object) $decoded['result'] : $decoded['result'];
     }
 
-    private function getMethodReturned(string $method){
-        return $this->getJSON()['available_methods'][$method]['returns'] ?? false;
+    private static function getMethodReturned(string $method){
+        return self::getJSON()['available_methods'][$method]['returns'] ?? false;
     }
 
-    private function getObjectType(string $parameter_name, string $object_name = ""){
+    private static function getObjectType(string $parameter_name, string $object_name = ""){
         if($object_name !== "") $object_name .= ".";
-        return $this->getJSON()['available_types'][$object_name.$parameter_name] ?? false;
+        return self::getJSON()['available_types'][$object_name.$parameter_name] ?? false;
     }
 
     public function JSONToTelegramObject(array $json, string $parameter_name){
-        if($this->getObjectType($parameter_name)) $parameter_name = $this->getObjectType($parameter_name);
+        if(self::getObjectType($parameter_name)) $parameter_name = self::getObjectType($parameter_name);
         if(preg_match('/\[\w+\]/', $parameter_name) === 1) return $this->TelegramObjectArrayToObjectsList($json, $parameter_name);
         foreach($json as $key => &$value){
             if(is_array($value)){
-                $ObjectType = $this->getObjectType($key, $parameter_name);
+                $ObjectType = self::getObjectType($key, $parameter_name);
                 if($ObjectType){
-                    if($this->getObjectType($ObjectType)) $value = $this->TelegramObjectArrayToObjectsList($value, $ObjectType);
+                    if(self::getObjectType($ObjectType)) $value = $this->TelegramObjectArrayToObjectsList($value, $ObjectType);
                     else $value = $this->JSONToTelegramObject($value, $ObjectType);
                 }
                 else $value = is_integer(array_keys($value)[0]) ? new ObjectsList($json) : (object) $value;
@@ -425,7 +425,7 @@ class Bot {
 
     private function TelegramObjectArrayToObjectsList(array $json, string $name){
         $parent_name = $name;
-        $ObjectType = $this->getObjectType($name) !== false ? $this->getObjectType($name) : $name;
+        $ObjectType = self::getObjectType($name) !== false ? self::getObjectType($name) : $name;
 
         if(preg_match('/\[\w+\]/', $ObjectType) === 1){
             preg_match('/\w+/', $ObjectType, $matches);// extract to matches[0] the type of elements
@@ -436,11 +436,11 @@ class Bot {
         foreach($json as $key => &$value){
             if(is_array($value)){
                 if(is_int($key)){
-                    if($this->getObjectType($childs_name)) $value = $this->TelegramObjectArrayToObjectsList($value, $childs_name);
+                    if(self::getObjectType($childs_name)) $value = $this->TelegramObjectArrayToObjectsList($value, $childs_name);
                     //else $value = $this->createObject($childs_name, $value);
                     else $value = $this->JSONToTelegramObject($value, $childs_name);
                 }
-                else $value = $this->JSONToTelegramObject($value, $this->getObjectType($childs_name, $parent_name));
+                else $value = $this->JSONToTelegramObject($value, self::getObjectType($childs_name, $parent_name));
 
             }
         }
@@ -469,9 +469,9 @@ class Bot {
         else throw new Exception("debug chat id is not set");
     }
 
-    public function getJSON(): array
+    public static function getJSON(): array
     {
-        return $this->json ??= json_decode(implode(file(__DIR__."/json.json")), true);
+        return self::$json ??= json_decode(implode(file(__DIR__.'/json.json')), true);
     }
 
     protected function getDispatcher(): Dispatcher
