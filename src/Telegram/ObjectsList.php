@@ -77,7 +77,7 @@ class ObjectsList implements Iterator, ArrayAccess {
 
     public function toJSON(): string
     {
-        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     public function getLast()
