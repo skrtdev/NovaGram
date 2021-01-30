@@ -2,7 +2,7 @@
 
 namespace skrtdev\Telegram;
 
-use skrtdev\NovaGram\Bot;
+use skrtdev\NovaGram\{Bot, Utils};
 use skrtdev\Prototypes\{Prototype, proto};
 use stdClass;
 
