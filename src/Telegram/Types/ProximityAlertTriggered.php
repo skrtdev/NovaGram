@@ -8,7 +8,7 @@ use skrtdev\Prototypes\simpleProto;
 /**
  * This object represents the content of a service message, sent whenever a user in the chat triggers a proximity alert set by another user.
 */
-class ProximityAlertTriggered extends \Telegram\ProximityAlertTriggered{
+class ProximityAlertTriggered {
 
     use simpleProto;
 
@@ -21,7 +21,7 @@ class ProximityAlertTriggered extends \Telegram\ProximityAlertTriggered{
     /** @var int The distance between the users */
     public int $distance;
 
-    
+
 }
 
 ?>
