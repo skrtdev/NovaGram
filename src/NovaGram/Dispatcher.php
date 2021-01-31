@@ -23,7 +23,7 @@ class Dispatcher {
     private array $class_handlers = [];
     private array $error_handlers = [];
 
-    public function __construct(Bot $Bot, bool $async = true, bool $group_handlers = true, bool $wait_handlers = false)
+    public function __construct(Bot $Bot, bool $async = true, bool $group_handlers = true, bool $wait_handlers = false, ?int $max_childs = null)
     {
         $this->Bot = $Bot;
         if($async){
@@ -31,7 +31,7 @@ class Dispatcher {
         }
         $this->async = $async;
         if($async){
-            $this->pool = new Pool(null, !$wait_handlers);
+            $this->pool = new Pool($max_childs, !$wait_handlers);
         }
         $this->group_handlers = $group_handlers;
     }

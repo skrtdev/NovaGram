@@ -110,6 +110,7 @@ class Bot {
             "bot_api_url" => "https://api.telegram.org",
             "is_user" => false,
             "command_prefixes" => [self::COMMAND_PREFIX],
+            "workers" => null,
             "group_handlers" => true,
             "wait_handlers" => false,
             "threshold" => null, // 10 is default when using getUpdates
@@ -479,7 +480,7 @@ class Bot {
 
     protected function getDispatcher(): Dispatcher
     {
-        return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers);
+        return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers, $this->settings->workers);
     }
 
     public function getDatabase(): Database
