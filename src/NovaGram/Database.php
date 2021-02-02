@@ -211,7 +211,7 @@ class Database{
         $value =& $conversation['value'];
 
         @$unserialized_value = unserialize($value);
-        $value = ($value === 'b:0;' || $unserialized_value !== false) ? $unserialized_value : $value;
+        $value = ($unserialized_value !== false || $value === 'b:0;') ? $unserialized_value : $value;
 
         $additional_param = unserialize($conversation['additional_param']);
         $is_permanent = $additional_param['is_permanent'] ?? true ;
