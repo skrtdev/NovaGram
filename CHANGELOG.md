@@ -32,6 +32,7 @@
     - Default values for `log_updates` and `debug` are now `null` instead of `false`.  
 - Fixes:  
     - Classes `MessageId`, `ProximityAlertTriggered` didn't work properly  
+    - fix wrong behaviour when serializing false  
     - `setMyCommands` arguments were wrong  
     - Errors weren't handled when thrown inside class handlers  
     - `ObjectsList` in unknown objects   

@@ -131,17 +131,10 @@ class Database{
 
         if($row === false) return;
 
+        $row = $this->normalizeConversation($row);
+
         $value = $row['value'];
-        @$unserialized_value = unserialize($value);
-        $value = $unserialized_value !== false ? $unserialized_value : $value;
 
-        $additional_param = unserialize($row['additional_param']);
-
-        $is_permanent = $additional_param['is_permanent'] ?? true ;
-
-        if(!$is_permanent){
-            $this->deleteConversation($chat_id, $name);
-        }
         return $value;
     }
 
@@ -218,7 +211,7 @@ class Database{
         $value =& $conversation['value'];
 
         @$unserialized_value = unserialize($value);
-        $value = $unserialized_value !== false ? $unserialized_value : $value;
+        $value = ($value === 'b:0;' || $unserialized_value !== false) ? $unserialized_value : $value;
 
         $additional_param = unserialize($conversation['additional_param']);
         $is_permanent = $additional_param['is_permanent'] ?? true ;
