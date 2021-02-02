@@ -4,7 +4,6 @@
 - [ ] Support for PostegreSQL  
 - New User mode: you can now run userbots with novagram using tdlight bot api  
 - class handlers are now autoloaded automatically  
-- class handlers are now fired **before** closure handlers  
 - add `User::getMention()`  
 - now user/chat dc and message html text are cached
 - add command handler class  
