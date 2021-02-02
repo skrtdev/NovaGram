@@ -17,6 +17,9 @@ class UserBot extends Bot{
                 $this->initializeToken($token);
                 $this->initializeEndpoint();
                 $this->processSettings();
+                if($this->settings->mode !== self::CLI && !Utils::isCLI()){
+                    $this->logger->critical('Using token file is dangerous: it is publicly available. Please copy and paste your token from your file directly in your code');
+                }
             }
             else{
                 if(Utils::isCLI()){
