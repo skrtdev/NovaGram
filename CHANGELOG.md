@@ -2,52 +2,48 @@
 
 ## v1.9 - [Not Released yet](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
 - [ ] Support for PostegreSQL  
+- [ ] TTL in Conversations  
 - New User mode: you can now run userbots with novagram using tdlight bot api  
-- class handlers are now autoloaded automatically  
-- add `User::getMention()`  
-- now user/chat dc and message html text are cached
-- add command handler class  
-- add callback handler class  
-- improvements in prototypes  
-- isPrototypeable is now cached  
-- deleted json from Bot when serializing  
-- JSON all all the methods related are now static in Bot, this makes faster using multiple bot instances  
-- add `toArray()` and `toJSON()` methods to `ObjectsList` and `Type` objects    
-- improved `restart_on_changes`: now it uses `pcntl_exec` when possible  
-- Now log_updates works on getUpdates too
-- Add `ObjectsList::getLast()`  
-- add $description to onCommand and exportCommands  
-- You can now use PHP8 named arguments in Bot constructor instead of the `$settings` array  
-- New `onCallbackData` handler: similar to `onText` but for Callback Queries data.
-- New `exportCommands` method, that calls `setMyCommands` with the registered command handlers (`onCommand()`). Automatically called by default on CLI
-- New Exceptions
-    - `NotFoundException` (404)
-    - `MethodNotAllowedException` (405)
+- New **Features**:  
+    - New `onCallbackData` handler: similar to `onText` but for Callback Queries data.
+    - New `exportCommands` method, that calls `setMyCommands` with the registered command handlers (`onCommand()`). Automatically called by default on CLI
+    - `restart_on_changes` has been improved: now it uses `pcntl_exec` when possible (instead of `shell_exec`)  
+    - Added `User::getMention()`: it generates a clickable link for that User.  
+    - Added new Class Handlers: `CommandHandler` and `CallbackHandler`  
+    - Added `toArray()` and `toJSON()` methods to `ObjectsList` and `Type` objects  
+    - Added `ObjectsList::getLast()`, useful if you work with photos, which are arrays of `PhotoSize`s  
+    - Added autoload of class handlers: it will include and fire all handlers found by searching for files that ends with `Handler.php`, `Command.php` and `Callback.php`. Class names must be the same as file names. It won't look inside `vendor`.
 - New Bot settings:  
     - `username`: Bot username, needed to avoid a `getMe()` call when using command handlers and webhook.  
     - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI.  
     - `include_classes`: Whether to automatically include and fire Commands Class Handlers (includes all files that ends with `Command.php`, `Handler.php`, and `Callback.php` inside the main script directory). Defualt value is `true` on `CLI` and `false` on `Webhook`.  
-    - `workers`: Maximum amount of processes that will run simultaneously.  
+    - `workers`: Maximum amount of processes that will run simultaneously. (`CLI` only)  
     - Default values for `log_updates` and `debug` are now `null` instead of `false`.  
+- New Exceptions:  
+    - `NotFoundException` (404)
+    - `MethodNotAllowedException` (405)
 - Fixes:  
     - Classes `MessageId`, `ProximityAlertTriggered` didn't work properly  
-    - fix wrong behaviour when serializing false  
+    - Fixed wrong behaviour when serializing false  
+    - Now `log_updates` setting works on getUpdates too  
     - `setMyCommands` arguments were wrong  
     - Errors weren't handled when thrown inside class handlers  
     - `ObjectsList` in unknown objects   
     - Exceptions constructor argument `$previous_exception` was an `Exception` instead of a `Throwable`  
     - Entities parser didn't work with `ObjectsList`  
-    - `mysql` database couldn't be used with `getUpdates`  
+    - Some databases couldn't be used with `getUpdates`, fixed  
     - `onCommand` handler `$args` argument behaviour was incorrect  
     - Removed overhead in `Bot::getUsername()`  
-    - Users adding to database  
 - Minor:
+    - You can now use PHP8 `named arguments` in Bot constructor instead of the `$settings` array  
+    - `JSON` all all the related methods are now static in Bot, this makes faster using multiple bot instances  
     - Now when using `getUpdates` process titles are customized in order to differenciate main process and child processes  
+    - Properties `User::dc_id` and `Message::html` are now cached  
     - added userbot login via browser  
-    - Moved properties initialization into getters  
-    - Add `TelegramLogger  `
-    - Move logging from `Bot` to `Dispatcher` class  
-    - Objects are now serializable  
+    - Add `TelegramLogger`  
+    - All the Objects are now serializable  
+    - Added `$description` parameter to `onCommand`  
+    - Improvements in `Prototypes`: `isPrototypeable` is now cached  
 
 
 ## v1.8 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.8)
@@ -61,7 +57,6 @@
 - Conversations **full getters**
     - `getConversationsByChat` (`User|Chat::getConversations()`)
     - `getConversationsByValue`
-- [ ] TTL in Conversations
 - `amphp` has been removed, now [skrtdev/async](https://github.com/skrtdev/php-async) is used in classes too
 - Added all class handlers: `onMessage`, `onEditedMessage`, `onChannelPost`, etc
     - `allowed_updates` is automatically generated from classes too
