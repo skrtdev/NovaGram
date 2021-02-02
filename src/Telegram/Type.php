@@ -31,7 +31,7 @@ class Type {
 
     public function __call(string $name, array $arguments, ...$kwargs){
 
-        $this->config ??= json_decode(json_encode($this->Bot->getJSON()));
+        $this->config ??= json_decode(json_encode(Bot::getJSON()));
 
         if(!isset($this->config->types_methods->{$this->_})){
             return Prototype::call($this, $name, $arguments);
