@@ -7,7 +7,7 @@ use PDO;
 class PDOContainer {
 
     private array $args;
-    private PDO $instance;
+    private ?PDO $instance;
 
     public function __construct(...$args)
     {
