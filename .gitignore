@@ -34,3 +34,6 @@ Temporary Items
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+### phpstorm ###
+.idea/*
