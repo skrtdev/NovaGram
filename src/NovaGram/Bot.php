@@ -44,6 +44,7 @@ class Bot {
     protected ?Database $database = null; // read-only
     protected string $endpoint;
 
+    private array $allowed_updates;
     private bool $started = false;
     private bool $running = false;
     private static bool $shown_license = false;
@@ -258,15 +259,18 @@ class Bot {
         }
     }
 
+    protected function getAllowedUpdates(): array{
+        return $this->allowed_updates ??= $this->getDispatcher()->getAllowedUpdates();
+    }
+
     protected function processUpdates($offset = 0){
         $async = $this->settings->async;
-        if($async){
-            $this->getDispatcher()->resolveQueue();
-            $pool = $this->getDispatcher()->getPool();
-            $timeout = !$pool->hasQueue() ? self::TIMEOUT : 0;
+        if($async && $this->getDispatcher()->getPool()->hasQueue()){
+            $this->logger->info('Resolving queue before processing other updates');
+            $this->getDispatcher()->getPool()->waitQueue();
+            $this->logger->info('Queue resolved');
         }
-        else $timeout = self::TIMEOUT;
-        $params = ['offset' => $offset, 'timeout' => $timeout, "allowed_updates" => $this->getDispatcher()->getAllowedUpdates()];
+        $params = ['offset' => $offset, 'timeout' => self::TIMEOUT, "allowed_updates" => $this->getAllowedUpdates()];
         $this->logger->debug('Processing Updates (async: '.(int) $async.')', $params);
         try{
             $updates = $this->getUpdates($params);

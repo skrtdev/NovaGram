@@ -24,6 +24,7 @@
     - `MethodNotAllowedException` (405)
 - Fixes:  
     - Classes `MessageId`, `ProximityAlertTriggered` didn't work properly  
+    - Bot will now process queued updates before retrieving other ones  
     - Fixed wrong behaviour when serializing false  
     - Now `log_updates` setting works on getUpdates too  
     - `setMyCommands` arguments were wrong  
