@@ -185,7 +185,19 @@ class Database{
 
     public function query(string $query, array $params = []){
         $sth = $this->getPDO()->prepare($query, self::driver_options);
-        $sth->execute($params);
+        try{
+            $sth->execute($params);
+        }
+        catch (\PDOException $e) {
+            // temp fix
+            if($e->getMessage() === 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away') {
+                $this->resetPDO();
+                return $this->query($query, $params);
+            }
+            else{
+                throw $e;
+            }
+        }
         return $sth;
     }
     public function existQuery(string $query, array $params = []): bool{
