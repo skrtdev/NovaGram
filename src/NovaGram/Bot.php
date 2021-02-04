@@ -385,7 +385,7 @@ class Bot {
         $this->logger->debug("Response: ".$response);
         if($decoded['ok'] !== true){
             if($is_debug){
-                $decoded['description'] = 'An error occurred whilee sending debug: '.$decoded['description'];
+                $decoded['description'] = 'An error occurred while sending debug: '.$decoded['description'];
                 throw TelegramException::create("[DURING DEBUG] $method", $decoded, $data, $previous_exception);
             }
             $e = TelegramException::create($method, $decoded, $data);
