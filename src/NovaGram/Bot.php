@@ -384,7 +384,10 @@ class Bot {
 
         $this->logger->debug("Response: ".$response);
         if($decoded['ok'] !== true){
-            if($is_debug) throw TelegramException::create("[DURING DEBUG] $method", $decoded, $data, $previous_exception);
+            if($is_debug){
+                $decoded['description'] = 'An error occurred whilee sending debug: '.$decoded['description'];
+                throw TelegramException::create("[DURING DEBUG] $method", $decoded, $data, $previous_exception);
+            }
             $e = TelegramException::create($method, $decoded, $data);
             if($this->settings->debug_mode === "classic" && isset($this->settings->debug)){
                 #$this->sendMessage($this->settings->debug, "<pre>".$method.PHP_EOL.PHP_EOL.print_r($data, true).PHP_EOL.PHP_EOL.print_r($decoded, true)."</pre>", ["parse_mode" => "HTML"], false, true);
