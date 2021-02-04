@@ -12,7 +12,8 @@
     - Added new Class Handlers: `CommandHandler` and `CallbackHandler`  
     - Added `toArray()` and `toJSON()` methods to `ObjectsList` and `Type` objects  
     - Added `ObjectsList::getLast()`, useful if you work with photos, which are arrays of `PhotoSize`s  
-    - Added autoload of class handlers: it will include and fire all handlers found by searching for files that ends with `Handler.php`, `Command.php` and `Callback.php`. Class names must be the same as file names. It won't look inside `vendor`.
+    - Added autoload of class handlers: it will include and fire all handlers found by searching for files that ends with `Handler.php`, `Command.php` and `Callback.php`. Class names must be the same as file names. It won't look inside `vendor`.  
+    - Now `Message::editText()` will not delete `reply_markup` by default. Use `reply_markup: null` to force deleting it.  
 - New Bot settings:  
     - `username`: Bot username, needed to avoid a `getMe()` call when using command handlers and webhook.  
     - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI.  

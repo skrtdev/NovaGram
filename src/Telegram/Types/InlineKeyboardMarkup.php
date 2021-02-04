@@ -15,7 +15,10 @@ class InlineKeyboardMarkup extends \Telegram\InlineKeyboardMarkup{
     /** @var ObjectsList Array of button rows, each represented by an Array of InlineKeyboardButton objects */
     public ObjectsList $inline_keyboard;
 
-    
+    public function __toString(){
+        return $this->toJSON();
+    }
+
 }
 
 ?>

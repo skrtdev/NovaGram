@@ -373,15 +373,13 @@
                 "just_one_parameter_needed":"text"
             },
             "delete":{
-                "alias":"deleteMessage",
-                "no_more_parameters_needed":true
+                "alias":"deleteMessage"
             },
             "editText":{
                 "alias":"editMessageText",
                 "presets":{
-                    "text":"text"
+                    "reply_markup":"reply_markup"
                 },
-                "(ADD)reply_markup":"reply_markup",
                 "just_one_parameter_needed":"text"
             },
             "editLiveLocation":{
@@ -426,8 +424,7 @@
                 "file_id":"file_id"
             },
             "get":{
-                "alias":"getFile",
-                "no_more_parameters_needed":true
+                "alias":"getFile"
             }
         },
         "Chat":{
@@ -613,8 +610,7 @@
             },
             "getProfilePhotos":{
                 "alias":"getUserProfilePhotos",
-                "just_one_parameter_needed":"limit",
-                "no_more_parameters_needed":true
+                "just_one_parameter_needed":"limit"
             },
             "kickChatMember":{
                 "just_one_parameter_needed":"user_id"
@@ -656,12 +652,7 @@
             },
             "answer":{
                 "alias":"answerCallbackQuery",
-                "defaults":{
-                    "show_alert":false,
-                    "text":""
-                },
-                "just_one_parameter_needed":"text",
-                "no_more_parameters_needed":true
+                "just_one_parameter_needed":"text"
             }
         },
         "InlineQuery":{
@@ -670,9 +661,6 @@
             },
             "answer":{
                 "alias":"answerInlineQuery",
-                "defaults":{
-                    "cache_time":0
-                },
                 "just_one_parameter_needed":"results"
             }
         }
