@@ -572,7 +572,7 @@ trait Methods{
      *
      * @return bool
      */
-    public function restrictChatMember($chat_id, $user_id = null, ChatPermissions $permissions = null, array $args = null, bool $json_payload = false, ...$kwargs){
+    public function restrictChatMember($chat_id, $user_id = null, array $permissions = null, array $args = null, bool $json_payload = false, ...$kwargs){
         if(is_array($chat_id)){
             $json_payload = $user_id ?? false; // 2nd param
             $params = $chat_id ?? [];
