@@ -96,6 +96,24 @@ trait HandlersTrait{
             }
         });
     }
+    
+    public function onUserStatus(string $status, Closure $handler): void
+    {
+        $this->onTextMessage(function (Message $message) use ($handler, $status) {
+            if($message->from->status() === $status){
+                $handler($message);
+            }
+        });
+    }
+
+    public function onChatStatus(string $status, Closure $handler): void
+    {
+        $this->onTextMessage(function (Message $message) use ($handler, $status) {
+            if($message->chat->status() === $status){
+                $handler($message);
+            }
+        });
+    }
 
     public function onCommand($commands, Closure $handler, string $description = null): void
     {
