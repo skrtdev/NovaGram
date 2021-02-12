@@ -270,7 +270,7 @@ class Bot {
             $this->getDispatcher()->getPool()->waitQueue();
             $this->logger->info('Queue resolved');
         }
-        $params = ['offset' => $offset, 'timeout' => self::TIMEOUT, "allowed_updates" => $this->getAllowedUpdates()];
+        $params = ['offset' => $offset, 'timeout' => self::TIMEOUT, 'allowed_updates' => $this->getAllowedUpdates()];
         $this->logger->debug('Processing Updates (async: '.(int) $async.')', $params);
         try{
             $updates = $this->getUpdates($params);
@@ -325,8 +325,16 @@ class Bot {
                 $this->settings->threshold ??= 10; // set 10 as default when using getUpdates
                 @cli_set_process_title("NovaGram: main process ({$this->getUsername()})");
                 self::showLicense();
+                $offset = 0;
                 while ($this->running) {
-                    $offset = $this->processUpdates($offset ?? 0);
+                    try{
+                        $offset = $this->processUpdates($offset);
+                    }
+                    catch(Throwable $e){
+                        $this->logger->critical('An Exception has been thrown inside internal update handling: '.get_class($e).'. Full exception has been printed to stdout.'.PHP_EOL.'You may need to report issue.');
+                        print((string) $e . PHP_EOL);
+                        $offset = $this->getUpdates(['allowed_updates' => $this->getAllowedUpdates()])->getLast()->update_id+1;
+                    }
                 }
             }
             if($this->settings->mode === self::WEBHOOK){
