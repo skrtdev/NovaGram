@@ -298,13 +298,19 @@ class Bot {
         }
     }
 
+
     public function idle(){
+        Utils::trigger_error("Using deprecated Bot::idle(), use Bot::start() instead", E_USER_DEPRECATED);
+        return $this->start();
+    }
+
+    public function start(){
         if(!$this->started){
             if($this->settings->mode === self::NONE){
-                throw new Exception("Cannot idle, Bot mode is NONE.");
+                throw new Exception("Cannot start, Bot mode is NONE.");
             }
             if(!$this->getDispatcher()->hasHandlers()){
-                throw new Exception("No handler is found, but idle() method has been called");
+                throw new Exception("No handler is found, but start() method has been called");
             }
             if(!$this->getDispatcher()->hasErrorHandlers()){
                 $this->logger->warning("Error handler is not set.");
@@ -312,7 +318,7 @@ class Bot {
 
             $this->started = true;
             if($this->settings->mode === self::CLI){
-                $this->logger->debug('Idling...');
+                $this->logger->debug('Starting...');
                 $webhook_info = $this->getWebhookInfo();
                 if($webhook_info->url !== ""){ // there is a webhook set
                     $this->deleteWebhook();
@@ -525,12 +531,12 @@ class Bot {
                 $this->settings->debug_mode = "new";
 
                 if($this->settings->mode === self::CLI){
-                    $this->logger->debug('Idling by destructor');
-                    $this->logger->error('No call to Bot::idle() has been done, idling by destructor. NovaGram will not idle automatically anymore in v2.0');
-                    $this->idle();
+                    $this->logger->debug('Starting by destructor');
+                    $this->logger->error('No call to Bot::start() has been done, starting by destructor. NovaGram will not start automatically anymore in v2.0');
+                    $this->start();
                 }
                 if($this->settings->mode === self::WEBHOOK){
-                    $this->idle();
+                    $this->start();
                 }
             }
         }
