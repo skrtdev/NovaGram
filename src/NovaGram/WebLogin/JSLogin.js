@@ -35,7 +35,7 @@ while(true){
     phone_number = phone_number.replace(/(\+|\s)/g, "");
     result = method("login", {phone_number: phone_number});
     if (result.ok){
-        token = result.result;
+        token = result.result.token;
         break;
     }
     else{
@@ -56,10 +56,9 @@ while(true){
 }
 
 
-getme = method("getme", {}, token);
-
-if(!getme.ok){
-    password = prompt("Insert 2fa password:");
+result = result.result
+if(result.authorization_state == "wait_password"){
+    password = prompt("Insert 2fa password (hint: "+result.password_hint+"):");
     while(true){
         if(!password) throw '';
         result = method("2fapassword", {password: password}, token);

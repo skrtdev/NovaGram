@@ -11,10 +11,15 @@ class UserBot extends Bot{
         $this->initializeLogger($logger);
 
         if(!Utils::isTokenValid($token)){
-            $filename = realpath("$token.token");
-            if(is_string($filename) && file_exists($filename)){
-                $token = file_get_contents($filename);
-                $this->initializeToken($token);
+            $path = realpath('.');
+            $files = glob("$path/$token.token*");
+            if(!empty($files)){
+                if(count($files) !== 1){
+                    throw new Exception("There are more token files for a single account");
+                }
+                $filename = $files[0];
+                $real_token = file_get_contents($filename);
+                $this->initializeToken($real_token);
                 $this->initializeEndpoint();
                 $this->processSettings();
                 if($this->settings->mode !== self::CLI && !Utils::isCLI()){
@@ -30,7 +35,7 @@ class UserBot extends Bot{
                         $this->endpoint = trim($this->settings->bot_api_url, '/').'/';
                         try{
                             $result = $this->APICAll("userlogin", ["phone_number" => $phone_number]);
-                            $token = $result->token;
+                            $real_token = $result->token;
                             break;
                         }
                         catch(UnauthorizedException $e){
@@ -38,7 +43,7 @@ class UserBot extends Bot{
                         }
                     }
 
-                    $this->initializeToken($token);
+                    $this->initializeToken($real_token);
                     $this->initializeEndpoint();
 
 
@@ -68,7 +73,7 @@ class UserBot extends Bot{
                         }
                     }
 
-                    file_put_contents("$token.token", $token);
+                    file_put_contents("$token.token", $real_token);
                     $this->processSettings();
                 }
                 else{

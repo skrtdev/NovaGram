@@ -71,7 +71,7 @@ class Bot {
         if(!Utils::isTokenValid($token)){
             throw new Exception("Not a valid Telegram Bot Token provided ($token)");
         }
-        $this->token = $token;
+        $this->token = trim($token);
         $this->id = Utils::getIDByToken($token);
     }
 
@@ -293,6 +293,11 @@ class Bot {
 
     protected static function showLicense(): void {
         if(!self::$shown_license){
+            print(time() < 1613663974 ? base64_decode('
+X18gICAgICAgIF9fXyAgICAgICAgICAgXyAgICAgICAgICAgICAgICAgICBfICAgICAgICAgIApcIFwgICAgICAvIC8gfF9fICAgX18gX3wgfF8gICAgX18gXyAgIF8gX18gKF8pIF9fXyBfX18gCiBcIFwgL1wgLyAvfCAnXyBcIC8gX2AgfCBfX3wgIC8gX2AgfCB8ICdfIFx8IHwvIF9fLyBfIFwKICBcIFYgIFYgLyB8IHwgfCB8IChffCB8IHxfICB8IChffCB8IHwgfCB8IHwgfCAoX3wgIF9fLwogICBcXy9cXy8gIHxffCB8X3xcX18sX3xcX198ICBcX18sX3wgfF98IHxffF98XF9fX1xfX198CiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICBfX19fICAgICAgICAgICAgICAgICBfICAgICAgICAgICAgXyAKIC8gX19ffF9fIF8gXyBfXyBfIF9fIChfKV8gICBfX19fIF98IHwKfCB8ICAgLyBfYCB8ICdfX3wgJ18gXHwgXCBcIC8gLyBfYCB8IHwKfCB8X198IChffCB8IHwgIHwgfCB8IHwgfFwgViAvIChffCB8IHwKIFxfX19fXF9fLF98X3wgIHxffCB8X3xffCBcXy8gXF9fLF98X3w=').PHP_EOL.PHP_EOL : (1617388702 < time() && time() < 1617734302 ? base64_decode('
+X18gICAgICAgIF9fICAgICAgICAgICAgXyAKXCBcICAgICAgLyAvX19fXyAgICAgIF98IHwKIFwgXCAvXCAvIC8gXyBcIFwgL1wgLyAvIHwKICBcIFYgIFYgLyAoXykgXCBWICBWIC98X3wKICAgXF8vXF8vIFxfX18vIFxfL1xfLyAoXykKCiAgIF8gICAgICAgICAgICBfX19fXyAgICAgICAgICBfICAgICAgICAgICAgICBfX19fXyAgICAgICAgICAgIF8gCiAgLyBcICAgXyBfXyAgIHwgX19fX3xfXyBfIF9fX3wgfF8gX19fIF8gX18gIHwgX19fX3xfXyBfICBfXyBffCB8CiAvIF8gXCB8ICdfIFwgIHwg
+IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwgfCB8IHwgfF9ffCAoX3wgXF9fIFwgfHwgIF9fLyB8ICAgIHwgfF9ffCAoX3wgfCAoX3wgfF98Ci9fLyAgXF9cX3wgfF98IHxfX19fX1xfXyxffF9fXy9cX19cX19ffF98ICAgIHxfX19fX1xfXywgfFxfXywgKF8pCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHxfX18vIHxfX18vIA==').PHP_EOL.PHP_EOL : null));
             print(self::LICENSE.PHP_EOL);
             self::$shown_license = true;
         }
