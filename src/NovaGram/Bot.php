@@ -530,7 +530,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
     }
 
     public function __destruct(){
-        if($this->settings->mode !== self::NONE && !$this->started){
+        if(isset($this->settings->mode) && $this->settings->mode !== self::NONE && !$this->started){
             $this->logger->debug("Triggered destructor");
             if($this->getDispatcher()->hasHandlers()){
                 $this->settings->debug_mode = "new";
