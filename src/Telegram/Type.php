@@ -62,7 +62,7 @@ class Type {
         if(isset($arguments[1])){
             if(is_array($arguments[1])){
                 $payload = $arguments[2] ?? false;
-                $data += $arguments[1];
+                $data = $arguments[1] + $data;
             }
             else{
                 $payload = $arguments[1] ?? false;
