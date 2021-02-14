@@ -10,7 +10,8 @@ use skrtdev\Telegram\{
     ObjectsList,
     Exception as TelegramException,
     BadGatewayException,
-    TooManyRequestsException
+    TooManyRequestsException,
+    ConflictException
 };
 use skrtdev\Prototypes\proto;
 
@@ -342,6 +343,9 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
                         $offset = $this->processUpdates($offset);
                     }
                     catch(Throwable $e){
+                        if($e instanceof ConflictException){
+                            throw $e;
+                        }
                         $this->logger->critical('An Exception has been thrown inside internal update handling: '.get_class($e).'. Full exception has been printed to stdout.'.PHP_EOL.'You may need to report issue.');
                         print((string) $e . PHP_EOL);
                         $offset = $this->getUpdates(['allowed_updates' => $this->getAllowedUpdates()])->getLast()->update_id+1;
