@@ -38,6 +38,7 @@
     - `onCommand` handler `$args` argument behaviour was incorrect  
     - Removed overhead in `Bot::getUsername()`  
 - Minor:
+    - Added `CurlException`  
     - Renamed `Bot::idle()` to `Bot::start()`  
     - You can now use PHP8 `named arguments` in Bot constructor instead of the `$settings` array  
     - `JSON` all all the related methods are now static in Bot, this makes faster using multiple bot instances  

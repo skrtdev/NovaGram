@@ -6,6 +6,13 @@ class Utils{
 
     const EXCLUDE_FILES = ['..', '.', 'vendor'];
 
+    public static array $curl_options = [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CONNECTTIMEOUT => 5,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT => Bot::TIMEOUT
+    ];
+
     public static ?bool $is_cli = null;
 
     public static function IPInRange(string $ip, string $range): bool
@@ -70,14 +77,7 @@ class Utils{
 
     public static function curl(string $url, array $data = []): string
     {
-        $options = [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_TIMEOUT => Bot::TIMEOUT
-        ];
+        $options = self::$curl_options + [CURLOPT_URL => $url];
 
         if(!empty($data)){
             $options += [
@@ -89,7 +89,7 @@ class Utils{
         curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
         if(!empty(curl_error($ch))){
-            throw new Exception('Curl Error: '.curl_error($ch));
+            throw new CurlException(curl_error($ch));
         }
         curl_close($ch);
         return $response;
