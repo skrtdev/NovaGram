@@ -4,7 +4,6 @@ namespace skrtdev\NovaGram;
 
 use skrtdev\Telegram\Update;
 use skrtdev\async\Pool;
-use Amp\Loop;
 use Closure;
 use Throwable;
 use ReflectionFunction;
@@ -18,6 +17,7 @@ class Dispatcher {
     private Bot $Bot;
     private bool $async;
     private bool $group_handlers;
+    private static bool $stop_update_propagation = false;
     private Pool $pool;
     private array $closure_handlers = [];
     private array $class_handlers = [];
@@ -109,6 +109,9 @@ class Dispatcher {
                 $started = hrtime(true)/10**9;
                 foreach ($final_handlers as $handler) {
                     $handler();
+                    if(self::$stop_update_propagation){
+                        break;
+                    }
                 }
                 $this->Bot->logger->debug("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
             }, $process_name);
@@ -245,6 +248,11 @@ class Dispatcher {
             return [];
         }
         else return array_values(array_unique(array_merge($params, array_keys($this->closure_handlers))));
+    }
+
+    public static function stopUpdatePropagation(): void
+    {
+        self::$stop_update_propagation = true;
     }
 
     public function resolveQueue(): void
