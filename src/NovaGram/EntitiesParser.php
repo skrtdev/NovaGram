@@ -4,27 +4,28 @@ namespace skrtdev\NovaGram;
 
 use skrtdev\Telegram\ObjectsList;
 
-class EntityParser{
+class EntitiesParser{
 
     const TAGS = [
-        "bold" => "b",
-        "italic" => "i",
-        "text_link" => "a",
-        "text_mention" => "a",
-        "underline" => "ins",
-        "strikethrough" => "strike",
-        "code" => "code",
-        "pre" => "pre"
+        'bold' => 'b',
+        'italic' => 'i',
+        'text_link' => 'a',
+        'text_mention' => 'a',
+        'underline' => 'ins',
+        'strikethrough' => 'strike',
+        'code' => 'code',
+        'pre' => 'pre'
     ];
 
     const SKIP_ENTITES = [
-        "bot_command",
-        "mention",
-        "url"
+        'bot_command',
+        'mention',
+        'url'
     ];
 
 
-    public static function EntitiesToArray(ObjectsList $entities){
+    public static function entitiesToArray(ObjectsList $entities): array
+    {
         $real_entities = [];
         foreach ($entities as $entity) {
             $offset = $entity->offset;
@@ -43,8 +44,6 @@ class EntityParser{
 
             if ($type === "text_link") $openTag = "<$tag href='{$entity->url}'>";
             elseif ($type === "text_mention") $openTag = "<$tag href='tg://user?id={$entity->user->id}'>";
-            #elseif ($type === "mention") $openTag = "<$tag href='https://t.me/".str_replace('@', '', )."'>";
-            # TODO: find a way do get entities value inside this function
             else $openTag = "<$tag>";
             // will turn into a match in php8
 
@@ -60,7 +59,8 @@ class EntityParser{
         return $real_entities;
     }
 
-    public static function mbStringToArray($string, $encoding = 'UTF-8'){
+    public static function mbStringToArray($string, $encoding = 'UTF-8'): array
+    {
         $array = [];
         $strlen = mb_strlen($string, $encoding);
         while ($strlen) {
@@ -71,12 +71,12 @@ class EntityParser{
         return $array;
     }
 
-    public static function TextEntitiesToHTML(string $text, ObjectsList $entities){
+    public static function textEntitiesToHTML(string $text, ObjectsList $entities){
 
-        $textToParse = mb_convert_encoding($text." ", 'UTF-16BE', 'UTF-8');
+        $textToParse = mb_convert_encoding($text.' ', 'UTF-16BE', 'UTF-8');
 
-        $real_entities = self::EntitiesToArray($entities);
-        $res = "";
+        $real_entities = self::entitiesToArray($entities);
+        $res = '';
 
         foreach (self::mbStringToArray($textToParse, 'UTF-16LE') as $offset => $value) {
             if(isset($real_entities[$offset])){

@@ -24,13 +24,13 @@
     "autoload": {
         "psr-4":{
             "skrtdev\\Telegram\\": ["src/Telegram/Types", "src/Telegram/Exceptions"],
-            "skrtdev\\NovaGram\\": "src/dc",
             "skrtdev\\": "src/"
         },
         "classmap":[
-            "src/bc",
-            "src/traits",
-            "src/NovaGram/parser.php"
+            "src/bc"
+        ],
+        "files":[
+            "src/NovaGram/helpers.php"
         ]
     }
 }

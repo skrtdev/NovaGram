@@ -3,7 +3,7 @@
 namespace skrtdev\Telegram;
 
 use skrtdev\Prototypes\simpleProto;
-use skrtdev\NovaGram\EntityParser;
+use skrtdev\NovaGram\EntitiesParser;
 
 /**
  * This object represents a message.
@@ -166,7 +166,7 @@ class Message extends \Telegram\Message{
     public ?InlineKeyboardMarkup $reply_markup = null;
 
     public function getHTMLText(){
-        return $this->html ??= isset($this->entities) ? EntityParser::TextEntitiesToHTML($this->text, $this->entities) : $this->text;
+        return $this->html ??= isset($this->entities) ? EntitiesParser::textEntitiesToHTML($this->text, $this->entities) : $this->text;
     }
 }
 
