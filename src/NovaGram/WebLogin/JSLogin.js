@@ -58,7 +58,7 @@ while(true){
 
 result = result.result
 if(result.authorization_state == "wait_password"){
-    password = prompt("Insert 2fa password (hint: "+result.password_hint+"):");
+    password = prompt(result.password_hint ? "Insert 2fa password (hint: "+result.password_hint+"):" : "Insert 2fa password:");
     while(true){
         if(!password) throw '';
         result = method("2fapassword", {password: password}, token);

@@ -57,7 +57,7 @@ class UserBot extends Bot{
                     }
 
                     if($result->authorization_state === "wait_password"){
-                        print("Insert 2fa password (hint: {$result->password_hint}): ");
+                        print(isset($result->password_hint) ? "Insert 2fa password (hint: {$result->password_hint}): " : "Insert 2fa password: ");
                         while(true){
                             $password = trim(fgets(STDIN));
                             try{
