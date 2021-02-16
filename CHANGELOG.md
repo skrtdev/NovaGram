@@ -3,7 +3,7 @@
 ## v1.9 - [Not Released yet](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
 - [ ] Support for PostegreSQL  
 - [ ] TTL in Conversations  
-- New User mode: you can now run userbots with novagram using tdlight bot api  
+- New **User mode**: you can now run userbots with NovaGram using [tdlight-telegram-bot-api](https://github.com/tdlight-team/tdlight-telegram-bot-api). (**Webhooks too!**) Check out [this example](https://github.com/skrtdev/NovaGram/blob/master/examples/userbot.php).    
 - New **Features**:  
     - New `onCallbackData` handler: similar to `onText` but for Callback Queries data.
     - New `exportCommands` method, that calls `setMyCommands` with the registered command handlers (`onCommand()`). Automatically called by default on CLI
@@ -14,13 +14,12 @@
     - Added `ObjectsList::getLast()`, useful if you work with photos, which are arrays of `PhotoSize`s  
     - Added autoload of class handlers: it will include and fire all handlers found by searching for files that ends with `Handler.php`, `Command.php` and `Callback.php`. Class names must be the same as file names. It won't look inside `vendor`.  
     - Now `Message::editText()` will not delete `reply_markup` by default. Use `reply_markup: null` to force deleting it.  
-    - Added stopUpdatePropagation  
+    - Added `Dispatcher::stopUpdatePropagation()` or simply `stop_update_propagation()`, which stop other handlers from being executed (previously, `exit()` was needed)
 - New Bot settings:  
-    - `username`: Bot username, needed to avoid a `getMe()` call when using command handlers and webhook.  
-    - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI.  
+    - `username`: Bot username, needed to avoid that other bot's commands are recognized in groups when using command handlers and webhook.  
+    - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI. Default to `true`  
     - `include_classes`: Whether to automatically include and fire Commands Class Handlers (includes all files that ends with `Command.php`, `Handler.php`, and `Callback.php` inside the main script directory). Defualt value is `true` on `CLI` and `false` on `Webhook`.  
     - `workers`: Maximum amount of processes that will run simultaneously. (`CLI` only)  
-    - Default values for `log_updates` and `debug` are now `null` instead of `false`.  
 - New Exceptions:  
     - `NotFoundException` (404)
     - `MethodNotAllowedException` (405)
@@ -29,15 +28,15 @@
     - Classes `MessageId`, `ProximityAlertTriggered` didn't work properly  
     - Bot will now process queued updates before retrieving other ones  
     - Fixed wrong behaviour when serializing false  
+    - Default values for `log_updates` and `debug` are now `null` instead of `false`.  
     - Now `log_updates` setting works on getUpdates too  
     - `setMyCommands` arguments were wrong  
     - Errors weren't handled when thrown inside class handlers  
-    - `ObjectsList` in unknown objects   
+    - Unknown objects are now instances of `stdClass` or `ObjectsList`  
     - Exceptions constructor argument `$previous_exception` was an `Exception` instead of a `Throwable`  
     - Entities parser didn't work with `ObjectsList`  
     - Some databases couldn't be used with `getUpdates`, fixed  
     - `onCommand` handler `$args` argument behaviour was incorrect  
-    - Removed overhead in `Bot::getUsername()`  
 - Minor:
     - Added `CurlException`  
     - Renamed `Bot::idle()` to `Bot::start()`  
@@ -45,8 +44,6 @@
     - `JSON` all all the related methods are now static in Bot, this makes faster using multiple bot instances  
     - Now when using `getUpdates` process titles are customized in order to differenciate main process and child processes  
     - Properties `User::dc_id` and `Message::html` are now cached  
-    - added userbot login via browser  
-    - Add `TelegramLogger`  
     - All the Objects are now serializable  
     - Added `$description` parameter to `onCommand`  
     - Improvements in `Prototypes`: `isPrototypeable` is now cached  
@@ -68,7 +65,7 @@
     - `allowed_updates` is automatically generated from classes too
     - `$this->Bot` can be used to get `Bot` instance inside Class handlers
     - More classes can be handled in a single `handleClass` call  
-- Now when using `getUpdates` bot won't exit on `BadGatewayException`s, it will retry to connect every second instead
+- Now when using `getUpdates` bot won't crash on `BadGatewayException`s, it will retry to connect every second instead
 - Now `var_dump` is used instead of `print_r` in `debug` functions  
 - Now list of Objects are instances of `ObjectsList` rather than instances of `stdClass`  
 - You can now use PHP8 `named arguments` instead of the `$args` array in both `Bot` and `Objects` methods  
