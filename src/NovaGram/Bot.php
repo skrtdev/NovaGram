@@ -526,10 +526,8 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
         return isset($this->database);
     }
 
-    public function getUsername(): string{
-        if(!isset($this->settings->username) && !Utils::isCLI()){
-            $this->logger->warning("Bot username is not specified in Bot settings. When using command handlers on webhook it is recommended to pass username in settings, or a getMe call will be done on every update");
-        }
+    public function getUsername(): string
+    {
         return $this->settings->username ??= $this->getMe()->username;
     }
 

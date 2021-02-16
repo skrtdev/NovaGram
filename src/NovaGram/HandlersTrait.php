@@ -72,7 +72,7 @@ trait HandlersTrait{
     }
 
     // utilities
-    
+
     public function onTextMessage(Closure $handler): void
     {
         $this->onMessage(function (Message $message) use ($handler) {
@@ -106,7 +106,7 @@ trait HandlersTrait{
         foreach($commands as $command){
             $this->commands[$command] ??= $description;
         }
-        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'.$this->getUsername().')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $matches[0][0] !== "" ? explode(' ', $matches[0][0]) : []));
+        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. $this->settings->mode === self::WEBHOOK ? '.+' : $this->getUsername().')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $matches[0][0] !== "" ? explode(' ', $matches[0][0]) : []));
     }
 
     public function exportCommands(): void
