@@ -106,11 +106,7 @@ trait HandlersTrait{
         foreach($commands as $command){
             $this->commands[$command] ??= $description;
         }
-<<<<<<< HEAD
         $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK ? '.+' : $this->getUsername()) .')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $matches[0][0] !== "" ? explode(' ', $matches[0][0]) : []));
-=======
-        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. $this->settings->mode === self::WEBHOOK ? '.+' : $this->getUsername().')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $matches[0][0] !== "" ? explode(' ', $matches[0][0]) : []));
->>>>>>> ef745f8489c4a98791b50e75bc113012abe52667
     }
 
     public function exportCommands(): void
