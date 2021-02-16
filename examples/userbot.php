@@ -12,11 +12,12 @@ else{
 use skrtdev\NovaGram\UserBot;
 use skrtdev\Telegram\Message;
 
-$Bot = new UserBot("userbot");
+$Bot = new UserBot('userbot');
 
 $Bot->onTextMessage(function (Message $message) use ($Bot) {
     $chat = $message->chat;
-    $chat->sendMessage("You said: ".$message->text, true);
+    $chat->sendMessage("You said: {$message->text}", true);
 });
 
+$Bot->start();
 ?>
