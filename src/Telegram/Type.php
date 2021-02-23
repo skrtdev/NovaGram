@@ -46,10 +46,10 @@ class Type {
         $data = [];
 
         foreach ($this_obj->_presets ?? [] as $key => $value) {
-            $data[$key] = $this->presetToValue($value);
+            $data[$key] = $this->presetToValue($value) ?? null;
         }
         foreach ($this_method->presets ?? [] as $key => $value) {
-            $data[$key] = $this->presetToValue($value);
+            $data[$key] = $this->presetToValue($value) ?? null;
         }
         if(isset($arguments[0])){
             if(is_array($arguments[0])) foreach ($arguments[0] as $key => $value) {
@@ -78,7 +78,8 @@ class Type {
 
     protected function presetToValue(string $preset){
         $obj = $this;
-        foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? Utils::trigger_error("NovaGram: An internal error has occurred while loading object presets (trying to retrieve key $key of ".(is_object($obj) ? get_class($obj) : gettype($obj).' '.((string) $obj))."), please report issue including which method caused the issue.");
+        #foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? Utils::trigger_error("NovaGram: An internal error has occurred while loading object presets (trying to retrieve key $key of ".(is_object($obj) ? get_class($obj) : gettype($obj).' '.((string) $obj))."), please report issue including which method caused the issue.");
+        foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? null;
         return $obj;
     }
 
