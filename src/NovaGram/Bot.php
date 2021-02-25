@@ -87,7 +87,7 @@ class Bot {
             $logger = new Logger("NovaGram");
             if(Utils::isCLI()) $logger->pushHandler(new StreamHandler(STDERR, $this->settings->logger));
             else $logger->pushHandler(new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->settings->logger));
-            if(isset($this->settings->debug)){
+            if(isset($this->settings->debug) && isset($this->token)){
                 $logger->pushHandler(new TelegramLogger($this->token, $this->settings->debug, Logger::WARNING));
             }
             $logger->debug('Logger automatically replaced by a default one');
