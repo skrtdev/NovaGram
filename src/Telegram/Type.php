@@ -19,7 +19,7 @@ class Type {
         $this->_ = $type;
         $this->Bot = $Bot;
 
-        foreach ($json as $key => $value) $this->$key = $value;
+        foreach ($json as $key => $value) $this->$key ??= $value;
 
         if($type === "User"){
             if($Bot->hasDatabase()){
