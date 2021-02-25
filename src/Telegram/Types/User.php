@@ -42,7 +42,7 @@ class User extends \Telegram\User{
     
     public function getMention(): string
     {
-        return "<a href=\"tg://user?id={$this->id}\">{$this->first_name}". ( isset($this->last_name) ? " ".$this->last_name : "" ) ."</a>";
+        return "<a href=\"tg://user?id={$this->id}\">". htmlspecialchars($this->first_name. ( isset($this->last_name) ? " {$this->last_name}" : '' )) ."</a>";
     }
 }
 
