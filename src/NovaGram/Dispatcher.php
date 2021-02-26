@@ -250,7 +250,7 @@ class Dispatcher {
         else return array_values(array_unique(array_merge($params, array_keys($this->closure_handlers))));
     }
 
-    public static function stopUpdatePropagation(): void
+    public static function stopHandling(): void
     {
         self::$stop_update_propagation = true;
     }
