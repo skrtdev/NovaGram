@@ -45,8 +45,9 @@ class Utils{
 
     public static function trigger_error(string $error_msg, int $error_type = E_USER_NOTICE): void
     {
-        $debug_backtrace = debug_backtrace();
-        $caller = end($debug_backtrace);
+        $debug_backtrace = debug_backtrace(!DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS);
+        #$caller = end($debug_backtrace);
+        $caller = $debug_backtrace[1];
         trigger_error($error_msg." in {$caller['file']}:{$caller['line']}", $error_type);
     }
 
