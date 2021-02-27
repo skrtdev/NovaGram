@@ -8,6 +8,7 @@ class UserBot extends Bot{
 
     public function __construct(string $token, array $settings = [], ?Logger $logger = null, ...$kwargs) {
         $this->settings = $this->normalizeSettings(["is_user" => true, "disable_ip_check" => true] + $settings + $kwargs + ["bot_api_url" => "https://botapi.giuseppem99.xyz"]);
+        $this->initializeLogger($logger);
 
         if(!Utils::isTokenValid($token)){
             $path = realpath('.');
@@ -81,7 +82,6 @@ class UserBot extends Bot{
             $this->initializeToken($token);
         }
 
-        $this->initializeLogger($logger);
         $this->initializeEndpoint();
         $this->processSettings();
     }
