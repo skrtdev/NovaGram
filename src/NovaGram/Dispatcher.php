@@ -17,7 +17,7 @@ class Dispatcher {
     private Bot $Bot;
     private bool $async;
     private bool $group_handlers;
-    private static bool $stop_update_propagation = false;
+    private static bool $stop_update_handling = false;
     private Pool $pool;
     private array $closure_handlers = [];
     private array $class_handlers = [];
@@ -109,7 +109,7 @@ class Dispatcher {
                 $started = hrtime(true)/10**9;
                 foreach ($final_handlers as $handler) {
                     $handler();
-                    if(self::$stop_update_propagation){
+                    if(self::$stop_update_handling){
                         break;
                     }
                 }
@@ -252,7 +252,7 @@ class Dispatcher {
 
     public static function stopHandling(): void
     {
-        self::$stop_update_propagation = true;
+        self::$stop_update_handling = true;
     }
 
     public function resolveQueue(): void
