@@ -201,8 +201,6 @@ class Bot {
         }
 
         if($this->settings->mode === self::CLI){
-            $this->getUsername();
-
             if($this->settings->wait_handlers){
                 pcntl_async_signals(true);
                 pcntl_signal(SIGINT, [$this, "stop"]);
