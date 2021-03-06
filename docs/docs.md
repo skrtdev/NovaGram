@@ -27,14 +27,14 @@ $Bot->METHOD_NAME([
 ```
 
 ### Available Methods
-   * [sendMessage](#sendMessage)
-   * [forwardMessage](#forwardMessage)
-   * [deleteMessage](#deleteMessage)
-   * [answerCallbackQuery](#answerCallbackQuery)
-   * [editMessageText](#editMessageText)
-   * [sendChatAction](#sendChatAction)
-   * [getUserProfilePhotos](#getUserProfilePhotos)
-   * [getUsernameDC](#getUsernameDC)
+   * [sendMessage](#sendmessage)
+   * [forwardMessage](#forwardmessage)
+   * [deleteMessage](#deletemessage)
+   * [answerCallbackQuery](#answercallbackquery)
+   * [editMessageText](#editmessagetext)
+   * [sendChatAction](#sendchataction)
+   * [getUserProfilePhotos](#getuserprofilephotos)
+   * [getUsernameDC](#getusernamedc)
 
 
 ### sendMessage
