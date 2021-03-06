@@ -3,11 +3,12 @@
 namespace skrtdev\NovaGram;
 
 use skrtdev\Telegram\{Message, CallbackQuery};
-use Closure;
+use Closure, WeakMap;
 
 trait HandlersTrait{
 
     protected array $commands = [];
+    protected WeakMap $statuses_cache;
 
     // closure handlers
 
@@ -93,6 +94,34 @@ trait HandlersTrait{
                     unset($matches[0]);
                 }
                 $handler($message, array_values($matches));
+            }
+        });
+    }
+    
+    public function onUserStatus(string $status, Closure $handler): void
+    {
+        $this->statuses_cache ??= new WeakMap();
+        $this->onTextMessage(function (Message $message) use ($handler, $status) {
+            if(!isset($message->from)){
+                return;
+            }
+
+            $user = $message->from;
+            $real_status = $this->statuses_cache[$user] ??= $user->status();
+            if($real_status === $status){
+                $handler($message);
+            }
+        });
+    }
+
+    public function onChatStatus(string $status, Closure $handler): void
+    {
+        $this->statuses_cache ??= new WeakMap();
+        $this->onTextMessage(function (Message $message) use ($handler, $status) {
+            $chat = $message->chat;
+            $real_status = $this->statuses_cache[$chat] ??= $chat->status();
+            if($real_status === $status){
+                $handler($message);
             }
         });
     }
