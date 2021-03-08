@@ -2,7 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
-use skrtdev\Telegram\{Message, CallbackQuery};
+use skrtdev\Telegram\{Message, CallbackQuery, Chat};
 use Closure;
 
 trait HandlersTrait{
@@ -134,6 +134,25 @@ trait HandlersTrait{
                 $handler($callback_query, array_values($matches));
             }
         });
+    }
+
+    public function onNewChatMember(Closure $closure, bool $get_bots = false): void
+    {
+        $this->onMessage(function (Message $message) use ($closure, $get_bots) {
+            if(isset($message->new_chat_members)){
+                $chat = $message->chat;
+                $adder = $message->from;
+                foreach ($message->new_chat_members as $user) {
+                    if($user->is_bot && !$get_bots) continue;
+                    $closure($chat, $user, $adder);
+                }
+            }
+        });
+    }
+
+    public function onNewGroup(Closure $closure): void
+    {
+        $this->onNewChatMembers(fn (Chat $chat, User $user, User $adder) => $user->id !== $this->id ?: $closure($chat, $adder), true);
     }
 
     // error handlers

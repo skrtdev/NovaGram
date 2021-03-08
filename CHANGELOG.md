@@ -5,7 +5,8 @@
 - [ ] TTL in Conversations  
 - New **User mode**: you can now run userbots with NovaGram using [tdlight-telegram-bot-api](https://github.com/tdlight-team/tdlight-telegram-bot-api). (**Webhooks too!**) Check out [this example](https://github.com/skrtdev/NovaGram/blob/master/examples/userbot.php).    
 - New **Features**:  
-    - New `onCallbackData` handler: similar to `onText` but for Callback Queries data.
+    - New `onCallbackData` handler: similar to `onText` but for Callback Queries data.  
+    - New `onNewChatMember` and `onNewGroup` handlers: check [updated docs](https://docs.novagram.ga/handling.html).  
     - New `exportCommands` method, that calls `setMyCommands` with the registered command handlers (`onCommand()`). Automatically called by default on CLI
     - `restart_on_changes` has been improved: now it uses `pcntl_exec` when possible (instead of `shell_exec`)  
     - Added `User::getMention()`: it generates a clickable link for that User.  
