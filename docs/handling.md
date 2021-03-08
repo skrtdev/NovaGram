@@ -124,7 +124,7 @@ $Bot->onNewChatMember(function (Chat $chat, User $user, User $adder) {
 // if you want to handle bots too:
 $Bot->onNewChatMember(function (Chat $chat, User $user, User $adder) {
     $chat->sendMessage("Welcome, {$user->getMention()}");
-}, true);
+}), true);
 ```
 
 ### `onNewGroup`
@@ -139,7 +139,7 @@ $Bot->onNewChatMember(function (Chat $chat, User $user, User $adder) use ($Bot) 
     if($user->id === $Bot->id){
         $chat->sendMessage("Thanks {$adder->getMention()} for adding me to this group!");
     }
-}, true);
+}), true);
 ```
 ```php
 $Bot->onNewGroup(function (Chat $chat, User $adder) {
