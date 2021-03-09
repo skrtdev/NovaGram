@@ -229,7 +229,8 @@
             "sendSticker",
             "sendInvoice",
             "sendGame"
-        ]
+        ],
+        "only_if_banned": ["unbanChatMember"]
     },
     "require_json_encode":[
         "allowed_updates",
