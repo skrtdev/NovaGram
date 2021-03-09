@@ -152,7 +152,7 @@ trait HandlersTrait{
 
     public function onNewGroup(Closure $closure): void
     {
-        $this->onNewChatMembers(fn (Chat $chat, User $user, User $adder) => $user->id !== $this->id ?: $closure($chat, $adder), true);
+        $this->onNewChatMember(fn (Chat $chat, User $user, User $adder) => $user->id !== $this->id ?: $closure($chat, $adder), true);
     }
 
     // error handlers
