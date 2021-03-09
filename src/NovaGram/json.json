@@ -11,17 +11,19 @@
         "Update.pre_checkout_query":"PreCheckoutQuery",
         "Update.poll":"Poll",
         "Update.poll_answer":"PollAnswer",
+        "Update.my_chat_member":"ChatMemberUpdated",
+        "Update.chat_member":"ChatMemberUpdated",
         "Chat.photo":"ChatPhoto",
         "Chat.pinned_message":"Message",
         "Chat.permissions":"ChatPermissions",
         "Chat.location":"ChatLocation",
         "Message.from":"User",
-        "Message.via_bot":"User",
         "Message.sender_chat":"Chat",
         "Message.chat":"Chat",
         "Message.forward_from":"User",
         "Message.forward_from_chat":"Chat",
         "Message.reply_to_message":"Message",
+        "Message.via_bot":"User",
         "Message.entities":"[MessageEntity]",
         "Message.animation":"Animation",
         "Message.audio":"Audio",
@@ -41,11 +43,15 @@
         "Message.new_chat_members":"[User]",
         "Message.left_chat_member":"User",
         "Message.new_chat_photo":"[PhotoSize]",
+        "Message.message_auto_delete_timer_changed":"MessageAutoDeleteTimerChanged",
         "Message.pinned_message":"Message",
         "Message.invoice":"Invoice",
         "Message.successful_payment":"SuccessfulPayment",
         "Message.passport_data":"PassportData",
         "Message.proximity_alert_triggered":"ProximityAlertTriggered",
+        "Message.voice_chat_started":"VoiceChatStarted",
+        "Message.voice_chat_ended":"VoiceChatEnded",
+        "Message.voice_chat_participants_invited":"VoiceChatParticipantsInvited",
         "Message.reply_markup":"InlineKeyboardMarkup",
         "MessageEntity.user":"User",
         "Animation.thumb":"PhotoSize",
@@ -60,6 +66,7 @@
         "ProximityAlertTriggered.traveler":"User",
         "ProximityAlertTriggered.watcher":"User",
         "UserProfilePhotos.photos":"[ProfilePhoto]",
+        "VoiceChatParticipantsInvited.users":"[User]",
         "ReplyKeyboardMarkup.keyboard":"[KeyboardButton]",
         "KeyboardButton.request_poll":"KeyboardButtonPollType",
         "InlineKeyboardMarkup.inline_keyboard":"InlineKeyboard",
@@ -67,7 +74,13 @@
         "InlineKeyboardButton.callback_game":"CallbackGame",
         "CallbackQuery.from":"User",
         "CallbackQuery.message":"Message",
+        "ChatInviteLink.creator":"User",
         "ChatMember.user":"User",
+        "ChatMemberUpdated.chat":"Chat",
+        "ChatMemberUpdated.from":"User",
+        "ChatMemberUpdated.old_chat_member":"ChatMember",
+        "ChatMemberUpdated.new_chat_member":"ChatMember",
+        "ChatMemberUpdated.invite_link":"ChatInviteLink",
         "ChatLocation.location":"Location",
         "InputMediaPhoto.caption_entities":"[MessageEntity]",
         "InputMediaVideo.caption_entities":"[MessageEntity]",
@@ -157,6 +170,7 @@
         "ProfilePhoto":"[PhotoSize]",
         "InlineKeyboard":"[InlineKeyboardRow]",
         "InlineKeyboardRow":"[InlineKeyboardButton]"
+        "GameHighScore.user":"User"
     },
     "require_params":{
         "parse_mode":[
@@ -216,8 +230,7 @@
             "sendSticker",
             "sendInvoice",
             "sendGame"
-        ],
-        "only_if_banned": ["unbanChatMember"]
+        ]
     },
     "require_json_encode":[
         "allowed_updates",
@@ -414,7 +427,7 @@
             "copy":{
                 "alias":"copyMessage",
                 "presets":{
-                    "from_chat_id": "chat/id"
+                    "from_chat_id":"chat/id"
                 },
                 "just_one_parameter_needed":"chat_id"
             }
@@ -590,7 +603,7 @@
             },
             "copyMessage":{
                 "presets":{
-                    "from_chat_id": "chat/id"
+                    "from_chat_id":"chat/id"
                 },
                 "just_one_parameter_needed":"message_id"
             },

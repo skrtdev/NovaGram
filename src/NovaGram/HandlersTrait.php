@@ -71,6 +71,16 @@ trait HandlersTrait{
         $this->getDispatcher()->addClosureHandler($handler, "poll_answer");
     }
 
+    public function onMyChatMember(Closure $handler): void
+    {
+        $this->getDispatcher()->addClosureHandler($handler, "my_chat_member");
+    }
+
+    public function onChatMember(Closure $handler): void
+    {
+        $this->getDispatcher()->addClosureHandler($handler, "chat_member");
+    }
+
     // utilities
 
     public function onTextMessage(Closure $handler): void

@@ -48,6 +48,12 @@ class Update extends \Telegram\Update{
     /** @var PollAnswer|null A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself. */
     public ?PollAnswer $poll_answer = null;
 
+    /** @var ChatMemberUpdated|null The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user. */
+    public ?ChatMemberUpdated $my_chat_member = null;
+
+    /** @var ChatMemberUpdated|null A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates. */
+    public ?ChatMemberUpdated $chat_member = null;
+
     
 }
 

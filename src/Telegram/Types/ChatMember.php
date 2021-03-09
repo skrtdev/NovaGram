@@ -27,6 +27,9 @@ class ChatMember extends \Telegram\ChatMember{
     /** @var bool|null Administrators only. True, if the bot is allowed to edit administrator privileges of that user */
     public ?bool $can_be_edited = null;
 
+    /** @var bool|null Administrators only. True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergoups and ignore slow mode. Implied by any other administrator privilege */
+    public ?bool $can_manage_chat = null;
+
     /** @var bool|null Administrators only. True, if the administrator can post in the channel; channels only */
     public ?bool $can_post_messages = null;
 
@@ -35,6 +38,9 @@ class ChatMember extends \Telegram\ChatMember{
 
     /** @var bool|null Administrators only. True, if the administrator can delete messages of other users */
     public ?bool $can_delete_messages = null;
+
+    /** @var bool|null Administrators only. True, if the administrator can manage voice chats */
+    public ?bool $can_manage_voice_chats = null;
 
     /** @var bool|null Administrators only. True, if the administrator can restrict, ban or unban chat members */
     public ?bool $can_restrict_members = null;

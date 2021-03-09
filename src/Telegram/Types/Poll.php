@@ -15,7 +15,7 @@ class Poll extends \Telegram\Poll{
     /** @var string Unique poll identifier */
     public string $id;
 
-    /** @var string Poll question, 1-255 characters */
+    /** @var string Poll question, 1-300 characters */
     public string $question;
 
     /** @var ObjectsList List of poll options */

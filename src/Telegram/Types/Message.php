@@ -99,7 +99,7 @@ class Message extends \Telegram\Message{
     /** @var Contact|null Message is a shared contact, information about the contact */
     public ?Contact $contact = null;
 
-    /** @var Dice|null Message is a dice with random value from 1 to 6 */
+    /** @var Dice|null Message is a dice with random value */
     public ?Dice $dice = null;
 
     /** @var Game|null Message is a game, information about the game. More about games » */
@@ -138,10 +138,13 @@ class Message extends \Telegram\Message{
     /** @var bool|null Service message: the channel has been created. This field can't be received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only be found in reply_to_message if someone replies to a very first message in a channel. */
     public ?bool $channel_chat_created = null;
 
-    /** @var int|null The group has been migrated to a supergroup with the specified identifier. This number may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. */
+    /** @var MessageAutoDeleteTimerChanged|null Service message: auto-delete timer settings changed in the chat */
+    public ?MessageAutoDeleteTimerChanged $message_auto_delete_timer_changed = null;
+
+    /** @var int|null The group has been migrated to a supergroup with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier. */
     public ?int $migrate_to_chat_id = null;
 
-    /** @var int|null The supergroup has been migrated from a group with the specified identifier. This number may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. */
+    /** @var int|null The supergroup has been migrated from a group with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier. */
     public ?int $migrate_from_chat_id = null;
 
     /** @var Message|null Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply. */
@@ -161,6 +164,15 @@ class Message extends \Telegram\Message{
 
     /** @var ProximityAlertTriggered|null Service message. A user in the chat triggered another user's proximity alert while sharing Live Location. */
     public ?ProximityAlertTriggered $proximity_alert_triggered = null;
+
+    /** @var VoiceChatStarted|null Service message: voice chat started */
+    public ?VoiceChatStarted $voice_chat_started = null;
+
+    /** @var VoiceChatEnded|null Service message: voice chat ended */
+    public ?VoiceChatEnded $voice_chat_ended = null;
+
+    /** @var VoiceChatParticipantsInvited|null Service message: new participants invited to a voice chat */
+    public ?VoiceChatParticipantsInvited $voice_chat_participants_invited = null;
 
     /** @var InlineKeyboardMarkup|null Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons. */
     public ?InlineKeyboardMarkup $reply_markup = null;

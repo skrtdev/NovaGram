@@ -2,7 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
-use skrtdev\Telegram\{Update, Message, InlineQuery, ChosenInlineResult, CallbackQuery, ShippingQuery, PreCheckoutQuery, Poll, PollAnswer};
+use skrtdev\Telegram\{Update, Message, InlineQuery, ChosenInlineResult, CallbackQuery, ShippingQuery, PreCheckoutQuery, Poll, PollAnswer, ChatMemberUpdated};
 
 use ReflectionMethod;
 use ReflectionClass;
@@ -52,6 +52,8 @@ class BaseHandler {
     public function onPreCheckoutQuery(PreCheckoutQuery $pre_checkout_query) {}
     public function onPoll(Poll $poll) {}
     public function onPollAnswer(PollAnswer $poll_answer) {}
+    public function onMyChatMember(ChatMemberUpdated $chat_member_updated) {}
+    public function onChatMember(ChatMemberUpdated $chat_member_updated) {}
 }
 
 

@@ -12,7 +12,7 @@ class Chat extends \Telegram\Chat{
 
     use simpleProto;
 
-    /** @var int Unique identifier for this chat. This number may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. */
+    /** @var int Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier. */
     public int $id;
 
     /** @var string Type of chat, can be either “private”, “group”, “supergroup” or “channel” */
@@ -39,7 +39,7 @@ class Chat extends \Telegram\Chat{
     /** @var string|null Description, for groups, supergroups and channel chats. Returned only in getChat. */
     public ?string $description = null;
 
-    /** @var string|null Chat invite link, for groups, supergroups and channel chats. Each administrator in a chat generates their own invite links, so the bot must first generate the link using exportChatInviteLink. Returned only in getChat. */
+    /** @var string|null Primary invite link, for groups, supergroups and channel chats. Returned only in getChat. */
     public ?string $invite_link = null;
 
     /** @var Message|null The most recent pinned message (by sending date). Returned only in getChat. */
@@ -50,6 +50,9 @@ class Chat extends \Telegram\Chat{
 
     /** @var int|null For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user. Returned only in getChat. */
     public ?int $slow_mode_delay = null;
+
+    /** @var int|null The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat. */
+    public ?int $message_auto_delete_time = null;
 
     /** @var string|null For supergroups, name of group sticker set. Returned only in getChat. */
     public ?string $sticker_set_name = null;

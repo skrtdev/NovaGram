@@ -30,6 +30,8 @@ There is an handler for each property of the `Update` object
 - `onPreCheckoutQuery`  
 - `onPoll`  
 - `onPollAnswer`  
+- `onMyChatMember`  
+- `onChatMember`  
 
 ## Helper Handlers
 
