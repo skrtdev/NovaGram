@@ -78,7 +78,7 @@ class Bot {
 
     protected function initializeEndpoint(): void
     {
-        $this->endpoint = trim($this->settings->bot_api_url, '/').'/'.($this->settings->is_user ? 'user' : 'bot')."{$this->token}/";
+        $this->endpoint = trim($this->settings->bot_api_url, '/')."/bot{$this->token}/";
     }
 
     protected function initializeLogger(?Logger $logger = null)
@@ -110,7 +110,6 @@ class Bot {
             "restart_on_changes" => false,
             "logger" => Logger::INFO,
             "bot_api_url" => "https://api.telegram.org",
-            "is_user" => false,
             "command_prefixes" => [self::COMMAND_PREFIX],
             "workers" => null,
             "group_handlers" => true,
@@ -328,7 +327,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
                     $this->deleteWebhook();
                     $this->logger->warning("There was a set webhook. It has been deleted. (URL: {$webhook_info->url})");
                 }
-                if($this->settings->export_commands && !$this->settings->is_user){
+                if($this->settings->export_commands){
                     $this->exportCommands();
                 }
                 $this->running = true;

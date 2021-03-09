@@ -7,7 +7,7 @@ use skrtdev\Telegram\{UnauthorizedException, BadRequestException};
 class UserBot extends Bot{
 
     public function __construct(string $token, array $settings = [], ?Logger $logger = null, ...$kwargs) {
-        $this->settings = $this->normalizeSettings(["is_user" => true, "disable_ip_check" => true] + $settings + $kwargs + ["bot_api_url" => "https://botapi.giuseppem99.xyz"]);
+        $this->settings = $this->normalizeSettings(['export_commands' => false, 'disable_ip_check' => true] + $settings + $kwargs + ['bot_api_url' => 'https://botapi.giuseppem99.xyz']);
         $this->initializeLogger($logger);
 
         if(!Utils::isTokenValid($token)){
@@ -86,6 +86,20 @@ class UserBot extends Bot{
         $this->processSettings();
     }
 
+    protected function initializeEndpoint(): void
+    {
+        $this->endpoint = trim($this->settings->bot_api_url, '/')."/user{$this->token}/";
+    }
+
+    // try to delete this function: you'll discover php is broken 
+    protected function initializeToken(string $token): void
+    {
+        if(!Utils::isTokenValid($token)){
+            throw new Exception("Not a valid Telegram Bot Token provided ($token)");
+        }
+        $this->token = trim($token);
+        $this->id = Utils::getIDByToken($token);
+    }
 }
 
 ?>
