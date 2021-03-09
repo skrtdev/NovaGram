@@ -148,7 +148,7 @@ trait Methods{
 
     /**
      * Use this method to copy messages of any kind.
-     * The method is analogous to the method forwardMessages, but the copied message doesn't have a link to the original message.
+     * The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
      * Returns the MessageId of the sent message on success.
      *
      * @param bool $json_payload Whether to use json payload for this method.
@@ -309,7 +309,7 @@ trait Methods{
 
     /**
      * Use this method to send a group of photos, videos, documents or audios as an album.
-     * Documents and audio files can be only group in an album with messages of the same type.
+     * Documents and audio files can be only grouped in an album with messages of the same type.
      * On success, an array of Messages that were sent is returned.
      *
      * @param bool $json_payload Whether to use json payload for this method.
@@ -519,7 +519,7 @@ trait Methods{
 
     /**
      * Use this method to kick a user from a group, a supergroup or a channel.
-     * In the case of supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first.
+     * In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first.
      * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
      * Returns True on success.
      *
@@ -644,7 +644,7 @@ trait Methods{
     }
 
     /**
-     * Use this method to generate a new invite link for a chat; any previously generated link is revoked.
+     * Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked.
      * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
      * Returns the new invite link as String on success.
      *
@@ -661,6 +661,68 @@ trait Methods{
             $params = ["chat_id" => $chat_id] + ($args ?? []);
         }
         return $this->APICall("exportChatInviteLink", $params ?? [], $json_payload);
+    }
+
+    /**
+     * Use this method to create an additional invite link for a chat.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The link can be revoked using the method revokeChatInviteLink.
+     * Returns the new invite link as ChatInviteLink object.
+     *
+     * @param bool $json_payload Whether to use json payload for this method.
+     *
+     * @return skrtdev\Telegram\ChatInviteLink
+     */
+    public function createChatInviteLink($chat_id, $args = null, bool $json_payload = false, ...$kwargs){
+        if(is_array($chat_id)){
+            $json_payload = $args ?? false; // 2nd param
+            $params = $chat_id ?? [];
+        }
+        else{
+            $params = ["chat_id" => $chat_id] + ($args ?? []);
+        }
+        return $this->APICall("createChatInviteLink", ($kwargs ?? []) + ($params ?? []), $json_payload);
+    }
+
+    /**
+     * Use this method to edit a non-primary invite link created by the bot.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * Returns the edited invite link as a ChatInviteLink object.
+     *
+     * @param bool $json_payload Whether to use json payload for this method.
+     *
+     * @return skrtdev\Telegram\ChatInviteLink
+     */
+    public function editChatInviteLink($chat_id, $invite_link = null, $args = null, bool $json_payload = false, ...$kwargs){
+        if(is_array($chat_id)){
+            $json_payload = $invite_link ?? false; // 2nd param
+            $params = $chat_id ?? [];
+        }
+        else{
+            $params = ["chat_id" => $chat_id, "invite_link" => $invite_link] + ($args ?? []);
+        }
+        return $this->APICall("editChatInviteLink", ($kwargs ?? []) + ($params ?? []), $json_payload);
+    }
+
+    /**
+     * Use this method to revoke an invite link created by the bot.
+     * If the primary link is revoked, a new link is automatically generated.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * Returns the revoked invite link as ChatInviteLink object.
+     *
+     * @param bool $json_payload Whether to use json payload for this method.
+     *
+     * @return skrtdev\Telegram\ChatInviteLink
+     */
+    public function revokeChatInviteLink($chat_id, $invite_link = null, bool $json_payload = false){
+        if(is_array($chat_id)){
+            $json_payload = $invite_link ?? false; // 2nd param
+            $params = $chat_id ?? [];
+        }
+        else{
+            $params = ["chat_id" => $chat_id, "invite_link" => $invite_link] + ($args ?? []);
+        }
+        return $this->APICall("revokeChatInviteLink", $params ?? [], $json_payload);
     }
 
     /**
