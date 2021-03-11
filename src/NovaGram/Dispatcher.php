@@ -14,6 +14,8 @@ use ReflectionFunction;
  */
 class Dispatcher {
 
+    const ALL_UPDATES = ['message', 'edited_message', 'channel_post', 'edited_channel_post', 'inline_query', 'chosen_inline_result', 'callback_query', 'shipping_query', 'pre_checkout_query', 'poll', 'poll_answer', 'my_chat_member', 'chat_member'];
+
     private Bot $Bot;
     private bool $async;
     private bool $group_handlers;
@@ -45,7 +47,7 @@ class Dispatcher {
             }
             $process_name = "NovaGram: child process ({$this->Bot->getUsername()}:{$update->update_id})";
         }
-        
+
         $final_handlers = [];
 
         foreach ($this->closure_handlers as $parameter => $handlers) {
@@ -235,9 +237,9 @@ class Dispatcher {
             foreach ($this->class_handlers as $class_handler) {
                 foreach ($class_handler->getHandlers() as $value) {
                     $value = self::handlerToParameter($value);
-                    if($value === "update"){
+                    if($value === 'update'){
                         // there is a general update handler, should retrieve all kind of updates
-                        return [];
+                        return self::ALL_UPDATES;
                     }
                     $params[] = $value;
                 }
@@ -245,7 +247,7 @@ class Dispatcher {
         }
         if(isset($this->closure_handlers['update'])){
             // there is a general update handler, should retrieve all kind of updates
-            return [];
+            return self::ALL_UPDATES;
         }
         else return array_values(array_unique(array_merge($params, array_keys($this->closure_handlers))));
     }
