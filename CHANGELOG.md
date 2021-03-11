@@ -1,9 +1,15 @@
 # CHANGELOG
 
+> Upcoming in v2: Support for PostegreSQL and TTL in Conversations  
+
 ## v1.9 - [Not Released yet](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
-- [ ] Support for PostegreSQL  
-- [ ] TTL in Conversations  
 - New **User mode**: you can now run userbots with NovaGram using [tdlight-telegram-bot-api](https://github.com/tdlight-team/tdlight-telegram-bot-api). (**Webhooks too!**) Check out [this example](https://github.com/skrtdev/NovaGram/blob/master/examples/userbot.php).    
+- **Bot API v5.1**:
+    > Check [full changelog](https://core.telegram.org/bots/api#march-9-2021) for more info  
+
+    - New types: `ChatMemberUpdated`, `ChatInviteLink`, `VoiceChatStarted`, `VoiceChatEnded`, `VoiceChatParticipantsInvited`, `MessageAutoDeleteTimerChanged`.  
+    - New methods: `createChatInviteLink`, `editChatInviteLink`, `revokeChatInviteLink`.  
+    - New handlers: `onMyChatMember`, `onChatMember`.  
 - New **Features**:  
     - New `onCallbackData` handler: similar to `onText` but for Callback Queries data.  
     - New `onNewChatMember` and `onNewGroup` handlers: check [updated docs](https://docs.novagram.ga/handling.html).  
