@@ -2,7 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
-use skrtdev\Telegram\{Message, CallbackQuery, Chat};
+use skrtdev\Telegram\{Message, CallbackQuery, Chat, BadRequestException};
 use Closure;
 
 trait HandlersTrait{
@@ -128,7 +128,12 @@ trait HandlersTrait{
                 "description" => $description
             ];
         }
-        $this->setMyCommands($commands);
+        try{
+            $this->setMyCommands($commands);
+        }
+        catch(BadRequestException $e){
+            $this->logger->error("Couldn't export commands: {$e->getMessage()}");
+        }
     }
 
     public function onCallbackData(string $pattern, Closure $handler): void
