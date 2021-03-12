@@ -94,7 +94,7 @@ trait HandlersTrait{
 
     public function onText(string $pattern, Closure $handler): void
     {
-        if(preg_match('/^\/.+\/$/', $pattern) === 0){ // $pattern is not a regex
+        if(preg_match('/^\/.+\/\w*$/', $pattern) === 0){ // $pattern is not a regex
             $pattern = '/^'.preg_quote($pattern, '/').'$/'; // $pattern becomes a regex
         }
         $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
