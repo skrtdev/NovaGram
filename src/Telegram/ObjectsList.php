@@ -19,11 +19,11 @@ class ObjectsList implements Iterator, ArrayAccess {
     }
 
     public function offsetSet($offset, $value) {
-        throw new Exeption("Could not assign a value to an offset of a List Object");
+        throw new Exception("Could not assign a value to an offset of a List Object");
     }
 
     public function offsetUnset($offset) {
-        throw new Exeption("Could not unset an offset of a List Object");
+        throw new Exception("Could not unset an offset of a List Object");
     }
 
     public function offsetExists($offset) {
