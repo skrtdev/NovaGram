@@ -98,7 +98,8 @@ trait HandlersTrait{
             $pattern = '/^'.preg_quote($pattern, '/').'$/'; // $pattern becomes a regex
         }
         $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
-            if(preg_match_all($pattern, $message->text, $matches) !== 0){
+            $func = $this->settings->use_preg_match_instead_of_preg_match_all ? 'preg_match' : 'preg_match_all';
+            if($func($pattern, $message->text, $matches) !== 0){
                 if(count($matches) > 0){
                     unset($matches[0]);
                 }
@@ -116,7 +117,7 @@ trait HandlersTrait{
         foreach($commands as $command){
             $this->commands[$command] ??= $description;
         }
-        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK && !isset($this->settings->username) ? '.+' : $this->getUsername()) .')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $matches[0][0] !== "" ? explode(' ', $matches[0][0]) : []));
+        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK && !isset($this->settings->username) ? '.+' : $this->getUsername()) .')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $this->settings->use_preg_match_instead_of_preg_match_all ? $matches : ($matches[0][0] !== "" ? explode(' ', $matches[0][0]) : [])));
     }
 
     public function exportCommands(): void
@@ -142,7 +143,8 @@ trait HandlersTrait{
             $pattern = '/^'.preg_quote($pattern, '/').'$/'; // $pattern becomes a regex
         }
         $this->onCallbackQuery(function (CallbackQuery $callback_query) use ($handler, $pattern) {
-            if(preg_match_all($pattern, $callback_query->data, $matches) !== 0){
+            $func = $this->settings->use_preg_match_instead_of_preg_match_all ? 'preg_match' : 'preg_match_all';
+            if($func($pattern, $callback_query->data, $matches) !== 0){
                 if(count($matches) > 0){
                     unset($matches[0]);
                 }

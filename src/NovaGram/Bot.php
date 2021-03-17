@@ -122,6 +122,7 @@ class Bot {
             "disable_web_page_preview" => null,
             "disable_notification" => null,
             "debug_mode" => "classic", // BC
+            "use_preg_match_instead_of_preg_match_all" => false
         ];
 
         foreach ($settings_array as $name => $default){
