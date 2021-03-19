@@ -6,12 +6,12 @@ You can specify the type of the errors handled by the handler directly in the Cl
 
 ```php
 $Bot->addErrorHandler(function ($e) {
-    print("Caught ".get_class($e)." exception from general handler".PHP_EOL);
+    print('Caught '.get_class($e).' exception from general handler'.PHP_EOL);
     print($e.PHP_EOL);
 });
 // is the same as
 $Bot->addErrorHandler(function (Throwable $e) {
-    print("Caught ".get_class($e)." exception from general handler".PHP_EOL);
+    print('Caught '.get_class($e).' exception from general handler'.PHP_EOL);
     print($e.PHP_EOL);
 });
 ```
@@ -20,7 +20,7 @@ If you wanna an handler for a specific exception, just write it.
 
 ```php
 $Bot->addErrorHandler(function (skrtdev\Telegram\Exception $e) {
-    print("Caught ".get_class($e)." exception from speficic handler".PHP_EOL);
+    print('Caught '.get_class($e).' exception from speficic handler'.PHP_EOL);
 });
 ```
 
@@ -48,6 +48,7 @@ Telegram Exceptions thrown by NovaGram are `skrtdev\Telegram\Exceptions`, but so
 - `NotFoundException` (404)
 - `MethodNotAllowedException` (405)
 - `ConflictException` (409)
+- `RequestEntityTooLargeException` (413) (probably thrown only when sending files/video/photos etc.)  
 - `TooManyRequestsException` (429)
 - `BadGatewayException` (502) (yes, sometimes it happens)
 

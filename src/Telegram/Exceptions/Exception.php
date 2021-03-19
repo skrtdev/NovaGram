@@ -50,6 +50,10 @@ class Exception extends \Exception{
                 return new ConflictException(...$args);
                 break;
 
+            case 413:
+                return new RequestEntityTooLargeException(...$args);
+                break;
+                
             case 429:
                 return new TooManyRequestsException(...$args);
                 break;

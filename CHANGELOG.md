@@ -21,15 +21,16 @@
     - Added `ObjectsList::getLast()`, useful if you work with photos, which are arrays of `PhotoSize`s  
     - Added autoload of class handlers: it will include and fire all handlers found by searching for files that ends with `Handler.php`, `Command.php` and `Callback.php`. Class names must be the same as file names. It won't look inside `vendor`.  
     - Now `Message::editText()` will not delete `reply_markup` by default. Use `reply_markup: null` to force deleting it.  
-    - Added `Dispatcher::stopUpdatePropagation()` or simply `stop_update_propagation()`, which stop other handlers from being executed (previously, `exit()` was needed)
+    - Added `Dispatcher::stopHandling()` or simply `stop_handling()`, which stop other handlers from being executed (previously, `exit()` was needed)
 - New Bot settings:  
     - `username`: Bot username, needed to avoid that other bot's commands are recognized in groups when using command handlers and webhook.  
     - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI. Default to `true`  
     - `include_classes`: Whether to automatically include and fire Commands Class Handlers (includes all files that ends with `Command.php`, `Handler.php`, and `Callback.php` inside the main script directory). Defualt value is `true` on `CLI` and `false` on `Webhook`.  
     - `workers`: Maximum amount of processes that will run simultaneously. (`CLI` only)  
 - New Exceptions:  
-    - `NotFoundException` (404)
-    - `MethodNotAllowedException` (405)
+    - `NotFoundException` (404)  
+    - `MethodNotAllowedException` (405)  
+    - `RequestEntityTooLargeException` (413)  
 - Fixes:  
     - Bot won't crash on uncaught internal exceptions.
     - Classes `MessageId`, `ProximityAlertTriggered` didn't work properly  
