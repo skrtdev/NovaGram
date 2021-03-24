@@ -82,7 +82,7 @@ class ObjectsList implements Iterator, ArrayAccess {
 
     public function getLast()
     {
-        return end($this->elements);
+        return end($this->elements) ?: null;
     }
 
     public function __debugInfo() {
