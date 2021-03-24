@@ -340,14 +340,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
                 $this->running = true;
                 $this->settings->threshold ??= 10; // set 10 as default when using getUpdates
                 @cli_set_process_title("NovaGram: main process ({$this->getUsername()})");
-                $offset = 0;
-                if($this->settings->skip_old_updates){
-                    $updates = $this->getUpdates(['offset' => -1]);
-                    $update = $updates->getLast();
-                    if(isset($update)){
-                        $offset = $update->update_id + 1;
-                    }
-                }
+                $offset = $this->settings->skip_old_updates ? $this->getLastUpdateId() : 0;
                 self::showLicense();
                 while ($this->running) {
                     try{
@@ -359,7 +352,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
                         }
                         $this->logger->critical('An Exception has been thrown inside internal update handling: '.get_class($e).'. Full exception has been printed to stdout.'.PHP_EOL.'You may need to report issue.');
                         print((string) $e . PHP_EOL);
-                        $offset = $this->getUpdates(['allowed_updates' => $this->getAllowedUpdates()])->getLast()->update_id+1;
+                        $offset = $this->getLastUpdateId();
                     }
                 }
             }
@@ -369,6 +362,15 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
                 }
             }
         }
+    }
+
+    protected function getLastUpdateId(): int{
+        $updates = $this->getUpdates(['offset' => -1]);
+        $update = $updates->getLast();
+        if(isset($update)){
+            return $update->update_id + 1;
+        }
+        return 0;
     }
 
     private static function methodHasParamater(string $method, string $parameter){
