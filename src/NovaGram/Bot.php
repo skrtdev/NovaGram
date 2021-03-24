@@ -114,6 +114,7 @@ class Bot {
             "workers" => null,
             "group_handlers" => true,
             "wait_handlers" => false,
+            "skip_old_updates" => false,
             "threshold" => null, // 10 is default when using getUpdates
             "export_commands" => true,
             "include_classes" => null, // defined as true afterwards true if CLI mode
@@ -122,7 +123,7 @@ class Bot {
             "disable_web_page_preview" => null,
             "disable_notification" => null,
             "debug_mode" => "classic", // BC
-            "use_preg_match_instead_of_preg_match_all" => false
+            "use_preg_match_instead_of_preg_match_all" => false // v2
         ];
 
         foreach ($settings_array as $name => $default){
@@ -132,6 +133,11 @@ class Bot {
         foreach ($settings->command_prefixes as &$prefix){
             $prefix = preg_quote($prefix, '/');
         }
+
+        if($settings->skip_old_updates && $settings->restart_on_changes){
+            throw new Exception('Cannot use skip_old_updates and restart_on_changes simultaneously');
+        }
+
         return $settings;
     }
 
@@ -334,8 +340,15 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
                 $this->running = true;
                 $this->settings->threshold ??= 10; // set 10 as default when using getUpdates
                 @cli_set_process_title("NovaGram: main process ({$this->getUsername()})");
-                self::showLicense();
                 $offset = 0;
+                if($this->settings->skip_old_updates){
+                    $updates = $this->getUpdates(['offset' => -1]);
+                    $update = $updates->getLast();
+                    if(isset($update)){
+                        $offset = $update->update_id + 1;
+                    }
+                }
+                self::showLicense();
                 while ($this->running) {
                     try{
                         $offset = $this->processUpdates($offset);

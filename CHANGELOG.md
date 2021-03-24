@@ -27,6 +27,7 @@
     - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI. Default to `true`  
     - `include_classes`: Whether to automatically include and fire Commands Class Handlers (includes all files that ends with `Command.php`, `Handler.php`, and `Callback.php` inside the main script directory). Defualt value is `true` on `CLI` and `false` on `Webhook`.  
     - `workers`: Maximum amount of processes that will run simultaneously. (`CLI` only)  
+    - `skip_old_updates`: Whether to not process updates sent before starting the bot.  
 - New Exceptions:  
     - `NotFoundException` (404)  
     - `MethodNotAllowedException` (405)  
