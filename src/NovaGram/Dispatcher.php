@@ -127,7 +127,13 @@ class Dispatcher {
         foreach ($this->error_handlers as $handler) {
             if(self::isAllowedThrowableType($e, $handler)){
                 $handled = true;
-                $handler($e);
+                try{
+                    $handler($e);
+                }
+                catch(Throwable $e){
+                    $this->Bot->logger->critical('An Exception has been thrown inside internal error handling: '.get_class($e).'. Full exception has been printed to stdout.');
+                    print($e.PHP_EOL);
+                }
             }
         }
         if(!$handled){
