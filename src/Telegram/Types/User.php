@@ -4,6 +4,7 @@ namespace skrtdev\Telegram;
 
 use stdClass;
 use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a Telegram user or bot.
@@ -39,7 +40,14 @@ class User extends \Telegram\User{
     /** @var bool|null True, if the bot supports inline queries. Returned only in getMe. */
     public ?bool $supports_inline_queries = null;
 
-    
+    public function __construct(array $json, Bot $Bot = null){
+        parent::__construct($json, $Bot);
+
+        if($Bot->hasDatabase()){
+            $Bot->getDatabase()->insertUser($this);
+        }
+    }
+
     public function getMention(): string
     {
         return "<a href=\"tg://user?id={$this->id}\">". htmlspecialchars($this->first_name. ( isset($this->last_name) ? " {$this->last_name}" : '' )) ."</a>";

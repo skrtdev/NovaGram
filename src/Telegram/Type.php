@@ -21,12 +21,6 @@ class Type {
 
         foreach ($json as $key => $value) $this->$key ??= $value;
 
-        if($type === "User"){
-            if($Bot->hasDatabase()){
-                $Bot->getDatabase()->insertUser($this);
-            }
-        }
-
     }
 
     public function __call(string $name, array $arguments, ...$kwargs){
