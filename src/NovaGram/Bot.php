@@ -502,7 +502,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
 
     public function createObject(string $type, array $json){
         $obj = "\\skrtdev\\Telegram\\$type";
-        return new $obj($type, $json, $this);
+        return new $obj($json, $this);
     }
 
     public function debug($value, ?Throwable $previous_exception = null){

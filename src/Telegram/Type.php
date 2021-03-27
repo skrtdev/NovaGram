@@ -14,9 +14,9 @@ class Type {
     private stdClass $config;
     private string $_;
 
-    public function __construct(string $type, array $json, Bot $Bot = null){
+    public function __construct(array $json, Bot $Bot = null){
 
-        $this->_ = $type;
+        $this->_ = explode('\\', static::class)[2];
         $this->Bot = $Bot;
 
         foreach ($json as $key => $value) $this->$key ??= $value;
