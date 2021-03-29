@@ -86,6 +86,7 @@ class Database{
             "getConversation" => "SELECT * FROM {$this->tableNames['conversations']} WHERE chat_id = :chat_id AND name = :name",
             "getConversationsByChat" => "SELECT * FROM {$this->tableNames['conversations']} WHERE chat_id = :chat_id",
             "getConversationsByValue" => "SELECT * FROM {$this->tableNames['conversations']} WHERE value = :value",
+            "getConversationsByName" => "SELECT * FROM {$this->tableNames['conversations']} WHERE name = :name"
         ];
     }
 
@@ -150,6 +151,22 @@ class Database{
             $value = $row['value'];
             $name = $row['name'];
             $result[$name] = $value;
+        }
+        return $result;
+    }
+
+    public function getConversationsByName(string $name){
+        $rows = $this->query($this->queries['getConversationsByName'], [
+            ':name' => $name,
+        ])->fetchAll();
+
+        $result = [];
+        foreach ($rows as &$row) {
+            $row = $this->normalizeConversation($row);
+
+            $value = $row['value'];
+            $chat_id = $row['chat_id'];
+            $result[$chat_id] = $value;
         }
         return $result;
     }
