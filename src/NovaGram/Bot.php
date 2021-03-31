@@ -237,7 +237,6 @@ class Bot {
             else{
                 $this->running = false;
                 $pool = $this->getDispatcher()->getPool();
-                $pool->checkChilds();
                 if($pool->hasChilds() || $pool->hasQueue()){
                     print("Waiting for handlers to finish...".PHP_EOL);
                     $pool->wait();
@@ -257,8 +256,14 @@ class Bot {
                 }
                 else{
                     @cli_set_process_title("NovaGram: died process ({$this->getUsername()})");
-                    shell_exec(PHP_BINARY." $path");
+                    system(PHP_BINARY." $path");
+                    for ($i = 0; $i < 100; $i++){
+                        $this->logger->error('Bot crashed, trying to restart');
+                        system(PHP_BINARY." $path");
+                        sleep(2);
+                    }
                 }
+                $this->logger->critical('Bot crashed 100 times, stopped');
                 exit();
             }
         }
