@@ -84,6 +84,7 @@ class Database{
             "deleteConversation" => "DELETE FROM {$this->tableNames['conversations']} WHERE chat_id = :chat_id AND name = :name",
             "setConversation" => "INSERT INTO {$this->tableNames['conversations']}(chat_id, name, value, additional_param) VALUES (:chat_id, :name, :value, :additional_param)",
             "getConversation" => "SELECT * FROM {$this->tableNames['conversations']} WHERE chat_id = :chat_id AND name = :name",
+            "updateConversation" => "UPDATE {$this->tableNames['conversations']} SET value = :value, additional_param = :additional_param WHERE chat_id = :chat_id AND name = :name",
             "getConversationsByChat" => "SELECT * FROM {$this->tableNames['conversations']} WHERE chat_id = :chat_id",
             "getConversationsByValue" => "SELECT * FROM {$this->tableNames['conversations']} WHERE value = :value",
             "getConversationsByName" => "SELECT * FROM {$this->tableNames['conversations']} WHERE name = :name"
@@ -115,12 +116,18 @@ class Database{
     }
 
     public function setConversation(int $chat_id, string $name, $value, array $additional_param = []): void{
-        $this->deleteConversation($chat_id, $name);
-        $this->query($this->queries['setConversation'], [
+        $this->query($this->existConversation($chat_id, $name) ? $this->queries['updateConversation'] : $this->queries['setConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
             ':value' => serialize($value),
             ':additional_param' => serialize($additional_param),
+        ]);
+    }
+
+    public function existConversation(int $chat_id, string $name): bool{
+        return $this->existQuery($this->queries['getConversation'], [
+            ':chat_id' => $chat_id,
+            ':name' => $name,
         ]);
     }
 
