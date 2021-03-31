@@ -2,7 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
-use skrtdev\Telegram\{Message, CallbackQuery, Chat, BadRequestException};
+use skrtdev\Telegram\{Message, CallbackQuery, Chat, User, BadRequestException};
 use Closure;
 
 trait HandlersTrait{
