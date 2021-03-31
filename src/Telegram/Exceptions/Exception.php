@@ -13,7 +13,7 @@ class Exception extends \Exception{
         $this->method = $method;
         $this->data = $data;
         if (isset($response['parameters'])) {
-            $this->response_parameters = new ResponseParameters("ResponseParameters", $response['parameters']);
+            $this->response_parameters = new ResponseParameters($response['parameters']);
         }
 
         parent::__construct($response['description'], $response['error_code'], $previous);
