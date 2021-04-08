@@ -3,10 +3,12 @@
 
 
 <p align="center">
-An elegant, Object-Oriented, reliable PHP Telegram Bot Interface<br>
+An elegant, Object-Oriented, reliable PHP Telegram Bot Library<br>
 <a href="https://docs.novagram.ga">Full Documentation</a> •
 <a href="https://t.me/joinchat/JdBNOEqGheC33G476FiB2g">Public support group</a>
 </p>
+
+> **v1.9 has been released:** check changelog [here](https://github.com/skrtdev/NovaGram/blob/master/CHANGELOG.md#v19---source-code)
 
 ### Example
 An example code of a simple bot.  
@@ -15,16 +17,15 @@ Works with both getUpdates and Webhooks
 use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\Message;
 
-$Bot = new Bot("YOUR_TOKEN");
+$Bot = new Bot('YOUR_TOKEN');
 
-$Bot->onCommand("start", function (Message $message) use ($Bot) {
-    $message->reply("Hey! Nice to meet you. Use /info to know more about me.");
+$Bot->onCommand('start', function (Message $message) {
+    $message->reply('Hey! Nice to meet you. Use /info to know more about me.');
 });
 
-$Bot->onCommand("info", function (Message $message) use ($Bot) {
-    $message->reply("Well, I'm just an example, but you can learn more about NovaGram at docs.novagram.ga");
+$Bot->onCommand('info', function (Message $message) {
+    $message->reply('Well, I\'m just an example, but you can learn more about NovaGram at docs.novagram.ga');
 });
-
 ```
 
 ## Features
@@ -46,12 +47,12 @@ NovaGram is built in order to bring a lightweight alternative to make bots, so t
 
 Install NovaGram via Composer  
 ```
-composer require skrtdev/novagram ^1.8
+composer require skrtdev/novagram ^1.9
 ```
 
 After Installation, include NovaGram with:
 ```php
-require __DIR__ . '/vendor/autoload.php';
+require 'vendor/autoload.php';
 ```
 
 ### Installation via Phar
