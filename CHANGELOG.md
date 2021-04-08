@@ -2,7 +2,7 @@
 
 > Upcoming in v2: Support for PostegreSQL and TTL in Conversations  
 
-## v1.9 - [Not Released yet](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
+## v1.9 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
 - New **User mode**: you can now run userbots with NovaGram using [tdlight-telegram-bot-api](https://github.com/tdlight-team/tdlight-telegram-bot-api). (**Webhooks too!**) Check out [this example](https://github.com/skrtdev/NovaGram/blob/master/examples/userbot.php).    
 - **Bot API v5.1**:
     > Check [full changelog](https://core.telegram.org/bots/api#march-9-2021) for more info  
@@ -21,7 +21,8 @@
     - Added `ObjectsList::getLast()`, useful if you work with photos, which are arrays of `PhotoSize`s  
     - Added autoload of class handlers: it will include and fire all handlers found by searching for files that ends with `Handler.php`, `Command.php` and `Callback.php`. Class names must be the same as file names. It won't look inside `vendor`.  
     - Now `Message::editText()` will not delete `reply_markup` by default. Use `reply_markup: null` to force deleting it.  
-    - Added `Dispatcher::stopHandling()` or simply `stop_handling()`, which stop other handlers from being executed (previously, `exit()` was needed)
+    - Added `Dispatcher::stopHandling()` or simply `stop_handling()`, which stop other handlers from being executed (previously, `exit()` was needed)  
+    - Added `Database::getConversationsByName()`
 - New Bot settings:  
     - `username`: Bot username, needed to avoid that other bot's commands are recognized in groups when using command handlers and webhook.  
     - `export_commands`: Whether to call `Bot::exportCommands()` when idling on CLI. Default to `true`  
@@ -33,7 +34,8 @@
     - `MethodNotAllowedException` (405)  
     - `RequestEntityTooLargeException` (413)  
 - Fixes:  
-    - Bot won't crash on uncaught internal exceptions.
+    - Bot won't crash on uncaught internal exceptions.  
+    - Conversations are now updated instead of deleted and reinserted.  
     - Classes `MessageId`, `ProximityAlertTriggered` didn't work properly  
     - Bot will now process queued updates before retrieving other ones  
     - Fixed wrong behaviour when serializing false  
