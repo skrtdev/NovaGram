@@ -94,9 +94,6 @@ class UserBot extends Bot{
     // try to delete this function: you'll discover php is broken 
     protected function initializeToken(string $token): void
     {
-        if(!Utils::isTokenValid($token)){
-            throw new Exception("Not a valid Telegram Bot Token provided ($token)");
-        }
         $this->token = trim($token);
         $this->id = Utils::getIDByToken($token);
     }
