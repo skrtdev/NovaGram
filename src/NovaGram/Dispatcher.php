@@ -28,11 +28,7 @@ class Dispatcher {
     public function __construct(Bot $Bot, bool $async = true, bool $group_handlers = true, bool $wait_handlers = false, ?int $max_childs = null)
     {
         $this->Bot = $Bot;
-        if($async){
-            $async = extension_loaded("pcntl");
-        }
-        $this->async = $async;
-        if($async){
+        if($this->async = $async){
             $this->pool = new Pool($max_childs, !$wait_handlers);
         }
         $this->group_handlers = $group_handlers;

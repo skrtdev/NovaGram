@@ -528,7 +528,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
 
     protected function getDispatcher(): Dispatcher
     {
-        return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers, $this->settings->workers);
+        return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async && extension_loaded('pcntl'), $this->settings->group_handlers, $this->settings->wait_handlers, $this->settings->workers);
     }
 
     public function getDatabase(): Database
