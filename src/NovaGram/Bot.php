@@ -106,7 +106,7 @@ class Bot {
             "disable_webhook" => false,
             "disable_ip_check" => false,
             "exceptions" => true,
-            "async" => true,
+            "async" => extension_loaded('pcntl'),
             "restart_on_changes" => false,
             "logger" => Logger::INFO,
             "bot_api_url" => "https://api.telegram.org",
@@ -138,6 +138,8 @@ class Bot {
         if($settings->skip_old_updates && $settings->restart_on_changes){
             throw new Exception('Cannot use skip_old_updates and restart_on_changes simultaneously');
         }
+
+        $settings->async = $settings->async && extension_loaded('pcntl');
 
         return $settings;
     }
@@ -531,7 +533,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
 
     protected function getDispatcher(): Dispatcher
     {
-        return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async && extension_loaded('pcntl'), $this->settings->group_handlers, $this->settings->wait_handlers, $this->settings->workers);
+        return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers, $this->settings->workers);
     }
 
     public function getDatabase(): Database
