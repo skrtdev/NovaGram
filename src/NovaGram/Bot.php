@@ -122,6 +122,7 @@ class Bot {
             "parse_mode" => null,
             "disable_web_page_preview" => null,
             "disable_notification" => null,
+            "disable_auto_webhook_set" => false,
             "debug_mode" => "classic", // BC
             "use_preg_match_instead_of_preg_match_all" => false // v2
         ];
@@ -178,17 +179,16 @@ class Bot {
 
 
         if($this->settings->mode === self::WEBHOOK){
-            if(!$this->settings->disable_ip_check){
-                $this->logger->debug("IP Check is enabled");
-                if(!Utils::isTelegram()){
-                    http_response_code(403);
-                    exit("Access Denied - Telegram IP Protection by NovaGram.ga");
+            if((!$this->settings->disable_ip_check && !Utils::isTelegram()) || empty(file_get_contents('php://input'))){
+                if(!$this->settings->disable_auto_webhook_set && !$this->hasWebhook()){
+                    $this->setWebhook($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_URL']);
+                    exit('Webhook has been set, enjoy your bot');
                 }
+                http_response_code(403);
+                exit('Access Denied - Telegram IP Protection by NovaGram.ga');
             }
-            if(file_get_contents("php://input") === "") exit("Access Denied");
 
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
-
             $this->update = $this->JSONToTelegramObject($this->raw_update, "Update");
         }
         else{
@@ -334,8 +334,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
             $this->started = true;
             if($this->settings->mode === self::CLI){
                 $this->logger->debug('Starting...');
-                $webhook_info = $this->getWebhookInfo();
-                if($webhook_info->url !== ""){ // there is a webhook set
+                if($this->hasWebhook()){ // there is a webhook set
                     $this->deleteWebhook();
                     $this->logger->warning("There was a set webhook. It has been deleted. (URL: {$webhook_info->url})");
                 }
@@ -376,6 +375,10 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
             return $update->update_id + 1;
         }
         return 0;
+    }
+
+    protected function hasWebhook(): bool{
+        return $this->getWebhookInfo()->url !== "";
     }
 
     private static function methodHasParamater(string $method, string $parameter){
