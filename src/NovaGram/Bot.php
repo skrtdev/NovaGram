@@ -258,7 +258,7 @@ class Bot {
                 }
                 else{
                     @cli_set_process_title("NovaGram: died process ({$this->getUsername()})");
-                    system(PHP_BINARY." $path");
+                    system(PHP_BINARY." '$path'");
                     for ($i = 0; $i < 100; $i++){
                         $this->logger->error('Bot crashed, trying to restart');
                         system(PHP_BINARY." $path");
