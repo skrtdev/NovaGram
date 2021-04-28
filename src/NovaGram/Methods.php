@@ -129,6 +129,7 @@ trait Methods{
 
     /**
      * Use this method to forward messages of any kind.
+     * Service messages can't be forwarded.
      * On success, the sent Message is returned.
      *
      * @param bool $json_payload Whether to use json payload for this method.
@@ -148,6 +149,7 @@ trait Methods{
 
     /**
      * Use this method to copy messages of any kind.
+     * Service messages and invoice messages can't be copied.
      * The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
      * Returns the MessageId of the sent message on success.
      *
@@ -190,6 +192,7 @@ trait Methods{
      * Your audio must be in the .MP3 or .M4A format.
      * On success, the sent Message is returned.
      * Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
+     * For sending voice messages, use the sendVoice method instead.
      *
      * @param bool $json_payload Whether to use json payload for this method.
      *
@@ -459,6 +462,7 @@ trait Methods{
      * Use this method when you need to tell the user that something is happening on the bot's side.
      * The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
      * Returns True on success.
+     * We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
      *
      * @param bool $json_payload Whether to use json payload for this method.
      *
@@ -1397,6 +1401,9 @@ trait Methods{
      * Informs a user that some of the Telegram Passport elements they provided contains errors.
      * The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change).
      * Returns True on success.
+     * Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason.
+     * For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc.
+     * Supply some details in the error message to make sure the user knows how to correct the issues.
      *
      * @param bool $json_payload Whether to use json payload for this method.
      *

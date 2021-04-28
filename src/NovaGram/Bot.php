@@ -261,7 +261,7 @@ class Bot {
                     system(PHP_BINARY." '$path'");
                     for ($i = 0; $i < 100; $i++){
                         $this->logger->error('Bot crashed, trying to restart');
-                        system(PHP_BINARY." $path");
+                        system(PHP_BINARY." '$path'");
                         sleep(2);
                     }
                 }

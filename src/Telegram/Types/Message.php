@@ -165,6 +165,9 @@ class Message extends \Telegram\Message{
     /** @var ProximityAlertTriggered|null Service message. A user in the chat triggered another user's proximity alert while sharing Live Location. */
     public ?ProximityAlertTriggered $proximity_alert_triggered = null;
 
+    /** @var VoiceChatScheduled|null Service message: voice chat scheduled */
+    public ?VoiceChatScheduled $voice_chat_scheduled = null;
+
     /** @var VoiceChatStarted|null Service message: voice chat started */
     public ?VoiceChatStarted $voice_chat_started = null;
 

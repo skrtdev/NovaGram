@@ -49,6 +49,7 @@
         "Message.successful_payment":"SuccessfulPayment",
         "Message.passport_data":"PassportData",
         "Message.proximity_alert_triggered":"ProximityAlertTriggered",
+        "Message.voice_chat_scheduled":"VoiceChatScheduled",
         "Message.voice_chat_started":"VoiceChatStarted",
         "Message.voice_chat_ended":"VoiceChatEnded",
         "Message.voice_chat_participants_invited":"VoiceChatParticipantsInvited",
@@ -147,6 +148,7 @@
         "InlineQueryResultCachedAudio.reply_markup":"InlineKeyboardMarkup",
         "InlineQueryResultCachedAudio.input_message_content":"InputMessageContent",
         "InputTextMessageContent.entities":"[MessageEntity]",
+        "InputInvoiceMessageContent.prices":"[LabeledPrice]",
         "ChosenInlineResult.from":"User",
         "ChosenInlineResult.location":"Location",
         "OrderInfo.shipping_address":"ShippingAddress",
@@ -210,7 +212,7 @@
             "sendInvoice",
             "sendGame"
         ],
-        "allow_sending_without_reply": [
+        "allow_sending_without_reply":[
             "sendMessage",
             "copyMessage",
             "sendPhoto",
@@ -230,7 +232,9 @@
             "sendInvoice",
             "sendGame"
         ],
-        "only_if_banned": ["unbanChatMember"]
+        "only_if_banned":[
+            "unbanChatMember"
+        ]
     },
     "require_json_encode":[
         "allowed_updates",

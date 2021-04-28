@@ -2,6 +2,12 @@
 
 > Upcoming in v2: Support for PostegreSQL and TTL in Conversations  
 
+## v1.10
+- Update to [**Bot API v5.2**](https://core.telegram.org/bots/api#april-26-2021).  
+- Fixed crash when `pcntl` is not available.  
+- Webhook is now automatically set.  
+- Fixed `restart_on_changes` with spaces inside file path.  
+
 ## v1.9 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.9)  
 - New **User mode**: you can now run userbots with NovaGram using [tdlight-telegram-bot-api](https://github.com/tdlight-team/tdlight-telegram-bot-api). (**Webhooks too!**) Check out [this example](https://github.com/skrtdev/NovaGram/blob/master/examples/userbot.php).    
 - **Bot API v5.1**:
