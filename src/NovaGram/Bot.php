@@ -330,7 +330,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
                 throw new Exception("No handler is found, but start() method has been called");
             }
             if(!$this->getDispatcher()->hasErrorHandlers()){
-                $this->logger->warning("Error handler is not set.");
+                $this->logger->warning("Error handler is not set. Check docs at https://docs.novagram.ga/errors_handling.html");
             }
 
             $this->started = true;
@@ -563,7 +563,7 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
 
                 if($this->settings->mode === self::CLI){
                     $this->logger->debug('Starting by destructor');
-                    $this->logger->error('No call to Bot::start() has been done, starting by destructor. NovaGram will not start automatically anymore in v2.0');
+                    $this->logger->error('No call to Bot::start() has been done, starting by destructor. NovaGram will not start automatically anymore in v2.0. Consider adding `$Bot->start()` at the end of your file');
                     $this->start();
                 }
                 if($this->settings->mode === self::WEBHOOK){
