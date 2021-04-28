@@ -336,7 +336,8 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
             $this->started = true;
             if($this->settings->mode === self::CLI){
                 $this->logger->debug('Starting...');
-                if($this->hasWebhook()){ // there is a webhook set
+                $webhook_info = $this->getWebhookInfo();
+                if($webhook_info->url !== ''){ // there is a webhook set
                     $this->deleteWebhook();
                     $this->logger->warning("There was a set webhook. It has been deleted. (URL: {$webhook_info->url})");
                 }
