@@ -94,18 +94,24 @@ trait HandlersTrait{
 
     public function onText(string $pattern, Closure $handler): void
     {
-        if(preg_match('/^\/.+\/\w*$/', $pattern) === 0){ // $pattern is not a regex
-            $pattern = '/^'.preg_quote($pattern, '/').'$/'; // $pattern becomes a regex
-        }
-        $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
-            $func = $this->settings->use_preg_match_instead_of_preg_match_all ? 'preg_match' : 'preg_match_all';
-            if($func($pattern, $message->text, $matches) !== 0){
-                if(count($matches) > 0){
-                    unset($matches[0]);
+        if(!Utils::isStringRegex($pattern)){ // $pattern is not a regex
+            $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
+                if($message->text === $pattern){
+                    $handler($message);
                 }
-                $handler($message, array_values($matches));
-            }
-        });
+            });
+        }
+        else{
+            $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
+                $func = $this->settings->use_preg_match_instead_of_preg_match_all ? 'preg_match' : 'preg_match_all';
+                if($func($pattern, $message->text, $matches) !== 0){
+                    if(count($matches) > 0){
+                        unset($matches[0]);
+                    }
+                    $handler($message, array_values($matches));
+                }
+            });
+        }
     }
 
     public function onCommand($commands, Closure $handler, string $description = null): void
@@ -117,7 +123,7 @@ trait HandlersTrait{
         foreach($commands as $command){
             $this->commands[$command] ??= $description;
         }
-        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK && !isset($this->settings->username) ? '.+' : $this->getUsername()) .')?(?: (.+)|$)/', fn($message, $matches) => $handler($message, $this->settings->use_preg_match_instead_of_preg_match_all ? $matches : ($matches[0][0] !== "" ? explode(' ', $matches[0][0]) : [])));
+        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK && !isset($this->settings->username) ? '.+' : $this->getUsername()) .')? /', fn(Message $message) => $handler($message, array_slice(explode(' ', $message->text), 1)));
     }
 
     public function exportCommands(): void
@@ -139,18 +145,24 @@ trait HandlersTrait{
 
     public function onCallbackData(string $pattern, Closure $handler): void
     {
-        if(preg_match('/^\/.+\/$/', $pattern) === 0){ // $pattern is not a regex
-            $pattern = '/^'.preg_quote($pattern, '/').'$/'; // $pattern becomes a regex
-        }
-        $this->onCallbackQuery(function (CallbackQuery $callback_query) use ($handler, $pattern) {
-            $func = $this->settings->use_preg_match_instead_of_preg_match_all ? 'preg_match' : 'preg_match_all';
-            if($func($pattern, $callback_query->data, $matches) !== 0){
-                if(count($matches) > 0){
-                    unset($matches[0]);
+        if(!Utils::isStringRegex($pattern)){ // $pattern is not a regex
+            $this->onCallbackQuery(function (CallbackQuery $callback_query) use ($handler, $pattern) {
+                if($callback_query->data === $pattern){
+                    $handler($callback_query);
                 }
-                $handler($callback_query, array_values($matches));
-            }
-        });
+            });
+        }
+        else{
+            $this->onCallbackQuery(function (CallbackQuery $callback_query) use ($handler, $pattern) {
+                $func = $this->settings->use_preg_match_instead_of_preg_match_all ? 'preg_match' : 'preg_match_all';
+                if($func($pattern, $callback_query->data, $matches) !== 0){
+                    if(count($matches) > 0){
+                        unset($matches[0]);
+                    }
+                    $handler($callback_query, array_values($matches));
+                }
+            });
+        }
     }
 
     public function onNewChatMember(Closure $closure, bool $get_bots = false): void

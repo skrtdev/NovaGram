@@ -14,7 +14,8 @@
         "ext-json":"*",
         "ext-curl":"*",
         "skrtdev/async":"^1.0",
-        "monolog/monolog":"^2.1"
+        "monolog/monolog":"^2.1",
+        "symfony/polyfill-php80": "^1.22"
     },
     "suggest": {
         "ext-mbstring":"Needed to use the built-in Telegram Entites Parser",

@@ -152,6 +152,11 @@ class Utils{
         }
     }
 
+    public static function isStringRegex(string $string): bool
+    {
+        return str_starts_with($string, '/') && str_ends_with($string, '/');
+    }
+
 }
 
 ?>
