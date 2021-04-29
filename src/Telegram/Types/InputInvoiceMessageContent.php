@@ -8,7 +8,7 @@ use skrtdev\Prototypes\simpleProto;
 /**
  * Represents the content of an invoice message to be sent as the result of an inline query.
 */
-class InputInvoiceMessageContent extends \Telegram\InputInvoiceMessageContent{
+class InputInvoiceMessageContent extends Type{
 
     use simpleProto;
 
