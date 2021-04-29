@@ -109,7 +109,7 @@ class Type {
             unset($result[$key]);
         }
         foreach ($result as $key => $value) {
-            if(!isset($value)){
+            if(!isset($value) || $value instanceof stdClass){
                 unset($result[$key]);
             }
         }
