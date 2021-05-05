@@ -123,7 +123,7 @@ trait HandlersTrait{
         foreach($commands as $command){
             $this->commands[$command] ??= $description;
         }
-        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK && !isset($this->settings->username) ? '.+' : $this->getUsername()) .')? /', fn(Message $message) => $handler($message, array_slice(explode(' ', $message->text), 1)));
+        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK && !isset($this->settings->username) ? '.+' : $this->getUsername()) .')?(?: .*|$)/', fn(Message $message) => $handler($message, array_slice(explode(' ', $message->text), 1)));
     }
 
     public function exportCommands(): void
