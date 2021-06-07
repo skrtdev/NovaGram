@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a photo to be sent.
 */
-class InputMediaPhoto extends \Telegram\InputMediaPhoto{
-
-    use simpleProto;
+class InputMediaPhoto extends Type{
+    
+    protected string $_ = 'InputMediaPhoto';
 
     /** @var string Type of the result, must be photo */
     public string $type;
@@ -27,7 +26,13 @@ class InputMediaPhoto extends \Telegram\InputMediaPhoto{
     /** @var ObjectsList|null List of special entities that appear in the caption, which can be specified instead of parse_mode */
     public ?ObjectsList $caption_entities = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->media = $array['media'];
+        $this->caption = $array['caption'] ?? null;
+        $this->parse_mode = $array['parse_mode'] ?? null;
+        $this->caption_entities = isset($array['caption_entities']) ? new ObjectsList(iterate($array['caption_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

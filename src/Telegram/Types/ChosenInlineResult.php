@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a result of an inline query that was chosen by the user and sent to their chat partner.
 */
-class ChosenInlineResult extends \Telegram\ChosenInlineResult{
-
-    use simpleProto;
+class ChosenInlineResult extends Type{
+    
+    protected string $_ = 'ChosenInlineResult';
 
     /** @var string The unique identifier for the result that was chosen */
     public string $result_id;
@@ -27,7 +26,13 @@ class ChosenInlineResult extends \Telegram\ChosenInlineResult{
     /** @var string The query that was used to obtain the result */
     public string $query;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->result_id = $array['result_id'];
+        $this->from = new User($array['from'], $Bot);
+        $this->location = isset($array['location']) ? new Location($array['location'], $Bot) : null;
+        $this->inline_message_id = $array['inline_message_id'] ?? null;
+        $this->query = $array['query'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

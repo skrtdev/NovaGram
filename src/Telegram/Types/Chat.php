@@ -2,15 +2,16 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a chat.
 */
-class Chat extends \Telegram\Chat{
+class Chat extends Type{
+    
+    use \skrtdev\NovaGram\dc;
 
-    use simpleProto;
+    protected string $_ = 'Chat';
 
     /** @var int Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier. */
     public int $id;
@@ -66,7 +67,26 @@ class Chat extends \Telegram\Chat{
     /** @var ChatLocation|null For supergroups, the location to which the supergroup is connected. Returned only in getChat. */
     public ?ChatLocation $location = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->id = $array['id'];
+        $this->type = $array['type'];
+        $this->title = $array['title'] ?? null;
+        $this->username = $array['username'] ?? null;
+        $this->first_name = $array['first_name'] ?? null;
+        $this->last_name = $array['last_name'] ?? null;
+        $this->photo = isset($array['photo']) ? new ChatPhoto($array['photo'], $Bot) : null;
+        $this->bio = $array['bio'] ?? null;
+        $this->description = $array['description'] ?? null;
+        $this->invite_link = $array['invite_link'] ?? null;
+        $this->pinned_message = isset($array['pinned_message']) ? new Message($array['pinned_message'], $Bot) : null;
+        $this->permissions = isset($array['permissions']) ? new ChatPermissions($array['permissions'], $Bot) : null;
+        $this->slow_mode_delay = $array['slow_mode_delay'] ?? null;
+        $this->message_auto_delete_time = $array['message_auto_delete_time'] ?? null;
+        $this->sticker_set_name = $array['sticker_set_name'] ?? null;
+        $this->can_set_sticker_set = $array['can_set_sticker_set'] ?? null;
+        $this->linked_chat_id = $array['linked_chat_id'] ?? null;
+        $this->location = isset($array['location']) ? new ChatLocation($array['location'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

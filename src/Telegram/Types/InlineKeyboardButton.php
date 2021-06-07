@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
 */
-class InlineKeyboardButton extends \Telegram\InlineKeyboardButton{
-
-    use simpleProto;
+class InlineKeyboardButton extends Type{
+    
+    protected string $_ = 'InlineKeyboardButton';
 
     /** @var string Label text on the button */
     public string $text;
@@ -36,7 +35,16 @@ class InlineKeyboardButton extends \Telegram\InlineKeyboardButton{
     /** @var bool|null Specify True, to send a Pay button.NOTE: This type of button must always be the first button in the first row. */
     public ?bool $pay = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->text = $array['text'];
+        $this->url = $array['url'] ?? null;
+        $this->login_url = isset($array['login_url']) ? new LoginUrl($array['login_url'], $Bot) : null;
+        $this->callback_data = $array['callback_data'] ?? null;
+        $this->switch_inline_query = $array['switch_inline_query'] ?? null;
+        $this->switch_inline_query_current_chat = $array['switch_inline_query_current_chat'] ?? null;
+        $this->callback_game = isset($array['callback_game']) ? new CallbackGame($array['callback_game'], $Bot) : null;
+        $this->pay = $array['pay'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

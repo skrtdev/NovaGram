@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object contains basic information about an invoice.
 */
-class Invoice extends \Telegram\Invoice{
-
-    use simpleProto;
+class Invoice extends Type{
+    
+    protected string $_ = 'Invoice';
 
     /** @var string Product name */
     public string $title;
@@ -27,7 +26,13 @@ class Invoice extends \Telegram\Invoice{
     /** @var int Total price in the smallest units of the currency (integer, not float/double). For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). */
     public int $total_amount;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->title = $array['title'];
+        $this->description = $array['description'];
+        $this->start_parameter = $array['start_parameter'];
+        $this->currency = $array['currency'];
+        $this->total_amount = $array['total_amount'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

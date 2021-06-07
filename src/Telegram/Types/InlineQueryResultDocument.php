@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
 */
-class InlineQueryResultDocument extends \Telegram\InlineQueryResultDocument{
-
-    use simpleProto;
+class InlineQueryResultDocument extends Type{
+    
+    protected string $_ = 'InlineQueryResultDocument';
 
     /** @var string Type of the result, must be document */
     public string $type;
@@ -54,7 +53,22 @@ class InlineQueryResultDocument extends \Telegram\InlineQueryResultDocument{
     /** @var int|null Thumbnail height */
     public ?int $thumb_height = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->title = $array['title'];
+        $this->caption = $array['caption'] ?? null;
+        $this->parse_mode = $array['parse_mode'] ?? null;
+        $this->caption_entities = isset($array['caption_entities']) ? new ObjectsList(iterate($array['caption_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        $this->document_url = $array['document_url'];
+        $this->mime_type = $array['mime_type'];
+        $this->description = $array['description'] ?? null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        $this->thumb_url = $array['thumb_url'] ?? null;
+        $this->thumb_width = $array['thumb_width'] ?? null;
+        $this->thumb_height = $array['thumb_height'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

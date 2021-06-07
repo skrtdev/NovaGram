@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents an incoming update.At most one of the optional parameters can be present in any given update.
 */
-class Update extends \Telegram\Update{
-
-    use simpleProto;
+class Update extends Type{
+    
+    protected string $_ = 'Update';
 
     /** @var int The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This ID becomes especially handy if you're using Webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially. */
     public int $update_id;
@@ -54,7 +53,22 @@ class Update extends \Telegram\Update{
     /** @var ChatMemberUpdated|null A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates. */
     public ?ChatMemberUpdated $chat_member = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->update_id = $array['update_id'];
+        $this->message = isset($array['message']) ? new Message($array['message'], $Bot) : null;
+        $this->edited_message = isset($array['edited_message']) ? new Message($array['edited_message'], $Bot) : null;
+        $this->channel_post = isset($array['channel_post']) ? new Message($array['channel_post'], $Bot) : null;
+        $this->edited_channel_post = isset($array['edited_channel_post']) ? new Message($array['edited_channel_post'], $Bot) : null;
+        $this->inline_query = isset($array['inline_query']) ? new InlineQuery($array['inline_query'], $Bot) : null;
+        $this->chosen_inline_result = isset($array['chosen_inline_result']) ? new ChosenInlineResult($array['chosen_inline_result'], $Bot) : null;
+        $this->callback_query = isset($array['callback_query']) ? new CallbackQuery($array['callback_query'], $Bot) : null;
+        $this->shipping_query = isset($array['shipping_query']) ? new ShippingQuery($array['shipping_query'], $Bot) : null;
+        $this->pre_checkout_query = isset($array['pre_checkout_query']) ? new PreCheckoutQuery($array['pre_checkout_query'], $Bot) : null;
+        $this->poll = isset($array['poll']) ? new Poll($array['poll'], $Bot) : null;
+        $this->poll_answer = isset($array['poll_answer']) ? new PollAnswer($array['poll_answer'], $Bot) : null;
+        $this->my_chat_member = isset($array['my_chat_member']) ? new ChatMemberUpdated($array['my_chat_member'], $Bot) : null;
+        $this->chat_member = isset($array['chat_member']) ? new ChatMemberUpdated($array['chat_member'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

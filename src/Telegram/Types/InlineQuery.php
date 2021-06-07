@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
 */
-class InlineQuery extends \Telegram\InlineQuery{
-
-    use simpleProto;
+class InlineQuery extends Type{
+    
+    protected string $_ = 'InlineQuery';
 
     /** @var string Unique identifier for this query */
     public string $id;
@@ -30,7 +29,14 @@ class InlineQuery extends \Telegram\InlineQuery{
     /** @var Location|null Sender location, only for bots that request user location */
     public ?Location $location = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->id = $array['id'];
+        $this->from = new User($array['from'], $Bot);
+        $this->query = $array['query'];
+        $this->offset = $array['offset'];
+        $this->chat_type = $array['chat_type'] ?? null;
+        $this->location = isset($array['location']) ? new Location($array['location'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

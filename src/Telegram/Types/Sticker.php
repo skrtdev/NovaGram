@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a sticker.
 */
-class Sticker extends \Telegram\Sticker{
-
-    use simpleProto;
+class Sticker extends Type{
+    
+    protected string $_ = 'Sticker';
 
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
@@ -42,7 +41,18 @@ class Sticker extends \Telegram\Sticker{
     /** @var int|null File size */
     public ?int $file_size = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->file_id = $array['file_id'];
+        $this->file_unique_id = $array['file_unique_id'];
+        $this->width = $array['width'];
+        $this->height = $array['height'];
+        $this->is_animated = $array['is_animated'];
+        $this->thumb = isset($array['thumb']) ? new PhotoSize($array['thumb'], $Bot) : null;
+        $this->emoji = $array['emoji'] ?? null;
+        $this->set_name = $array['set_name'] ?? null;
+        $this->mask_position = isset($array['mask_position']) ? new MaskPosition($array['mask_position'], $Bot) : null;
+        $this->file_size = $array['file_size'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

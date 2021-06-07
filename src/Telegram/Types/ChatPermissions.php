@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Describes actions that a non-administrator user is allowed to take in a chat.
 */
-class ChatPermissions extends \Telegram\ChatPermissions{
-
-    use simpleProto;
+class ChatPermissions extends Type{
+    
+    protected string $_ = 'ChatPermissions';
 
     /** @var bool|null True, if the user is allowed to send text messages, contacts, locations and venues */
     public ?bool $can_send_messages = null;
@@ -36,7 +35,16 @@ class ChatPermissions extends \Telegram\ChatPermissions{
     /** @var bool|null True, if the user is allowed to pin messages. Ignored in public supergroups */
     public ?bool $can_pin_messages = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->can_send_messages = $array['can_send_messages'] ?? null;
+        $this->can_send_media_messages = $array['can_send_media_messages'] ?? null;
+        $this->can_send_polls = $array['can_send_polls'] ?? null;
+        $this->can_send_other_messages = $array['can_send_other_messages'] ?? null;
+        $this->can_add_web_page_previews = $array['can_add_web_page_previews'] ?? null;
+        $this->can_change_info = $array['can_change_info'] ?? null;
+        $this->can_invite_users = $array['can_invite_users'] ?? null;
+        $this->can_pin_messages = $array['can_pin_messages'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

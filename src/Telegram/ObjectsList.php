@@ -3,12 +3,12 @@
 namespace skrtdev\Telegram;
 
 use skrtdev\NovaGram\Exception;
-use skrtdev\Prototypes\proto;
 use ArrayAccess, Iterator;
+use skrtdev\Prototypes\Prototypeable;
 
 class ObjectsList implements Iterator, ArrayAccess {
 
-    use proto;
+    use Prototypeable;
 
     private int $position = 0;
     private array $elements;

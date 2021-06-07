@@ -9,9 +9,13 @@ if(!function_exists('stop_handling')){
 }
 
 
-if(!function_exists('stop_update_propagation')){
-    function stop_update_propagation(){
-        Utils::trigger_error("Using deprecated stop_update_propagation(), use stop_handling() instead", E_USER_DEPRECATED);
-        stop_handling();
+if(!function_exists('iterate')){
+    function iterate(array $list, callable $callable): array {
+        $result = [];
+        foreach ($list as $item) {
+            $result []= $callable($item);
+        }
+        return $result;
     }
 }
+else throw new skrtdev\NovaGram\Exception('iterate function already exist');

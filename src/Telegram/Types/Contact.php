@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a phone contact.
 */
-class Contact extends \Telegram\Contact{
-
-    use simpleProto;
+class Contact extends Type{
+    
+    protected string $_ = 'Contact';
 
     /** @var string Contact's phone number */
     public string $phone_number;
@@ -27,7 +26,13 @@ class Contact extends \Telegram\Contact{
     /** @var string|null Additional data about the contact in the form of a vCard */
     public ?string $vcard = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->phone_number = $array['phone_number'];
+        $this->first_name = $array['first_name'];
+        $this->last_name = $array['last_name'] ?? null;
+        $this->user_id = $array['user_id'] ?? null;
+        $this->vcard = $array['vcard'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

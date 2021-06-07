@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a game. Use BotFather to create and edit games, their short names will act as unique identifiers.
 */
-class Game extends \Telegram\Game{
-
-    use simpleProto;
+class Game extends Type{
+    
+    protected string $_ = 'Game';
 
     /** @var string Title of the game */
     public string $title;
@@ -30,7 +29,14 @@ class Game extends \Telegram\Game{
     /** @var Animation|null Animation that will be displayed in the game message in chats. Upload via BotFather */
     public ?Animation $animation = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->title = $array['title'];
+        $this->description = $array['description'];
+        $this->photo = new ObjectsList(iterate($array['photo'], fn($item) => new PhotoSize($item, $Bot)));
+        $this->text = $array['text'] ?? null;
+        $this->text_entities = isset($array['text_entities']) ? new ObjectsList(iterate($array['text_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        $this->animation = isset($array['animation']) ? new Animation($array['animation'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

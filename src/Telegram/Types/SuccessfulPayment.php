@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object contains basic information about a successful payment.
 */
-class SuccessfulPayment extends \Telegram\SuccessfulPayment{
-
-    use simpleProto;
+class SuccessfulPayment extends Type{
+    
+    protected string $_ = 'SuccessfulPayment';
 
     /** @var string Three-letter ISO 4217 currency code */
     public string $currency;
@@ -33,7 +32,15 @@ class SuccessfulPayment extends \Telegram\SuccessfulPayment{
     /** @var string Provider payment identifier */
     public string $provider_payment_charge_id;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->currency = $array['currency'];
+        $this->total_amount = $array['total_amount'];
+        $this->invoice_payload = $array['invoice_payload'];
+        $this->shipping_option_id = $array['shipping_option_id'] ?? null;
+        $this->order_info = isset($array['order_info']) ? new OrderInfo($array['order_info'], $Bot) : null;
+        $this->telegram_payment_charge_id = $array['telegram_payment_charge_id'];
+        $this->provider_payment_charge_id = $array['provider_payment_charge_id'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

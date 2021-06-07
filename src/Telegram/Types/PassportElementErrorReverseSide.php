@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents an issue with the reverse side of a document. The error is considered resolved when the file with reverse side of the document changes.
 */
-class PassportElementErrorReverseSide extends \Telegram\PassportElementErrorReverseSide{
-
-    use simpleProto;
+class PassportElementErrorReverseSide extends Type{
+    
+    protected string $_ = 'PassportElementErrorReverseSide';
 
     /** @var string Error source, must be reverse_side */
     public string $source;
@@ -24,7 +23,12 @@ class PassportElementErrorReverseSide extends \Telegram\PassportElementErrorReve
     /** @var string Error message */
     public string $message;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->source = $array['source'];
+        $this->type = $array['type'];
+        $this->file_hash = $array['file_hash'];
+        $this->message = $array['message'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

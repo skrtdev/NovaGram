@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
 */
-class InlineQueryResultVideo extends \Telegram\InlineQueryResultVideo{
-
-    use simpleProto;
+class InlineQueryResultVideo extends Type{
+    
+    protected string $_ = 'InlineQueryResultVideo';
 
     /** @var string Type of the result, must be video */
     public string $type;
@@ -57,7 +56,23 @@ class InlineQueryResultVideo extends \Telegram\InlineQueryResultVideo{
     /** @var InputMessageContent|null Content of the message to be sent instead of the video. This field is required if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video). */
     public ?InputMessageContent $input_message_content = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->video_url = $array['video_url'];
+        $this->mime_type = $array['mime_type'];
+        $this->thumb_url = $array['thumb_url'];
+        $this->title = $array['title'];
+        $this->caption = $array['caption'] ?? null;
+        $this->parse_mode = $array['parse_mode'] ?? null;
+        $this->caption_entities = isset($array['caption_entities']) ? new ObjectsList(iterate($array['caption_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        $this->video_width = $array['video_width'] ?? null;
+        $this->video_height = $array['video_height'] ?? null;
+        $this->video_duration = $array['video_duration'] ?? null;
+        $this->description = $array['description'] ?? null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Contains information about the current status of a webhook.
 */
-class WebhookInfo extends \Telegram\WebhookInfo{
-
-    use simpleProto;
+class WebhookInfo extends Type{
+    
+    protected string $_ = 'WebhookInfo';
 
     /** @var string Webhook URL, may be empty if webhook is not set up */
     public string $url;
@@ -36,7 +35,16 @@ class WebhookInfo extends \Telegram\WebhookInfo{
     /** @var ObjectsList|null A list of update types the bot is subscribed to. Defaults to all update types except chat_member */
     public ?ObjectsList $allowed_updates = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->url = $array['url'];
+        $this->has_custom_certificate = $array['has_custom_certificate'];
+        $this->pending_update_count = $array['pending_update_count'];
+        $this->ip_address = $array['ip_address'] ?? null;
+        $this->last_error_date = $array['last_error_date'] ?? null;
+        $this->last_error_message = $array['last_error_message'] ?? null;
+        $this->max_connections = $array['max_connections'] ?? null;
+        $this->allowed_updates = isset($array['allowed_updates']) ? new ObjectsList($array['allowed_updates']) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

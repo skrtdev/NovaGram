@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object describes the position on faces where a mask should be placed by default.
 */
-class MaskPosition extends \Telegram\MaskPosition{
-
-    use simpleProto;
+class MaskPosition extends Type{
+    
+    protected string $_ = 'MaskPosition';
 
     /** @var string The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”. */
     public string $point;
@@ -24,7 +23,12 @@ class MaskPosition extends \Telegram\MaskPosition{
     /** @var float Mask scaling coefficient. For example, 2.0 means double size. */
     public float $scale;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->point = $array['point'];
+        $this->x_shift = $array['x_shift'];
+        $this->y_shift = $array['y_shift'];
+        $this->scale = $array['scale'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

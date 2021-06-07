@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents an issue with a list of scans. The error is considered resolved when the list of files containing the scans changes.
 */
-class PassportElementErrorFiles extends \Telegram\PassportElementErrorFiles{
-
-    use simpleProto;
+class PassportElementErrorFiles extends Type{
+    
+    protected string $_ = 'PassportElementErrorFiles';
 
     /** @var string Error source, must be files */
     public string $source;
@@ -24,7 +23,12 @@ class PassportElementErrorFiles extends \Telegram\PassportElementErrorFiles{
     /** @var string Error message */
     public string $message;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->source = $array['source'];
+        $this->type = $array['type'];
+        $this->file_hashes = new ObjectsList($array['file_hashes']);
+        $this->message = $array['message'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents an issue in one of the data fields that was provided by the user. The error is considered resolved when the field's value changes.
 */
-class PassportElementErrorDataField extends \Telegram\PassportElementErrorDataField{
-
-    use simpleProto;
+class PassportElementErrorDataField extends Type{
+    
+    protected string $_ = 'PassportElementErrorDataField';
 
     /** @var string Error source, must be data */
     public string $source;
@@ -27,7 +26,13 @@ class PassportElementErrorDataField extends \Telegram\PassportElementErrorDataFi
     /** @var string Error message */
     public string $message;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->source = $array['source'];
+        $this->type = $array['type'];
+        $this->field_name = $array['field_name'];
+        $this->data_hash = $array['data_hash'];
+        $this->message = $array['message'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

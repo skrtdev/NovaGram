@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a video message (available in Telegram apps as of v.4.0).
 */
-class VideoNote extends \Telegram\VideoNote{
-
-    use simpleProto;
+class VideoNote extends Type{
+    
+    protected string $_ = 'VideoNote';
 
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
@@ -30,7 +29,14 @@ class VideoNote extends \Telegram\VideoNote{
     /** @var int|null File size */
     public ?int $file_size = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->file_id = $array['file_id'];
+        $this->file_unique_id = $array['file_unique_id'];
+        $this->length = $array['length'];
+        $this->duration = $array['duration'];
+        $this->thumb = isset($array['thumb']) ? new PhotoSize($array['thumb'], $Bot) : null;
+        $this->file_size = $array['file_size'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

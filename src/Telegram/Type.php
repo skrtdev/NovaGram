@@ -3,37 +3,37 @@
 namespace skrtdev\Telegram;
 
 use skrtdev\NovaGram\{Bot, Utils};
-use skrtdev\Prototypes\{Prototype, proto};
+use skrtdev\Prototypes\{Prototypes, Prototypeable};
 use stdClass;
 
 class Type {
 
-    use proto;
+    use Prototypeable;
 
     protected ?Bot $Bot;
     private stdClass $config;
-    private string $_;
+    protected string $_;
 
-    public function __construct(array $json, Bot $Bot = null){
-
-        $this->_ = explode('\\', static::class)[2];
+    public function __construct(array $array, Bot $Bot = null){
+        
         $this->Bot = $Bot;
 
-        foreach ($json as $key => $value) $this->$key ??= $value;
-
+        foreach ($array as $key => $value) $this->$key ??= $value;
     }
 
     public function __call(string $name, array $arguments, ...$kwargs){
-
+        #$kwargs = $arguments;
+        var_dump($arguments);
+        var_dump($kwargs);
         $this->config ??= json_decode(json_encode(Bot::getJSON()));
 
         if(!isset($this->config->types_methods->{$this->_})){
-            return Prototype::call($this, $name, $arguments);
+            return Prototypes::call($this, $name, $arguments);
         }
         $this_obj = $this->config->types_methods->{$this->_};
 
         if(!isset($this_obj->{$name})){
-            return Prototype::call($this, $name, $arguments);
+            return Prototypes::call($this, $name, $arguments);
         }
         $this_method = $this_obj->{$name};
 
@@ -123,5 +123,3 @@ class Type {
         return $obj;
     }
 }
-
-?>

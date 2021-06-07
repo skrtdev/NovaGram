@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
 */
-class InlineQueryResultCachedDocument extends \Telegram\InlineQueryResultCachedDocument{
-
-    use simpleProto;
+class InlineQueryResultCachedDocument extends Type{
+    
+    protected string $_ = 'InlineQueryResultCachedDocument';
 
     /** @var string Type of the result, must be document */
     public string $type;
@@ -42,7 +41,18 @@ class InlineQueryResultCachedDocument extends \Telegram\InlineQueryResultCachedD
     /** @var InputMessageContent|null Content of the message to be sent instead of the file */
     public ?InputMessageContent $input_message_content = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->title = $array['title'];
+        $this->document_file_id = $array['document_file_id'];
+        $this->description = $array['description'] ?? null;
+        $this->caption = $array['caption'] ?? null;
+        $this->parse_mode = $array['parse_mode'] ?? null;
+        $this->caption_entities = isset($array['caption_entities']) ? new ObjectsList(iterate($array['caption_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

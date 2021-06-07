@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
 */
-class ReplyKeyboardMarkup extends \Telegram\ReplyKeyboardMarkup{
-
-    use simpleProto;
+class ReplyKeyboardMarkup extends Type{
+    
+    protected string $_ = 'ReplyKeyboardMarkup';
 
     /** @var ObjectsList Array of button rows, each represented by an Array of KeyboardButton objects */
     public ObjectsList $keyboard;
@@ -24,7 +23,12 @@ class ReplyKeyboardMarkup extends \Telegram\ReplyKeyboardMarkup{
     /** @var bool|null Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.Example: A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard. */
     public ?bool $selective = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->keyboard = new ObjectsList(iterate($array['keyboard'], fn($item) => new ObjectsList(iterate($item, fn($item) => new KeyboardButton($item, $Bot)))));
+        $this->resize_keyboard = $array['resize_keyboard'] ?? null;
+        $this->one_time_keyboard = $array['one_time_keyboard'] ?? null;
+        $this->selective = $array['selective'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a voice note.
 */
-class Voice extends \Telegram\Voice{
-
-    use simpleProto;
+class Voice extends Type{
+    
+    protected string $_ = 'Voice';
 
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
@@ -27,7 +26,13 @@ class Voice extends \Telegram\Voice{
     /** @var int|null File size */
     public ?int $file_size = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->file_id = $array['file_id'];
+        $this->file_unique_id = $array['file_unique_id'];
+        $this->duration = $array['duration'];
+        $this->mime_type = $array['mime_type'] ?? null;
+        $this->file_size = $array['file_size'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

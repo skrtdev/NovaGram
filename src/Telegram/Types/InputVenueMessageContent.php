@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents the content of a venue message to be sent as the result of an inline query.
 */
-class InputVenueMessageContent extends \Telegram\InputVenueMessageContent{
-
-    use simpleProto;
+class InputVenueMessageContent extends Type{
+    
+    protected string $_ = 'InputVenueMessageContent';
 
     /** @var float Latitude of the venue in degrees */
     public float $latitude;
@@ -36,7 +35,16 @@ class InputVenueMessageContent extends \Telegram\InputVenueMessageContent{
     /** @var string|null Google Places type of the venue. (See supported types.) */
     public ?string $google_place_type = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->latitude = $array['latitude'];
+        $this->longitude = $array['longitude'];
+        $this->title = $array['title'];
+        $this->address = $array['address'];
+        $this->foursquare_id = $array['foursquare_id'] ?? null;
+        $this->foursquare_type = $array['foursquare_type'] ?? null;
+        $this->google_place_id = $array['google_place_id'] ?? null;
+        $this->google_place_type = $array['google_place_type'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
 */
-class CallbackQuery extends \Telegram\CallbackQuery{
-
-    use simpleProto;
+class CallbackQuery extends Type{
+    
+    protected string $_ = 'CallbackQuery';
 
     /** @var string Unique identifier for this query */
     public string $id;
@@ -33,7 +32,15 @@ class CallbackQuery extends \Telegram\CallbackQuery{
     /** @var string|null Short name of a Game to be returned, serves as the unique identifier for the game */
     public ?string $game_short_name = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->id = $array['id'];
+        $this->from = new User($array['from'], $Bot);
+        $this->message = isset($array['message']) ? new Message($array['message'], $Bot) : null;
+        $this->inline_message_id = $array['inline_message_id'] ?? null;
+        $this->chat_instance = $array['chat_instance'];
+        $this->data = $array['data'] ?? null;
+        $this->game_short_name = $array['game_short_name'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

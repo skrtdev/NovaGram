@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
 */
-class Animation extends \Telegram\Animation{
-
-    use simpleProto;
+class Animation extends Type{
+    
+    protected string $_ = 'Animation';
 
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
@@ -39,7 +38,17 @@ class Animation extends \Telegram\Animation{
     /** @var int|null File size */
     public ?int $file_size = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->file_id = $array['file_id'];
+        $this->file_unique_id = $array['file_unique_id'];
+        $this->width = $array['width'];
+        $this->height = $array['height'];
+        $this->duration = $array['duration'];
+        $this->thumb = isset($array['thumb']) ? new PhotoSize($array['thumb'], $Bot) : null;
+        $this->file_name = $array['file_name'] ?? null;
+        $this->mime_type = $array['mime_type'] ?? null;
+        $this->file_size = $array['file_size'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

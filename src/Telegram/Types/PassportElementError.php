@@ -2,18 +2,18 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents an error in the Telegram Passport element which was submitted that should be resolved by the user. It should be one of:
 */
-class PassportElementError extends \Telegram\PassportElementError{
-
-    use simpleProto;
+class PassportElementError extends Type{
+    
+    protected string $_ = 'PassportElementError';
 
     
+    public function __construct(array $array, Bot $Bot = null){
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

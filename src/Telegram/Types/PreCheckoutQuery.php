@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object contains information about an incoming pre-checkout query.
 */
-class PreCheckoutQuery extends \Telegram\PreCheckoutQuery{
-
-    use simpleProto;
+class PreCheckoutQuery extends Type{
+    
+    protected string $_ = 'PreCheckoutQuery';
 
     /** @var string Unique query identifier */
     public string $id;
@@ -33,7 +32,15 @@ class PreCheckoutQuery extends \Telegram\PreCheckoutQuery{
     /** @var OrderInfo|null Order info provided by the user */
     public ?OrderInfo $order_info = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->id = $array['id'];
+        $this->from = new User($array['from'], $Bot);
+        $this->currency = $array['currency'];
+        $this->total_amount = $array['total_amount'];
+        $this->invoice_payload = $array['invoice_payload'];
+        $this->shipping_option_id = $array['shipping_option_id'] ?? null;
+        $this->order_info = isset($array['order_info']) ? new OrderInfo($array['order_info'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

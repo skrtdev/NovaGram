@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents an issue with the selfie with a document. The error is considered resolved when the file with the selfie changes.
 */
-class PassportElementErrorSelfie extends \Telegram\PassportElementErrorSelfie{
-
-    use simpleProto;
+class PassportElementErrorSelfie extends Type{
+    
+    protected string $_ = 'PassportElementErrorSelfie';
 
     /** @var string Error source, must be selfie */
     public string $source;
@@ -24,7 +23,12 @@ class PassportElementErrorSelfie extends \Telegram\PassportElementErrorSelfie{
     /** @var string Error message */
     public string $message;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->source = $array['source'];
+        $this->type = $array['type'];
+        $this->file_hash = $array['file_hash'];
+        $this->message = $array['message'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

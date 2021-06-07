@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object contains information about one answer option in a poll.
 */
-class PollOption extends \Telegram\PollOption{
-
-    use simpleProto;
+class PollOption extends Type{
+    
+    protected string $_ = 'PollOption';
 
     /** @var string Option text, 1-100 characters */
     public string $text;
@@ -18,7 +17,10 @@ class PollOption extends \Telegram\PollOption{
     /** @var int Number of users that voted for this option */
     public int $voter_count;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->text = $array['text'];
+        $this->voter_count = $array['voter_count'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

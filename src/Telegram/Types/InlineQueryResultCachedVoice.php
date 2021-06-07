@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
 */
-class InlineQueryResultCachedVoice extends \Telegram\InlineQueryResultCachedVoice{
-
-    use simpleProto;
+class InlineQueryResultCachedVoice extends Type{
+    
+    protected string $_ = 'InlineQueryResultCachedVoice';
 
     /** @var string Type of the result, must be voice */
     public string $type;
@@ -39,7 +38,17 @@ class InlineQueryResultCachedVoice extends \Telegram\InlineQueryResultCachedVoic
     /** @var InputMessageContent|null Content of the message to be sent instead of the voice message */
     public ?InputMessageContent $input_message_content = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->voice_file_id = $array['voice_file_id'];
+        $this->title = $array['title'];
+        $this->caption = $array['caption'] ?? null;
+        $this->parse_mode = $array['parse_mode'] ?? null;
+        $this->caption_entities = isset($array['caption_entities']) ? new ObjectsList(iterate($array['caption_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

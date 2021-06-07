@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object contains information about a poll.
 */
-class Poll extends \Telegram\Poll{
-
-    use simpleProto;
+class Poll extends Type{
+    
+    protected string $_ = 'Poll';
 
     /** @var string Unique poll identifier */
     public string $id;
@@ -51,7 +50,21 @@ class Poll extends \Telegram\Poll{
     /** @var int|null Point in time (Unix timestamp) when the poll will be automatically closed */
     public ?int $close_date = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->id = $array['id'];
+        $this->question = $array['question'];
+        $this->options = new ObjectsList(iterate($array['options'], fn($item) => new PollOption($item, $Bot)));
+        $this->total_voter_count = $array['total_voter_count'];
+        $this->is_closed = $array['is_closed'];
+        $this->is_anonymous = $array['is_anonymous'];
+        $this->type = $array['type'];
+        $this->allows_multiple_answers = $array['allows_multiple_answers'];
+        $this->correct_option_id = $array['correct_option_id'] ?? null;
+        $this->explanation = $array['explanation'] ?? null;
+        $this->explanation_entities = isset($array['explanation_entities']) ? new ObjectsList(iterate($array['explanation_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        $this->open_period = $array['open_period'] ?? null;
+        $this->close_date = $array['close_date'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

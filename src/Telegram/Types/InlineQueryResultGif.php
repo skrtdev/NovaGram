@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
 */
-class InlineQueryResultGif extends \Telegram\InlineQueryResultGif{
-
-    use simpleProto;
+class InlineQueryResultGif extends Type{
+    
+    protected string $_ = 'InlineQueryResultGif';
 
     /** @var string Type of the result, must be gif */
     public string $type;
@@ -54,7 +53,22 @@ class InlineQueryResultGif extends \Telegram\InlineQueryResultGif{
     /** @var InputMessageContent|null Content of the message to be sent instead of the GIF animation */
     public ?InputMessageContent $input_message_content = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->gif_url = $array['gif_url'];
+        $this->gif_width = $array['gif_width'] ?? null;
+        $this->gif_height = $array['gif_height'] ?? null;
+        $this->gif_duration = $array['gif_duration'] ?? null;
+        $this->thumb_url = $array['thumb_url'];
+        $this->thumb_mime_type = $array['thumb_mime_type'] ?? null;
+        $this->title = $array['title'] ?? null;
+        $this->caption = $array['caption'] ?? null;
+        $this->parse_mode = $array['parse_mode'] ?? null;
+        $this->caption_entities = isset($array['caption_entities']) ? new ObjectsList(iterate($array['caption_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

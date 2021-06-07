@@ -2,16 +2,16 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
 use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a Telegram user or bot.
 */
-class User extends \Telegram\User{
+class User extends Type{
+    
+    use \skrtdev\NovaGram\dc;
 
-    use simpleProto;
+    protected string $_ = 'User';
 
     /** @var int Unique identifier for this user or bot. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. */
     public int $id;
@@ -40,13 +40,18 @@ class User extends \Telegram\User{
     /** @var bool|null True, if the bot supports inline queries. Returned only in getMe. */
     public ?bool $supports_inline_queries = null;
 
-    public function __construct(array $json, Bot $Bot = null){
-        parent::__construct($json, $Bot);
-
-        if($Bot->hasDatabase()){
-            $Bot->getDatabase()->insertUser($this);
-        }
-    }
+    public function __construct(array $array, Bot $Bot = null){
+        $this->id = $array['id'];
+        $this->is_bot = $array['is_bot'];
+        $this->first_name = $array['first_name'];
+        $this->last_name = $array['last_name'] ?? null;
+        $this->username = $array['username'] ?? null;
+        $this->language_code = $array['language_code'] ?? null;
+        $this->can_join_groups = $array['can_join_groups'] ?? null;
+        $this->can_read_all_group_messages = $array['can_read_all_group_messages'] ?? null;
+        $this->supports_inline_queries = $array['supports_inline_queries'] ?? null;
+        parent::__construct($array, $Bot);
+   }
 
     public function getMention(): string
     {
@@ -54,4 +59,3 @@ class User extends \Telegram\User{
     }
 }
 
-?>

@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Contains information about documents or other Telegram Passport elements shared with the bot by the user.
 */
-class EncryptedPassportElement extends \Telegram\EncryptedPassportElement{
-
-    use simpleProto;
+class EncryptedPassportElement extends Type{
+    
+    protected string $_ = 'EncryptedPassportElement';
 
     /** @var string Element type. One of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”, “phone_number”, “email”. */
     public string $type;
@@ -42,7 +41,18 @@ class EncryptedPassportElement extends \Telegram\EncryptedPassportElement{
     /** @var string Base64-encoded element hash for using in PassportElementErrorUnspecified */
     public string $hash;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->data = $array['data'] ?? null;
+        $this->phone_number = $array['phone_number'] ?? null;
+        $this->email = $array['email'] ?? null;
+        $this->files = isset($array['files']) ? new ObjectsList(iterate($array['files'], fn($item) => new PassportFile($item, $Bot))) : null;
+        $this->front_side = isset($array['front_side']) ? new PassportFile($array['front_side'], $Bot) : null;
+        $this->reverse_side = isset($array['reverse_side']) ? new PassportFile($array['reverse_side'], $Bot) : null;
+        $this->selfie = isset($array['selfie']) ? new PassportFile($array['selfie'], $Bot) : null;
+        $this->translation = isset($array['translation']) ? new ObjectsList(iterate($array['translation'], fn($item) => new PassportFile($item, $Bot))) : null;
+        $this->hash = $array['hash'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

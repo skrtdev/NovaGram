@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
 */
-class InlineQueryResultVenue extends \Telegram\InlineQueryResultVenue{
-
-    use simpleProto;
+class InlineQueryResultVenue extends Type{
+    
+    protected string $_ = 'InlineQueryResultVenue';
 
     /** @var string Type of the result, must be venue */
     public string $type;
@@ -57,7 +56,23 @@ class InlineQueryResultVenue extends \Telegram\InlineQueryResultVenue{
     /** @var int|null Thumbnail height */
     public ?int $thumb_height = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->latitude = $array['latitude'];
+        $this->longitude = $array['longitude'];
+        $this->title = $array['title'];
+        $this->address = $array['address'];
+        $this->foursquare_id = $array['foursquare_id'] ?? null;
+        $this->foursquare_type = $array['foursquare_type'] ?? null;
+        $this->google_place_id = $array['google_place_id'] ?? null;
+        $this->google_place_type = $array['google_place_type'] ?? null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        $this->thumb_url = $array['thumb_url'] ?? null;
+        $this->thumb_width = $array['thumb_width'] ?? null;
+        $this->thumb_height = $array['thumb_height'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

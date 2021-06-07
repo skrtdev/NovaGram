@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Contains data required for decrypting and authenticating EncryptedPassportElement. See the Telegram Passport Documentation for a complete description of the data decryption and authentication processes.
 */
-class EncryptedCredentials extends \Telegram\EncryptedCredentials{
-
-    use simpleProto;
+class EncryptedCredentials extends Type{
+    
+    protected string $_ = 'EncryptedCredentials';
 
     /** @var string Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for EncryptedPassportElement decryption and authentication */
     public string $data;
@@ -21,7 +20,11 @@ class EncryptedCredentials extends \Telegram\EncryptedCredentials{
     /** @var string Base64-encoded secret, encrypted with the bot's public RSA key, required for data decryption */
     public string $secret;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->data = $array['data'];
+        $this->hash = $array['hash'];
+        $this->secret = $array['secret'];
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

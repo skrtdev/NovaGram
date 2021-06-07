@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents the content of an invoice message to be sent as the result of an inline query.
 */
 class InputInvoiceMessageContent extends Type{
-
-    use simpleProto;
+    
+    protected string $_ = 'InputInvoiceMessageContent';
 
     /** @var string Product name, 1-32 characters */
     public string $title;
@@ -72,7 +71,28 @@ class InputInvoiceMessageContent extends Type{
     /** @var bool|null Pass True, if the final price depends on the shipping method */
     public ?bool $is_flexible = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->title = $array['title'];
+        $this->description = $array['description'];
+        $this->payload = $array['payload'];
+        $this->provider_token = $array['provider_token'];
+        $this->currency = $array['currency'];
+        $this->prices = new ObjectsList(iterate($array['prices'], fn($item) => new LabeledPrice($item, $Bot)));
+        $this->max_tip_amount = $array['max_tip_amount'] ?? null;
+        $this->suggested_tip_amounts = isset($array['suggested_tip_amounts']) ? new ObjectsList($array['suggested_tip_amounts']) : null;
+        $this->provider_data = $array['provider_data'] ?? null;
+        $this->photo_url = $array['photo_url'] ?? null;
+        $this->photo_size = $array['photo_size'] ?? null;
+        $this->photo_width = $array['photo_width'] ?? null;
+        $this->photo_height = $array['photo_height'] ?? null;
+        $this->need_name = $array['need_name'] ?? null;
+        $this->need_phone_number = $array['need_phone_number'] ?? null;
+        $this->need_email = $array['need_email'] ?? null;
+        $this->need_shipping_address = $array['need_shipping_address'] ?? null;
+        $this->send_phone_number_to_provider = $array['send_phone_number_to_provider'] ?? null;
+        $this->send_email_to_provider = $array['send_email_to_provider'] ?? null;
+        $this->is_flexible = $array['is_flexible'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

@@ -3,6 +3,7 @@
 namespace skrtdev\NovaGram;
 
 use Monolog\Logger;
+use skrtdev\Prototypes\Prototypeable;
 use Monolog\Handler\{StreamHandler, ErrorLogHandler};
 
 use skrtdev\Telegram\{
@@ -23,7 +24,7 @@ class Bot {
 
     use Methods;
     use HandlersTrait;
-    use proto;
+    use Prototypeable;
 
     const LICENSE = "NovaGram - An Object-Oriented PHP library for Telegram Bots".PHP_EOL."Copyright (c) 2020 Gaetano Sutera <https://github.com/skrtdev>";
     const NONE    = 0;
@@ -191,7 +192,7 @@ class Bot {
             }
 
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
-            $this->update = $this->JSONToTelegramObject($this->raw_update, "Update");
+            $this->update = new Update($this->raw_update, $this);
         }
         else{
             $this->settings->json_payload = false;
@@ -467,7 +468,13 @@ IF98IC8gX2AgLyBfX3wgX18vIF8gXCAnX198IHwgIF98IC8gX2AgfC8gX2AgfCB8Ci8gIF9fIFx8IHwg
 
     public function JSONToTelegramObject(array $json, string $parameter_name){
         if(self::getObjectType($parameter_name)) $parameter_name = self::getObjectType($parameter_name);
-        if(preg_match('/\[\w+\]/', $parameter_name) === 1) return $this->TelegramObjectArrayToObjectsList($json, $parameter_name);
+        if(preg_match('/\[\w+\]/', $parameter_name) === 1){
+            $parameter_name = substr($parameter_name, 1, -1);
+            $parameter_name = "skrtdev\\Telegram\\$parameter_name";
+            return new ObjectsList(iterate($json, fn($item) => new $parameter_name($item, $this)));
+        }
+        $parameter_name = "skrtdev\\Telegram\\$parameter_name";
+        return new $parameter_name($json, $this);
         foreach($json as $key => &$value){
             if(is_array($value)){
                 $ObjectType = self::getObjectType($key, $parameter_name);

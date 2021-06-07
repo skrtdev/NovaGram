@@ -2,20 +2,21 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a service message about a voice chat ended in the chat.
 */
 class VoiceChatEnded extends Type{
-
-    use simpleProto;
+    
+    protected string $_ = 'VoiceChatEnded';
 
     /** @var int Voice chat duration; in seconds */
     public int $duration;
 
-
+    public function __construct(array $array, Bot $Bot = null){
+        $this->duration = $array['duration'];
+        parent::__construct($array, $Bot);
+   }
+    
 }
-
-?>

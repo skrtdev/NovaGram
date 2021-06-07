@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
 */
-class InlineQueryResultMpeg4Gif extends \Telegram\InlineQueryResultMpeg4Gif{
-
-    use simpleProto;
+class InlineQueryResultMpeg4Gif extends Type{
+    
+    protected string $_ = 'InlineQueryResultMpeg4Gif';
 
     /** @var string Type of the result, must be mpeg4_gif */
     public string $type;
@@ -54,7 +53,22 @@ class InlineQueryResultMpeg4Gif extends \Telegram\InlineQueryResultMpeg4Gif{
     /** @var InputMessageContent|null Content of the message to be sent instead of the video animation */
     public ?InputMessageContent $input_message_content = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->mpeg4_url = $array['mpeg4_url'];
+        $this->mpeg4_width = $array['mpeg4_width'] ?? null;
+        $this->mpeg4_height = $array['mpeg4_height'] ?? null;
+        $this->mpeg4_duration = $array['mpeg4_duration'] ?? null;
+        $this->thumb_url = $array['thumb_url'];
+        $this->thumb_mime_type = $array['thumb_mime_type'] ?? null;
+        $this->title = $array['title'] ?? null;
+        $this->caption = $array['caption'] ?? null;
+        $this->parse_mode = $array['parse_mode'] ?? null;
+        $this->caption_entities = isset($array['caption_entities']) ? new ObjectsList(iterate($array['caption_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

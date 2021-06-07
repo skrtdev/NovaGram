@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object represents a venue.
 */
-class Venue extends \Telegram\Venue{
-
-    use simpleProto;
+class Venue extends Type{
+    
+    protected string $_ = 'Venue';
 
     /** @var Location Venue location. Can't be a live location */
     public Location $location;
@@ -33,7 +32,15 @@ class Venue extends \Telegram\Venue{
     /** @var string|null Google Places type of the venue. (See supported types.) */
     public ?string $google_place_type = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->location = new Location($array['location'], $Bot);
+        $this->title = $array['title'];
+        $this->address = $array['address'];
+        $this->foursquare_id = $array['foursquare_id'] ?? null;
+        $this->foursquare_type = $array['foursquare_type'] ?? null;
+        $this->google_place_id = $array['google_place_id'] ?? null;
+        $this->google_place_type = $array['google_place_type'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

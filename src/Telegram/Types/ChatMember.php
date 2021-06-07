@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * This object contains information about one member of a chat.
 */
-class ChatMember extends \Telegram\ChatMember{
-
-    use simpleProto;
+class ChatMember extends Type{
+    
+    protected string $_ = 'ChatMember';
 
     /** @var User Information about the user */
     public User $user;
@@ -78,7 +77,30 @@ class ChatMember extends \Telegram\ChatMember{
     /** @var int|null Restricted and kicked only. Date when restrictions will be lifted for this user; unix time */
     public ?int $until_date = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->user = new User($array['user'], $Bot);
+        $this->status = $array['status'];
+        $this->custom_title = $array['custom_title'] ?? null;
+        $this->is_anonymous = $array['is_anonymous'] ?? null;
+        $this->can_be_edited = $array['can_be_edited'] ?? null;
+        $this->can_manage_chat = $array['can_manage_chat'] ?? null;
+        $this->can_post_messages = $array['can_post_messages'] ?? null;
+        $this->can_edit_messages = $array['can_edit_messages'] ?? null;
+        $this->can_delete_messages = $array['can_delete_messages'] ?? null;
+        $this->can_manage_voice_chats = $array['can_manage_voice_chats'] ?? null;
+        $this->can_restrict_members = $array['can_restrict_members'] ?? null;
+        $this->can_promote_members = $array['can_promote_members'] ?? null;
+        $this->can_change_info = $array['can_change_info'] ?? null;
+        $this->can_invite_users = $array['can_invite_users'] ?? null;
+        $this->can_pin_messages = $array['can_pin_messages'] ?? null;
+        $this->is_member = $array['is_member'] ?? null;
+        $this->can_send_messages = $array['can_send_messages'] ?? null;
+        $this->can_send_media_messages = $array['can_send_media_messages'] ?? null;
+        $this->can_send_polls = $array['can_send_polls'] ?? null;
+        $this->can_send_other_messages = $array['can_send_other_messages'] ?? null;
+        $this->can_add_web_page_previews = $array['can_add_web_page_previews'] ?? null;
+        $this->until_date = $array['until_date'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

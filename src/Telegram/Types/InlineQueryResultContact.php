@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
 */
-class InlineQueryResultContact extends \Telegram\InlineQueryResultContact{
-
-    use simpleProto;
+class InlineQueryResultContact extends Type{
+    
+    protected string $_ = 'InlineQueryResultContact';
 
     /** @var string Type of the result, must be contact */
     public string $type;
@@ -45,7 +44,19 @@ class InlineQueryResultContact extends \Telegram\InlineQueryResultContact{
     /** @var int|null Thumbnail height */
     public ?int $thumb_height = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->phone_number = $array['phone_number'];
+        $this->first_name = $array['first_name'];
+        $this->last_name = $array['last_name'] ?? null;
+        $this->vcard = $array['vcard'] ?? null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        $this->thumb_url = $array['thumb_url'] ?? null;
+        $this->thumb_width = $array['thumb_width'] ?? null;
+        $this->thumb_height = $array['thumb_height'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

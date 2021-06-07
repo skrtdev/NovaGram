@@ -4,11 +4,12 @@ namespace skrtdev\NovaGram;
 
 use PDO;
 use skrtdev\Prototypes\proto;
+use skrtdev\Prototypes\Prototypeable;
 use skrtdev\Telegram\User;
 
 class Database{
 
-    use proto;
+    use Prototypeable;
 
     const driver_options = [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY];
 

@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents the content of a location message to be sent as the result of an inline query.
 */
-class InputLocationMessageContent extends \Telegram\InputLocationMessageContent{
-
-    use simpleProto;
+class InputLocationMessageContent extends Type{
+    
+    protected string $_ = 'InputLocationMessageContent';
 
     /** @var float Latitude of the location in degrees */
     public float $latitude;
@@ -30,7 +29,14 @@ class InputLocationMessageContent extends \Telegram\InputLocationMessageContent{
     /** @var int|null For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified. */
     public ?int $proximity_alert_radius = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->latitude = $array['latitude'];
+        $this->longitude = $array['longitude'];
+        $this->horizontal_accuracy = $array['horizontal_accuracy'] ?? null;
+        $this->live_period = $array['live_period'] ?? null;
+        $this->heading = $array['heading'] ?? null;
+        $this->proximity_alert_radius = $array['proximity_alert_radius'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>

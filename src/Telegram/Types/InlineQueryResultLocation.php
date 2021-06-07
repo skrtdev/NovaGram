@@ -2,15 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use stdClass;
-use skrtdev\Prototypes\simpleProto;
+use skrtdev\NovaGram\Bot;
 
 /**
  * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
 */
-class InlineQueryResultLocation extends \Telegram\InlineQueryResultLocation{
-
-    use simpleProto;
+class InlineQueryResultLocation extends Type{
+    
+    protected string $_ = 'InlineQueryResultLocation';
 
     /** @var string Type of the result, must be location */
     public string $type;
@@ -54,7 +53,22 @@ class InlineQueryResultLocation extends \Telegram\InlineQueryResultLocation{
     /** @var int|null Thumbnail height */
     public ?int $thumb_height = null;
 
+    public function __construct(array $array, Bot $Bot = null){
+        $this->type = $array['type'];
+        $this->id = $array['id'];
+        $this->latitude = $array['latitude'];
+        $this->longitude = $array['longitude'];
+        $this->title = $array['title'];
+        $this->horizontal_accuracy = $array['horizontal_accuracy'] ?? null;
+        $this->live_period = $array['live_period'] ?? null;
+        $this->heading = $array['heading'] ?? null;
+        $this->proximity_alert_radius = $array['proximity_alert_radius'] ?? null;
+        $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
+        $this->input_message_content = isset($array['input_message_content']) ? new InputMessageContent($array['input_message_content'], $Bot) : null;
+        $this->thumb_url = $array['thumb_url'] ?? null;
+        $this->thumb_width = $array['thumb_width'] ?? null;
+        $this->thumb_height = $array['thumb_height'] ?? null;
+        parent::__construct($array, $Bot);
+   }
     
 }
-
-?>
