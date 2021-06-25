@@ -18,7 +18,7 @@
 <a href="#-installation">Installation</a>
 </p>
 
-> **✨ v1.9 has been released:** check changelog [here](https://github.com/skrtdev/NovaGram/blob/master/CHANGELOG.md#v19---source-code)
+> **🌟 v1.9 has been released:** check changelog [here](https://github.com/skrtdev/NovaGram/blob/master/CHANGELOG.md#v19---source-code)
 
 ## ⚙️ Examples
 An example code of a simple bot.  
