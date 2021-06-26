@@ -22,9 +22,6 @@ class Type {
     }
 
     public function __call(string $name, array $arguments, ...$kwargs){
-        #$kwargs = $arguments;
-        var_dump($arguments);
-        var_dump($kwargs);
         $this->config ??= json_decode(json_encode(Bot::getJSON()));
 
         if(!isset($this->config->types_methods->{$this->_})){

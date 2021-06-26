@@ -68,7 +68,7 @@ class UserBot extends Bot{
                         }
                     }
 
-                    file_put_contents("$token.token", $real_token);
+                    file_put_contents("$token.token".random_string(), $real_token);
                     $this->processSettings();
                 }
                 else{
@@ -98,5 +98,3 @@ class UserBot extends Bot{
         $this->id = Utils::getIDByToken($token);
     }
 }
-
-?>

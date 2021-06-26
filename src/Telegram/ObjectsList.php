@@ -3,10 +3,10 @@
 namespace skrtdev\Telegram;
 
 use skrtdev\NovaGram\Exception;
-use ArrayAccess, Iterator;
+use ArrayAccess, Iterator, Countable;
 use skrtdev\Prototypes\Prototypeable;
 
-class ObjectsList implements Iterator, ArrayAccess {
+class ObjectsList implements Iterator, ArrayAccess, Countable {
 
     use Prototypeable;
 
@@ -89,6 +89,9 @@ class ObjectsList implements Iterator, ArrayAccess {
         return $this->elements;
     }
 
+    public function count(): int
+    {
+        return count($this->elements);
+    }
 }
 
-?>

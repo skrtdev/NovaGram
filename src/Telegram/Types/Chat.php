@@ -2,14 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use skrtdev\NovaGram\Bot;
+use skrtdev\NovaGram\{Bot, conversations, dc};
 
 /**
  * This object represents a chat.
 */
 class Chat extends Type{
     
-    use \skrtdev\NovaGram\dc;
+    use dc, conversations;
 
     protected string $_ = 'Chat';
 

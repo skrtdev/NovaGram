@@ -4,9 +4,11 @@ namespace skrtdev\Telegram;
 
 use Throwable;
 
-class Exception extends \Exception{
+class Exception extends \Exception {
 
     public ?ResponseParameters $response_parameters = null; // read-only
+    public string $method;
+    public array $data;
 
     public function __construct(string $method, array $response, array $data, Throwable $previous = null) {
 
@@ -20,7 +22,7 @@ class Exception extends \Exception{
     }
 
     public function __toString() {
-        return get_class($this) . ": {$this->code} {$this->message} (caused by {$this->method}) in {$this->file}:{$this->line}\nStack trace:\n".$this->getTraceAsString();
+        return get_class($this) . ": {$this->getCode()} {$this->getMessage()} (caused by {$this->method}) in {$this->getFile()}:{$this->getLine()}\nStack trace:\n".$this->getTraceAsString();
     }
 
     public static function create(string $method, array $response, array $data, Throwable $previous = null) {
@@ -28,45 +30,24 @@ class Exception extends \Exception{
         switch ($response['error_code']) {
             case 400:
                 return new BadRequestException(...$args);
-                break;
-
             case 401:
                 return new UnauthorizedException(...$args);
-                break;
-
             case 403:
                 return new ForbiddenException(...$args);
-                break;
-
             case 404:
                 return new NotFoundException(...$args);
-                break;
-
             case 405:
                 return new MethodNotAllowedException(...$args);
-                break;
-
             case 409:
                 return new ConflictException(...$args);
-                break;
-
             case 413:
                 return new RequestEntityTooLargeException(...$args);
-                break;
-                
             case 429:
                 return new TooManyRequestsException(...$args);
-                break;
-
             case 502:
                 return new BadGatewayException(...$args);
-                break;
-
             default:
                 return new self(...$args);
-                break;
         }
     }
 }
-
-?>

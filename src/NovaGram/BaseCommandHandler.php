@@ -12,7 +12,7 @@ use Closure;
 abstract class BaseCommandHandler {
 
     protected Bot $Bot;
-    protected static array $fired = [];
+    protected static bool $fired = false;
 
     /* @var string|array */
     protected /* string|array */ $commands;
@@ -20,10 +20,10 @@ abstract class BaseCommandHandler {
 
     final public function __construct(Bot $Bot)
     {
-        if(!(self::$fired[static::class] ?? false)){
+        if(!static::$fired){
             $this->Bot = $Bot;
             $Bot->onCommand($this->commands, Closure::fromCallable([$this, "handle"]), $this->description ?? null);
-            self::$fired[static::class] = true;
+            static::$fired = true;
         }
         else{
             throw new Exception(static::class." handler has already been instantiated");
@@ -36,5 +36,3 @@ abstract class BaseCommandHandler {
 
 }
 
-
-?>

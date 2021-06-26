@@ -22,6 +22,7 @@ class TelegramLogger extends AbstractProcessingHandler
      * @param int        $chat_id        Chat where the logs will be sent
      * @param int|string $level          The minimum logging level at which this handler will be triggered
      * @param bool       $bubble         Whether the messages that are handled can bubble up the stack or not
+     * * @throws Exception
      */
     public function __construct(
         string $token,
@@ -32,9 +33,10 @@ class TelegramLogger extends AbstractProcessingHandler
     {
         parent::__construct($level, $bubble);
         $this->Bot = new Bot($token, [
-            "mode" => Bot::NONE,
-            "parse_mode" => "HTML",
-            "exceptions" => false
+            'mode' => Bot::NONE,
+            'parse_mode' => "HTML",
+            'exceptions' => false,
+            'include_classes' => false
         ]);
         $this->chat_id = $chat_id;
     }
@@ -53,7 +55,7 @@ class TelegramLogger extends AbstractProcessingHandler
      */
     protected function write(array $record): void
     {
-        $message = "<pre>".htmlspecialchars((string) $record['formatted'])."</pre>";
+        $message = '<pre>'.htmlspecialchars((string) $record['formatted']).'</pre>';
         $this->Bot->sendMessage($this->chat_id, $message);
     }
 }

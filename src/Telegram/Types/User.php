@@ -2,14 +2,14 @@
 
 namespace skrtdev\Telegram;
 
-use skrtdev\NovaGram\Bot;
+use skrtdev\NovaGram\{Bot, conversations, dc};
 
 /**
  * This object represents a Telegram user or bot.
 */
 class User extends Type{
     
-    use \skrtdev\NovaGram\dc;
+    use dc, conversations;
 
     protected string $_ = 'User';
 

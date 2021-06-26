@@ -12,16 +12,16 @@ use Closure;
 abstract class BaseCallbackHandler {
 
     protected Bot $Bot;
-    public static array $fired = [];
+    public static bool $fired = false;
 
     protected string $pattern;
 
     final public function __construct(Bot $Bot)
     {
-        if(!(self::$fired[static::class] ?? false)){
+        if(!static::$fired){
             $this->Bot = $Bot;
             $Bot->onCallbackData($this->pattern, Closure::fromCallable([$this, "handle"]));
-            self::$fired[static::class] = true;
+            static::$fired = true;
         }
         else{
             throw new Exception(static::class." handler has already been instantiated");
@@ -34,5 +34,3 @@ abstract class BaseCallbackHandler {
 
 }
 
-
-?>

@@ -28,9 +28,6 @@
             "skrtdev\\Telegram\\": ["src/Telegram/Types", "src/Telegram/Exceptions"],
             "skrtdev\\": "src/"
         },
-        "classmap":[
-            "src/bc"
-        ],
         "files":[
             "src/NovaGram/helpers.php"
         ]
