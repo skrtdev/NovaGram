@@ -34,7 +34,7 @@ trait Methods{
     public function getUpdates($args = null, bool $json_payload = false, ...$kwargs): ObjectsList
     {
         $params = $args;
-        return $this->APICall('getUpdates', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('getUpdates', $kwargs + ($params ?? []), Update::class, $json_payload);
     }
 
     /**
@@ -251,6 +251,7 @@ trait Methods{
      * On success, the sent Message is returned.
      * Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
      * For sending voice messages, use the sendVoice method instead.
+     * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param array|string $audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
@@ -426,7 +427,7 @@ trait Methods{
         else{
             $params = ['chat_id' => $chat_id, 'media' => $media] + ($args ?? []);
         }
-        return $this->APICall('sendMediaGroup', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('sendMediaGroup', $kwargs + ($params ?? []), Message::class, $json_payload);
     }
 
     /**
@@ -559,7 +560,7 @@ trait Methods{
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string $question Poll question, 1-300 characters
-     * @param array $options A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
+     * @param array $options A list of answer options, 2-10 strings 1-100 characters each
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
@@ -1168,7 +1169,7 @@ trait Methods{
         else{
             $params = ['chat_id' => $chat_id] + ($args ?? []);
         }
-        return $this->APICall('getChatAdministrators', $params ?? [], null, $json_payload);
+        return $this->APICall('getChatAdministrators', $params ?? [], ChatMember::class, $json_payload);
     }
 
     /**
@@ -1298,15 +1299,22 @@ trait Methods{
      * Returns True on success.
      * Arguments can be passed as named arguments.
      *
+     * @param array $commands Method arguments array or A list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
      * @return bool
      */
-    public function setMyCommands($args = null, bool $json_payload = false, ...$kwargs): bool
+    public function setMyCommands(array $commands = [], $args = null, bool $json_payload = false, ...$kwargs): bool
     {
-        $params = $args;
+        if(!is_list($commands)){
+            $json_payload = $args ?? false; // 2nd param
+            $params = $commands;
+        }
+        else{
+            $params = ['commands' => $commands] + ($args ?? []);
+        }
         return $this->APICall('setMyCommands', $kwargs + ($params ?? []), null, $json_payload);
     }
 
@@ -1343,7 +1351,7 @@ trait Methods{
     public function getMyCommands($args = null, bool $json_payload = false, ...$kwargs): ObjectsList
     {
         $params = $args;
-        return $this->APICall('getMyCommands', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('getMyCommands', $kwargs + ($params ?? []), BotCommand::class, $json_payload);
     }
 
     /**
@@ -1873,7 +1881,7 @@ trait Methods{
         else{
             $params = ['user_id' => $user_id] + ($args ?? []);
         }
-        return $this->APICall('getGameHighScores', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('getGameHighScores', $kwargs + ($params ?? []), GameHighScore::class, $json_payload);
     }
 
 }
