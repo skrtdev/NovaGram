@@ -479,7 +479,7 @@ trait Methods{
         else{
             $params = ['latitude' => $latitude, 'longitude' => $longitude] + ($args ?? []);
         }
-        return $this->APICall('editMessageLiveLocation', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('editMessageLiveLocation', $kwargs + ($params ?? []), Message::class, $json_payload);
     }
 
     /**
@@ -496,7 +496,7 @@ trait Methods{
     public function stopMessageLiveLocation($args = null, bool $json_payload = false, ...$kwargs)
     {
         $params = $args;
-        return $this->APICall('stopMessageLiveLocation', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('stopMessageLiveLocation', $kwargs + ($params ?? []), Message::class, $json_payload);
     }
 
     /**
@@ -1375,7 +1375,7 @@ trait Methods{
         else{
             $params = ['text' => $text] + ($args ?? []);
         }
-        return $this->APICall('editMessageText', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('editMessageText', $kwargs + ($params ?? []), Message::class, $json_payload);
     }
 
     /**
@@ -1392,7 +1392,7 @@ trait Methods{
     public function editMessageCaption($args = null, bool $json_payload = false, ...$kwargs)
     {
         $params = $args;
-        return $this->APICall('editMessageCaption', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('editMessageCaption', $kwargs + ($params ?? []), Message::class, $json_payload);
     }
 
     /**
@@ -1412,7 +1412,7 @@ trait Methods{
     public function editMessageMedia($args = null, bool $json_payload = false, ...$kwargs)
     {
         $params = $args;
-        return $this->APICall('editMessageMedia', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('editMessageMedia', $kwargs + ($params ?? []), Message::class, $json_payload);
     }
 
     /**
@@ -1429,7 +1429,7 @@ trait Methods{
     public function editMessageReplyMarkup($args = null, bool $json_payload = false, ...$kwargs)
     {
         $params = $args;
-        return $this->APICall('editMessageReplyMarkup', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('editMessageReplyMarkup', $kwargs + ($params ?? []), Message::class, $json_payload);
     }
 
     /**
@@ -1856,7 +1856,7 @@ trait Methods{
         else{
             $params = ['user_id' => $user_id, 'score' => $score] + ($args ?? []);
         }
-        return $this->APICall('setGameScore', $kwargs + ($params ?? []), null, $json_payload);
+        return $this->APICall('setGameScore', $kwargs + ($params ?? []), Message::class, $json_payload);
     }
 
     /**
