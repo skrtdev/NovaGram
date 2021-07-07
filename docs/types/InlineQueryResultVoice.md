@@ -15,4 +15,3 @@ Represents a link to a voice recording in an .OGG container encoded with OPUS. B
 - `$reply_markup`: [`InlineKeyboardMarkup`](InlineKeyboardMarkup.md) _Optional. Inline keyboard attached to the message_
 - `$input_message_content`: [`InputMessageContent`](InputMessageContent.md) _Optional. Content of the message to be sent instead of the voice recording_
 
-## Methods	

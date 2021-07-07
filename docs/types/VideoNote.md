@@ -11,4 +11,3 @@ This object represents a video message (available in Telegram apps as of v.4.0).
 - `$thumb`: [`PhotoSize`](PhotoSize.md) _Optional. Video thumbnail_
 - `$file_size`: _Optional. File size_
 
-## Methods	

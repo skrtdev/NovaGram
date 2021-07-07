@@ -9,4 +9,3 @@ This object represents one button of the reply keyboard. For simple text buttons
 - `$request_location`: _Optional. If True, the user's current location will be sent when the button is pressed. Available in private chats only_
 - `$request_poll`: [`KeyboardButtonPollType`](KeyboardButtonPollType.md) _Optional. If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only_
 
-## Methods	

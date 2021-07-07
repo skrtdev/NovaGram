@@ -14,4 +14,3 @@ Represents a link to a voice message stored on the Telegram servers. By default,
 - `$reply_markup`: [`InlineKeyboardMarkup`](InlineKeyboardMarkup.md) _Optional. Inline keyboard attached to the message_
 - `$input_message_content`: [`InputMessageContent`](InputMessageContent.md) _Optional. Content of the message to be sent instead of the voice message_
 
-## Methods	

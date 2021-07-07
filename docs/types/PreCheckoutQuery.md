@@ -12,4 +12,3 @@ This object contains information about an incoming pre-checkout query.
 - `$shipping_option_id`: _Optional. Identifier of the shipping option chosen by the user_
 - `$order_info`: [`OrderInfo`](OrderInfo.md) _Optional. Order info provided by the user_
 
-## Methods	

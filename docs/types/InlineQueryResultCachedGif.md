@@ -14,4 +14,3 @@ Represents a link to an animated GIF file stored on the Telegram servers. By def
 - `$reply_markup`: [`InlineKeyboardMarkup`](InlineKeyboardMarkup.md) _Optional. Inline keyboard attached to the message_
 - `$input_message_content`: [`InputMessageContent`](InputMessageContent.md) _Optional. Content of the message to be sent instead of the GIF animation_
 
-## Methods	

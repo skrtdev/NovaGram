@@ -16,4 +16,3 @@ Represents a link to an article or web page.
 - `$thumb_width`: _Optional. Thumbnail width_
 - `$thumb_height`: _Optional. Thumbnail height_
 
-## Methods	

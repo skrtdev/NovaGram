@@ -16,4 +16,3 @@ Represents a contact with a phone number. By default, this contact will be sent 
 - `$thumb_width`: _Optional. Thumbnail width_
 - `$thumb_height`: _Optional. Thumbnail height_
 
-## Methods	

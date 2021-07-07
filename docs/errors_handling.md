@@ -19,13 +19,15 @@ $Bot->addErrorHandler(function (Throwable $e) {
 If you wanna an handler for a specific exception, just write it.
 
 ```php
-$Bot->addErrorHandler(function (skrtdev\Telegram\Exception $e) {
+use skrtdev\Telegram\Exception as TelegramException;
+
+$Bot->addErrorHandler(function (TelegramException $e) {
     print('Caught '.get_class($e).' exception from speficic handler'.PHP_EOL);
 });
 ```
 
 The same exception can be caught by more than one handler, if the type corresponds.  
-In this example, a `skrtdev\Telegram\Exception` is handled by both the `Throwable` and `skrtdev\Telegram\Exception` handlers.
+In this example, a `skrtdev\Telegram\Exception` is handled by both the `Throwable` and `TelegramException` handlers.
 
 If you don't set an Error Handler, the errors will be printed if you're using by CLI, or thrown if you're using Webhook.
 
@@ -40,7 +42,7 @@ $Bot->addErrorHandler(function (Throwable $e) use ($Bot) {
 
 ## Telegram Exceptions
 
-Telegram Exceptions thrown by NovaGram are `skrtdev\Telegram\Exceptions`, but sometimes they are more speficic Exceptions that extend the main one, according to `error_code` number. Here's the full list:  
+Telegram Exceptions thrown by NovaGram are `skrtdev\Telegram\Exception`s, but sometimes they are more speficic Exceptions that extend the main one, according to `error_code` number. Here's the full list:  
 
 - `BadRequestException` (400)
 - `UnauthorizedException` (401)

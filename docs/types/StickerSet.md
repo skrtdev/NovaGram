@@ -11,4 +11,3 @@ This object represents a sticker set.
 - `$stickers`: [`Array of Sticker`](Sticker.md) _List of all set stickers_
 - `$thumb`: [`PhotoSize`](PhotoSize.md) _Optional. Sticker set thumbnail in the .WEBP or .TGS format_
 
-## Methods	

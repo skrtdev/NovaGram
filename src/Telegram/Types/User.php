@@ -55,6 +55,7 @@ class User extends Type{
 
     public function getMention(): string
     {
+        $this->Bot->settings->parse_mode ??= 'HTML';
         return "<a href=\"tg://user?id={$this->id}\">". htmlspecialchars($this->first_name. ( isset($this->last_name) ? " {$this->last_name}" : '' )) ."</a>";
     }
 }

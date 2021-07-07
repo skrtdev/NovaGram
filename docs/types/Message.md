@@ -33,7 +33,7 @@ This object represents a message.
 - `$caption`: _Optional. Caption for the animation, audio, document, photo, video or voice, 0-1024 characters_
 - `$caption_entities`: [`Array of MessageEntity`](MessageEntity.md) _Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption_
 - `$contact`: [`Contact`](Contact.md) _Optional. Message is a shared contact, information about the contact_
-- `$dice`: [`Dice`](Dice.md) _Optional. Message is a dice with random value from 1 to 6_
+- `$dice`: [`Dice`](Dice.md) _Optional. Message is a dice with random value_
 - `$game`: [`Game`](Game.md) _Optional. Message is a game, information about the game. More about games »_
 - `$poll`: [`Poll`](Poll.md) _Optional. Message is a native poll, information about the poll_
 - `$venue`: [`Venue`](Venue.md) _Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set_
@@ -42,123 +42,102 @@ This object represents a message.
 - `$left_chat_member`: [`User`](User.md) _Optional. A member was removed from the group, information about them (this member may be the bot itself)_
 - `$new_chat_title`: _Optional. A chat title was changed to this value_
 - `$new_chat_photo`: [`Array of PhotoSize`](PhotoSize.md) _Optional. A chat photo was change to this value_
-- `$delete_chat_photo`: [`True`](True.md) _Optional. Service message: the chat photo was deleted_
-- `$group_chat_created`: [`True`](True.md) _Optional. Service message: the group has been created_
-- `$supergroup_chat_created`: [`True`](True.md) _Optional. Service message: the supergroup has been created. This field can't be received in a message coming through updates, because bot can't be a member of a supergroup when it is created. It can only be found in reply_to_message if someone replies to a very first message in a directly created supergroup._
-- `$channel_chat_created`: [`True`](True.md) _Optional. Service message: the channel has been created. This field can't be received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only be found in reply_to_message if someone replies to a very first message in a channel._
-- `$migrate_to_chat_id`: _Optional. The group has been migrated to a supergroup with the specified identifier. This number may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier._
-- `$migrate_from_chat_id`: _Optional. The supergroup has been migrated from a group with the specified identifier. This number may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier._
+- `$delete_chat_photo`: _Optional. Service message: the chat photo was deleted_
+- `$group_chat_created`: _Optional. Service message: the group has been created_
+- `$supergroup_chat_created`: _Optional. Service message: the supergroup has been created. This field can't be received in a message coming through updates, because bot can't be a member of a supergroup when it is created. It can only be found in reply_to_message if someone replies to a very first message in a directly created supergroup._
+- `$channel_chat_created`: _Optional. Service message: the channel has been created. This field can't be received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only be found in reply_to_message if someone replies to a very first message in a channel._
+- `$message_auto_delete_timer_changed`: [`MessageAutoDeleteTimerChanged`](MessageAutoDeleteTimerChanged.md) _Optional. Service message: auto-delete timer settings changed in the chat_
+- `$migrate_to_chat_id`: _Optional. The group has been migrated to a supergroup with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier._
+- `$migrate_from_chat_id`: _Optional. The supergroup has been migrated from a group with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier._
 - `$pinned_message`: [`Message`](Message.md) _Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply._
 - `$invoice`: [`Invoice`](Invoice.md) _Optional. Message is an invoice for a payment, information about the invoice. More about payments »_
 - `$successful_payment`: [`SuccessfulPayment`](SuccessfulPayment.md) _Optional. Message is a service message about a successful payment, information about the payment. More about payments »_
 - `$connected_website`: _Optional. The domain name of the website on which the user has logged in. More about Telegram Login »_
 - `$passport_data`: [`PassportData`](PassportData.md) _Optional. Telegram Passport data_
 - `$proximity_alert_triggered`: [`ProximityAlertTriggered`](ProximityAlertTriggered.md) _Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location._
+- `$voice_chat_scheduled`: [`VoiceChatScheduled`](VoiceChatScheduled.md) _Optional. Service message: voice chat scheduled_
+- `$voice_chat_started`: [`VoiceChatStarted`](VoiceChatStarted.md) _Optional. Service message: voice chat started_
+- `$voice_chat_ended`: [`VoiceChatEnded`](VoiceChatEnded.md) _Optional. Service message: voice chat ended_
+- `$voice_chat_participants_invited`: [`VoiceChatParticipantsInvited`](VoiceChatParticipantsInvited.md) _Optional. Service message: new participants invited to a voice chat_
 - `$reply_markup`: [`InlineKeyboardMarkup`](InlineKeyboardMarkup.md) _Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons._
 
-## Methods	
+## Methods  
 
 ### forward()	
 
-Alias of [`forwardMessage`](../methods.md#forwardMessage)	
-_A description of the method_	
-
-```
+Alias of [`forwardMessage`](../methods.md#forwardmessage)	
+```php
 $message->forward($chat_id);
 ```
 ### reply()	
 
-Alias of [`sendMessage`](../methods.md#sendMessage)	
-_A description of the method_	
-
-```
+Alias of [`sendMessage`](../methods.md#sendmessage)	
+```php
 $message->reply($text);
 ```
 ### delete()	
 
-Alias of [`deleteMessage`](../methods.md#deleteMessage)	
-_A description of the method_	
-
-```
+Alias of [`deleteMessage`](../methods.md#deletemessage)	
+```php
 $message->delete(...$args);
 ```
 ### editText()	
 
-Alias of [`editMessageText`](../methods.md#editMessageText)	
-_A description of the method_	
-
-```
+Alias of [`editMessageText`](../methods.md#editmessagetext)	
+```php
 $message->editText($text);
 ```
 ### editLiveLocation()	
 
-Alias of [`editMessageLiveLocation`](../methods.md#editMessageLiveLocation)	
-_A description of the method_	
-
-```
+Alias of [`editMessageLiveLocation`](../methods.md#editmessagelivelocation)	
+```php
 $message->editLiveLocation(...$args);
 ```
 ### stopLiveLocation()	
 
-Alias of [`stopMessageLiveLocation`](../methods.md#stopMessageLiveLocation)	
-_A description of the method_	
-
-```
+Alias of [`stopMessageLiveLocation`](../methods.md#stopmessagelivelocation)	
+```php
 $message->stopLiveLocation($reply_markup);
 ```
 ### pin()	
 
-Alias of [`pinChatMessage`](../methods.md#pinChatMessage)	
-_A description of the method_	
-
-```
+Alias of [`pinChatMessage`](../methods.md#pinchatmessage)	
+```php
 $message->pin($disable_notification);
 ```
 ### editCaption()	
 
-Alias of [`editMessageCaption`](../methods.md#editMessageCaption)	
-_A description of the method_	
-
-```
+Alias of [`editMessageCaption`](../methods.md#editmessagecaption)	
+```php
 $message->editCaption($caption);
 ```
 ### editMedia()	
 
-Alias of [`editMessageMedia`](../methods.md#editMessageMedia)	
-_A description of the method_	
-
-```
+Alias of [`editMessageMedia`](../methods.md#editmessagemedia)	
+```php
 $message->editMedia($media);
 ```
 ### editReplyMarkup()	
 
-Alias of [`editMessageReplyMarkup`](../methods.md#editMessageReplyMarkup)	
-_A description of the method_	
-
-```
+Alias of [`editMessageReplyMarkup`](../methods.md#editmessagereplymarkup)	
+```php
 $message->editReplyMarkup($reply_markup);
 ```
 ### stopPoll()	
 
-Alias of [`stopPoll`](../methods.md#stopPoll)	
-_A description of the method_	
-
-```
+Alias of [`stopPoll`](../methods.md#stoppoll)	
+```php
 $message->stopPoll($reply_markup);
 ```
 ### setGameScore()	
 
-Alias of [`setGameScore`](../methods.md#setGameScore)	
-_A description of the method_	
-
-```
+Alias of [`setGameScore`](../methods.md#setgamescore)	
+```php
 $message->setGameScore($inline_message_id);
 ```
 ### copy()	
 
-Alias of [`copyMessage`](../methods.md#copyMessage)	
-_A description of the method_	
-
-```
+Alias of [`copyMessage`](../methods.md#copymessage)	
+```php
 $message->copy($chat_id);
 ```

@@ -18,4 +18,3 @@ Represents a link to a photo. By default, this photo will be sent by the user wi
 - `$reply_markup`: [`InlineKeyboardMarkup`](InlineKeyboardMarkup.md) _Optional. Inline keyboard attached to the message_
 - `$input_message_content`: [`InputMessageContent`](InputMessageContent.md) _Optional. Content of the message to be sent instead of the photo_
 
-## Methods	

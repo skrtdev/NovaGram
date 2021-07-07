@@ -19,10 +19,13 @@ class TracebackNormalizer
             else return 'Array';
         }
         elseif (is_string($arg)){
-            return "'$arg'";
+            return strlen($arg) < 30 ? "'$arg'" : "'".substr($arg, 0, 30)."...'";
         }
         elseif (is_bool($arg)){
             return $arg ? 'true' : 'false';
+        }
+        elseif($arg === null){
+            return 'null';
         }
         else return (string) $arg;
     }

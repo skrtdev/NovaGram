@@ -19,4 +19,3 @@ Represents a link to a file. By default, this file will be sent by the user with
 - `$thumb_width`: _Optional. Thumbnail width_
 - `$thumb_height`: _Optional. Thumbnail height_
 
-## Methods	

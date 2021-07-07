@@ -5,4 +5,3 @@ This object represents the contents of a file to be uploaded. Must be posted usi
 ## Properties	
 
 
-## Methods	

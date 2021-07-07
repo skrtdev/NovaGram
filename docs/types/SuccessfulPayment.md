@@ -12,4 +12,3 @@ This object contains basic information about a successful payment.
 - `$telegram_payment_charge_id`: _Telegram payment identifier_
 - `$provider_payment_charge_id`: _Provider payment identifier_
 
-## Methods	

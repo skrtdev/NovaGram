@@ -6,9 +6,9 @@ use skrtdev\Telegram\{UnauthorizedException, BadRequestException};
 
 class UserBot extends Bot{
 
-    public function __construct(string $token, array $settings = [], ?Logger $logger = null, ...$kwargs) {
+    public function __construct(string $token, array $settings = [], ...$kwargs) {
         $this->settings = $this->normalizeSettings(['export_commands' => false, 'disable_ip_check' => true] + $settings + $kwargs + ['bot_api_url' => 'https://botapi.giuseppem99.xyz']);
-        $this->initializeLogger($logger);
+        $this->initializeLogger();
 
         if(!Utils::isTokenValid($token)){
             $path = realpath('.');
@@ -55,7 +55,7 @@ class UserBot extends Bot{
                     }
 
                     if($result->authorization_state === "wait_password"){
-                        print(isset($result->password_hint) ? "Insert 2fa password (hint: {$result->password_hint}): " : "Insert 2fa password: ");
+                        print(isset($result->password_hint) ? "Insert 2fa password (hint: $result->password_hint): " : "Insert 2fa password: ");
                         while(true){
                             $password = trim(fgets(STDIN));
                             try{
@@ -88,10 +88,9 @@ class UserBot extends Bot{
 
     protected function initializeEndpoint(): void
     {
-        $this->endpoint = trim($this->settings->bot_api_url, '/')."/user{$this->token}/";
+        $this->endpoint = trim($this->settings->bot_api_url, '/')."/user$this->token/";
     }
 
-    // try to delete this function: you'll discover php is broken 
     protected function initializeToken(string $token): void
     {
         $this->token = trim($token);

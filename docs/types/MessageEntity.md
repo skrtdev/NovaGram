@@ -11,4 +11,3 @@ This object represents one special entity in a text message. For example, hashta
 - `$user`: [`User`](User.md) _Optional. For “text_mention” only, the mentioned user_
 - `$language`: _Optional. For “pre” only, the programming language of the entity text_
 
-## Methods	

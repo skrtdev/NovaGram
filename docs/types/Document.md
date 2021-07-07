@@ -11,13 +11,11 @@ This object represents a general file (as opposed to photos, voice messages and 
 - `$mime_type`: _Optional. MIME type of the file as defined by sender_
 - `$file_size`: _Optional. File size_
 
-## Methods	
+## Methods  
 
 ### get()	
 
-Alias of [`getFile`](../methods.md#getFile)	
-_A description of the method_	
-
-```
+Alias of [`getFile`](../methods.md#getfile)	
+```php
 $document->get(...$args);
 ```

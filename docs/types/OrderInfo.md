@@ -9,4 +9,3 @@ This object represents information about an order.
 - `$email`: _Optional. User email_
 - `$shipping_address`: [`ShippingAddress`](ShippingAddress.md) _Optional. User shipping address_
 
-## Methods	

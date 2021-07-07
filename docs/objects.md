@@ -51,20 +51,11 @@ if(isset($update->callback_query)){ // update is a callback query
 
 Using handlers:  
 ```php
-$Bot->onMessage(function ($message) { // update is a message
+$Bot->onTextMessage(function ($message) { // update is a message and contains text
     $chat = $message->chat;
     $user = $message->from;
-
-    if(isset($message->text)){ // update message contains text
-
-        // code...
-
-    }
-    else { // Message doesn't contain text
-
-        // code...
-
-    }
+    
+    
 });
 
 $Bot->onCallbackQuery(function ($callback_query) { // update is a callback query

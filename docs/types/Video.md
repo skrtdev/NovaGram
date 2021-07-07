@@ -14,4 +14,3 @@ This object represents a video file.
 - `$mime_type`: _Optional. Mime type of a file as defined by sender_
 - `$file_size`: _Optional. File size_
 
-## Methods	

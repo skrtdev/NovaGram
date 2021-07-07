@@ -16,7 +16,8 @@
         "skrtdev/async":"^1.0",
         "monolog/monolog":"^2.1",
         "symfony/polyfill-php80": "^1.22",
-        "skrtdev/prototypes": "^1.0"
+        "skrtdev/prototypes": "^1.0",
+        "danog/tg-file-decoder": "^0.1.5"
     },
     "suggest": {
         "ext-mbstring":"Needed to use the built-in Telegram Entites Parser",

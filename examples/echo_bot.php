@@ -12,14 +12,11 @@ else{
 use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\Message;
 
-$Bot = new Bot('YOUR_TOKEN', [
-    'debug' => YOURCHATID, // chat id where debug will be sent when api errors occurs
-]);
+$Bot = new Bot('YOUR_TOKEN');
 
-$Bot->onTextMessage(function (Message $message) use ($Bot) { // update is a message and contains text
-    $chat = $message->chat;
+$Bot->onTextMessage(function (Message $message) { // update is a message and contains text
     $message->copy(); // copy the message in the same chat
 });
 
 $Bot->start();
-?>
+

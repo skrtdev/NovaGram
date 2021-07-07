@@ -15,4 +15,3 @@ This object represents a sticker.
 - `$mask_position`: [`MaskPosition`](MaskPosition.md) _Optional. For mask stickers, the position where the mask should be placed_
 - `$file_size`: _Optional. File size_
 
-## Methods	

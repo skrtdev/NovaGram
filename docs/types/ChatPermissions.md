@@ -13,4 +13,3 @@ Describes actions that a non-administrator user is allowed to take in a chat.
 - `$can_invite_users`: _Optional. True, if the user is allowed to invite new users to the chat_
 - `$can_pin_messages`: _Optional. True, if the user is allowed to pin messages. Ignored in public supergroups_
 
-## Methods	

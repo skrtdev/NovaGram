@@ -12,4 +12,3 @@ This object represents a venue.
 - `$google_place_id`: _Optional. Google Places identifier of the venue_
 - `$google_place_type`: _Optional. Google Places type of the venue. (See supported types.)_
 
-## Methods	

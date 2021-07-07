@@ -18,7 +18,7 @@ class Type {
         
         $this->Bot = $Bot;
 
-        foreach ($array as $key => $value) $this->$key ??= $value;
+        foreach ($array as $key => $value) $this->$key ??= is_array($value) ? (object) $value : $value;
     }
 
     public function __call(string $name, array $arguments, ...$kwargs){
@@ -64,7 +64,7 @@ class Type {
             $data[$key] ??= $value;
         }
         if(count($data) === 0) throw new \ArgumentCountError("Too few arguments to function ".get_class($this)."::$name(), 0 passed");
-        return $this->Bot->APICall($this_method->alias ?? $name, $data, $payload ?? false);
+        return $this->Bot->{$this_method->alias ?? $name}($data, $payload ?? false);
     }
 
     protected function presetToValue(string $preset){

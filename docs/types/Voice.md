@@ -10,4 +10,3 @@ This object represents a voice note.
 - `$mime_type`: _Optional. MIME type of the file as defined by sender_
 - `$file_size`: _Optional. File size_
 
-## Methods	

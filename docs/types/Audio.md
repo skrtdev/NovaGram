@@ -14,4 +14,3 @@ This object represents an audio file to be treated as music by the Telegram clie
 - `$file_size`: _Optional. File size_
 - `$thumb`: [`PhotoSize`](PhotoSize.md) _Optional. Thumbnail of the album cover to which the music file belongs_
 
-## Methods	

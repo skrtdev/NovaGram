@@ -31,7 +31,7 @@ trait Methods{
      *
      * @return Update[]|ObjectsList
      */
-    public function getUpdates($args = null, bool $json_payload = false, ...$kwargs): ObjectsList
+    public function getUpdates($args = null, bool $json_payload = false, ...$kwargs): ?ObjectsList
     {
         $params = $args;
         return $this->APICall('getUpdates', $kwargs + ($params ?? []), Update::class, $json_payload);
@@ -48,9 +48,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setWebhook($url, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function setWebhook($url, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($url)){
             $json_payload = $args ?? false; // 2nd param
@@ -71,9 +71,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function deleteWebhook($args = null, bool $json_payload = false, ...$kwargs): bool
+    public function deleteWebhook($args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         $params = $args;
         return $this->APICall('deleteWebhook', $kwargs + ($params ?? []), null, $json_payload);
@@ -87,9 +87,9 @@ trait Methods{
      *
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return WebhookInfo
+     * @return WebhookInfo|null
      */
-    public function getWebhookInfo(bool $json_payload = false): WebhookInfo
+    public function getWebhookInfo(bool $json_payload = false): ?WebhookInfo
     {
         return $this->APICall('getWebhookInfo', $params ?? [], WebhookInfo::class, $json_payload);
     }
@@ -101,9 +101,9 @@ trait Methods{
      *
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return User
+     * @return User|null
      */
-    public function getMe(bool $json_payload = false): User
+    public function getMe(bool $json_payload = false): ?User
     {
         return $this->APICall('getMe', $params ?? [], User::class, $json_payload);
     }
@@ -117,9 +117,9 @@ trait Methods{
      *
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function logOut(bool $json_payload = false): bool
+    public function logOut(bool $json_payload = false): ?bool
     {
         return $this->APICall('logOut', $params ?? [], null, $json_payload);
     }
@@ -133,9 +133,9 @@ trait Methods{
      *
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function close(bool $json_payload = false): bool
+    public function close(bool $json_payload = false): ?bool
     {
         return $this->APICall('close', $params ?? [], null, $json_payload);
     }
@@ -146,14 +146,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string $text Text of the message to be sent, 1-4096 characters after entities parsing
+     * @param null $text Text of the message to be sent, 1-4096 characters after entities parsing
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendMessage($chat_id, $text = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendMessage($chat_id, $text = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $text ?? false; // 2nd param
@@ -172,15 +172,15 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|string $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
-     * @param int $message_id Message identifier in the chat specified in from_chat_id
+     * @param null $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+     * @param int|null $message_id Message identifier in the chat specified in from_chat_id
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function forwardMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = [], bool $json_payload = false, ...$kwargs): Message
+    public function forwardMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = [], bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $from_chat_id ?? false; // 2nd param
@@ -200,15 +200,15 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|string $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
-     * @param int $message_id Message identifier in the chat specified in from_chat_id
+     * @param null $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+     * @param int|null $message_id Message identifier in the chat specified in from_chat_id
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return MessageId
+     * @return MessageId|null
      */
-    public function copyMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = [], bool $json_payload = false, ...$kwargs): MessageId
+    public function copyMessage($chat_id, $from_chat_id = null, int $message_id = null, array $args = [], bool $json_payload = false, ...$kwargs): ?MessageId
     {
         if(is_array($chat_id)){
             $json_payload = $from_chat_id ?? false; // 2nd param
@@ -226,14 +226,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array|string $photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More info on Sending Files »
+     * @param null $photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More info on Sending Files »
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendPhoto($chat_id, $photo = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendPhoto($chat_id, $photo = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $photo ?? false; // 2nd param
@@ -254,14 +254,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array|string $audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
+     * @param null $audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendAudio($chat_id, $audio = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendAudio($chat_id, $audio = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $audio ?? false; // 2nd param
@@ -280,14 +280,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array|string $document File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
+     * @param null $document File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendDocument($chat_id, $document = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendDocument($chat_id, $document = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $document ?? false; // 2nd param
@@ -306,14 +306,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array|string $video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More info on Sending Files »
+     * @param null $video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More info on Sending Files »
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendVideo($chat_id, $video = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendVideo($chat_id, $video = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $video ?? false; // 2nd param
@@ -332,14 +332,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array|string $animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More info on Sending Files »
+     * @param null $animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More info on Sending Files »
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendAnimation($chat_id, $animation = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendAnimation($chat_id, $animation = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $animation ?? false; // 2nd param
@@ -359,14 +359,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array|string $voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
+     * @param null $voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendVoice($chat_id, $voice = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendVoice($chat_id, $voice = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $voice ?? false; // 2nd param
@@ -385,14 +385,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array|string $video_note Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More info on Sending Files ». Sending video notes by a URL is currently unsupported
+     * @param null $video_note Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More info on Sending Files ». Sending video notes by a URL is currently unsupported
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendVideoNote($chat_id, $video_note = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendVideoNote($chat_id, $video_note = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $video_note ?? false; // 2nd param
@@ -418,7 +418,7 @@ trait Methods{
      *
      * @return Message[]|ObjectsList
      */
-    public function sendMediaGroup($chat_id, $media = null, $args = null, bool $json_payload = false, ...$kwargs): ObjectsList
+    public function sendMediaGroup($chat_id, $media = null, $args = null, bool $json_payload = false, ...$kwargs): ?ObjectsList
     {
         if(is_array($chat_id)){
             $json_payload = $media ?? false; // 2nd param
@@ -436,15 +436,15 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param float $latitude Latitude of the location
-     * @param float $longitude Longitude of the location
+     * @param null $latitude Latitude of the location
+     * @param float|null $longitude Longitude of the location
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendLocation($chat_id, $latitude = null, float $longitude = null, array $args = [], bool $json_payload = false, ...$kwargs): Message
+    public function sendLocation($chat_id, $latitude = null, float $longitude = null, array $args = [], bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $latitude ?? false; // 2nd param
@@ -505,17 +505,17 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param float $latitude Latitude of the venue
-     * @param float $longitude Longitude of the venue
-     * @param string $title Name of the venue
-     * @param string $address Address of the venue
+     * @param null $latitude Latitude of the venue
+     * @param float|null $longitude Longitude of the venue
+     * @param string|null $title Name of the venue
+     * @param string|null $address Address of the venue
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendVenue($chat_id, $latitude = null, float $longitude = null, string $title = null, string $address = null, array $args = [], bool $json_payload = false, ...$kwargs): Message
+    public function sendVenue($chat_id, $latitude = null, float $longitude = null, string $title = null, string $address = null, array $args = [], bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $latitude ?? false; // 2nd param
@@ -533,15 +533,15 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string $phone_number Contact's phone number
-     * @param string $first_name Contact's first name
+     * @param null $phone_number Contact's phone number
+     * @param string|null $first_name Contact's first name
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendContact($chat_id, $phone_number = null, string $first_name = null, array $args = [], bool $json_payload = false, ...$kwargs): Message
+    public function sendContact($chat_id, $phone_number = null, string $first_name = null, array $args = [], bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $phone_number ?? false; // 2nd param
@@ -559,15 +559,15 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string $question Poll question, 1-300 characters
-     * @param array $options A list of answer options, 2-10 strings 1-100 characters each
+     * @param null $question Poll question, 1-300 characters
+     * @param array|null $options A list of answer options, 2-10 strings 1-100 characters each
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendPoll($chat_id, $question = null, array $options = null, array $args = [], bool $json_payload = false, ...$kwargs): Message
+    public function sendPoll($chat_id, $question = null, array $options = null, array $args = [], bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $question ?? false; // 2nd param
@@ -589,9 +589,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendDice($chat_id, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendDice($chat_id, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $args ?? false; // 2nd param
@@ -607,15 +607,15 @@ trait Methods{
      * Use this method when you need to tell the user that something is happening on the bot's side.
      * The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
      * Returns True on success.
-    We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
+     * We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string $action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
+     * @param null $action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function sendChatAction($chat_id, $action = null, bool $json_payload = false): bool
+    public function sendChatAction($chat_id, $action = null, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $action ?? false; // 2nd param
@@ -637,9 +637,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return UserProfilePhotos
+     * @return UserProfilePhotos|null
      */
-    public function getUserProfilePhotos($user_id, $args = null, bool $json_payload = false, ...$kwargs): UserProfilePhotos
+    public function getUserProfilePhotos($user_id, $args = null, bool $json_payload = false, ...$kwargs): ?UserProfilePhotos
     {
         if(is_array($user_id)){
             $json_payload = $args ?? false; // 2nd param
@@ -662,9 +662,9 @@ trait Methods{
      * @param string $file_id Method arguments array or File identifier to get info about
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return File
+     * @return File|null
      */
-    public function getFile($file_id, bool $json_payload = false): File
+    public function getFile($file_id, bool $json_payload = false): ?File
     {
         if(is_array($file_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -684,14 +684,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target group or username of the target supergroup or channel (in the format @channelusername)
-     * @param int $user_id Unique identifier of the target user
+     * @param null $user_id Unique identifier of the target user
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function banChatMember($chat_id, $user_id = null, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function banChatMember($chat_id, $user_id = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $user_id ?? false; // 2nd param
@@ -704,7 +704,7 @@ trait Methods{
     }
 
 
-    public function kickChatMember(...$args): bool
+    public function kickChatMember(...$args): ?bool
     {
         Utils::trigger_error('Using removed kickChatMember, use banChatMember instead', E_USER_DEPRECATED);
         return $this->banChatMember(...$args);
@@ -721,14 +721,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target group or username of the target supergroup or channel (in the format @username)
-     * @param int $user_id Unique identifier of the target user
+     * @param null $user_id Unique identifier of the target user
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function unbanChatMember($chat_id, $user_id = null, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function unbanChatMember($chat_id, $user_id = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $user_id ?? false; // 2nd param
@@ -748,15 +748,15 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     * @param int $user_id Unique identifier of the target user
-     * @param array $permissions A JSON-serialized object for new user permissions
+     * @param null $user_id Unique identifier of the target user
+     * @param array|null $permissions A JSON-serialized object for new user permissions
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function restrictChatMember($chat_id, $user_id = null, array $permissions = null, array $args = [], bool $json_payload = false, ...$kwargs): bool
+    public function restrictChatMember($chat_id, $user_id = null, array $permissions = null, array $args = [], bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $user_id ?? false; // 2nd param
@@ -776,14 +776,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int $user_id Unique identifier of the target user
+     * @param null $user_id Unique identifier of the target user
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function promoteChatMember($chat_id, $user_id = null, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function promoteChatMember($chat_id, $user_id = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $user_id ?? false; // 2nd param
@@ -800,13 +800,13 @@ trait Methods{
      * Returns True on success.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     * @param int $user_id Unique identifier of the target user
-     * @param string $custom_title New custom title for the administrator; 0-16 characters, emoji are not allowed
+     * @param null $user_id Unique identifier of the target user
+     * @param string|null $custom_title New custom title for the administrator; 0-16 characters, emoji are not allowed
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setChatAdministratorCustomTitle($chat_id, $user_id = null, string $custom_title = null, bool $json_payload = false): bool
+    public function setChatAdministratorCustomTitle($chat_id, $user_id = null, string $custom_title = null, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $user_id ?? false; // 2nd param
@@ -824,12 +824,12 @@ trait Methods{
      * Returns True on success.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     * @param array $permissions New default chat permissions
+     * @param null $permissions New default chat permissions
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setChatPermissions($chat_id, $permissions = null, bool $json_payload = false): bool
+    public function setChatPermissions($chat_id, $permissions = null, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $permissions ?? false; // 2nd param
@@ -849,9 +849,9 @@ trait Methods{
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return string
+     * @return string|null
      */
-    public function exportChatInviteLink($chat_id, bool $json_payload = false): string
+    public function exportChatInviteLink($chat_id, bool $json_payload = false): ?string
     {
         if(is_array($chat_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -875,9 +875,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return ChatInviteLink
+     * @return ChatInviteLink|null
      */
-    public function createChatInviteLink($chat_id, $args = null, bool $json_payload = false, ...$kwargs): ChatInviteLink
+    public function createChatInviteLink($chat_id, $args = null, bool $json_payload = false, ...$kwargs): ?ChatInviteLink
     {
         if(is_array($chat_id)){
             $json_payload = $args ?? false; // 2nd param
@@ -896,14 +896,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string $invite_link The invite link to edit
+     * @param null $invite_link The invite link to edit
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return ChatInviteLink
+     * @return ChatInviteLink|null
      */
-    public function editChatInviteLink($chat_id, $invite_link = null, $args = null, bool $json_payload = false, ...$kwargs): ChatInviteLink
+    public function editChatInviteLink($chat_id, $invite_link = null, $args = null, bool $json_payload = false, ...$kwargs): ?ChatInviteLink
     {
         if(is_array($chat_id)){
             $json_payload = $invite_link ?? false; // 2nd param
@@ -922,12 +922,12 @@ trait Methods{
      * Returns the revoked invite link as ChatInviteLink object.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier of the target chat or username of the target channel (in the format @channelusername)
-     * @param string $invite_link The invite link to revoke
+     * @param null $invite_link The invite link to revoke
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return ChatInviteLink
+     * @return ChatInviteLink|null
      */
-    public function revokeChatInviteLink($chat_id, $invite_link = null, bool $json_payload = false): ChatInviteLink
+    public function revokeChatInviteLink($chat_id, $invite_link = null, bool $json_payload = false): ?ChatInviteLink
     {
         if(is_array($chat_id)){
             $json_payload = $invite_link ?? false; // 2nd param
@@ -946,12 +946,12 @@ trait Methods{
      * Returns True on success.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array $photo New chat photo, uploaded using multipart/form-data
+     * @param null $photo New chat photo, uploaded using multipart/form-data
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setChatPhoto($chat_id, $photo = null, bool $json_payload = false): bool
+    public function setChatPhoto($chat_id, $photo = null, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $photo ?? false; // 2nd param
@@ -972,9 +972,9 @@ trait Methods{
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function deleteChatPhoto($chat_id, bool $json_payload = false): bool
+    public function deleteChatPhoto($chat_id, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -993,12 +993,12 @@ trait Methods{
      * Returns True on success.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string $title New chat title, 1-255 characters
+     * @param null $title New chat title, 1-255 characters
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setChatTitle($chat_id, $title = null, bool $json_payload = false): bool
+    public function setChatTitle($chat_id, $title = null, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $title ?? false; // 2nd param
@@ -1021,9 +1021,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setChatDescription($chat_id, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function setChatDescription($chat_id, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $args ?? false; // 2nd param
@@ -1042,14 +1042,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int $message_id Identifier of a message to pin
+     * @param null $message_id Identifier of a message to pin
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function pinChatMessage($chat_id, $message_id = null, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function pinChatMessage($chat_id, $message_id = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $message_id ?? false; // 2nd param
@@ -1072,9 +1072,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function unpinChatMessage($chat_id, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function unpinChatMessage($chat_id, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $args ?? false; // 2nd param
@@ -1094,9 +1094,9 @@ trait Methods{
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function unpinAllChatMessages($chat_id, bool $json_payload = false): bool
+    public function unpinAllChatMessages($chat_id, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -1115,9 +1115,9 @@ trait Methods{
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function leaveChat($chat_id, bool $json_payload = false): bool
+    public function leaveChat($chat_id, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -1136,9 +1136,9 @@ trait Methods{
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return Chat
+     * @return Chat|null
      */
-    public function getChat($chat_id, bool $json_payload = false): Chat
+    public function getChat($chat_id, bool $json_payload = false): ?Chat
     {
         if(is_array($chat_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -1160,7 +1160,7 @@ trait Methods{
      *
      * @return ChatMember[]|ObjectsList
      */
-    public function getChatAdministrators($chat_id, bool $json_payload = false): ObjectsList
+    public function getChatAdministrators($chat_id, bool $json_payload = false): ?ObjectsList
     {
         if(is_array($chat_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -1179,9 +1179,9 @@ trait Methods{
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return int
+     * @return int|null
      */
-    public function getChatMemberCount($chat_id, bool $json_payload = false): int
+    public function getChatMemberCount($chat_id, bool $json_payload = false): ?int
     {
         if(is_array($chat_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -1193,7 +1193,7 @@ trait Methods{
         return $this->APICall('getChatMemberCount', $params ?? [], null, $json_payload);
     }
 
-    public function getChatMembersCount(...$args): int
+    public function getChatMembersCount(...$args): ?int
     {
         Utils::trigger_error('Using removed getChatMembersCount, use getChatMembersCount instead', E_USER_DEPRECATED);
         return $this->getChatMembersCount(...$args);
@@ -1204,12 +1204,12 @@ trait Methods{
      * Returns a ChatMember object on success.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
-     * @param int $user_id Unique identifier of the target user
+     * @param null $user_id Unique identifier of the target user
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return ChatMember
+     * @return ChatMember|null
      */
-    public function getChatMember($chat_id, $user_id = null, bool $json_payload = false): ChatMember
+    public function getChatMember($chat_id, $user_id = null, bool $json_payload = false): ?ChatMember
     {
         if(is_array($chat_id)){
             $json_payload = $user_id ?? false; // 2nd param
@@ -1228,12 +1228,12 @@ trait Methods{
      * Returns True on success.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     * @param string $sticker_set_name Name of the sticker set to be set as the group sticker set
+     * @param null $sticker_set_name Name of the sticker set to be set as the group sticker set
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setChatStickerSet($chat_id, $sticker_set_name = null, bool $json_payload = false): bool
+    public function setChatStickerSet($chat_id, $sticker_set_name = null, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $sticker_set_name ?? false; // 2nd param
@@ -1254,9 +1254,9 @@ trait Methods{
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function deleteChatStickerSet($chat_id, bool $json_payload = false): bool
+    public function deleteChatStickerSet($chat_id, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -1279,9 +1279,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function answerCallbackQuery($callback_query_id, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function answerCallbackQuery($callback_query_id, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($callback_query_id)){
             $json_payload = $args ?? false; // 2nd param
@@ -1304,9 +1304,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setMyCommands(array $commands = [], $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function setMyCommands(array $commands = [], $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(!is_list($commands)){
             $json_payload = $args ?? false; // 2nd param
@@ -1328,9 +1328,9 @@ trait Methods{
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function deleteMyCommands($args = null, bool $json_payload = false, ...$kwargs): bool
+    public function deleteMyCommands($args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         $params = $args;
         return $this->APICall('deleteMyCommands', $kwargs + ($params ?? []), null, $json_payload);
@@ -1348,7 +1348,7 @@ trait Methods{
      *
      * @return BotCommand[]|ObjectsList
      */
-    public function getMyCommands($args = null, bool $json_payload = false, ...$kwargs): ObjectsList
+    public function getMyCommands($args = null, bool $json_payload = false, ...$kwargs): ?ObjectsList
     {
         $params = $args;
         return $this->APICall('getMyCommands', $kwargs + ($params ?? []), BotCommand::class, $json_payload);
@@ -1438,14 +1438,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int $message_id Identifier of the original message with the poll
+     * @param null $message_id Identifier of the original message with the poll
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Poll
+     * @return Poll|null
      */
-    public function stopPoll($chat_id, $message_id = null, $args = null, bool $json_payload = false, ...$kwargs): Poll
+    public function stopPoll($chat_id, $message_id = null, $args = null, bool $json_payload = false, ...$kwargs): ?Poll
     {
         if(is_array($chat_id)){
             $json_payload = $message_id ?? false; // 2nd param
@@ -1461,12 +1461,12 @@ trait Methods{
      * Use this method to delete a message, including service messages, with the following limitations:- A message can only be deleted if it was sent less than 48 hours ago.- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.- Bots can delete outgoing messages in private chats, groups, and supergroups.- Bots can delete incoming messages in private chats.- Bots granted can_post_messages permissions can delete outgoing messages in channels.- If the bot is an administrator of a group, it can delete any message there.- If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.Returns True on success.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int $message_id Identifier of the message to delete
+     * @param null $message_id Identifier of the message to delete
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function deleteMessage($chat_id, $message_id = null, bool $json_payload = false): bool
+    public function deleteMessage($chat_id, $message_id = null, bool $json_payload = false): ?bool
     {
         if(is_array($chat_id)){
             $json_payload = $message_id ?? false; // 2nd param
@@ -1484,14 +1484,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array|string $sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
+     * @param null $sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendSticker($chat_id, $sticker = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendSticker($chat_id, $sticker = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $sticker ?? false; // 2nd param
@@ -1510,9 +1510,9 @@ trait Methods{
      * @param string $name Method arguments array or Name of the sticker set
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return StickerSet
+     * @return StickerSet|null
      */
-    public function getStickerSet($name, bool $json_payload = false): StickerSet
+    public function getStickerSet($name, bool $json_payload = false): ?StickerSet
     {
         if(is_array($name)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -1529,12 +1529,12 @@ trait Methods{
      * Returns the uploaded File on success.
      *
      * @param int $user_id Method arguments array or User identifier of sticker file owner
-     * @param array $png_sticker PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More info on Sending Files »
+     * @param null $png_sticker PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More info on Sending Files »
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return File
+     * @return File|null
      */
-    public function uploadStickerFile($user_id, $png_sticker = null, bool $json_payload = false): File
+    public function uploadStickerFile($user_id, $png_sticker = null, bool $json_payload = false): ?File
     {
         if(is_array($user_id)){
             $json_payload = $png_sticker ?? false; // 2nd param
@@ -1554,16 +1554,16 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int $user_id Method arguments array or User identifier of created sticker set owner
-     * @param string $name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
-     * @param string $title Sticker set title, 1-64 characters
-     * @param string $emojis One or more emoji corresponding to the sticker
+     * @param null $name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
+     * @param string|null $title Sticker set title, 1-64 characters
+     * @param string|null $emojis One or more emoji corresponding to the sticker
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function createNewStickerSet($user_id, $name = null, string $title = null, string $emojis = null, array $args = [], bool $json_payload = false, ...$kwargs): bool
+    public function createNewStickerSet($user_id, $name = null, string $title = null, string $emojis = null, array $args = [], bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($user_id)){
             $json_payload = $name ?? false; // 2nd param
@@ -1585,15 +1585,15 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int $user_id Method arguments array or User identifier of sticker set owner
-     * @param string $name Sticker set name
-     * @param string $emojis One or more emoji corresponding to the sticker
+     * @param null $name Sticker set name
+     * @param string|null $emojis One or more emoji corresponding to the sticker
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function addStickerToSet($user_id, $name = null, string $emojis = null, array $args = [], bool $json_payload = false, ...$kwargs): bool
+    public function addStickerToSet($user_id, $name = null, string $emojis = null, array $args = [], bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($user_id)){
             $json_payload = $name ?? false; // 2nd param
@@ -1610,12 +1610,12 @@ trait Methods{
      * Returns True on success.
      *
      * @param string $sticker Method arguments array or File identifier of the sticker
-     * @param int $position New sticker position in the set, zero-based
+     * @param null $position New sticker position in the set, zero-based
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setStickerPositionInSet($sticker, $position = null, bool $json_payload = false): bool
+    public function setStickerPositionInSet($sticker, $position = null, bool $json_payload = false): ?bool
     {
         if(is_array($sticker)){
             $json_payload = $position ?? false; // 2nd param
@@ -1634,9 +1634,9 @@ trait Methods{
      * @param string $sticker Method arguments array or File identifier of the sticker
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function deleteStickerFromSet($sticker, bool $json_payload = false): bool
+    public function deleteStickerFromSet($sticker, bool $json_payload = false): ?bool
     {
         if(is_array($sticker)){
             $json_payload = $json_payload ?? false; // 2nd param
@@ -1655,14 +1655,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param string $name Method arguments array or Sticker set name
-     * @param int $user_id User identifier of the sticker set owner
+     * @param null $user_id User identifier of the sticker set owner
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setStickerSetThumb($name, $user_id = null, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function setStickerSetThumb($name, $user_id = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($name)){
             $json_payload = $user_id ?? false; // 2nd param
@@ -1680,14 +1680,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param string $inline_query_id Method arguments array or Unique identifier for the answered query
-     * @param array $results An array of results for the inline query
+     * @param null $results An array of results for the inline query
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function answerInlineQuery($inline_query_id, $results = null, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function answerInlineQuery($inline_query_id, $results = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($inline_query_id)){
             $json_payload = $results ?? false; // 2nd param
@@ -1705,19 +1705,19 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string $title Product name, 1-32 characters
-     * @param string $description Product description, 1-255 characters
-     * @param string $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
-     * @param string $provider_token Payments provider token, obtained via Botfather
-     * @param string $currency Three-letter ISO 4217 currency code, see more on currencies
-     * @param array $prices Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+     * @param null $title Product name, 1-32 characters
+     * @param string|null $description Product description, 1-255 characters
+     * @param string|null $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+     * @param string|null $provider_token Payments provider token, obtained via Botfather
+     * @param string|null $currency Three-letter ISO 4217 currency code, see more on currencies
+     * @param array|null $prices Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
      * @param array $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendInvoice($chat_id, $title = null, string $description = null, string $payload = null, string $provider_token = null, string $currency = null, array $prices = null, array $args = [], bool $json_payload = false, ...$kwargs): Message
+    public function sendInvoice($chat_id, $title = null, string $description = null, string $payload = null, string $provider_token = null, string $currency = null, array $prices = null, array $args = [], bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $title ?? false; // 2nd param
@@ -1736,14 +1736,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param string $shipping_query_id Method arguments array or Unique identifier for the query to be answered
-     * @param bool $ok Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
+     * @param null $ok Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function answerShippingQuery($shipping_query_id, $ok = null, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function answerShippingQuery($shipping_query_id, $ok = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($shipping_query_id)){
             $json_payload = $ok ?? false; // 2nd param
@@ -1763,14 +1763,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param string $pre_checkout_query_id Method arguments array or Unique identifier for the query to be answered
-     * @param bool $ok Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order. Use False if there are any problems.
+     * @param null $ok Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order. Use False if there are any problems.
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return bool
+     * @return bool|null
      */
-    public function answerPreCheckoutQuery($pre_checkout_query_id, $ok = null, $args = null, bool $json_payload = false, ...$kwargs): bool
+    public function answerPreCheckoutQuery($pre_checkout_query_id, $ok = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
     {
         if(is_array($pre_checkout_query_id)){
             $json_payload = $ok ?? false; // 2nd param
@@ -1791,12 +1791,12 @@ trait Methods{
      * Supply some details in the error message to make sure the user knows how to correct the issues.
      *
      * @param int $user_id Method arguments array or User identifier
-     * @param array $errors An array describing the errors
+     * @param null $errors An array describing the errors
      * @param bool $json_payload Whether to use json payload for this method
      *
-     * @return bool
+     * @return bool|null
      */
-    public function setPassportDataErrors($user_id, $errors = null, bool $json_payload = false): bool
+    public function setPassportDataErrors($user_id, $errors = null, bool $json_payload = false): ?bool
     {
         if(is_array($user_id)){
             $json_payload = $errors ?? false; // 2nd param
@@ -1814,14 +1814,14 @@ trait Methods{
      * Arguments can be passed as named arguments.
      *
      * @param int $chat_id Method arguments array or Unique identifier for the target chat
-     * @param string $game_short_name Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
+     * @param null $game_short_name Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
      * @param mixed $args Other params passed to the method
      * @param bool $json_payload Whether to use json payload for this method
      * @param array ...$kwargs Named arguments
      *
-     * @return Message
+     * @return Message|null
      */
-    public function sendGame($chat_id, $game_short_name = null, $args = null, bool $json_payload = false, ...$kwargs): Message
+    public function sendGame($chat_id, $game_short_name = null, $args = null, bool $json_payload = false, ...$kwargs): ?Message
     {
         if(is_array($chat_id)){
             $json_payload = $game_short_name ?? false; // 2nd param
@@ -1872,7 +1872,7 @@ trait Methods{
      *
      * @return GameHighScore[]|ObjectsList
      */
-    public function getGameHighScores($user_id, $args = null, bool $json_payload = false, ...$kwargs): ObjectsList
+    public function getGameHighScores($user_id, $args = null, bool $json_payload = false, ...$kwargs): ?ObjectsList
     {
         if(is_array($user_id)){
             $json_payload = $args ?? false; // 2nd param

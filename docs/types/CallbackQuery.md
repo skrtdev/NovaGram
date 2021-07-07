@@ -12,13 +12,11 @@ This object represents an incoming callback query from a callback button in an i
 - `$data`: _Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field._
 - `$game_short_name`: _Optional. Short name of a Game to be returned, serves as the unique identifier for the game_
 
-## Methods	
+## Methods  
 
 ### answer()	
 
-Alias of [`answerCallbackQuery`](../methods.md#answerCallbackQuery)	
-_A description of the method_	
-
-```
+Alias of [`answerCallbackQuery`](../methods.md#answercallbackquery)	
+```php
 $callbackquery->answer($text);
 ```

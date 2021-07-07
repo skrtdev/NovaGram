@@ -9,4 +9,3 @@ This object contains information about an incoming shipping query.
 - `$invoice_payload`: _Bot specified invoice payload_
 - `$shipping_address`: [`ShippingAddress`](ShippingAddress.md) _User specified shipping address_
 
-## Methods	

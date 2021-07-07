@@ -19,4 +19,3 @@ Represents a location on a map. By default, the location will be sent by the use
 - `$thumb_width`: _Optional. Thumbnail width_
 - `$thumb_height`: _Optional. Thumbnail height_
 
-## Methods	

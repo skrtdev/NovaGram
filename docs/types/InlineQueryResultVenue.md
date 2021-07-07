@@ -20,4 +20,3 @@ Represents a venue. By default, the venue will be sent by the user. Alternativel
 - `$thumb_width`: _Optional. Thumbnail width_
 - `$thumb_height`: _Optional. Thumbnail height_
 
-## Methods	

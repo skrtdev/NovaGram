@@ -1,39 +1,48 @@
 # Extending NovaGram
 
-NovaGram has a JS-like Prototypes System, that you can use in order to extend the library  
+NovaGram has a JS-like [Prototypes](https://github.com/skrtdev/prototypes) System, that you can use in order to extend the library  
 
 ## Add new Methods
 
-Let's make a sort of breakpoint for debugging your code.
+Let's make an handler for pinned messages.
 
 ```php
 use skrtdev\NovaGram\Bot;
+use skrtdev\Telegram\Message;
 
-Bot::addMethod("breakpoint", function () {
-    $this->breakpoint_n ??= 0; // initialize the property
-    $this->debug("Breakpoint n.{$this->breakpoint_n}");
-    $this->breakpoint_n++; // increment the property
+Bot::addMethod('onPinnedMessage', function (Closure $handler): void {
+    /** @var Bot $this */
+    $this->onMessage($handler, null, fn(Message $message) => isset($message->pinned_message));
 });
 
+$Bot = new Bot('TOKEN');
+
 // usage:
-$Bot->breakpoint();
+$Bot->onPinnedMessage(function(Message $message){
+    $pinned_message = $message->pinned_message; 
+    $pinned_message->reply('This message has just been pinned');
+});
 ```
 
 The 1st parameter is the method name, the 2nd is the method itself, in form of Closure (anonymous function).  
 The arguments passed to the Closure are all the arguments passed to the method.  
-Inside the Closure, `$this` refers to the instance of the Object - in this case instance of `skrtdev\NovaGram\Bot`.  
+Inside the Closure, `$this` refers to the instance of the Object - in this case instance of `skrtdev\NovaGram\Bot`.
 
 ```php
 use skrtdev\NovaGram\Bot;
+use skrtdev\Telegram\Message;
 
-Bot::addMethod("breakpoint", function ($text) {
-    $this->breakpoint_n ??= 0; // initialize the property
-    $this->debug("Breakpoint n.{$this->breakpoint_n}: $text");
-    $this->breakpoint_n++; // increment the property
+Bot::addMethod('onForwardedMessage', function (Closure $handler): void {
+    /** @var Bot $this */
+    $this->onMessage($handler, null, fn(Message $message) => isset($message->forward_date));
 });
 
-// usage:
-$Bot->breakpoint("sample text");
+
+$Bot->onForwardedMessage(function(Message $message){
+    $chat = $message->chat;
+    $chat->sendMessage('You can\'t forward messages in this chat');
+    $message->delete();
+});
 ```
 
 With prototypes you can only add methods, not modify behaviour of existent methods.

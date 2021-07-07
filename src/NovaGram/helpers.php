@@ -10,10 +10,10 @@ if(!function_exists('stop_handling')){
 else throw new skrtdev\NovaGram\Exception('stop_handling function already exist');
 
 if(!function_exists('iterate')){
-    function iterate(array $list, callable $callable): array {
+    function iterate(iterable $list, callable $callable): array {
         $result = [];
-        foreach ($list as $item) {
-            $result []= $callable($item);
+        foreach ($list as $key => $item) {
+            $result []= $callable(...is_integer($key) ? [$item] : [$key, $item]);
         }
         return $result;
     }
@@ -38,3 +38,8 @@ if(!function_exists('is_list')){
 }
 else throw new skrtdev\NovaGram\Exception('is_list function already exist');
 
+if(!function_exists('button')){
+    function button(string $text, string $data, bool $is_url = false): array {
+        return ['text' => $text, $is_url ? 'url' : 'callback_data' => $data];
+    }
+}

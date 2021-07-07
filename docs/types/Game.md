@@ -11,4 +11,3 @@ This object represents a game. Use BotFather to create and edit games, their sho
 - `$text_entities`: [`Array of MessageEntity`](MessageEntity.md) _Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc._
 - `$animation`: [`Animation`](Animation.md) _Optional. Animation that will be displayed in the game message in chats. Upload via BotFather_
 
-## Methods	

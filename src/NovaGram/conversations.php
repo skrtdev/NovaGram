@@ -19,19 +19,24 @@ trait conversations{
         return $db->deleteConversation($this->id, $name);
     }
 
-    public function status(string $value = null, bool $permanent = false){
+    public function status(string $value = null, bool $permanent = false)
+    {
         return $this->conversation("status", $value, $permanent);
     }
 
-    public function clearStatus(){
-        return $this->clearConversation("status");
+    public function clearStatus(): void
+    {
+        $this->clearConversation("status");
     }
 
     public function getConversations(): array
     {
-        return $this->Bot->getDatabase()->getConversationsByChat($this->id);
+        return $this->Bot->getDatabase()->getChatConversations($this->id);
+    }
+
+    public function deleteAllConversations(): void
+    {
+        $this->Bot->getDatabase()->deleteChatConversations($this->id);
     }
 
 }
-
-?>

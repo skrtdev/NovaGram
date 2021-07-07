@@ -19,4 +19,3 @@ Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). B
 - `$reply_markup`: [`InlineKeyboardMarkup`](InlineKeyboardMarkup.md) _Optional. Inline keyboard attached to the message_
 - `$input_message_content`: [`InputMessageContent`](InputMessageContent.md) _Optional. Content of the message to be sent instead of the video animation_
 
-## Methods	

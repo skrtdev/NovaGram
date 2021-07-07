@@ -2,6 +2,7 @@
 
 namespace skrtdev\NovaGram;
 
+use ReflectionUnionType;
 use skrtdev\Telegram\Update;
 use skrtdev\async\Pool;
 use Closure;
@@ -21,32 +22,49 @@ class Dispatcher {
     private bool $group_handlers;
     private static bool $stop_update_handling = false;
     private Pool $pool;
-    private array $closure_handlers = [];
+    /**
+     * @var Handler[][]
+     */
+    private array $handlers = [];
     private array $class_handlers = [];
     private array $error_handlers = [];
 
-    public function __construct(Bot $Bot, bool $async = true, bool $group_handlers = true, bool $wait_handlers = false, ?int $max_childs = null)
+    public function __construct(Bot $Bot, bool $async = true, bool $group_handlers = true, bool $wait_handlers = false, ?int $max_children = null)
     {
         $this->Bot = $Bot;
         if($this->async = $async){
-            $this->pool = new Pool($max_childs, !$wait_handlers);
+            $this->pool = new Pool($max_children, !$wait_handlers);
         }
         $this->group_handlers = $group_handlers;
     }
 
-    public function handleUpdate(Update $update): void
+    public function initialize(): void
+    {
+        $real_handlers = [];
+        foreach ($this->handlers as $parameter => $handlers_list) {
+            $real_handlers[$parameter] = [];
+            ksort($handlers_list);
+            foreach ($handlers_list as $handlers) {
+                foreach ($handlers as $handler) {
+                    $real_handlers[$parameter][] = $handler;
+                }
+            }
+        }
+        $this->handlers = $real_handlers;
+    }
+
+    public function handleUpdate(Update $update, bool $force_sync = false): void
     {
         $this->resolveQueue();
-        if($this->async){
+        if($this->async && !$force_sync){
             if($this->Bot->hasDatabase()){
-                $this->Bot->getDatabase()->resetPDO();
+                $this->Bot->getDatabase()->reset();
             }
         }
 
         $final_handlers = [];
-
-        foreach ($this->closure_handlers as $parameter => $handlers) {
-            if($parameter === "update"){
+        foreach ($this->handlers as $parameter => $handlers) {
+            if($parameter === 'update'){
                 $handler_update = $update;
             }
             elseif(isset($update->$parameter)){
@@ -56,38 +74,47 @@ class Dispatcher {
                 continue;
             }
             foreach ($handlers as $handler) {
-                $real_handler = function () use ($handler, $handler_update) {
+                if(self::$stop_update_handling){
+                    break;
+                }
+                if(!$handler->filter($handler_update)){
+                    continue;
+                }
+
+                $real_handler = function ($handler, $handler_update) {
                     try{
-                        $handler($handler_update);
+                        $handler->handle($handler_update);
                     }
                     catch(Throwable $e){
                         $this->handleError($e);
                     }
                 };
-                if($this->async){
+                if($this->async && !$force_sync){
                     if($this->group_handlers){
-                        $final_handlers[] = $real_handler;
+                        $final_handlers[] = $parameter === 'update' ? fn() => $handler->handle($handler_update) : [$handler, 'handle'];
                     }
                     else{
-                        $this->pool->parallel($real_handler);
+                        $this->pool->parallel($real_handler, $handler, $handler_update);
                     }
                 }
                 else{
-                    $real_handler();
+                    $real_handler($handler, $handler_update);
                 }
             }
         }
-
         foreach ($this->class_handlers as $handler) {
+            if(self::$stop_update_handling){
+                break;
+            }
             $real_handler = function () use ($handler, $update) {
                 try{
-                    Closure::fromCallable([$handler, "handle"])($update);
+                    $handler->handle($update);
                 }
                 catch(Throwable $e){
                     $this->handleError($e);
                 }
             };
-            if($this->async){
+            if($this->async && !$force_sync){
                 if($this->group_handlers){
                     $final_handlers[] = $real_handler;
                 }
@@ -100,21 +127,28 @@ class Dispatcher {
             }
         }
 
+        $handler_update = $update->{self::getUpdateType($update)};
         if(!empty($final_handlers)){
-            //$process_title = "NovaGram: child process ({$this->Bot->getUsername()}:{$update->update_id})";
-            $this->pool->parallel(function () use ($final_handlers, $update) {
-                @cli_set_process_title("NovaGram: child process ({$this->Bot->getUsername()}:{$update->update_id})");
+            $this->pool->parallel(function ($update, $final_handlers) use ($handler_update) {
+                @cli_set_process_title("NovaGram: child process ({$this->Bot->getUsername()}:$update->update_id)");
                 $this->Bot->logger->debug("Update handling started.", ['update_id' => $update->update_id]);
-                $started = hrtime(true)/10**9;
+                $started = hrtime(true)/10**6;
                 foreach ($final_handlers as $handler) {
-                    $handler();
+                    try{
+                        $handler($handler_update);
+                    }
+                    catch(Throwable $e){
+                        $this->handleError($e);
+                    }
                     if(self::$stop_update_handling){
                         break;
                     }
                 }
-                $this->Bot->logger->debug("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**9)-$started)*1000).'ms']);
-            });
+                $this->Bot->logger->debug("Update handling finished.", ['update_id' => $update->update_id, 'took' => (((hrtime(true)/10**6)-$started)).'ms']);
+            }, $update, $final_handlers);
         }
+
+        self::$stop_update_handling = false;
     }
 
     protected function handleError(Throwable $e): void
@@ -127,14 +161,20 @@ class Dispatcher {
                     $handler($e);
                 }
                 catch(Throwable $e){
-                    $this->Bot->logger->critical('An Exception has been thrown inside internal error handling: '.get_class($e).'. Full exception has been printed to stdout.');
-                    print($e.PHP_EOL);
+                    if(Utils::isCLI()){
+                        $this->Bot->logger->critical('An Exception has been thrown inside error handling: '.get_class($e).'. Full exception has been printed to stdout.');
+                        echo TracebackNormalizer::getNormalizedExceptionString($e), PHP_EOL;
+                    }
+                    else{
+                        $this->Bot->logger->critical('An Exception has been thrown inside error handling: '.get_class($e));
+                        throw $e;
+                    }
                 }
             }
         }
         if(!$handled){
             if(Utils::isCLI()){
-                print(PHP_EOL.'An exception has not been handled: '.PHP_EOL.$e.PHP_EOL.PHP_EOL);
+                print('An exception has not been handled: '.PHP_EOL.TracebackNormalizer::getNormalizedExceptionString($e).PHP_EOL);
             }
             else{
                 throw $e;
@@ -146,36 +186,53 @@ class Dispatcher {
     protected static function isAllowedThrowableType(Throwable $throwable, callable $callable): bool
     {
         $reflection = new ReflectionFunction($callable);
-
         $parameters = $reflection->getParameters();
 
         if (!isset($parameters[0])) {
             return false;
         }
 
-        $firstParameter = $parameters[0];
+        $type = $parameters[0]->getType();
 
-        if (!$firstParameter) {
+        if ($type === null) {
             return true;
         }
 
-        $type = $firstParameter->getType();
+        $types = $type instanceof ReflectionUnionType ? $type->getTypes() : [$type];
 
-        if (!$type) {
-            return true;
+        foreach ($types as $type) {
+            if (is_a($throwable, $type->getName())) {
+                return true;
+            }
         }
-
-        if (is_a($throwable, $type->getName())) {
-            return true;
-        }
-
         return false;
     }
 
-    public function addClosureHandler(Closure $handler, string $parameter = "update"): void
+    /**
+     * @param Closure $handler
+     * @param string $parameter
+     * @param FilterInterface[]|null $filters
+     * @param null $main_filter
+     * @param int $group
+     * @throws Exception
+     */
+    public function addClosureHandler(Closure $handler, string $parameter = 'update', array $filters = null, $main_filter = null, int $group = 0): void
     {
-        $this->closure_handlers[$parameter] ??= [];
-        $this->closure_handlers[$parameter][] = $handler;
+        $this->handlers[$parameter] ??= [];
+        $this->handlers[$parameter][$group] ??= [];
+        if(Utils::isPHP8()){
+            $filters ??= Utils::getFilters($handler);
+            if(empty($filters)){
+                $this->handlers[$parameter][$group][] = new Handler($handler, $main_filter);
+            }
+            else foreach ($filters as $filter) {
+                if(!$filter->isAllowedUpdate($parameter)){
+                    throw new Exception('Filter '.get_class($filter)." does not allows $parameter updates");
+                }
+            }
+            $this->handlers[$parameter][$group][] = new Handler($handler, Handler::sumFilters($main_filter, Handler::orFilter($filters)));
+        }
+        else $this->handlers[$parameter][$group][] = new Handler($handler, $main_filter);
     }
 
     // string|array
@@ -201,7 +258,7 @@ class Dispatcher {
 
     public function hasHandlers(): bool
     {
-        return !empty($this->closure_handlers) || !empty($this->class_handlers);
+        return !empty($this->handlers) || !empty($this->class_handlers);
     }
 
     public function hasErrorHandlers(): bool
@@ -219,15 +276,15 @@ class Dispatcher {
         $string = substr($string, 2);
         $string[0] = strtolower($string[0]);
         $string = preg_replace('/([A-Z])/', '_${1}', $string);
-        $string = strtolower($string);
-        return $string;
+        return strtolower($string);
     }
 
     public static function getUpdateType(Update $update): string
     {
         $properties = get_object_vars($update);
+        unset($properties['update_id']);
         foreach ($properties as $key => $value) {
-            if($key !== "update_id" && isset($value)){
+            if(isset($value)) {
                 return $key;
             }
         }
@@ -248,11 +305,11 @@ class Dispatcher {
                 }
             }
         }
-        if(isset($this->closure_handlers['update'])){
+        if(isset($this->handlers['update'])){
             // there is a general update handler, should retrieve all kind of updates
             return self::ALL_UPDATES;
         }
-        else return array_values(array_unique(array_merge($params, array_keys($this->closure_handlers))));
+        else return array_values(array_unique(array_merge($params, array_keys($this->handlers))));
     }
 
     public static function stopHandling(): void
@@ -262,13 +319,23 @@ class Dispatcher {
 
     public function resolveQueue(): void
     {
-        if(!empty($this->closure_handlers) && $this->async) $this->pool->resolveQueue();
+        if(!empty($this->handlers) && $this->async) $this->pool->resolveQueue();
     }
 
-    public function getPool(): Pool{
+    public function getPool(): Pool
+    {
         return $this->pool;
     }
+
+    public function __debugInfo(): array
+    {
+        $vars = get_object_vars($this);
+        foreach (['Bot', 'handlers', 'class_handlers', 'error_handlers'] as $key) {
+            unset($vars[$key]);
+        }
+        return $vars;
+    }
+
+
 }
 
-
-?>

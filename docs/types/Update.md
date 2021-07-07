@@ -16,5 +16,6 @@ This object represents an incoming update.At most one of the optional parameters
 - `$pre_checkout_query`: [`PreCheckoutQuery`](PreCheckoutQuery.md) _Optional. New incoming pre-checkout query. Contains full information about checkout_
 - `$poll`: [`Poll`](Poll.md) _Optional. New poll state. Bots receive only updates about stopped polls and polls, which are sent by the bot_
 - `$poll_answer`: [`PollAnswer`](PollAnswer.md) _Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself._
+- `$my_chat_member`: [`ChatMemberUpdated`](ChatMemberUpdated.md) _Optional. The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user._
+- `$chat_member`: [`ChatMemberUpdated`](ChatMemberUpdated.md) _Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates._
 
-## Methods	

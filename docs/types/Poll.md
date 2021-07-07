@@ -5,7 +5,7 @@ This object contains information about a poll.
 ## Properties	
 
 - `$id`: _Unique poll identifier_
-- `$question`: _Poll question, 1-255 characters_
+- `$question`: _Poll question, 1-300 characters_
 - `$options`: [`Array of PollOption`](PollOption.md) _List of poll options_
 - `$total_voter_count`: _Total number of users that voted in the poll_
 - `$is_closed`: _True, if the poll is closed_
@@ -18,4 +18,3 @@ This object contains information about a poll.
 - `$open_period`: _Optional. Amount of time in seconds the poll will be active after creation_
 - `$close_date`: _Optional. Point in time (Unix timestamp) when the poll will be automatically closed_
 
-## Methods	

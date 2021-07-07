@@ -25,7 +25,8 @@ class Exception extends \Exception {
         return get_class($this) . ": {$this->getCode()} {$this->getMessage()} (caused by {$this->method}) in {$this->getFile()}:{$this->getLine()}\nStack trace:\n".$this->getTraceAsString();
     }
 
-    public static function create(string $method, array $response, array $data, Throwable $previous = null) {
+    public static function create(string $method, array $response, array $data, Throwable $previous = null): self
+    {
         $args = func_get_args();
         switch ($response['error_code']) {
             case 400:
@@ -44,6 +45,8 @@ class Exception extends \Exception {
                 return new RequestEntityTooLargeException(...$args);
             case 429:
                 return new TooManyRequestsException(...$args);
+            case 501:
+                return new InternalServerErrorException(...$args);
             case 502:
                 return new BadGatewayException(...$args);
             default:

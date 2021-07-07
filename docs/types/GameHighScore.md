@@ -8,4 +8,3 @@ This object represents one row of the high scores table for a game.
 - `$user`: [`User`](User.md) _User_
 - `$score`: _Score_
 
-## Methods	

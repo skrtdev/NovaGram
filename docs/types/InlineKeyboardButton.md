@@ -13,4 +13,3 @@ This object represents one button of an inline keyboard. You must use exactly on
 - `$callback_game`: [`CallbackGame`](CallbackGame.md) _Optional. Description of the game that will be launched when the user presses the button.NOTE: This type of button must always be the first button in the first row._
 - `$pay`: _Optional. Specify True, to send a Pay button.NOTE: This type of button must always be the first button in the first row._
 
-## Methods	

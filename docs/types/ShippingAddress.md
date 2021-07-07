@@ -11,4 +11,3 @@ This object represents a shipping address.
 - `$street_line2`: _Second line for the address_
 - `$post_code`: _Address post code_
 
-## Methods	

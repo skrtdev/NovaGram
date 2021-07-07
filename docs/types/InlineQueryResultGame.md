@@ -9,4 +9,3 @@ Represents a Game.
 - `$game_short_name`: _Short name of the game_
 - `$reply_markup`: [`InlineKeyboardMarkup`](InlineKeyboardMarkup.md) _Optional. Inline keyboard attached to the message_
 
-## Methods	

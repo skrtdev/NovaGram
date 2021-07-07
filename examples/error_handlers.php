@@ -54,4 +54,4 @@ $Bot->addErrorHandler(function (Throwable $e) {
 // the same exception can be handled by more than one handler
 
 $Bot->start();
-?>
+

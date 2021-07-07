@@ -56,6 +56,9 @@ class TelegramLogger extends AbstractProcessingHandler
     protected function write(array $record): void
     {
         $message = '<pre>'.htmlspecialchars((string) $record['formatted']).'</pre>';
-        $this->Bot->sendMessage($this->chat_id, $message);
+        try {
+            $this->Bot->sendMessage($this->chat_id, $message);
+        }
+        catch(\Throwable $e) {}
     }
 }

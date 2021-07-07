@@ -2,9 +2,10 @@
 
 namespace skrtdev\NovaGram\Database;
 
-use PDO, PDOStatement;
+use PDO, PDOStatement, PDOException;
+use skrtdev\NovaGram\{Bot, Exception, Utils};
 use skrtdev\Prototypes\Prototypeable;
-use skrtdev\Telegram\User;
+use skrtdev\Telegram\{Message, User};
 
 abstract class AbstractSQLDatabase implements DatabaseInterface
 {
@@ -14,14 +15,20 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ];
-
     const driver_options = [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY];
 
+    protected static bool $need_reset;
     protected PDOContainer $pdo;
     protected string $prefix;
-    protected string $create_tables;
     protected array $table_names;
-    protected bool $need_reset;
+    /**
+     * @var bool[]
+     */
+    protected array $cached_conversations = [];
+    /**
+     * @var bool[]
+     */
+    protected array $cached_users = [];
 
     /**
      * @var string[]
@@ -30,20 +37,21 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         'selectUser' => 'SELECT * FROM {users_table} WHERE user_id = :user_id',
         'insertUser' => 'INSERT INTO {users_table}(user_id) VALUES (:user_id)',
         'deleteConversation' => 'DELETE FROM {conversations_table} WHERE chat_id = :chat_id AND name = :name',
-        'setConversation' => 'INSERT INTO {conversations_table}(chat_id, name, value, additional_param) VALUES (:chat_id, :name, :value, :additional_param)',
+        'deleteChatConversations' => 'DELETE FROM {conversations_table} WHERE chat_id = :chat_id',
+        'setConversation' => 'INSERT INTO {conversations_table}(chat_id, name, value, is_permanent) VALUES (:chat_id, :name, :value, :is_permanent)',
         'getConversation' => 'SELECT * FROM {conversations_table} WHERE chat_id = :chat_id AND name = :name',
         'existsConversation' => 'SELECT chat_id FROM {conversations_table} WHERE chat_id = :chat_id AND name = :name',
-        'updateConversation' => "UPDATE {conversations_table} SET value = :value, additional_param = :additional_param WHERE chat_id = :chat_id AND name = :name",
-        'getConversationsByChat' => 'SELECT * FROM {conversations_table} WHERE chat_id = :chat_id',
+        'updateConversation' => "UPDATE {conversations_table} SET value = :value, is_permanent = :is_permanent WHERE chat_id = :chat_id AND name = :name",
+        'getChatConversations' => 'SELECT * FROM {conversations_table} WHERE chat_id = :chat_id',
         'getConversationsByValue' => 'SELECT * FROM {conversations_table} WHERE value = :value',
     ];
 
 
-    protected function initialize(){
+    protected function initialize(bool $create_tables = true){
         $this->prefix = !empty($this->prefix) ? $this->prefix.'_' : '';
         $this->initializeTableNames();
         $this->initializeQueries();
-        $this->initializeDatabase();
+        if($create_tables) $this->createTables();
     }
 
     protected function initializeTableNames(): void
@@ -56,35 +64,54 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
 
     protected function initializeQueries(): void
     {
-        $this->queries['createTables'] = $this->create_tables;
-        foreach ($this->queries as &$query) {
-            $query = str_replace(['{users_table}', '{conversations_table}'], [$this->table_names['users'], $this->table_names['conversations']], $query);
+        $this->queries = str_replace(['{users_table}', '{conversations_table}'], [$this->table_names['users'], $this->table_names['conversations']], $this->queries);
+        $this->queries['createTables'] = static::$create_tables;
+        $this->queries['createTables'] = str_replace(['{users_table}', '{conversations_table}'], [$this->table_names['users'], $this->table_names['conversations']], $this->queries['createTables']);
+    }
+
+    protected function createTables(): void
+    {
+        if(is_string($this->queries['createTables'])){
+            $this->query($this->queries['createTables']);
+        }
+        elseif(is_array($this->queries['createTables'])){
+            foreach ($this->queries['createTables'] as $query) {
+                $this->query($query);
+            }
         }
     }
 
-    protected function initializeDatabase(): void
+    public function deleteConversation(int $chat_id, string $name): void
     {
-        $this->getPDO()->query($this->queries['createTables']);
-    }
-
-    public function deleteConversation(int $chat_id, string $name): void{
         $this->query($this->queries['deleteConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
         ]);
+        $this->cached_conversations[$chat_id.$name] = false;
     }
 
-    public function setConversation(int $chat_id, string $name, $value, array $additional_param = []): void{
+    public function deleteChatConversations(int $chat_id): void
+    {
+        $this->query($this->queries['deleteChatConversations'], [
+            ':chat_id' => $chat_id,
+        ]);
+        $this->cached_conversations = [];
+    }
+
+    public function setConversation(int $chat_id, string $name, $value, array $params = []): void
+    {
         $this->query($this->existsConversation($chat_id, $name) ? $this->queries['updateConversation'] : $this->queries['setConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
             ':value' => serialize($value),
-            ':additional_param' => serialize($additional_param),
+            ':is_permanent' => $params['is_permanent'] ?? true,
         ]);
+        $this->cached_conversations[$chat_id.$name] = true;
     }
 
-    public function existsConversation(int $chat_id, string $name): bool{
-        return $this->existQuery($this->queries['existsConversation'], [
+    public function existsConversation(int $chat_id, string $name): bool
+    {
+        return $this->cached_conversations[$chat_id.$name] ??= $this->existQuery($this->queries['existsConversation'], [
             ':chat_id' => $chat_id,
             ':name' => $name,
         ]);
@@ -101,13 +128,12 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
 
         $row = $this->normalizeConversation($row);
 
-
         return $row['value'];
     }
 
-    public function getConversationsByChat(int $chat_id): array
+    public function getChatConversations(int $chat_id): array
     {
-        $rows = $this->query($this->queries['getConversationsByChat'], [
+        $rows = $this->query($this->queries['getChatConversations'], [
             ':chat_id' => $chat_id
         ])->fetchAll();
 
@@ -122,7 +148,8 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         return $result;
     }
 
-    public function getConversationsByName(string $name){
+    public function getConversationsByName(string $name): array
+    {
         $rows = $this->query($this->queries['getConversationsByName'], [
             ':name' => $name,
         ])->fetchAll();
@@ -138,7 +165,8 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         return $result;
     }
 
-    public function getConversationsByValue($value){
+    public function getConversationsByValue($value): array
+    {
         $rows = $this->query($this->queries['getConversationsByValue'], [
             ':value' => serialize($value),
         ])->fetchAll();
@@ -154,22 +182,37 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         return $result;
     }
 
+    public function existUser(int $user_id): bool
+    {
+        return $this->cached_users[$user_id] ??= $this->existQuery($this->queries['selectUser'], [':user_id' => $user_id]);
+    }
 
-    public function insertUser(User $user): void {
-        if(!$this->existQuery($this->queries['selectUser'], [':user_id' => $user->id])){
-            $this->query($this->queries['insertUser'], [
-                ':user_id' => $user->id,
-            ]);
+    public function saveUser(User $user): void
+    {
+        $this->query($this->queries['insertUser'], [
+            ':user_id' => $user->id,
+        ]);
+    }
+
+    public function insertUser(User $user): void
+    {
+        if(!$this->existUser($user->id)){
+            $this->saveUser($user);
+            if(count($this->cached_users) > 100000){
+                $this->cached_users = [];
+            }
+            $this->cached_users[$user->id] = true;
         }
     }
 
     /**
      * @param string $query
      * @param array $params
-     * @return false|PDOStatement
+     * @return PDOStatement
      */
-    public function query(string $query, array $params = [])
+    public function query(string $query, array $params = []): PDOStatement
     {
+        var_dump(str_replace(array_keys($params), array_values($params), $query));
         $statement = $this->getPDO()->prepare($query, self::driver_options);
         $statement->execute($params);
         return $statement;
@@ -184,14 +227,14 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         return $this->pdo->getPDO();
     }
 
-    public function resetPDO()
+    public function reset(): void
     {
-        if($this->need_reset){
+        if(static::$need_reset){
             $this->pdo->reset();
         }
     }
 
-    public function normalizeConversation(array $conversation)
+    public function normalizeConversation(array $conversation): array
     {
         $chat_id = $conversation['chat_id'];
         $name = $conversation['name'];
@@ -200,13 +243,58 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         @$unserialized_value = unserialize($value);
         $value = ($unserialized_value !== false || $value === 'b:0;') ? $unserialized_value : $value;
 
-        $additional_param = unserialize($conversation['additional_param']);
-        $is_permanent = $additional_param['is_permanent'] ?? true ;
-
+        $is_permanent = $conversation['is_permanent'] ?? true;
         if(!$is_permanent){
             $this->deleteConversation($chat_id, $name);
         }
 
         return $conversation;
+    }
+
+    public function bind(Bot $Bot): void
+    {
+        $Bot->onMessage(function(Message $message) {
+            $this->insertUser($message->from);
+        }, null, fn(Message $message) => $message->chat->type === 'private' && isset($message->from), 9**8);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function refactorDatabase(): void
+    {
+        try {
+            $table = $this->table_names['conversations'];
+            $rows = $this->query("SELECT chat_id, name, additional_param FROM $table WHERE 1")->fetchAll();
+            if(!Utils::isCLI()){
+                throw new Exception('Database need to be refactored, please start bot script from command line');
+            }
+            $this->query("ALTER TABLE $table ADD is_permanent BOOLEAN DEFAULT TRUE");
+            echo 'Refactoring database, please wait. It could take up to some minutes...', PHP_EOL;
+            $total_count = count($rows);
+            $i = 1;
+            $started = hrtime(true);
+            $prepared = $this->getPDO()->prepare("UPDATE $table SET is_permanent = :is_permanent WHERE chat_id = :chat_id AND name = :name");
+            foreach ($rows as ['chat_id' => $chat_id, 'name' => $name, 'additional_param' => $additional_param]) {
+                $additional_param = unserialize($additional_param);
+                $is_permanent = $additional_param['is_permanent'] ?? true;
+                $prepared->execute([
+                    ':is_permanent' => (int) $is_permanent,
+                    ':chat_id' => $chat_id,
+                    ':name' => $name
+                ]);
+                if($i % 100 === 0){
+                    $elapsed = (hrtime(true) - $started) / 10**9;
+                    echo round($i / $total_count * 100, 2), '% - ETA: ', round($elapsed / $i * ($total_count - $i)), ' seconds', PHP_EOL;
+                }
+                $i++;
+            }
+            $this->query("ALTER TABLE $table DROP COLUMN additional_param");
+            echo 'Database refactored.', PHP_EOL;
+            exit();
+        }
+        catch (PDOException $e){
+            return;
+        }
     }
 }

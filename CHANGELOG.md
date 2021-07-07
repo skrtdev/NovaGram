@@ -2,6 +2,25 @@
 
 > Upcoming in v2: Support for PostegreSQL and TTL in Conversations  
 
+
+# v2.0
+
+- Deprecations
+  - Classes
+    - `TelegramBot`
+    - `Telegram\Bot`
+    - `NovaGram\Bot`
+    - `Telegram\*` Types
+  - Bot Class
+    - Settings
+      - `disable_webhook` parameter (in favor of `Bot::NONE` mode)
+      - `getUpdates` mode (in favor of `Bot::CLI` mode)
+      - `webhook` mode (in favor of `Bot::WEBHOOK` mode)
+- New Features
+  - Filters
+  - New database system --
+
+
 ## v1.10
 - Update to [**Bot API v5.2**](https://core.telegram.org/bots/api#april-26-2021).  
 - Fixed crash when `pcntl` is not available.  
@@ -174,7 +193,7 @@
 ## v1.4 - [Source Code](https://github.com/skrtdev/NovaGram/releases/tag/v1.4)
 
 - Added **Typed Properties** with Description to every Object
-- Added non-dinamic Methods to Bot Class
+- Added non-dynamic Methods to Bot Class
 - Added **positional arguments** and **named arguments** (like `python kwargs`) to Bot Methods (in a BC way)
 
     > Check [updated docs](https://docs.novagram.ga/requests.html)

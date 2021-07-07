@@ -2,12 +2,14 @@
 
 namespace skrtdev\NovaGram;
 
-use skrtdev\Telegram\{Message, CallbackQuery, Chat, User, BadRequestException};
+use skrtdev\Telegram\{ChatMemberUpdated, Message, CallbackQuery, BadRequestException};
 use Closure;
+#use JetBrains\PhpStorm\ExpectedValues;
 
 trait HandlersTrait{
 
     protected array $commands = [];
+    protected array $scoped_commands = [];
 
     // closure handlers
 
@@ -16,114 +18,135 @@ trait HandlersTrait{
         $this->getDispatcher()->addClosureHandler($handler);
     }
 
-    public function onMessage(Closure $handler): void
+    public function onMessage(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "message");
+        $this->getDispatcher()->addClosureHandler($handler, 'message', $filters, $filter, $group);
     }
 
-    public function onEditedMessage(Closure $handler): void
+    public function onEditedMessage(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "edited_message");
+        $this->getDispatcher()->addClosureHandler($handler, 'edited_message', $filters, $filter, $group);
     }
 
-    public function onChannelPost(Closure $handler): void
+    public function onChannelPost(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "channel_post");
+        $this->getDispatcher()->addClosureHandler($handler, 'channel_post', $filters, $filter, $group);
     }
 
-    public function onEditedChannelPost(Closure $handler): void
+    public function onEditedChannelPost(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "edited_channel_post");
+        $this->getDispatcher()->addClosureHandler($handler, 'edited_channel_post', $filters, $filter, $group);
     }
 
-    public function onInlineQuery(Closure $handler): void
+    public function onInlineQuery(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "inline_query");
+        $this->getDispatcher()->addClosureHandler($handler, 'inline_query', $filters, $filter, $group);
     }
 
-    public function onChosenInlineResult(Closure $handler): void
+    public function onChosenInlineResult(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "chosen_inline_result");
+        $this->getDispatcher()->addClosureHandler($handler, 'chosen_inline_result', $filters, $filter, $group);
     }
 
-    public function onCallbackQuery(Closure $handler): void
+    public function onCallbackQuery(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "callback_query");
+        $this->getDispatcher()->addClosureHandler($handler, 'callback_query', $filters, $filter, $group);
     }
 
-    public function onShippingQuery(Closure $handler): void
+    public function onShippingQuery(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "shipping_query");
+        $this->getDispatcher()->addClosureHandler($handler, 'shipping_query', $filters, $filter, $group);
     }
 
-    public function onPreCheckoutQuery(Closure $handler): void
+    public function onPreCheckoutQuery(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "pre_checkout_query");
+        $this->getDispatcher()->addClosureHandler($handler, 'pre_checkout_query', $filters, $filter, $group);
     }
 
-    public function onPoll(Closure $handler): void
+    public function onPoll(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "poll");
+        $this->getDispatcher()->addClosureHandler($handler, 'poll', $filters, $filter, $group);
     }
 
-    public function onPollAnswer(Closure $handler): void
+    public function onPollAnswer(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "poll_answer");
+        $this->getDispatcher()->addClosureHandler($handler, 'poll_answer', $filters, $filter, $group);
     }
 
-    public function onMyChatMember(Closure $handler): void
+    public function onMyChatMember(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "my_chat_member");
+        $this->getDispatcher()->addClosureHandler($handler, 'my_chat_member', $filters, $filter, $group);
     }
 
-    public function onChatMember(Closure $handler): void
+    public function onChatMember(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->getDispatcher()->addClosureHandler($handler, "chat_member");
+        $this->getDispatcher()->addClosureHandler($handler, 'chat_member', $filters, $filter, $group);
     }
 
     // utilities
 
-    public function onTextMessage(Closure $handler): void
+    public function onTextMessage(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->onMessage(function (Message $message) use ($handler) {
-            if(isset($message->text)){
-                $handler($message);
-            }
-        });
+        $this->onMessage($handler, $filters, [fn($message) => isset($message->text), $filter], $group);
     }
 
-    public function onText(string $pattern, Closure $handler): void
+    public function onText(string $pattern, Closure $handler, array $filters = null, $filter = null, int $group = 0): void
     {
         if(!Utils::isStringRegex($pattern)){ // $pattern is not a regex
-            $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
-                if($message->text === $pattern){
-                    $handler($message);
-                }
-            });
+            $this->onTextMessage($handler, $filters, [fn($message) => $message->text === $pattern, $filter], $group);
         }
         else{
             $this->onTextMessage(function (Message $message) use ($handler, $pattern) {
-                $func = $this->settings->use_preg_match_instead_of_preg_match_all ? 'preg_match' : 'preg_match_all';
-                if($func($pattern, $message->text, $matches) !== 0){
+                if(preg_match($pattern, $message->text, $matches)){
                     if(count($matches) > 0){
                         unset($matches[0]);
                     }
                     $handler($message, array_values($matches));
                 }
-            });
+            }, $filters ?? Utils::getFilters($handler), [fn($message) => preg_match($pattern, $message->text), $filter], $group);
         }
     }
 
-    public function onCommand($commands, Closure $handler, string $description = null): void
+    /**
+     * @param string|string[] $commands
+     * @param Closure $handler
+     * @param CommandScope|CommandScope[]|null $command_scopes
+     * @param string|null $description
+     * @param FilterInterface[]|null $filters
+     * @param callable|callable[]|null $filter
+     * @param int $group
+     */
+    public function onCommand($commands, Closure $handler, $command_scopes = null, string $description = null, ?array $filters = null, $filter = null, int $group = 0): void
     {
+        $filters ??= Utils::getFilters($handler);
         if(is_string($commands)){
             $commands = [$commands];
         }
-        $description ??= $commands[0]." command";
         foreach($commands as $command){
-            $this->commands[$command] ??= $description;
+            if($command_scopes === null){
+                $this->commands[$command] ??= $description ?? "$command command";
+            }
+            else{
+                $filter ??= [];
+                if(!is_array($command_scopes)){
+                    $command_scopes = [$command_scopes];
+                }
+                $filter[] = Handler::orFilter(iterate($command_scopes, fn(CommandScope $scope) => $scope->getFilter()));
+                foreach ($command_scopes as $command_scope) {
+                    foreach ($command_scope->getScopes() as $scope) {
+                        $this->scoped_commands[$scope] ??= [];
+                        $this->scoped_commands[$scope] [] = ['command' => $command, 'description' => $description ?? "$command command"];
+                    }
+                }
+            }
         }
-        $this->onText('/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK && !isset($this->settings->username) ? '.+' : $this->getUsername()) .')?(?: .*|$)/', fn(Message $message) => $handler($message, array_slice(explode(' ', $message->text), 1)));
+        $this->onText(
+            '/^(?:'.implode('|', $this->settings->command_prefixes).')(?:'.implode('|', $commands).')(?:\@'. ($this->settings->mode === self::WEBHOOK && !isset($this->settings->username) ? '.+' : $this->getUsername()) .')?(?: .*|$)/',
+            fn(Message $message) => $handler($message, array_slice(explode(' ', $message->text), 1)),
+            $filters,
+            [fn(Message $message) => $message->forward_date === null, $filter],
+            $group
+        );
     }
 
     public function exportCommands(): void
@@ -131,9 +154,18 @@ trait HandlersTrait{
         $commands = [];
         foreach($this->commands as $command => $description){
             $commands[] = [
-                "command" => $command,
-                "description" => $description
+                'command' => $command,
+                'description' => $description
             ];
+        }
+        foreach($this->scoped_commands as $scope => $scope_commands){
+            $scope = json_decode($scope, true);
+            try{
+                $this->setMyCommands([...$scope_commands, ...$commands], $scope);
+            }
+            catch(BadRequestException $e){
+                $this->logger->error("Couldn't export scope-specific commands: {$e->getMessage()}");
+            }
         }
         try{
             $this->setMyCommands($commands);
@@ -143,64 +175,80 @@ trait HandlersTrait{
         }
     }
 
-    public function onCallbackData(string $pattern, Closure $handler): void
+    public function onCallbackData(string $pattern, Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
         if(!Utils::isStringRegex($pattern)){ // $pattern is not a regex
-            $this->onCallbackQuery(function (CallbackQuery $callback_query) use ($handler, $pattern) {
-                if($callback_query->data === $pattern){
-                    $handler($callback_query);
-                }
-            });
+            $this->onCallbackQuery($handler, $filters, [fn($callback_query) => $callback_query->data === $pattern, $filter], $group);
         }
         else{
             $this->onCallbackQuery(function (CallbackQuery $callback_query) use ($handler, $pattern) {
-                $func = $this->settings->use_preg_match_instead_of_preg_match_all ? 'preg_match' : 'preg_match_all';
-                if($func($pattern, $callback_query->data, $matches) !== 0){
+                if(preg_match($pattern, $callback_query->data, $matches) !== 0){
                     if(count($matches) > 0){
                         unset($matches[0]);
                     }
                     $handler($callback_query, array_values($matches));
                 }
-            });
+            }, Utils::getFilters($handler), [fn($callback_query) => preg_match($pattern, $callback_query->data), $filter], $group);
         }
     }
 
-    public function onNewChatMember(Closure $closure, bool $get_bots = false): void
+    public function onNewChatMember(
+        Closure $handler,
+        //#[ExpectedValues([Bot::USERS_ONLY, Bot::BOTS_ONLY, Bot::ALL])]
+        #int $type = Bot::USERS_ONLY,
+        ?array $filters = null,
+        $filter = null,
+        int $group = 0
+    ): void
     {
-        $this->onMessage(function (Message $message) use ($closure, $get_bots) {
-            if(isset($message->new_chat_members)){
-                $chat = $message->chat;
-                $adder = $message->from;
-                foreach ($message->new_chat_members as $user) {
-                    if($user->is_bot && !$get_bots) continue;
-                    $closure($chat, $user, $adder);
-                }
-            }
-        });
+        $this->onChatMember(
+
+            function (ChatMemberUpdated $chatMemberUpdated) use ($handler) {
+                $new_chat_member = $chatMemberUpdated->new_chat_member;
+                $handler($chatMemberUpdated->chat, $new_chat_member->user, $chatMemberUpdated->from);
+            },
+            $filters ?? Utils::getFilters($handler),
+            [
+                function(ChatMemberUpdated $chatMemberUpdated) /*use ($type)*/ {
+                    $old_chat_member = $chatMemberUpdated->old_chat_member;
+                    $new_chat_member = $chatMemberUpdated->new_chat_member;
+                    #$user = $new_chat_member->user;
+                    return in_array($chatMemberUpdated->chat->type, ['group', 'supergroup']) && (
+                            (in_array($old_chat_member->status, ['left', 'kicked']) && in_array($new_chat_member->status, ['member', 'administrator', 'creator'])) || ($old_chat_member->is_member === false && $new_chat_member->is_member === true)
+                    )/* && ($type === Bot::ALL || $user->is_bot === (bool) $type)*/;
+                },
+                $filter
+            ],
+            $group
+        );
     }
 
-    public function onNewGroup(Closure $closure): void
+    public function onNewGroup(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
     {
-        $this->onNewChatMember(fn (Chat $chat, User $user, User $adder) => $user->id !== $this->id ?: $closure($chat, $adder), true);
+        $this->onMyChatMember(
+            function (ChatMemberUpdated $chatMemberUpdated) use ($handler) {
+                $handler($chatMemberUpdated->chat, $chatMemberUpdated->from);
+            },
+            $filters ?? Utils::getFilters($handler),
+            [
+                function(ChatMemberUpdated $chatMemberUpdated){
+                    $old_chat_member = $chatMemberUpdated->old_chat_member;
+                    $new_chat_member = $chatMemberUpdated->new_chat_member;
+                    return in_array($chatMemberUpdated->chat->type, ['group', 'supergroup']) && ((in_array($old_chat_member->status, ['left', 'kicked']) && in_array($new_chat_member->status, ['member', 'administrator'])) || ($old_chat_member->is_member === false && $new_chat_member->is_member === true));
+                },
+                $filter
+            ],
+            $group
+        );
     }
 
     // error handlers
-
-    public function setErrorHandler(...$args){
-        Utils::trigger_error("Using deprecated setErrorHandler, use addErrorHandler instead", E_USER_DEPRECATED);
-        $this->addErrorHandler(...$args);
-    }
 
     public function addErrorHandler(Closure $handler){
         $this->getDispatcher()->addErrorHandler($handler);
     }
 
     // class handlers
-
-    public function handleClass($class){
-        Utils::trigger_error("Using deprecated handleClass, use addClassHandler instead", E_USER_DEPRECATED);
-        $this->getDispatcher()->addClassHandler($class);
-    }
 
     public function addClassHandler($class){
         $this->getDispatcher()->addClassHandler($class);
@@ -262,5 +310,3 @@ trait HandlersTrait{
     }
 }
 
-
-?>
