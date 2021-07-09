@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class MaskPosition extends Type{
     
-    protected string $_ = 'MaskPosition';
-
     /** @var string The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”. */
     public string $point;
 
@@ -29,6 +27,7 @@ class MaskPosition extends Type{
         $this->y_shift = $array['y_shift'];
         $this->scale = $array['scale'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

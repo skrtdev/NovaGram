@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class File extends Type{
     
-    protected string $_ = 'File';
-
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
@@ -29,6 +27,7 @@ class File extends Type{
         $this->file_size = $array['file_size'] ?? null;
         $this->file_path = $array['file_path'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

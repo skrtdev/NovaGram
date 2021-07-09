@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Location extends Type{
     
-    protected string $_ = 'Location';
-
     /** @var float Longitude as defined by sender */
     public float $longitude;
 
@@ -37,6 +35,7 @@ class Location extends Type{
         $this->heading = $array['heading'] ?? null;
         $this->proximity_alert_radius = $array['proximity_alert_radius'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

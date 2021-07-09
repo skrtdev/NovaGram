@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class GameHighScore extends Type{
     
-    protected string $_ = 'GameHighScore';
-
     /** @var int Position in high score table for the game */
     public int $position;
 
@@ -25,6 +23,7 @@ class GameHighScore extends Type{
         $this->user = new User($array['user'], $Bot);
         $this->score = $array['score'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

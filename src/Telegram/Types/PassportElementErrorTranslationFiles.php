@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PassportElementErrorTranslationFiles extends Type{
     
-    protected string $_ = 'PassportElementErrorTranslationFiles';
-
     /** @var string Error source, must be translation_files */
     public string $source;
 
@@ -29,6 +27,7 @@ class PassportElementErrorTranslationFiles extends Type{
         $this->file_hashes = new ObjectsList($array['file_hashes']);
         $this->message = $array['message'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ShippingAddress extends Type{
     
-    protected string $_ = 'ShippingAddress';
-
     /** @var string ISO 3166-1 alpha-2 country code */
     public string $country_code;
 
@@ -37,6 +35,7 @@ class ShippingAddress extends Type{
         $this->street_line2 = $array['street_line2'];
         $this->post_code = $array['post_code'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

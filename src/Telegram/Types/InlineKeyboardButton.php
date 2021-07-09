@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class InlineKeyboardButton extends Type{
     
-    protected string $_ = 'InlineKeyboardButton';
-
     /** @var string Label text on the button */
     public string $text;
 
@@ -45,6 +43,7 @@ class InlineKeyboardButton extends Type{
         $this->callback_game = isset($array['callback_game']) ? new CallbackGame($array['callback_game'], $Bot) : null;
         $this->pay = $array['pay'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

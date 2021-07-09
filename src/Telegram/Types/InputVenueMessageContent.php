@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class InputVenueMessageContent extends Type{
     
-    protected string $_ = 'InputVenueMessageContent';
-
     /** @var float Latitude of the venue in degrees */
     public float $latitude;
 
@@ -45,6 +43,7 @@ class InputVenueMessageContent extends Type{
         $this->google_place_id = $array['google_place_id'] ?? null;
         $this->google_place_type = $array['google_place_type'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

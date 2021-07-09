@@ -9,14 +9,13 @@ use skrtdev\NovaGram\Bot;
 */
 class InlineKeyboardMarkup extends Type{
     
-    protected string $_ = 'InlineKeyboardMarkup';
-
     /** @var ObjectsList Array of button rows, each represented by an Array of InlineKeyboardButton objects */
     public ObjectsList $inline_keyboard;
 
     public function __construct(array $array, Bot $Bot = null){
         $this->inline_keyboard = new ObjectsList(iterate($array['inline_keyboard'], fn($item) => new ObjectsList(iterate($item, fn($item) => new InlineKeyboardButton($item, $Bot)))));
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class VideoNote extends Type{
     
-    protected string $_ = 'VideoNote';
-
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
@@ -37,6 +35,7 @@ class VideoNote extends Type{
         $this->thumb = isset($array['thumb']) ? new PhotoSize($array['thumb'], $Bot) : null;
         $this->file_size = $array['file_size'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

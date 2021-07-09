@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Game extends Type{
     
-    protected string $_ = 'Game';
-
     /** @var string Title of the game */
     public string $title;
 
@@ -37,6 +35,7 @@ class Game extends Type{
         $this->text_entities = isset($array['text_entities']) ? new ObjectsList(iterate($array['text_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
         $this->animation = isset($array['animation']) ? new Animation($array['animation'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

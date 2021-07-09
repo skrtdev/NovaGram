@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class LabeledPrice extends Type{
     
-    protected string $_ = 'LabeledPrice';
-
     /** @var string Portion label */
     public string $label;
 
@@ -21,6 +19,7 @@ class LabeledPrice extends Type{
         $this->label = $array['label'];
         $this->amount = $array['amount'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -260,7 +260,7 @@ trait HandlersTrait{
         }
         foreach ($class as $handler) {
             if(is_a($handler, BaseCommandHandler::class, true)){
-                $_ = new $handler($this);
+                new $handler($this);
             }
             else{
                 throw new Exception("Invalid command handler provided: $handler");
@@ -274,7 +274,7 @@ trait HandlersTrait{
         }
         foreach ($class as $handler) {
             if(is_a($handler, BaseCallbackHandler::class, true)){
-                $_ = new $handler($this);
+                new $handler($this);
             }
             else{
                 throw new Exception("Invalid callback handler provided: $handler");

@@ -9,11 +9,10 @@ use skrtdev\NovaGram\Bot;
 */
 class InputMessageContent extends Type{
     
-    protected string $_ = 'InputMessageContent';
-
     
     public function __construct(array $array, Bot $Bot = null){
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

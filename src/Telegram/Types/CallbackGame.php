@@ -9,11 +9,10 @@ use skrtdev\NovaGram\Bot;
 */
 class CallbackGame extends Type{
     
-    protected string $_ = 'CallbackGame';
-
     
     public function __construct(array $array, Bot $Bot = null){
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Venue extends Type{
     
-    protected string $_ = 'Venue';
-
     /** @var Location Venue location. Can't be a live location */
     public Location $location;
 
@@ -41,6 +39,7 @@ class Venue extends Type{
         $this->google_place_id = $array['google_place_id'] ?? null;
         $this->google_place_type = $array['google_place_type'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

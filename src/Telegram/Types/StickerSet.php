@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class StickerSet extends Type{
     
-    protected string $_ = 'StickerSet';
-
     /** @var string Sticker set name */
     public string $name;
 
@@ -37,6 +35,7 @@ class StickerSet extends Type{
         $this->stickers = new ObjectsList(iterate($array['stickers'], fn($item) => new Sticker($item, $Bot)));
         $this->thumb = isset($array['thumb']) ? new PhotoSize($array['thumb'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

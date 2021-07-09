@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PassportElementErrorUnspecified extends Type{
     
-    protected string $_ = 'PassportElementErrorUnspecified';
-
     /** @var string Error source, must be unspecified */
     public string $source;
 
@@ -29,6 +27,7 @@ class PassportElementErrorUnspecified extends Type{
         $this->element_hash = $array['element_hash'];
         $this->message = $array['message'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

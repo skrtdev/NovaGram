@@ -9,11 +9,10 @@ use skrtdev\NovaGram\Bot;
 */
 class VoiceChatStarted extends Type{
     
-    protected string $_ = 'VoiceChatStarted';
-
     
     public function __construct(array $array, Bot $Bot = null){
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

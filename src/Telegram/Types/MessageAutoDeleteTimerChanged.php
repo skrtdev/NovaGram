@@ -9,14 +9,13 @@ use skrtdev\NovaGram\Bot;
 */
 class MessageAutoDeleteTimerChanged extends Type{
     
-    protected string $_ = 'MessageAutoDeleteTimerChanged';
-
     /** @var int New auto-delete time for messages in the chat */
     public int $message_auto_delete_time;
 
     public function __construct(array $array, Bot $Bot = null){
         $this->message_auto_delete_time = $array['message_auto_delete_time'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

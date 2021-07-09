@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ChosenInlineResult extends Type{
     
-    protected string $_ = 'ChosenInlineResult';
-
     /** @var string The unique identifier for the result that was chosen */
     public string $result_id;
 
@@ -33,6 +31,7 @@ class ChosenInlineResult extends Type{
         $this->inline_message_id = $array['inline_message_id'] ?? null;
         $this->query = $array['query'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

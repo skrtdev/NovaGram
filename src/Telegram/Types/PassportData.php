@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PassportData extends Type{
     
-    protected string $_ = 'PassportData';
-
     /** @var ObjectsList Array with information about documents and other Telegram Passport elements that was shared with the bot */
     public ObjectsList $data;
 
@@ -21,6 +19,7 @@ class PassportData extends Type{
         $this->data = new ObjectsList(iterate($array['data'], fn($item) => new EncryptedPassportElement($item, $Bot)));
         $this->credentials = new EncryptedCredentials($array['credentials'], $Bot);
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

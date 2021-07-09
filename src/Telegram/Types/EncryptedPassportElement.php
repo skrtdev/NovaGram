@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class EncryptedPassportElement extends Type{
     
-    protected string $_ = 'EncryptedPassportElement';
-
     /** @var string Element type. One of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”, “phone_number”, “email”. */
     public string $type;
 
@@ -53,6 +51,7 @@ class EncryptedPassportElement extends Type{
         $this->translation = isset($array['translation']) ? new ObjectsList(iterate($array['translation'], fn($item) => new PassportFile($item, $Bot))) : null;
         $this->hash = $array['hash'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

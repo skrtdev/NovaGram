@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class OrderInfo extends Type{
     
-    protected string $_ = 'OrderInfo';
-
     /** @var string|null User name */
     public ?string $name = null;
 
@@ -29,6 +27,7 @@ class OrderInfo extends Type{
         $this->email = $array['email'] ?? null;
         $this->shipping_address = isset($array['shipping_address']) ? new ShippingAddress($array['shipping_address'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

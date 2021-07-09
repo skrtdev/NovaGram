@@ -21,7 +21,7 @@ class Type {
         foreach ($array as $key => $value) $this->$key ??= is_array($value) ? (object) $value : $value;
     }
 
-    public function __call(string $name, array $arguments, ...$kwargs){
+    /*public function __call(string $name, array $arguments, ...$kwargs){
         $this->config ??= json_decode(json_encode(Bot::getJSON()));
 
         if(!isset($this->config->types_methods->{$this->_})){
@@ -72,7 +72,7 @@ class Type {
         #foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? Utils::trigger_error("NovaGram: An internal error has occurred while loading object presets (trying to retrieve key $key of ".(is_object($obj) ? get_class($obj) : gettype($obj).' '.((string) $obj))."), please report issue including which method caused the issue.");
         foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? null;
         return $obj;
-    }
+    }*/
 
     public function debug(){
         return $this->Bot->debug($this);

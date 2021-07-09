@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Invoice extends Type{
     
-    protected string $_ = 'Invoice';
-
     /** @var string Product name */
     public string $title;
 
@@ -33,6 +31,7 @@ class Invoice extends Type{
         $this->currency = $array['currency'];
         $this->total_amount = $array['total_amount'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

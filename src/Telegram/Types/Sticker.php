@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Sticker extends Type{
     
-    protected string $_ = 'Sticker';
-
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
@@ -53,6 +51,7 @@ class Sticker extends Type{
         $this->mask_position = isset($array['mask_position']) ? new MaskPosition($array['mask_position'], $Bot) : null;
         $this->file_size = $array['file_size'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

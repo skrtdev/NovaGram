@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class KeyboardButton extends Type{
     
-    protected string $_ = 'KeyboardButton';
-
     /** @var string Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed */
     public string $text;
 
@@ -29,6 +27,7 @@ class KeyboardButton extends Type{
         $this->request_location = $array['request_location'] ?? null;
         $this->request_poll = isset($array['request_poll']) ? new KeyboardButtonPollType($array['request_poll'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

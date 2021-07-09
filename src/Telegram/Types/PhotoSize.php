@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PhotoSize extends Type{
     
-    protected string $_ = 'PhotoSize';
-
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
@@ -33,6 +31,7 @@ class PhotoSize extends Type{
         $this->height = $array['height'];
         $this->file_size = $array['file_size'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

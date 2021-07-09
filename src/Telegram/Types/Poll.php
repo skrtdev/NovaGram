@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Poll extends Type{
     
-    protected string $_ = 'Poll';
-
     /** @var string Unique poll identifier */
     public string $id;
 
@@ -65,6 +63,7 @@ class Poll extends Type{
         $this->open_period = $array['open_period'] ?? null;
         $this->close_date = $array['close_date'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

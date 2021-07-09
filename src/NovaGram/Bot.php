@@ -511,11 +511,6 @@ class Bot {
         else throw new Exception("debug chat id is not set");
     }
 
-    public static function getJSON(): array
-    {
-        return self::$json ??= json_decode(implode(file(__DIR__.'/json.json')), true);
-    }
-
     protected function getDispatcher(): Dispatcher
     {
         return $this->dispatcher ??= new Dispatcher($this, Utils::isCLI() && $this->settings->async, $this->settings->group_handlers, $this->settings->wait_handlers, $this->settings->workers);
@@ -547,7 +542,7 @@ class Bot {
 
     public function __debugInfo() {
         $obj = get_object_vars($this);
-        foreach(['json', 'settings', 'payloaded', 'raw_update', 'logger', 'commands', 'scoped_commands'] as $key){
+        foreach(['settings', 'payloaded', 'raw_update', 'logger', 'commands', 'scoped_commands'] as $key){
             unset($obj[$key]);
         }
         return $obj;

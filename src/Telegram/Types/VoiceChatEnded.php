@@ -9,14 +9,13 @@ use skrtdev\NovaGram\Bot;
 */
 class VoiceChatEnded extends Type{
     
-    protected string $_ = 'VoiceChatEnded';
-
     /** @var int Voice chat duration; in seconds */
     public int $duration;
 
     public function __construct(array $array, Bot $Bot = null){
         $this->duration = $array['duration'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

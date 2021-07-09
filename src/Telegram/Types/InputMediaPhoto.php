@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class InputMediaPhoto extends Type{
     
-    protected string $_ = 'InputMediaPhoto';
-
     /** @var string Type of the result, must be photo */
     public string $type;
 
@@ -33,6 +31,7 @@ class InputMediaPhoto extends Type{
         $this->parse_mode = $array['parse_mode'] ?? null;
         $this->caption_entities = isset($array['caption_entities']) ? new ObjectsList(iterate($array['caption_entities'], fn($item) => new MessageEntity($item, $Bot))) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

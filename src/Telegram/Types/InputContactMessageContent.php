@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class InputContactMessageContent extends Type{
     
-    protected string $_ = 'InputContactMessageContent';
-
     /** @var string Contact's phone number */
     public string $phone_number;
 
@@ -29,6 +27,7 @@ class InputContactMessageContent extends Type{
         $this->last_name = $array['last_name'] ?? null;
         $this->vcard = $array['vcard'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ChatInviteLink extends Type{
     
-    protected string $_ = 'ChatInviteLink';
-
     /** @var string The invite link. If the link was created by another chat administrator, then the second part of the link will be replaced with “…”. */
     public string $invite_link;
 
@@ -37,6 +35,7 @@ class ChatInviteLink extends Type{
         $this->expire_date = $array['expire_date'] ?? null;
         $this->member_limit = $array['member_limit'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -10,8 +10,6 @@ Telegram apps support these buttons as of version 5.7.
 */
 class LoginUrl extends Type{
     
-    protected string $_ = 'LoginUrl';
-
     /** @var string An HTTP URL to be opened with user authorization data added to the query string when the button is pressed. If the user refuses to provide authorization data, the original URL without information about the user will be opened. The data added is the same as described in Receiving authorization data.NOTE: You must always check the hash of the received data to verify the authentication and the integrity of the data as described in Checking authorization. */
     public string $url;
 
@@ -30,6 +28,7 @@ class LoginUrl extends Type{
         $this->bot_username = $array['bot_username'] ?? null;
         $this->request_write_access = $array['request_write_access'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class InlineQuery extends Type{
     
-    protected string $_ = 'InlineQuery';
-
     /** @var string Unique identifier for this query */
     public string $id;
 
@@ -37,6 +35,26 @@ class InlineQuery extends Type{
         $this->chat_type = $array['chat_type'] ?? null;
         $this->location = isset($array['location']) ? new Location($array['location'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
     
+    public function answer($results = null, $cache_time = null, $is_personal = null, string $next_offset = null, string $switch_pm_text = null, string $switch_pm_parameter = null, bool $json_payload = false): ?bool
+    {
+        if(is_array($results)){
+            $json_payload = $cache_time ?? false;
+            $params = $results;
+        }
+        else{
+            if(is_bool($cache_time)){
+                $json_payload = $cache_time;
+                $params = ['results' => $results];
+            }
+            elseif(is_array($cache_time)){
+                $json_payload = $is_personal ?? false;
+                $params = ['results' => $results] + $cache_time;
+            }
+            else $params = ['results' => $results, 'cache_time' => $cache_time, 'is_personal' => $is_personal, 'next_offset' => $next_offset, 'switch_pm_text' => $switch_pm_text, 'switch_pm_parameter' => $switch_pm_parameter, 'json_payload' => $json_payload];
+        }
+        $params['inline_query_id'] ??= $this->id;
+        return $this->Bot->answerInlineQuery($params, $json_payload);
+    }
 }

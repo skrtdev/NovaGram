@@ -8,8 +8,6 @@ use skrtdev\NovaGram\Bot;
  * This object contains information about one member of a chat.
 */
 class ChatMember extends Type{
-    
-    protected string $_ = 'ChatMember';
 
     /** @var User Information about the user */
     public User $user;
@@ -101,6 +99,7 @@ class ChatMember extends Type{
         $this->can_add_web_page_previews = $array['can_add_web_page_previews'] ?? null;
         $this->until_date = $array['until_date'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

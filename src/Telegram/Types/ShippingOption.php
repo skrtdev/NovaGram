@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ShippingOption extends Type{
     
-    protected string $_ = 'ShippingOption';
-
     /** @var string Shipping option identifier */
     public string $id;
 
@@ -25,6 +23,7 @@ class ShippingOption extends Type{
         $this->title = $array['title'];
         $this->prices = new ObjectsList(iterate($array['prices'], fn($item) => new LabeledPrice($item, $Bot)));
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

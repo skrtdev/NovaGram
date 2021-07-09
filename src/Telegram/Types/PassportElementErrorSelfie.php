@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PassportElementErrorSelfie extends Type{
     
-    protected string $_ = 'PassportElementErrorSelfie';
-
     /** @var string Error source, must be selfie */
     public string $source;
 
@@ -29,6 +27,7 @@ class PassportElementErrorSelfie extends Type{
         $this->file_hash = $array['file_hash'];
         $this->message = $array['message'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

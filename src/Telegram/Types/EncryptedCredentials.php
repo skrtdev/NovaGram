@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class EncryptedCredentials extends Type{
     
-    protected string $_ = 'EncryptedCredentials';
-
     /** @var string Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for EncryptedPassportElement decryption and authentication */
     public string $data;
 
@@ -25,6 +23,7 @@ class EncryptedCredentials extends Type{
         $this->hash = $array['hash'];
         $this->secret = $array['secret'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

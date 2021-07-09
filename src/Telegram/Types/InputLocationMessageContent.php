@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class InputLocationMessageContent extends Type{
     
-    protected string $_ = 'InputLocationMessageContent';
-
     /** @var float Latitude of the location in degrees */
     public float $latitude;
 
@@ -37,6 +35,7 @@ class InputLocationMessageContent extends Type{
         $this->heading = $array['heading'] ?? null;
         $this->proximity_alert_radius = $array['proximity_alert_radius'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

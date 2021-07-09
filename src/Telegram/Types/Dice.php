@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Dice extends Type{
     
-    protected string $_ = 'Dice';
-
     /** @var string Emoji on which the dice throw animation is based */
     public string $emoji;
 
@@ -21,6 +19,7 @@ class Dice extends Type{
         $this->emoji = $array['emoji'];
         $this->value = $array['value'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

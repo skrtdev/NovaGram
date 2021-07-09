@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PassportElementErrorReverseSide extends Type{
     
-    protected string $_ = 'PassportElementErrorReverseSide';
-
     /** @var string Error source, must be reverse_side */
     public string $source;
 
@@ -29,6 +27,7 @@ class PassportElementErrorReverseSide extends Type{
         $this->file_hash = $array['file_hash'];
         $this->message = $array['message'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

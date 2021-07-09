@@ -3,14 +3,13 @@
 namespace skrtdev\Telegram;
 
 use skrtdev\NovaGram\Bot;
+use skrtdev\NovaGram\EntitiesParser;
 
 /**
  * This object represents a message.
 */
 class Message extends Type{
     
-    protected string $_ = 'Message';
-
     /** @var int Unique message identifier inside this chat */
     public int $message_id;
 
@@ -237,6 +236,258 @@ class Message extends Type{
         $this->voice_chat_participants_invited = isset($array['voice_chat_participants_invited']) ? new VoiceChatParticipantsInvited($array['voice_chat_participants_invited'], $Bot) : null;
         $this->reply_markup = isset($array['reply_markup']) ? new InlineKeyboardMarkup($array['reply_markup'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+
+    public function getHTMLText(){
+        return $this->html ??= isset($this->entities) ? EntitiesParser::textEntitiesToHTML($this->text, $this->entities) : $this->text;
+    }
     
+    public function reply($text = null, $parse_mode = null, $entities = null, bool $disable_web_page_preview = null, bool $disable_notification = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    {
+        if(is_array($text)){
+            $json_payload = $parse_mode ?? false;
+            $params = $text;
+        }
+        else{
+            if(is_bool($parse_mode)){
+                $json_payload = $parse_mode;
+                $params = ['text' => $text];
+            }
+            elseif(is_array($parse_mode)){
+                $json_payload = $entities ?? false;
+                $params = ['text' => $text] + $parse_mode;
+            }
+            else $params = ['text' => $text, 'parse_mode' => $parse_mode, 'entities' => $entities, 'disable_web_page_preview' => $disable_web_page_preview, 'disable_notification' => $disable_notification, 'allow_sending_without_reply' => $allow_sending_without_reply, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        $params['reply_to_message_id'] ??= $this->message_id;
+        return $this->Bot->sendMessage($params, $json_payload);
+    }
+
+    public function forward($disable_notification = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    {
+        if(is_array($disable_notification)){
+            $json_payload = $json_payload ?? false;
+            $params = $disable_notification;
+        }
+        else{
+            $params = ['disable_notification' => $disable_notification, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        $params['from_chat_id'] ??= $this->chat->id;
+        return $this->Bot->forwardMessage($params, $json_payload);
+    }
+
+    public function copy($caption = null, $parse_mode = null, $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\MessageId
+    {
+        if(is_array($caption)){
+            $json_payload = $parse_mode ?? false;
+            $params = $caption;
+        }
+        else{
+            if(is_bool($parse_mode)){
+                $json_payload = $parse_mode;
+                $params = ['caption' => $caption];
+            }
+            elseif(is_array($parse_mode)){
+                $json_payload = $caption_entities ?? false;
+                $params = ['caption' => $caption] + $parse_mode;
+            }
+            else $params = ['caption' => $caption, 'parse_mode' => $parse_mode, 'caption_entities' => $caption_entities, 'disable_notification' => $disable_notification, 'reply_to_message_id' => $reply_to_message_id, 'allow_sending_without_reply' => $allow_sending_without_reply, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        $params['from_chat_id'] ??= $this->chat->id;
+        return $this->Bot->copyMessage($params, $json_payload);
+    }
+
+    public function editLiveLocation($latitude = null, $longitude = null, $inline_message_id = null, float $horizontal_accuracy = null, int $heading = null, int $proximity_alert_radius = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false)
+    {
+        if(is_array($latitude)){
+            $json_payload = $longitude ?? false;
+            $params = $latitude;
+        }
+        else{
+            if(is_bool($longitude)){
+                $json_payload = $longitude;
+                $params = ['latitude' => $latitude];
+            }
+            elseif(is_array($longitude)){
+                $json_payload = $inline_message_id ?? false;
+                $params = ['latitude' => $latitude] + $longitude;
+            }
+            else $params = ['latitude' => $latitude, 'longitude' => $longitude, 'inline_message_id' => $inline_message_id, 'horizontal_accuracy' => $horizontal_accuracy, 'heading' => $heading, 'proximity_alert_radius' => $proximity_alert_radius, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        return $this->Bot->editMessageLiveLocation($params, $json_payload);
+    }
+
+    public function stopLiveLocation($inline_message_id = null, $reply_markup = null, bool $json_payload = false)
+    {
+        if(is_array($inline_message_id)){
+            $json_payload = $reply_markup ?? false;
+            $params = $inline_message_id;
+        }
+        else{
+            if(is_bool($reply_markup)){
+                $json_payload = $reply_markup;
+                $params = ['inline_message_id' => $inline_message_id];
+            }
+            elseif(is_array($reply_markup)){
+                $json_payload = $json_payload ?? false;
+                $params = ['inline_message_id' => $inline_message_id] + $reply_markup;
+            }
+            else $params = ['inline_message_id' => $inline_message_id, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        return $this->Bot->stopMessageLiveLocation($params, $json_payload);
+    }
+
+    public function pin($disable_notification = null, bool $json_payload = false): ?bool
+    {
+        if(is_array($disable_notification)){
+            $json_payload = $json_payload ?? false;
+            $params = $disable_notification;
+        }
+        else{
+            $params = ['disable_notification' => $disable_notification, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        return $this->Bot->pinChatMessage($params, $json_payload);
+    }
+
+    public function editText($text = null, $inline_message_id = null, $parse_mode = null, ObjectsList $entities = null, bool $disable_web_page_preview = null, bool $json_payload = false)
+    {
+        if(is_array($text)){
+            $json_payload = $inline_message_id ?? false;
+            $params = $text;
+        }
+        else{
+            if(is_bool($inline_message_id)){
+                $json_payload = $inline_message_id;
+                $params = ['text' => $text];
+            }
+            elseif(is_array($inline_message_id)){
+                $json_payload = $parse_mode ?? false;
+                $params = ['text' => $text] + $inline_message_id;
+            }
+            else $params = ['text' => $text, 'inline_message_id' => $inline_message_id, 'parse_mode' => $parse_mode, 'entities' => $entities, 'disable_web_page_preview' => $disable_web_page_preview, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        $params['reply_markup'] ??= $this->reply_markup;
+        return $this->Bot->editMessageText($params, $json_payload);
+    }
+
+    public function editCaption($inline_message_id = null, $caption = null, $parse_mode = null, ObjectsList $caption_entities = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false)
+    {
+        if(is_array($inline_message_id)){
+            $json_payload = $caption ?? false;
+            $params = $inline_message_id;
+        }
+        else{
+            if(is_bool($caption)){
+                $json_payload = $caption;
+                $params = ['inline_message_id' => $inline_message_id];
+            }
+            elseif(is_array($caption)){
+                $json_payload = $parse_mode ?? false;
+                $params = ['inline_message_id' => $inline_message_id] + $caption;
+            }
+            else $params = ['inline_message_id' => $inline_message_id, 'caption' => $caption, 'parse_mode' => $parse_mode, 'caption_entities' => $caption_entities, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        return $this->Bot->editMessageCaption($params, $json_payload);
+    }
+
+    public function editMedia($media = null, $inline_message_id = null, $reply_markup = null, bool $json_payload = false)
+    {
+        if(is_array($media)){
+            $json_payload = $inline_message_id ?? false;
+            $params = $media;
+        }
+        else{
+            if(is_bool($inline_message_id)){
+                $json_payload = $inline_message_id;
+                $params = ['media' => $media];
+            }
+            elseif(is_array($inline_message_id)){
+                $json_payload = $reply_markup ?? false;
+                $params = ['media' => $media] + $inline_message_id;
+            }
+            else $params = ['media' => $media, 'inline_message_id' => $inline_message_id, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        return $this->Bot->editMessageMedia($params, $json_payload);
+    }
+
+    public function editReplyMarkup($inline_message_id = null, $reply_markup = null, bool $json_payload = false)
+    {
+        if(is_array($inline_message_id)){
+            $json_payload = $reply_markup ?? false;
+            $params = $inline_message_id;
+        }
+        else{
+            if(is_bool($reply_markup)){
+                $json_payload = $reply_markup;
+                $params = ['inline_message_id' => $inline_message_id];
+            }
+            elseif(is_array($reply_markup)){
+                $json_payload = $json_payload ?? false;
+                $params = ['inline_message_id' => $inline_message_id] + $reply_markup;
+            }
+            else $params = ['inline_message_id' => $inline_message_id, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        return $this->Bot->editMessageReplyMarkup($params, $json_payload);
+    }
+
+    public function stopPoll($reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Poll
+    {
+        if(is_array($reply_markup)){
+            $json_payload = $json_payload ?? false;
+            $params = $reply_markup;
+        }
+        else{
+            $params = ['reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        return $this->Bot->stopPoll($params, $json_payload);
+    }
+
+    public function delete(bool $json_payload = false): ?bool
+    {
+        return $this->Bot->deleteMessage(['message_id' => $this->chat->id, 'chat_id' => $this->chat->id], $json_payload);
+    }
+
+    public function setGameScore($user_id = null, $score = null, $force = null, bool $disable_edit_message = null, bool $json_payload = false)
+    {
+        if(is_array($user_id)){
+            $json_payload = $score ?? false;
+            $params = $user_id;
+        }
+        else{
+            if(is_bool($score)){
+                $json_payload = $score;
+                $params = ['user_id' => $user_id];
+            }
+            elseif(is_array($score)){
+                $json_payload = $force ?? false;
+                $params = ['user_id' => $user_id] + $score;
+            }
+            else $params = ['user_id' => $user_id, 'score' => $score, 'force' => $force, 'disable_edit_message' => $disable_edit_message, 'json_payload' => $json_payload];
+        }
+        $params['message_id'] ??= $this->message_id;
+        $params['chat_id'] ??= $this->chat->id;
+        return $this->Bot->setGameScore($params, $json_payload);
+    }
 }

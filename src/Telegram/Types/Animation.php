@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Animation extends Type{
     
-    protected string $_ = 'Animation';
-
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
@@ -49,6 +47,7 @@ class Animation extends Type{
         $this->mime_type = $array['mime_type'] ?? null;
         $this->file_size = $array['file_size'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

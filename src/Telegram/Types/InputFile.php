@@ -9,11 +9,10 @@ use skrtdev\NovaGram\Bot;
 */
 class InputFile extends Type{
     
-    protected string $_ = 'InputFile';
-
     
     public function __construct(array $array, Bot $Bot = null){
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

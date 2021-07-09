@@ -561,7 +561,7 @@ exit;
 #$Bot->addCommandHandler(CommandHandler::class);
 //$Bot->onUpdate(fn(Update $update) => var_dump($update));
 $Bot->onCommand('kick', function (Message $message){
-    $message->chat->kickMember($message->from->id);
+    $message->chat->banMember($message->from->id);
 });
 
 $Bot->onChatMember(function (ChatMemberUpdated $chat_member_updated){
@@ -630,6 +630,15 @@ $Bot->onCommand([
     //#[Filter(is_forwarded: false)]
     function(Message $message){
         $message->reply('levlam');
+        $message->reply(['text' => 'levlam']);
+        $message->reply(text: 'levlam');
+
+        $user = $message->from;
+        $user->sendMessage('levlam');
+        $user->sendMessage(['text' => 'levlam']);
+        $user->sendMessage(text: 'levlam');
+        $user->sendMessage('levlam', ['reply_markup' => ['inline_keyboard' => [[button('ae', 'google.it', true)]]]], false);
+        $user->sendMessage('*levlam*', 'markdown');
         #$message->reply(get_dc($message->from));
     },
     [new CommandScope('all_private_chats'), new CommandScope(chat_id: [-1001185261677, -1001483570860])],

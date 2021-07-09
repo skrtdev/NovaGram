@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class CallbackQuery extends Type{
     
-    protected string $_ = 'CallbackQuery';
-
     /** @var string Unique identifier for this query */
     public string $id;
 
@@ -41,6 +39,26 @@ class CallbackQuery extends Type{
         $this->data = $array['data'] ?? null;
         $this->game_short_name = $array['game_short_name'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
     
+    public function answer($text = null, $show_alert = null, $url = null, int $cache_time = null, bool $json_payload = false): ?bool
+    {
+        if(is_array($text)){
+            $json_payload = $show_alert ?? false;
+            $params = $text;
+        }
+        else{
+            if(is_bool($show_alert)){
+                $json_payload = $show_alert;
+                $params = ['text' => $text];
+            }
+            elseif(is_array($show_alert)){
+                $json_payload = $url ?? false;
+                $params = ['text' => $text] + $show_alert;
+            }
+            else $params = ['text' => $text, 'show_alert' => $show_alert, 'url' => $url, 'cache_time' => $cache_time, 'json_payload' => $json_payload];
+        }
+        $params['callback_query_id'] ??= $this->id;
+        return $this->Bot->answerCallbackQuery($params, $json_payload);
+    }
 }

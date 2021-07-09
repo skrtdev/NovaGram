@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ProximityAlertTriggered extends Type{
     
-    protected string $_ = 'ProximityAlertTriggered';
-
     /** @var User User that triggered the alert */
     public User $traveler;
 
@@ -25,6 +23,7 @@ class ProximityAlertTriggered extends Type{
         $this->watcher = new User($array['watcher'], $Bot);
         $this->distance = $array['distance'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

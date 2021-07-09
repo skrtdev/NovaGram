@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PreCheckoutQuery extends Type{
     
-    protected string $_ = 'PreCheckoutQuery';
-
     /** @var string Unique query identifier */
     public string $id;
 
@@ -41,6 +39,7 @@ class PreCheckoutQuery extends Type{
         $this->shipping_option_id = $array['shipping_option_id'] ?? null;
         $this->order_info = isset($array['order_info']) ? new OrderInfo($array['order_info'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

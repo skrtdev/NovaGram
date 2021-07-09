@@ -52,11 +52,7 @@ class Utils{
     {
         $debug_backtrace = debug_backtrace(~DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS);
         foreach ($debug_backtrace as $caller) {
-            // FIXME DEVELOPMENT
-            /*if(!str_contains($caller['file'], 'vendor/skrtdev')){
-                break;
-            }*/
-            if(!str_contains($caller['file'], 'src')){ // FIXME DEVELOPMENT
+            if(!str_contains($caller['file'], 'vendor/skrtdev')){
                 break;
             }
         }

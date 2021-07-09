@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Audio extends Type{
     
-    protected string $_ = 'Audio';
-
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
@@ -49,6 +47,7 @@ class Audio extends Type{
         $this->file_size = $array['file_size'] ?? null;
         $this->thumb = isset($array['thumb']) ? new PhotoSize($array['thumb'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ChatPermissions extends Type{
     
-    protected string $_ = 'ChatPermissions';
-
     /** @var bool|null True, if the user is allowed to send text messages, contacts, locations and venues */
     public ?bool $can_send_messages = null;
 
@@ -45,6 +43,7 @@ class ChatPermissions extends Type{
         $this->can_invite_users = $array['can_invite_users'] ?? null;
         $this->can_pin_messages = $array['can_pin_messages'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

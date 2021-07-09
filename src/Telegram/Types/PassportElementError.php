@@ -9,11 +9,10 @@ use skrtdev\NovaGram\Bot;
 */
 class PassportElementError extends Type{
     
-    protected string $_ = 'PassportElementError';
-
     
     public function __construct(array $array, Bot $Bot = null){
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

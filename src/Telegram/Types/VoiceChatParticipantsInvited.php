@@ -9,14 +9,13 @@ use skrtdev\NovaGram\Bot;
 */
 class VoiceChatParticipantsInvited extends Type{
     
-    protected string $_ = 'VoiceChatParticipantsInvited';
-
     /** @var ObjectsList|null New members that were invited to the voice chat */
     public ?ObjectsList $users = null;
 
     public function __construct(array $array, Bot $Bot = null){
         $this->users = isset($array['users']) ? new ObjectsList(iterate($array['users'], fn($item) => new User($item, $Bot))) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

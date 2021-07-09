@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class InputInvoiceMessageContent extends Type{
     
-    protected string $_ = 'InputInvoiceMessageContent';
-
     /** @var string Product name, 1-32 characters */
     public string $title;
 
@@ -93,6 +91,7 @@ class InputInvoiceMessageContent extends Type{
         $this->send_email_to_provider = $array['send_email_to_provider'] ?? null;
         $this->is_flexible = $array['is_flexible'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

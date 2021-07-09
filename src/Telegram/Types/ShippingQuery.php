@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ShippingQuery extends Type{
     
-    protected string $_ = 'ShippingQuery';
-
     /** @var string Unique query identifier */
     public string $id;
 
@@ -29,6 +27,7 @@ class ShippingQuery extends Type{
         $this->invoice_payload = $array['invoice_payload'];
         $this->shipping_address = new ShippingAddress($array['shipping_address'], $Bot);
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

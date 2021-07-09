@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class BotCommand extends Type{
     
-    protected string $_ = 'BotCommand';
-
     /** @var string Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores. */
     public string $command;
 
@@ -21,6 +19,7 @@ class BotCommand extends Type{
         $this->command = $array['command'];
         $this->description = $array['description'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

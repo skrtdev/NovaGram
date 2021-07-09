@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PassportElementErrorDataField extends Type{
     
-    protected string $_ = 'PassportElementErrorDataField';
-
     /** @var string Error source, must be data */
     public string $source;
 
@@ -33,6 +31,7 @@ class PassportElementErrorDataField extends Type{
         $this->data_hash = $array['data_hash'];
         $this->message = $array['message'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

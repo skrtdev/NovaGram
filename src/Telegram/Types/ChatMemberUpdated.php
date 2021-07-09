@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ChatMemberUpdated extends Type{
     
-    protected string $_ = 'ChatMemberUpdated';
-
     /** @var Chat Chat the user belongs to */
     public Chat $chat;
 
@@ -37,6 +35,7 @@ class ChatMemberUpdated extends Type{
         $this->new_chat_member = new ChatMember($array['new_chat_member'], $Bot);
         $this->invite_link = isset($array['invite_link']) ? new ChatInviteLink($array['invite_link'], $Bot) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -9,14 +9,13 @@ use skrtdev\NovaGram\Bot;
 */
 class MessageId extends Type{
     
-    protected string $_ = 'MessageId';
-
     /** @var int Unique message identifier */
     public int $message_id;
 
     public function __construct(array $array, Bot $Bot = null){
         $this->message_id = $array['message_id'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

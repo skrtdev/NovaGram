@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class ResponseParameters extends Type{
     
-    protected string $_ = 'ResponseParameters';
-
     /** @var int|null The group has been migrated to a supergroup with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier. */
     public ?int $migrate_to_chat_id = null;
 
@@ -21,6 +19,7 @@ class ResponseParameters extends Type{
         $this->migrate_to_chat_id = $array['migrate_to_chat_id'] ?? null;
         $this->retry_after = $array['retry_after'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Document extends Type{
     
-    protected string $_ = 'Document';
-
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
@@ -37,6 +35,10 @@ class Document extends Type{
         $this->mime_type = $array['mime_type'] ?? null;
         $this->file_size = $array['file_size'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
     
+    public function get(): ?\skrtdev\Telegram\File
+    {
+        return $this->Bot->getFile(['file_id' => $this->file_id]);
+    }
 }

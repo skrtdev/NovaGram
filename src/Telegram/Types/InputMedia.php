@@ -9,11 +9,10 @@ use skrtdev\NovaGram\Bot;
 */
 class InputMedia extends Type{
     
-    protected string $_ = 'InputMedia';
-
     
     public function __construct(array $array, Bot $Bot = null){
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

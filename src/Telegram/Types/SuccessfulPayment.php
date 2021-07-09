@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class SuccessfulPayment extends Type{
     
-    protected string $_ = 'SuccessfulPayment';
-
     /** @var string Three-letter ISO 4217 currency code */
     public string $currency;
 
@@ -41,6 +39,7 @@ class SuccessfulPayment extends Type{
         $this->telegram_payment_charge_id = $array['telegram_payment_charge_id'];
         $this->provider_payment_charge_id = $array['provider_payment_charge_id'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

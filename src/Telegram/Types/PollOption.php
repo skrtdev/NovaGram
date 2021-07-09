@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PollOption extends Type{
     
-    protected string $_ = 'PollOption';
-
     /** @var string Option text, 1-100 characters */
     public string $text;
 
@@ -21,6 +19,7 @@ class PollOption extends Type{
         $this->text = $array['text'];
         $this->voter_count = $array['voter_count'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

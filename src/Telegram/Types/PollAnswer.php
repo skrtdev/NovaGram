@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PollAnswer extends Type{
     
-    protected string $_ = 'PollAnswer';
-
     /** @var string Unique poll identifier */
     public string $poll_id;
 
@@ -25,6 +23,7 @@ class PollAnswer extends Type{
         $this->user = new User($array['user'], $Bot);
         $this->option_ids = new ObjectsList($array['option_ids']);
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

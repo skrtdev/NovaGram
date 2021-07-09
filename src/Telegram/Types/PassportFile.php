@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class PassportFile extends Type{
     
-    protected string $_ = 'PassportFile';
-
     /** @var string Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
@@ -29,6 +27,7 @@ class PassportFile extends Type{
         $this->file_size = $array['file_size'];
         $this->file_date = $array['file_date'];
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

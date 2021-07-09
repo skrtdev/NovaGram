@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class WebhookInfo extends Type{
     
-    protected string $_ = 'WebhookInfo';
-
     /** @var string Webhook URL, may be empty if webhook is not set up */
     public string $url;
 
@@ -45,6 +43,7 @@ class WebhookInfo extends Type{
         $this->max_connections = $array['max_connections'] ?? null;
         $this->allowed_updates = isset($array['allowed_updates']) ? new ObjectsList($array['allowed_updates']) : null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }

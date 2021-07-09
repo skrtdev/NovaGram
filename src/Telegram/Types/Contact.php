@@ -9,8 +9,6 @@ use skrtdev\NovaGram\Bot;
 */
 class Contact extends Type{
     
-    protected string $_ = 'Contact';
-
     /** @var string Contact's phone number */
     public string $phone_number;
 
@@ -33,6 +31,7 @@ class Contact extends Type{
         $this->user_id = $array['user_id'] ?? null;
         $this->vcard = $array['vcard'] ?? null;
         parent::__construct($array, $Bot);
-   }
+    }
+    
     
 }
