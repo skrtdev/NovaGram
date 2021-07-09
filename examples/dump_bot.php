@@ -1,6 +1,5 @@
 <?php
-require '../vendor/autoload.php';
-/*if (file_exists('vendor')) {
+if (file_exists('vendor')) {
     require 'vendor/autoload.php';
 }
 else{
@@ -8,12 +7,11 @@ else{
         copy('https://novagram.ga/phar', 'novagram.phar');
     }
     require_once 'novagram.phar';
-}*/
+}
 
 use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\{CallbackQuery, Chat, Type, Update};
 
-# YOUR_TOKEN
 $Bot = new Bot('YOUR_TOKEN', ['parse_mode' => 'HTML']);
 
 function find_chat_object(Type $object): ?Chat {
