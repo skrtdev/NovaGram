@@ -307,7 +307,7 @@ class Bot {
         $this->restartOnChanges();
         foreach ($updates as $update) {
             $this->is_handling = true;
-            $bench = new Time();
+            #$bench = new Time();
             $this->getDispatcher()->handleUpdate($update, count($updates) === 1 && !$this->settings->force_async);
             $offset = $update->update_id+1;
         }
