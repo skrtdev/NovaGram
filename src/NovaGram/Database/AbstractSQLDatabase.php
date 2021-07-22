@@ -104,7 +104,7 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
             ':chat_id' => $chat_id,
             ':name' => $name,
             ':value' => serialize($value),
-            ':is_permanent' => $params['is_permanent'] ?? true,
+            ':is_permanent' => ($params['is_permanent'] ?? true) ?: 0,
         ]);
         $this->cached_conversations[$chat_id.$name] = true;
     }
