@@ -34,6 +34,7 @@ class TracebackNormalizer
         $string = [];
         $i = 0;
         foreach ($trace as $item) {
+            $item['args'] ??= [];
             foreach ($item['args'] as $key => &$arg) {
                 $arg = (is_string($key) ? "$key: " : '').self::normalizeTraceArgument($arg);
             }
