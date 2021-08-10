@@ -466,7 +466,7 @@ class Message extends Type{
 
     public function delete(bool $json_payload = false): ?bool
     {
-        return $this->Bot->deleteMessage(['message_id' => $this->chat->id, 'chat_id' => $this->chat->id], $json_payload);
+        return $this->Bot->deleteMessage(['message_id' => $this->message_id, 'chat_id' => $this->chat->id], $json_payload);
     }
 
     public function setGameScore($user_id = null, $score = null, $force = null, bool $disable_edit_message = null, bool $json_payload = false)
