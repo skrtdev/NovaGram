@@ -380,7 +380,6 @@ class Message extends Type{
         }
         $params['message_id'] ??= $this->message_id;
         $params['chat_id'] ??= $this->chat->id;
-        $params['reply_markup'] ??= $this->reply_markup;
         return $this->Bot->editMessageText($params, $json_payload);
     }
 
