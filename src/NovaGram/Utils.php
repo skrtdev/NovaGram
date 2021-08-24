@@ -180,6 +180,7 @@ class Utils{
     public static function ArrayToDatabaseInterface(array $array): DatabaseInterface
     {
         $driver = $array['driver'] ?? 'mysql';
+        $array['host'] ??= 'localhost:3306';
         $array['prefix'] ??= 'novagram';
         if($driver === 'sqlite' || $driver === 'sqlite3'){
             return new SQLiteDatabase($array['host'], $array['prefix']);
