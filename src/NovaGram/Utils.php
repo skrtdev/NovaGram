@@ -179,7 +179,7 @@ class Utils{
      */
     public static function ArrayToDatabaseInterface(array $array): DatabaseInterface
     {
-        $driver = $array['driver'];
+        $driver = $array['driver'] ?? 'mysql';
         $array['prefix'] ??= 'novagram';
         if($driver === 'sqlite' || $driver === 'sqlite3'){
             return new SQLiteDatabase($array['host'], $array['prefix']);
