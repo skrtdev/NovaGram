@@ -238,8 +238,10 @@ class Message extends Type{
         parent::__construct($array, $Bot);
     }
 
-    public function getHTMLText(){
-        return $this->html ??= isset($this->entities) ? EntitiesParser::textEntitiesToHTML($this->text, $this->entities) : $this->text;
+    public function getHTMLText(): ?string
+    {
+        $text = $this->text ?? $this->caption ?? null;
+        return $this->html ??= isset($this->entities) ? EntitiesParser::textEntitiesToHTML($text, $this->entities) : $text;
     }
     
     public function reply($text = null, $parse_mode = null, $entities = null, bool $disable_web_page_preview = null, bool $disable_notification = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
