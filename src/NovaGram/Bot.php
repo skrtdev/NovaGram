@@ -350,7 +350,7 @@ class Bot {
                 if($this->settings->export_commands && (!empty($this->commands) || !empty($this->scoped_commands))){
                     if($this->settings->async && !empty($this->scoped_commands)){
                         $this->getDispatcher()->getPool()->parallel([$this, 'exportCommands']);
-                        $this->database?->reset();
+                        if(isset($this->database)) $this->database->reset();
                     }
                     else $this->exportCommands();
                 }
