@@ -18,9 +18,9 @@ As of `PHP8`, you can pass settings field as named arguments.
 |-----------------------------|---------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | username                    | string  | no                       | Bot username, recommended to pass only if using command handlers on webhook                                                                         |
 | mode                        | integer | auto                     | Mode for update handling (or no handling at all)                                                                                                    |
-| json_payload                | boolean | `true`                   | Whether or not print json payload                                                                                                                   |
-| log_updates                 | integer | no                       | Chat id where raw json updates will be sent (set to false to disable)                                                                               |
-| debug                       | integer | no                       | Chat id where debug logs will be sent if an api error occurs (set to false to disable)                                                              |
+| json_payload                | boolean | `true`                   | Whether or not enable json payload                                                                                                                  |
+| log_updates                 | integer | no                       | Chat id where raw json updates will be sent                                                                                                         |
+| debug                       | integer | no                       | Chat id where debug logs will be sent if an api error occurs                                                                                        |
 | async                       | bool    | `true`                   | Whether or not process updates concurrently                                                                                                         |
 | force_async                 | bool    | `false`                  | Whether or not process updates concurrently even when `getUpdates` returned only one update                                                         |
 | command_prefixes            | array   | `['/']`                  | Characters for commands prefixes. e.g. /start, .info                                                                                                |
@@ -36,14 +36,13 @@ As of `PHP8`, you can pass settings field as named arguments.
 | export_commands             | bool    | `true`                   | Whether to call exportCommands when idling on CLI                                                                                                   |
 | include_classes             | bool    | `false`                  | Whether to automatically include and fire Commands Class Handlers (include all files that ends with `Command.php` inside the main script directory) |
 | exceptions                  | bool    | `true`                   | Whether or not throw \skrtdev\Telegram\Exception(s) when API Errors occurs                                                                          |
-| database                    | array   | null                     | [Database](database.md) array connection info or instance of an existing `PDO` database (`novagram` will be used as prefix)                         |
+| database                    | array   | null                     | DatabaseInterface instance, view [Database](database.md)                                                                                            |
 | parse_mode                  | string  | null                     | Default `parse_mode` for methods that require it                                                                                                    |
 | disable_web_page_preview    | bool    | null                     | Default `disable_web_page_preview` for methods that require it                                                                                      |
 | disable_notification        | bool    | null                     | Default `disable_notification` for methods that require it                                                                                          |
 | allow_sending_without_reply | bool    | null                     | Default `allow_sending_without_reply` for methods that require it                                                                                   |
 | only_if_banned              | bool    | null                     | Default `only_if_banned` for unbanChatMember method                                                                                                 |
 | disable_auto_webhook_set    | bool    | false                    | Whether to not set webhook automatically when opening script url if a webhook is not set                                                            |
-
 ### Mode
 
 Can be either `Bot::WEBHOOK`, `Bot::CLI` or `Bot::NONE`.
