@@ -44,7 +44,7 @@ class Utils{
     }
     public static function getIDByToken(string $token): int
     {
-        preg_match('/^(\d{5,12}):[\w\d_-]{30,50}$/', $token, $matches);
+        preg_match('/^(\d{5,20}):[\w\d_-]{30,50}$/', $token, $matches);
         return (int) $matches[0];
     }
 
