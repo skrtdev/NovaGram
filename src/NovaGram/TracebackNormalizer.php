@@ -10,7 +10,7 @@ class TracebackNormalizer
 {
     protected static function normalizeTraceArgument($arg, bool $recursive = true): string {
         if (is_object($arg)) {
-            return 'Object('.get_class($arg).')';
+            return '<'.get_class($arg).' object>';
         }
         elseif (is_array($arg)){
             if(count($arg) <= 5 && is_list($arg) && $recursive){
@@ -61,6 +61,6 @@ class TracebackNormalizer
             }
             $i++;
         }
-        return get_class($e) . (!empty($e->getMessage()) ? ": {$e->getMessage()}" : '') .($e instanceof TelegramException ? " (caused by $e->method)" : '')." in {$e->getFile()}:{$e->getLine()}\nStack trace:\n".self::getTraceAsString($backtrace);
+        return explode("\nStack trace:\n", (string) $e)[0]."\nStack trace:\n".self::getTraceAsString($backtrace);
     }
 }
