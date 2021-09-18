@@ -26,7 +26,7 @@ class Bot {
     use HandlersTrait;
     use Prototypeable;
 
-    const LICENSE = "NovaGram - An Object-Oriented PHP library for Telegram Bots".PHP_EOL."Copyright (c) 2020-2021 Gaetano Sutera <https://github.com/skrtdev>";
+    const LICENSE = 'NovaGram - An Object-Oriented PHP library for Telegram Bots'.PHP_EOL.'Copyright (c) 2020-2021 Gaetano Sutera <https://github.com/skrtdev>'.PHP_EOL.'Licensed under the terms of the MIT License';
     const NONE    = 0;
     const WEBHOOK = 1;
     const CLI     = 2;
