@@ -20,4 +20,4 @@ $Bot->onTextMessage(function (Message $message) use ($Bot) {
 });
 
 $Bot->start();
-?>
+

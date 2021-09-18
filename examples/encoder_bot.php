@@ -13,7 +13,6 @@ use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\{Message, CallbackQuery};
 
 $Bot = new Bot('YOUR_TOKEN', [
-    'debug' => YOURCHATID, // chat id where debug will be sent when api errors occurs
     'parse_mode' => 'HTML' // will set parse_mode automatically in methods that require it if not providedå
 ]);
 

@@ -14,9 +14,7 @@ use skrtdev\NovaGram\Bot;
 use skrtdev\Telegram\Message;
 
 
-$Bot = new Bot('YOUR_TOKEN', [
-    'debug' => YOURCHATID, // chat id where debug will be sent when api errors occurs
-]);
+$Bot = new Bot('YOUR_TOKEN');
 
 $Bot->onCommand('start', function (Message $message) {
     $message->reply("/ping\n\n/moon");
@@ -54,4 +52,3 @@ $Bot->setErrorHandler(function(Throwable $e) {
 });
 
 $Bot->start();
-?>

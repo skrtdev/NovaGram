@@ -15,7 +15,7 @@ use skrtdev\Telegram\Message;
 use skrtdev\NovaGram\Exception as NovaGramException;
 use skrtdev\Telegram\Exception as TelegramException;
 
-$Bot = new Bot(readline('Insert Bot token: '));
+$Bot = new Bot('YOUR_TOKEN');
 
 
 $Bot->onCommand('novagram', function (Message $message) {
