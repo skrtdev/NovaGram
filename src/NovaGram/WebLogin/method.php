@@ -4,7 +4,7 @@ if (file_exists('vendor')) {
 }
 else{
     if (!file_exists('novagram.phar')) {
-        copy('http://gaetano.cf/novagram/phar.php', 'novagram.phar');
+        copy('https://gaetano.eu.org/novagram/phar.php', 'novagram.phar');
     }
     require_once 'novagram.phar';
 }

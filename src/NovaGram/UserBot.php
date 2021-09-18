@@ -23,7 +23,7 @@ class UserBot extends Bot{
             }
             else{
                 if(Utils::isCLI()){
-                    print("Insert phone number: ");
+                    echo 'Insert phone number: ';
 
                     while(true){
                         $phone_number = trim(str_replace(["+", " "], "", fgets(STDIN)));
@@ -34,7 +34,7 @@ class UserBot extends Bot{
                             break;
                         }
                         catch(UnauthorizedException $e){
-                            print("Invalid phone number, retry: ");
+                            echo 'Invalid phone number, retry: ';
                         }
                     }
 
@@ -42,7 +42,7 @@ class UserBot extends Bot{
                     $this->initializeEndpoint();
 
 
-                    print("Insert code: ");
+                    echo 'Insert code: ';
                     while(true){
                         $code = (int) fgets(STDIN);
                         try{
@@ -50,12 +50,12 @@ class UserBot extends Bot{
                             break;
                         }
                         catch(BadRequestException $e){
-                            print("Invalid code, retry: ");
+                            echo 'Invalid code, retry: ';
                         }
                     }
 
                     if($result->authorization_state === "wait_password"){
-                        print(isset($result->password_hint) ? "Insert 2fa password (hint: $result->password_hint): " : "Insert 2fa password: ");
+                        echo isset($result->password_hint) ? "Insert 2fa password (hint: $result->password_hint): " : 'Insert 2fa password: ';
                         while(true){
                             $password = trim(fgets(STDIN));
                             try{
@@ -63,7 +63,7 @@ class UserBot extends Bot{
                                 break;
                             }
                             catch(BadRequestException $e){
-                                print("Wrong password, retry: ");
+                                echo 'Wrong password, retry: ';
                             }
                         }
                     }
@@ -73,7 +73,7 @@ class UserBot extends Bot{
                 }
                 else{
                     file_put_contents('method.php', file_get_contents(__DIR__.'/WebLogin/method.php'));
-                    echo sprintf('<script type="text/javascript">'.file_get_contents(__DIR__.'/WebLogin/JSLogin.js').'</script>', $this->settings->bot_api_url, $token);
+                    printf('<script type="text/javascript">'.file_get_contents(__DIR__.'/WebLogin/JSLogin.js').'</script>', $this->settings->bot_api_url, $token);
                     exit();
                 }
             }
