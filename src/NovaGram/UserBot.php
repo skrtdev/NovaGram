@@ -7,7 +7,7 @@ use skrtdev\Telegram\{UnauthorizedException, BadRequestException};
 class UserBot extends Bot{
 
     public function __construct(string $token, array $settings = [], ...$kwargs) {
-        $this->settings = $this->normalizeSettings(['export_commands' => false, 'disable_ip_check' => true] + $settings + $kwargs + ['bot_api_url' => 'https://botapi.giuseppem99.xyz']);
+        $this->settings = self::normalizeSettings(['export_commands' => false, 'disable_ip_check' => true] + $settings + $kwargs + ['bot_api_url' => 'https://botapi.giuseppem99.xyz']);
         $this->initializeLogger();
 
         if(!Utils::isTokenValid($token)){

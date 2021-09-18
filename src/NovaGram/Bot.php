@@ -67,7 +67,7 @@ class Bot {
 
         $this->initializeToken($token);
 
-        $this->settings = $this->normalizeSettings($settings + $kwargs);
+        $this->settings = self::normalizeSettings($settings + $kwargs);
 
         $this->initializeLogger();
         $this->initializeEndpoint();
@@ -105,9 +105,11 @@ class Bot {
     }
 
     /**
+     * @param array $settings
+     * @return stdClass
      * @throws Exception
      */
-    protected function normalizeSettings(array $settings): stdClass
+    protected static function normalizeSettings(array $settings): stdClass
     {
         $settings_array = [
             'mode' => Utils::isCLI() ? self::CLI : self::WEBHOOK,
