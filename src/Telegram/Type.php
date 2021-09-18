@@ -2,8 +2,8 @@
 
 namespace skrtdev\Telegram;
 
-use skrtdev\NovaGram\{Bot, Utils};
-use skrtdev\Prototypes\{Prototypes, Prototypeable};
+use skrtdev\NovaGram\Bot;
+use skrtdev\Prototypes\Prototypeable;
 use stdClass;
 
 class Type {
@@ -11,68 +11,22 @@ class Type {
     use Prototypeable;
 
     protected ?Bot $Bot;
-    private stdClass $config;
-    protected string $_;
 
     public function __construct(array $array, Bot $Bot = null){
-        
         $this->Bot = $Bot;
 
         foreach ($array as $key => $value) $this->$key ??= is_array($value) ? (object) $value : $value;
     }
 
-    /*public function __call(string $name, array $arguments, ...$kwargs){
-        $this->config ??= json_decode(json_encode(Bot::getJSON()));
-
-        if(!isset($this->config->types_methods->{$this->_})){
-            return Prototypes::call($this, $name, $arguments);
-        }
-        $this_obj = $this->config->types_methods->{$this->_};
-
-        if(!isset($this_obj->{$name})){
-            return Prototypes::call($this, $name, $arguments);
-        }
-        $this_method = $this_obj->{$name};
-
-        $data = [];
-
-        foreach ($this_obj->_presets ?? [] as $key => $value) {
-            $data[$key] = $this->presetToValue($value) ?? null;
-        }
-        foreach ($this_method->presets ?? [] as $key => $value) {
-            $data[$key] = $this->presetToValue($value) ?? null;
-        }
-        if(isset($arguments[0])){
-            if(is_array($arguments[0])) foreach ($arguments[0] as $key => $value) {
-                $data[$key] = $value;
-            }
-            elseif(isset($this_method->just_one_parameter_needed)){
-                $data[$this_method->just_one_parameter_needed] = $arguments[0];
+    public function bind(Bot $Bot): void
+    {
+        $this->Bot = $Bot;
+        foreach ($this as $value) {
+            if($value instanceof Type || $value instanceof ObjectsList){
+                $value->bind($Bot);
             }
         }
-        if(isset($arguments[1])){
-            if(is_array($arguments[1])){
-                $payload = $arguments[2] ?? false;
-                $data = $arguments[1] + $data;
-            }
-            else{
-                $payload = $arguments[1] ?? false;
-            }
-        }
-        $data = $kwargs + $data;
-        foreach ($this_method->defaults ?? [] as $key => $value) {
-            $data[$key] ??= $value;
-        }
-        if(count($data) === 0) throw new \ArgumentCountError("Too few arguments to function ".get_class($this)."::$name(), 0 passed");
-        return $this->Bot->{$this_method->alias ?? $name}($data, $payload ?? false);
     }
-
-    protected function presetToValue(string $preset){
-        $obj = $this;
-        #foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? Utils::trigger_error("NovaGram: An internal error has occurred while loading object presets (trying to retrieve key $key of ".(is_object($obj) ? get_class($obj) : gettype($obj).' '.((string) $obj))."), please report issue including which method caused the issue.");
-        foreach(explode("/", $preset) as $key) $obj = $obj->$key ?? null;
-        return $obj;
-    }*/
 
     public function debug(){
         return $this->Bot->debug($this);
@@ -102,9 +56,7 @@ class Type {
 
     public function __debugInfo() {
         $result = get_object_vars($this);
-        foreach(['config', 'Bot', '_'] as $key){
-            unset($result[$key]);
-        }
+        unset($result['Bot']);
         foreach ($result as $key => $value) {
             if(!isset($value) || $value instanceof stdClass){
                 unset($result[$key]);

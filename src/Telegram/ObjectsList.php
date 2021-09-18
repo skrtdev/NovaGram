@@ -2,7 +2,7 @@
 
 namespace skrtdev\Telegram;
 
-use skrtdev\NovaGram\Exception;
+use skrtdev\NovaGram\{Bot, Exception};
 use ArrayAccess, Iterator, Countable;
 use skrtdev\Prototypes\Prototypeable;
 
@@ -13,28 +13,42 @@ class ObjectsList implements Iterator, ArrayAccess, Countable {
     private int $position = 0;
     private array $elements;
 
-    public function __construct(array $elements) {
-
+    public function __construct(array $elements)
+    {
         $this->elements = $elements;
     }
 
-    public function offsetSet($offset, $value) {
+    public function bind(Bot $Bot): void
+    {
+        foreach ($this->elements as $value) {
+            if($value instanceof Type || $value instanceof ObjectsList){
+                $value->bind($Bot);
+            }
+        }
+    }
+
+    public function offsetSet($offset, $value): void
+    {
         throw new Exception("Could not assign a value to an offset of a List Object");
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset): void
+    {
         throw new Exception("Could not unset an offset of a List Object");
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset): bool
+    {
         return isset($this->elements[$offset]);
     }
 
-    public function offsetGet($offset) {
-        return isset($this->elements[$offset]) ? $this->elements[$offset] : null;
+    public function offsetGet($offset)
+    {
+        return $this->elements[$offset] ?? null;
     }
 
-    public function __get(string $name) {
+    public function __get(string $name)
+    {
         $name = is_numeric($name) ? (int) $name : $name;
         if(isset($this->elements[$name])){
             return $this->elements[$name];
@@ -44,30 +58,35 @@ class ObjectsList implements Iterator, ArrayAccess, Countable {
         }
     }
 
-    public function rewind() {
+    public function rewind()
+    {
         $this->position = 0;
     }
 
-    public function current() {
+    public function current()
+    {
         return $this->elements[$this->position];
     }
 
-    public function key() {
+    public function key(): int
+    {
         return $this->position;
     }
 
-    public function next() {
+    public function next(): void
+    {
         ++$this->position;
     }
 
-    public function valid() {
+    public function valid(): bool
+    {
         return isset($this->elements[$this->position]);
     }
 
     public function toArray(): array
     {
         $result = $this->elements;
-        foreach ($result as $key => &$value) {
+        foreach ($result as &$value) {
             if($value instanceof Type || $value instanceof ObjectsList){
                 $value = $value->toArray();
             }
@@ -85,7 +104,8 @@ class ObjectsList implements Iterator, ArrayAccess, Countable {
         return end($this->elements) ?: null;
     }
 
-    public function __debugInfo() {
+    public function __debugInfo()
+    {
         return $this->elements;
     }
 
