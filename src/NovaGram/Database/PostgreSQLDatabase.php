@@ -21,7 +21,10 @@ class PostgreSQLDatabase extends AbstractSQLDatabase
     public function __construct(string $host, string $dbname, string $username, string $password = '', string $prefix = 'novagram', bool $create_tables = true)
     {
         $this->prefix = $prefix;
-        $this->pdo = $pdo ?? new PDOContainer("pgsql:host=$host;dbname=$dbname", $username, $password, self::OPTIONS);
+        $parts = explode(':', $host);
+        $hostname = $parts[0];
+        $port = $parts[1] ?? 5432;
+        $this->pdo = $pdo ?? new PDOContainer("pgsql:host=$hostname;port=$port;dbname=$dbname", $username, $password, self::OPTIONS);
         $this->initialize($create_tables);
     }
 
