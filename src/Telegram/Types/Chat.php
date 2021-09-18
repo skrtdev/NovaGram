@@ -86,6 +86,11 @@ class Chat extends Type{
         $this->location = isset($array['location']) ? new ChatLocation($array['location'], $Bot) : null;
         parent::__construct($array, $Bot);
     }
+
+    public function isGroup(): bool
+    {
+        return $this->type === 'group' || $this->type === 'supergroup';
+    }
     
     public function sendMessage($text = null, $parse_mode = null, $entities = null, bool $disable_web_page_preview = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
