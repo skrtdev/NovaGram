@@ -27,7 +27,7 @@ class Exception extends \Exception {
 
     public static function create(string $method, array $response, array $data, Throwable $previous = null): self
     {
-        $args = func_get_args();
+        $args = [$method, $response, $data, $previous];
         switch ($response['error_code']) {
             case 400:
                 return new BadRequestException(...$args);
