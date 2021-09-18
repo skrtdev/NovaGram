@@ -537,8 +537,13 @@ class Bot {
     }
 
     public function __destruct(){
-        if(!$this->started && $this->getDispatcher()->hasHandlers() && $this->settings->mode === self::WEBHOOK){
-            $this->start();
+        if(!$this->started && $this->getDispatcher()->hasHandlers()){
+            if($this->settings->mode === self::WEBHOOK){
+                $this->start();
+            }
+            else{
+                $this->logger->error('Add `$Bot->start();` at the end of your file in order to make it work.');
+            }
         }
     }
 
