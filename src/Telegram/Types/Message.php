@@ -243,6 +243,11 @@ class Message extends Type{
         $text = $this->text ?? $this->caption ?? null;
         return $this->html ??= isset($this->entities) ? EntitiesParser::textEntitiesToHTML($text, $this->entities) : $text;
     }
+
+    public function getLink(): string
+    {
+        return 'https://t.me/'.($this->chat->username ?? 'c/'. -$this->chat->id % 10e12)."/$this->message_id";
+    }
     
     public function reply($text = null, $parse_mode = null, $entities = null, bool $disable_web_page_preview = null, bool $disable_notification = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
