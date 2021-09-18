@@ -134,6 +134,7 @@ trait HandlersTrait{
                 $filter[] = Handler::orFilter(iterate($command_scopes, fn(CommandScope $scope) => $scope->getFilter()));
                 foreach ($command_scopes as $command_scope) {
                     foreach ($command_scope->getScopes() as $scope) {
+                        $scope = json_encode($scope);
                         $this->scoped_commands[$scope] ??= [];
                         $this->scoped_commands[$scope] [] = ['command' => $command, 'description' => $description ?? "$command command"];
                     }

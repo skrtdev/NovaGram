@@ -58,14 +58,12 @@ class CommandScope
 
     public function getScopes(): Generator
     {
-        /** @var array[] $scopes */
-        $scopes = [];
         foreach ($this->language_codes as $language_code) {
             if(isset($this->chat_ids)){
                 foreach ($this->chat_ids as $chat_id) {
                     if(isset($this->user_ids)) {
                         foreach ($this->user_ids as $user_id) {
-                            $scopes [] = [
+                            yield [
                                 'scope' => [
                                     'type' => $this->type,
                                     'chat_id' => $chat_id,
@@ -76,7 +74,7 @@ class CommandScope
                         }
                     }
                     else {
-                        $scopes [] = [
+                        yield [
                             'scope' => [
                                 'type' => $this->type,
                                 'chat_id' => $chat_id
@@ -87,18 +85,13 @@ class CommandScope
                 }
             }
             else{
-                $scopes []= [
+                yield [
                     'scope' => [
                         'type' => $this->type,
                     ],
                     'language_code' => $language_code,
                 ];
             }
-        }
-
-        foreach ($scopes as $scope) {
-            #var_dump($scope);
-            yield json_encode($scope);
         }
     }
 
