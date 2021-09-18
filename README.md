@@ -1,5 +1,5 @@
 <h1 align=center>
-    <img src="https://cdn.pixabay.com/photo/2021/05/04/11/13/telegram-6228343_960_720.png" width=300>
+    <img src="https://i.imgur.com/KdoYAWu.png" width=300>
     <br><br>
     NovaGram
 </h1>
@@ -36,11 +36,13 @@ $Bot->onCommand('start', function (Message $message) {
 $Bot->onCommand('info', function (Message $message) {
     $message->reply('Well, I\'m just an example, but you can learn more about NovaGram at docs.novagram.ga');
 });
+
+$Bot->start();
 ```
 
 ## 📎 Features
 
-- ***Full***: All the Methods and Types implemented in *Bot Api 5.0* (support **local Bot Api** too)
+- ***Full***: All the Methods and Types implemented in *Bot Api 5.3* (support **local Bot Api** too)
 - ***Fast***: Support for *JSON payload*, and *async handling of updates*
 - ***Extendable***: With [Prototypes](https://docs.novagram.ga/prototypes.html), you can add your *custom functionalities*
 - ***Easy***: *Exactly like original Bot Api*, with many methods simplified in a very nice way
