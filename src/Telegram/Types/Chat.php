@@ -91,7 +91,7 @@ class Chat extends Type{
     {
         return $this->type === 'group' || $this->type === 'supergroup';
     }
-    
+
     public function sendMessage($text = null, $parse_mode = null, $entities = null, bool $disable_web_page_preview = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($text)){
@@ -134,7 +134,7 @@ class Chat extends Type{
         return $this->Bot->forwardMessage($params, $json_payload);
     }
 
-    public function copyMessage($message_id = null, $caption = null, $parse_mode = null, ObjectsList $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\MessageId
+    public function copyMessage($message_id = null, $caption = null, $parse_mode = null, array $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\MessageId
     {
         if(is_array($message_id)){
             $json_payload = $caption ?? false;
@@ -156,7 +156,7 @@ class Chat extends Type{
         return $this->Bot->copyMessage($params, $json_payload);
     }
 
-    public function sendPhoto($photo = null, $caption = null, $parse_mode = null, ObjectsList $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function sendPhoto($photo = null, $caption = null, $parse_mode = null, array $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($photo)){
             $json_payload = $caption ?? false;
@@ -177,7 +177,7 @@ class Chat extends Type{
         return $this->Bot->sendPhoto($params, $json_payload);
     }
 
-    public function sendDocument($document = null, $thumb = null, $caption = null, string $parse_mode = null, ObjectsList $caption_entities = null, bool $disable_content_type_detection = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function sendDocument($document = null, $thumb = null, $caption = null, string $parse_mode = null, array $caption_entities = null, bool $disable_content_type_detection = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($document)){
             $json_payload = $thumb ?? false;
@@ -198,7 +198,7 @@ class Chat extends Type{
         return $this->Bot->sendDocument($params, $json_payload);
     }
 
-    public function sendVideo($video = null, $duration = null, $width = null, int $height = null, $thumb = null, string $caption = null, string $parse_mode = null, ObjectsList $caption_entities = null, bool $supports_streaming = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function sendVideo($video = null, $duration = null, $width = null, int $height = null, $thumb = null, string $caption = null, string $parse_mode = null, array $caption_entities = null, bool $supports_streaming = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($video)){
             $json_payload = $duration ?? false;
@@ -219,7 +219,7 @@ class Chat extends Type{
         return $this->Bot->sendVideo($params, $json_payload);
     }
 
-    public function sendAnimation($animation = null, $duration = null, $width = null, int $height = null, $thumb = null, string $caption = null, string $parse_mode = null, ObjectsList $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function sendAnimation($animation = null, $duration = null, $width = null, int $height = null, $thumb = null, string $caption = null, string $parse_mode = null, array $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($animation)){
             $json_payload = $duration ?? false;
@@ -240,7 +240,7 @@ class Chat extends Type{
         return $this->Bot->sendAnimation($params, $json_payload);
     }
 
-    public function sendVoice($voice = null, $caption = null, $parse_mode = null, ObjectsList $caption_entities = null, int $duration = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function sendVoice($voice = null, $caption = null, $parse_mode = null, array $caption_entities = null, int $duration = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($voice)){
             $json_payload = $caption ?? false;
@@ -324,7 +324,7 @@ class Chat extends Type{
         return $this->Bot->sendLocation($params, $json_payload);
     }
 
-    public function editMessageLiveLocation($latitude = null, $longitude = null, $message_id = null, string $inline_message_id = null, float $horizontal_accuracy = null, int $heading = null, int $proximity_alert_radius = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false)
+    public function editMessageLiveLocation($latitude = null, $longitude = null, $message_id = null, string $inline_message_id = null, float $horizontal_accuracy = null, int $heading = null, int $proximity_alert_radius = null, array $reply_markup = null, bool $json_payload = false)
     {
         if(is_array($latitude)){
             $json_payload = $longitude ?? false;
@@ -408,7 +408,7 @@ class Chat extends Type{
         return $this->Bot->sendContact($params, $json_payload);
     }
 
-    public function sendPoll($question = null, $options = null, $is_anonymous = null, string $type = null, bool $allows_multiple_answers = null, int $correct_option_id = null, string $explanation = null, string $explanation_parse_mode = null, ObjectsList $explanation_entities = null, int $open_period = null, int $close_date = null, bool $is_closed = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function sendPoll($question = null, $options = null, $is_anonymous = null, string $type = null, bool $allows_multiple_answers = null, int $correct_option_id = null, string $explanation = null, string $explanation_parse_mode = null, array $explanation_entities = null, int $open_period = null, int $close_date = null, bool $is_closed = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($question)){
             $json_payload = $options ?? false;
@@ -715,7 +715,7 @@ class Chat extends Type{
         return $this->Bot->deleteChatStickerSet(['chat_id' => $this->id], $json_payload);
     }
 
-    public function editMessageText($text = null, $message_id = null, $inline_message_id = null, string $parse_mode = null, ObjectsList $entities = null, bool $disable_web_page_preview = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false)
+    public function editMessageText($text = null, $message_id = null, $inline_message_id = null, string $parse_mode = null, array $entities = null, bool $disable_web_page_preview = null, array $reply_markup = null, bool $json_payload = false)
     {
         if(is_array($text)){
             $json_payload = $message_id ?? false;
@@ -736,7 +736,7 @@ class Chat extends Type{
         return $this->Bot->editMessageText($params, $json_payload);
     }
 
-    public function editMessageCaption($message_id = null, $inline_message_id = null, $caption = null, string $parse_mode = null, ObjectsList $caption_entities = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false)
+    public function editMessageCaption($message_id = null, $inline_message_id = null, $caption = null, string $parse_mode = null, array $caption_entities = null, array $reply_markup = null, bool $json_payload = false)
     {
         if(is_array($message_id)){
             $json_payload = $inline_message_id ?? false;
@@ -757,7 +757,7 @@ class Chat extends Type{
         return $this->Bot->editMessageCaption($params, $json_payload);
     }
 
-    public function editMessageMedia($media = null, $message_id = null, $inline_message_id = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false)
+    public function editMessageMedia($media = null, $message_id = null, $inline_message_id = null, array $reply_markup = null, bool $json_payload = false)
     {
         if(is_array($media)){
             $json_payload = $message_id ?? false;
@@ -854,7 +854,7 @@ class Chat extends Type{
         return $this->Bot->sendSticker($params, $json_payload);
     }
 
-    public function sendInvoice($title = null, $description = null, $payload = null, string $provider_token = null, string $currency = null, ObjectsList $prices = null, int $max_tip_amount = null, ObjectsList $suggested_tip_amounts = null, string $start_parameter = null, string $provider_data = null, string $photo_url = null, int $photo_size = null, int $photo_width = null, int $photo_height = null, bool $need_name = null, bool $need_phone_number = null, bool $need_email = null, bool $need_shipping_address = null, bool $send_phone_number_to_provider = null, bool $send_email_to_provider = null, bool $is_flexible = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function sendInvoice($title = null, $description = null, $payload = null, string $provider_token = null, string $currency = null, array $prices = null, int $max_tip_amount = null, array $suggested_tip_amounts = null, string $start_parameter = null, string $provider_data = null, string $photo_url = null, int $photo_size = null, int $photo_width = null, int $photo_height = null, bool $need_name = null, bool $need_phone_number = null, bool $need_email = null, bool $need_shipping_address = null, bool $send_phone_number_to_provider = null, bool $send_email_to_provider = null, bool $is_flexible = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, array $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($title)){
             $json_payload = $description ?? false;
@@ -875,7 +875,7 @@ class Chat extends Type{
         return $this->Bot->sendInvoice($params, $json_payload);
     }
 
-    public function sendGame($game_short_name = null, $disable_notification = null, $reply_to_message_id = null, bool $allow_sending_without_reply = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function sendGame($game_short_name = null, $disable_notification = null, $reply_to_message_id = null, bool $allow_sending_without_reply = null, array $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($game_short_name)){
             $json_payload = $disable_notification ?? false;

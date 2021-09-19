@@ -248,7 +248,7 @@ class Message extends Type{
     {
         return 'https://t.me/'.($this->chat->username ?? 'c/'. -$this->chat->id % 10e12)."/$this->message_id";
     }
-    
+
     public function reply($text = null, $parse_mode = null, $entities = null, bool $disable_web_page_preview = null, bool $disable_notification = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
         if(is_array($text)){
@@ -272,17 +272,24 @@ class Message extends Type{
         return $this->Bot->sendMessage($params, $json_payload);
     }
 
-    public function forward($disable_notification = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
+    public function forward($chat_id = null, $disable_notification = null, bool $json_payload = false): ?\skrtdev\Telegram\Message
     {
-        if(is_array($disable_notification)){
-            $json_payload = $json_payload ?? false;
-            $params = $disable_notification;
+        if(is_array($chat_id)){
+            $json_payload = $disable_notification ?? false;
+            $params = $chat_id;
         }
         else{
-            $params = ['disable_notification' => $disable_notification, 'json_payload' => $json_payload];
+            if(is_bool($disable_notification)){
+                $json_payload = $disable_notification;
+                $params = ['chat_id' => $chat_id];
+            }
+            elseif(is_array($disable_notification)){
+                $json_payload = $json_payload ?? false;
+                $params = ['chat_id' => $chat_id] + $disable_notification;
+            }
+            else $params = ['chat_id' => $chat_id, 'disable_notification' => $disable_notification, 'json_payload' => $json_payload];
         }
         $params['message_id'] ??= $this->message_id;
-        $params['chat_id'] ??= $this->chat->id;
         $params['from_chat_id'] ??= $this->chat->id;
         return $this->Bot->forwardMessage($params, $json_payload);
     }
@@ -310,7 +317,7 @@ class Message extends Type{
         return $this->Bot->copyMessage($params, $json_payload);
     }
 
-    public function editLiveLocation($latitude = null, $longitude = null, $inline_message_id = null, float $horizontal_accuracy = null, int $heading = null, int $proximity_alert_radius = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false)
+    public function editLiveLocation($latitude = null, $longitude = null, $inline_message_id = null, float $horizontal_accuracy = null, int $heading = null, int $proximity_alert_radius = null, array $reply_markup = null, bool $json_payload = false)
     {
         if(is_array($latitude)){
             $json_payload = $longitude ?? false;
@@ -368,7 +375,7 @@ class Message extends Type{
         return $this->Bot->pinChatMessage($params, $json_payload);
     }
 
-    public function editText($text = null, $inline_message_id = null, $parse_mode = null, ObjectsList $entities = null, bool $disable_web_page_preview = null, bool $json_payload = false)
+    public function editText($text = null, $inline_message_id = null, $parse_mode = null, array $entities = null, bool $disable_web_page_preview = null, array $reply_markup = null, bool $json_payload = false)
     {
         if(is_array($text)){
             $json_payload = $inline_message_id ?? false;
@@ -383,14 +390,14 @@ class Message extends Type{
                 $json_payload = $parse_mode ?? false;
                 $params = ['text' => $text] + $inline_message_id;
             }
-            else $params = ['text' => $text, 'inline_message_id' => $inline_message_id, 'parse_mode' => $parse_mode, 'entities' => $entities, 'disable_web_page_preview' => $disable_web_page_preview, 'json_payload' => $json_payload];
+            else $params = ['text' => $text, 'inline_message_id' => $inline_message_id, 'parse_mode' => $parse_mode, 'entities' => $entities, 'disable_web_page_preview' => $disable_web_page_preview, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
         }
         $params['message_id'] ??= $this->message_id;
         $params['chat_id'] ??= $this->chat->id;
         return $this->Bot->editMessageText($params, $json_payload);
     }
 
-    public function editCaption($inline_message_id = null, $caption = null, $parse_mode = null, ObjectsList $caption_entities = null, InlineKeyboardMarkup $reply_markup = null, bool $json_payload = false)
+    public function editCaption($inline_message_id = null, $caption = null, $parse_mode = null, array $caption_entities = null, array $reply_markup = null, bool $json_payload = false)
     {
         if(is_array($inline_message_id)){
             $json_payload = $caption ?? false;

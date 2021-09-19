@@ -59,7 +59,7 @@ NovaGram is built in order to bring a lightweight alternative to make bots, so t
 ### Installation via [Composer](https://getcomposer.org)
 
 Install NovaGram via Composer
-```
+```bash
 composer require skrtdev/novagram ^1.9
 ```
 

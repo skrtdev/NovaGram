@@ -56,7 +56,7 @@ class User extends Type{
         $this->Bot->settings->parse_mode ??= 'HTML';
         return "<a href=\"tg://user?id={$this->id}\">". htmlspecialchars($this->first_name. ( isset($this->last_name) ? " {$this->last_name}" : '' )) ."</a>";
     }
-    
+
     public function sendMessage($text = null, $parse_mode = null, $entities = null, bool $disable_web_page_preview = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?Message
     {
         if(is_array($text)){
@@ -231,7 +231,7 @@ class User extends Type{
         return $this->Bot->uploadStickerFile($params, $json_payload);
     }
 
-    public function createNewStickerSet($name = null, $title = null, $emojis = null, $png_sticker = null, $tgs_sticker = null, bool $contains_masks = null, MaskPosition $mask_position = null, bool $json_payload = false): ?bool
+    public function createNewStickerSet($name = null, $title = null, $emojis = null, $png_sticker = null, $tgs_sticker = null, bool $contains_masks = null, array $mask_position = null, bool $json_payload = false): ?bool
     {
         if(is_array($name)){
             $json_payload = $title ?? false;
@@ -252,7 +252,7 @@ class User extends Type{
         return $this->Bot->createNewStickerSet($params, $json_payload);
     }
 
-    public function addStickerToSet($name = null, $emojis = null, $png_sticker = null, $tgs_sticker = null, MaskPosition $mask_position = null, bool $json_payload = false): ?bool
+    public function addStickerToSet($name = null, $emojis = null, $png_sticker = null, $tgs_sticker = null, array $mask_position = null, bool $json_payload = false): ?bool
     {
         if(is_array($name)){
             $json_payload = $emojis ?? false;
