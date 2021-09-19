@@ -83,7 +83,7 @@ class Utils{
         self::$included_files ??= get_included_files();
         $hash = '';
         foreach (self::$included_files as $path) {
-            $hash .= hash('sha256', file_get_contents($path));
+            $hash .= hash('sha256', @file_get_contents($path));
         }
         return hash('sha256', $hash);
     }
