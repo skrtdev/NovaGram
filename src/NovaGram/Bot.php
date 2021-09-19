@@ -247,17 +247,17 @@ class Bot {
     {
         if(!$this->settings->wait_handlers || $this->settings->mode !== self::CLI || !$this->settings->async) exit;
 
-        print("Stopping...".PHP_EOL);
+        echo 'Stopping...', PHP_EOL;
         if($this->running){
             if($this->is_handling){
-                print("Could not stop, Bot is handling updates".PHP_EOL);
+                echo 'Could not stop, Bot is handling updates', PHP_EOL;
                 sleep(1);
             }
             else{
                 $this->running = false;
                 $pool = $this->getDispatcher()->getPool();
                 if($pool->hasChilds() || $pool->hasQueue()){
-                    print("Waiting for handlers to finish...".PHP_EOL);
+                    echo 'Waiting for handlers to finish...', PHP_EOL;
                     $pool->wait();
                 }
                 exit;
@@ -269,17 +269,17 @@ class Bot {
         if($this->settings->restart_on_changes){
             $this->files_hash ??= Utils::getFilesHash();
             if($this->files_hash !== Utils::getFilesHash()){
-                print(PHP_EOL."Restarting script...".PHP_EOL.PHP_EOL);
-                $path = realpath($_SERVER['SCRIPT_FILENAME']);
-                if(function_exists("pcntl_exec")){
-                    pcntl_exec(PHP_BINARY, [$path]);
+                echo PHP_EOL, 'Restarting script...', PHP_EOL, PHP_EOL;
+                if(function_exists("pcntl_exec") && !isset(getopt('', ['dev'])['dev'])){
+                    pcntl_exec(PHP_BINARY, $GLOBALS['argv']);
                 }
                 else{
                     @cli_set_process_title("NovaGram: died process ({$this->getUsername()})");
-                    system(PHP_BINARY." '$path'");
+                    $cmd = escapeshellcmd(PHP_BINARY.' '.implode(' ', $GLOBALS['argv']));
+                    system($cmd);
                     for ($i = 0; $i < 100; $i++){
                         $this->logger->error('Bot crashed, trying to restart');
-                        system(PHP_BINARY." '$path'");
+                        system($cmd);
                         sleep(2);
                     }
                 }
@@ -327,7 +327,7 @@ class Bot {
     protected static function showLicense(): void
     {
         if(!self::$shown_license){
-            print(self::LICENSE.PHP_EOL);
+            echo self::LICENSE, PHP_EOL;
             self::$shown_license = true;
         }
     }
