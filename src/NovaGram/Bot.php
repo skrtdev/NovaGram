@@ -3,6 +3,7 @@
 namespace skrtdev\NovaGram;
 
 use CURLFile;
+use danog\Decoder\FileId;
 use Monolog\Logger;
 use skrtdev\NovaGram\Database\DatabaseInterface;
 use skrtdev\Prototypes\Prototypeable;
@@ -503,9 +504,21 @@ class Bot {
     }
 
 
-    public static function getUsernameDC(string $username){
-        preg_match('/cdn(\d)/', Utils:: curl("https://t.me/$username"), $matches);
-        return isset($matches[1]) ? (int) $matches[1] : false;
+    public function getUserDC(int $user_id): ?int
+    {
+        if(!class_exists('\danog\Decoder\FileId')){
+            throw new Exception('Install tg-file-decoder with `composer require danog/tg-file-decoder` in order to use Bot::getUserDC');
+        }
+        $chat = $this->getChat($user_id);
+        if(!isset($chat->photo)) return null;
+        $file_id = $chat->photo->small_file_id;
+        return FileId::fromBotAPI($file_id)->getDcId();
+    }
+
+    public static function getUsernameDC(string $username): ?int
+    {
+        preg_match('/cdn(\d)/', Utils::curl("https://t.me/$username"), $matches);
+        return isset($matches[1]) ? (int) $matches[1] : null;
     }
 
     public function debug($value){

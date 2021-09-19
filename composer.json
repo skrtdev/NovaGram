@@ -16,13 +16,13 @@
         "skrtdev/async":"^1.0",
         "monolog/monolog":"^2.1",
         "symfony/polyfill-php80": "^1.22",
-        "skrtdev/prototypes": "^1.0",
-        "danog/tg-file-decoder": "^0.1.5"
+        "skrtdev/prototypes": "^1.0"
     },
     "suggest": {
         "ext-mbstring":"Needed to use the built-in Telegram Entites Parser",
         "ext-pdo":"Needed to use the built-in Database",
-        "ext-pcntl":"Needed to process updates with multi-processing"
+        "ext-pcntl":"Needed to process updates with multi-processing",
+        "danog/tg-file-decoder": "DC resolver helper"
     },
     "autoload": {
         "psr-4":{
