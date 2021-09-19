@@ -144,6 +144,12 @@ class Bot {
         $settings += $settings_array;
         $settings = (object) $settings;
 
+        $options = getopt('', ['restart', 'async:', 'skip', 'logger:']);
+        if(isset($options['async'])) $settings->async = (bool) $options['async'];
+        if(isset($options['restart'])) $settings->restart_on_changes = true;
+        if(isset($options['skip'])) $settings->skip_old_updates = true;
+        if(isset($options['logger'])) $settings->logger = (int) $options['logger'];
+
         foreach ($settings->command_prefixes as &$prefix){
             $prefix = preg_quote($prefix, '/');
         }
