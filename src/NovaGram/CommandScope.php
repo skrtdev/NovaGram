@@ -27,20 +27,20 @@ class CommandScope
 
     public function __construct(
         #[ExpectedValues(['default', 'all_private_chats', 'all_group_chats', 'all_chat_administrators', 'chat', 'chat_administrators', 'chat_member'])]
-        string $type = 'default',
+        string $type = null,
         string|array|null $language_code = null,
         int|array|null $chat_id = null,
         int|array|null $user_id = null,
     )
     {
-        $this->type = $type;
         $this->language_codes = is_array($language_code) ? $language_code : [$language_code];
         $this->chat_ids = is_array($chat_id) ? $chat_id : [$chat_id];
         if(isset($user_id)) $this->user_ids = is_array($user_id) ? $user_id : [$user_id];
         if(isset($chat_id)){
-            if(isset($user_id)) $this->type = 'chat_member';
-            else $this->type ??= 'chat';
+            if(isset($user_id)) $type = 'chat_member';
+            else $type ??= 'chat';
         }
+        $this->type = $type ?? 'default';
     }
 
     #[Pure]
