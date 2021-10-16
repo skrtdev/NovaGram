@@ -294,25 +294,24 @@ class Message extends Type{
         return $this->Bot->forwardMessage($params, $json_payload);
     }
 
-    public function copy($caption = null, $parse_mode = null, $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\MessageId
+    public function copy($chat_id = null, $caption = null, $parse_mode = null, array $caption_entities = null, bool $disable_notification = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, $reply_markup = null, bool $json_payload = false): ?\skrtdev\Telegram\MessageId
     {
-        if(is_array($caption)){
-            $json_payload = $parse_mode ?? false;
-            $params = $caption;
+        if(is_array($chat_id)){
+            $json_payload = $caption ?? false;
+            $params = $chat_id;
         }
         else{
-            if(is_bool($parse_mode)){
-                $json_payload = $parse_mode;
-                $params = ['caption' => $caption];
+            if(is_bool($caption)){
+                $json_payload = $caption;
+                $params = ['chat_id' => $chat_id];
             }
-            elseif(is_array($parse_mode)){
-                $json_payload = $caption_entities ?? false;
-                $params = ['caption' => $caption] + $parse_mode;
+            elseif(is_array($caption)){
+                $json_payload = $parse_mode ?? false;
+                $params = ['chat_id' => $chat_id] + $caption;
             }
-            else $params = ['caption' => $caption, 'parse_mode' => $parse_mode, 'caption_entities' => $caption_entities, 'disable_notification' => $disable_notification, 'reply_to_message_id' => $reply_to_message_id, 'allow_sending_without_reply' => $allow_sending_without_reply, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
+            else $params = ['chat_id' => $chat_id, 'caption' => $caption, 'parse_mode' => $parse_mode, 'caption_entities' => $caption_entities, 'disable_notification' => $disable_notification, 'reply_to_message_id' => $reply_to_message_id, 'allow_sending_without_reply' => $allow_sending_without_reply, 'reply_markup' => $reply_markup, 'json_payload' => $json_payload];
         }
         $params['message_id'] ??= $this->message_id;
-        $params['chat_id'] ??= $this->chat->id;
         $params['from_chat_id'] ??= $this->chat->id;
         return $this->Bot->copyMessage($params, $json_payload);
     }
