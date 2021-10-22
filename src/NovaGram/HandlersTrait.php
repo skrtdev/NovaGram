@@ -134,7 +134,7 @@ trait HandlersTrait{
                 $filter[] = Handler::orFilter(iterate($command_scopes, fn(CommandScope $scope) => $scope->getFilter()));
                 foreach ($command_scopes as $command_scope) {
                     foreach ($command_scope->getScopes() as $scope) {
-                        $scope = json_encode($scope);
+                        $scope = json_encode(array_filter($scope));
                         $this->scoped_commands[$scope] ??= [];
                         $this->scoped_commands[$scope] [] = ['command' => $command, 'description' => $description ?? "$command command"];
                     }
@@ -162,7 +162,17 @@ trait HandlersTrait{
         foreach($this->scoped_commands as $scope => $scope_commands){
             $scope = json_decode($scope, true);
             try{
-                $this->setMyCommands([...$scope_commands, ...$commands], $scope);
+                $this_scope_commands = [...$scope_commands, ...$commands];
+                $chat_id = $scope['scope']['chat_id'] ?? null;
+                if(isset($chat_id)){
+                    $this_scope_commands = [...$this_scope_commands, ...$this->scoped_commands[json_encode([
+                        'scope' => [
+                            'type' => $chat_id > 0 ? 'all_private_chats' : 'all_group_chats',
+                            'chat_id' => null
+                        ]
+                    ])] ?? []];
+                }
+                $this->setMyCommands($this_scope_commands, $scope);
             }
             catch(BadRequestException $e){
                 $this->logger->error("Couldn't export scope-specific commands: {$e->getMessage()}");
