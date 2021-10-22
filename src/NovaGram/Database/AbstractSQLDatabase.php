@@ -44,6 +44,7 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         'updateConversation' => "UPDATE {conversations_table} SET value = :value, is_permanent = :is_permanent WHERE chat_id = :chat_id AND name = :name",
         'getChatConversations' => 'SELECT * FROM {conversations_table} WHERE chat_id = :chat_id',
         'getConversationsByValue' => 'SELECT * FROM {conversations_table} WHERE value = :value',
+        'getConversationsByName' => 'SELECT * FROM {conversations_table} WHERE name = :name',
     ];
 
 
