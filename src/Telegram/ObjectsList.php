@@ -42,6 +42,7 @@ class ObjectsList implements Iterator, ArrayAccess, Countable {
         return isset($this->elements[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->elements[$offset] ?? null;
@@ -58,11 +59,12 @@ class ObjectsList implements Iterator, ArrayAccess, Countable {
         }
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->elements[$this->position];
