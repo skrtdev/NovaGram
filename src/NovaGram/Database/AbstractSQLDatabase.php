@@ -74,6 +74,7 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
     protected function createTables(): void
     {
         if($this->tables_created) return;
+        $this->tables_created = true;
         if(is_string($this->queries['createTables'])){
             $this->query($this->queries['createTables']);
         }
@@ -82,7 +83,6 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
                 $this->query($query);
             }
         }
-        $this->tables_created = true;
     }
 
     public function deleteConversation(int $chat_id, string $name): void
@@ -216,7 +216,7 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
      */
     public function query(string $query, array $params = []): PDOStatement
     {
-        $this->createTables();
+        if(!$this->tables_created) $this->createTables();
         $statement = $this->getPDO()->prepare($query, self::driver_options);
         $statement->execute($params);
         return $statement;
