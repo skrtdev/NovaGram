@@ -35,7 +35,7 @@ class CommandScope
     {
         $this->language_codes = is_array($language_code) ? $language_code : [$language_code];
         $this->chat_ids = is_array($chat_id) ? $chat_id : [$chat_id];
-        if(isset($user_id)) $this->user_ids = is_array($user_id) ? $user_id : [$user_id];
+        $this->user_ids = is_array($user_id) ? $user_id : [$user_id];
         if(isset($chat_id)){
             if(isset($user_id)) $type = 'chat_member';
             else $type ??= 'chat';
@@ -44,7 +44,7 @@ class CommandScope
     }
 
     #[Pure]
-    public function getFilter(): FilterInterface
+    public function getFilter(): Filter
     {
         $user_id = $this->user_ids === [null] ? null : $this->user_ids;
         $chat_id = $this->chat_ids === [null] ? null : $this->chat_ids;
@@ -59,38 +59,17 @@ class CommandScope
     public function getScopes(): Generator
     {
         foreach ($this->language_codes as $language_code) {
-            if(isset($this->chat_ids)){
-                foreach ($this->chat_ids as $chat_id) {
-                    if(isset($this->user_ids)) {
-                        foreach ($this->user_ids as $user_id) {
-                            yield [
-                                'scope' => [
-                                    'type' => $this->type,
-                                    'chat_id' => $chat_id,
-                                    'user_id' => $user_id,
-                                ],
-                                'language_code' => $language_code,
-                            ];
-                        }
-                    }
-                    else {
-                        yield [
-                            'scope' => [
-                                'type' => $this->type,
-                                'chat_id' => $chat_id
-                            ],
-                            'language_code' => $language_code,
-                        ];
-                    }
+            foreach ($this->chat_ids as $chat_id) {
+                foreach ($this->user_ids as $user_id) {
+                    yield [
+                        'scope' => [
+                            'type' => $this->type,
+                            'chat_id' => $chat_id,
+                            'user_id' => $user_id,
+                        ],
+                        'language_code' => $language_code,
+                    ];
                 }
-            }
-            else{
-                yield [
-                    'scope' => [
-                        'type' => $this->type,
-                    ],
-                    'language_code' => $language_code,
-                ];
             }
         }
     }
