@@ -39,7 +39,7 @@ class InlineQuery extends Type{
     
     public function answer($results = null, $cache_time = null, $is_personal = null, string $next_offset = null, string $switch_pm_text = null, string $switch_pm_parameter = null, bool $json_payload = false): ?bool
     {
-        if(is_array($results)){
+        if(is_array($results) && !is_list($results)){
             $json_payload = $cache_time ?? false;
             $params = $results;
         }
