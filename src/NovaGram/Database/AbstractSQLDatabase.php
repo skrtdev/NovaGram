@@ -46,13 +46,14 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
         'getConversationsByValue' => 'SELECT * FROM {conversations_table} WHERE value = :value',
         'getConversationsByName' => 'SELECT * FROM {conversations_table} WHERE name = :name',
     ];
+    protected bool $tables_created = false;
 
 
     protected function initialize(bool $create_tables = true){
         $this->prefix = !empty($this->prefix) ? $this->prefix.'_' : '';
         $this->initializeTableNames();
         $this->initializeQueries();
-        if($create_tables) $this->createTables();
+        if($create_tables && Utils::isCLI()) $this->createTables();
     }
 
     protected function initializeTableNames(): void
@@ -72,6 +73,7 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
 
     protected function createTables(): void
     {
+        if($this->tables_created) return;
         if(is_string($this->queries['createTables'])){
             $this->query($this->queries['createTables']);
         }
@@ -80,6 +82,7 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
                 $this->query($query);
             }
         }
+        $this->tables_created = true;
     }
 
     public function deleteConversation(int $chat_id, string $name): void
@@ -213,7 +216,7 @@ abstract class AbstractSQLDatabase implements DatabaseInterface
      */
     public function query(string $query, array $params = []): PDOStatement
     {
-        var_dump(str_replace(array_keys($params), array_values($params), $query));
+        $this->createTables();
         $statement = $this->getPDO()->prepare($query, self::driver_options);
         $statement->execute($params);
         return $statement;
