@@ -249,7 +249,8 @@ class Message extends Type{
     public function getHTMLText(): ?string
     {
         $text = $this->text ?? $this->caption ?? null;
-        return $this->html ??= isset($this->entities) ? EntitiesParser::textEntitiesToHTML($text, $this->entities) : $text;
+        $entities = $this->entities ?? $this->caption_entities ?? null;
+        return $this->html ??= isset($entities) ? EntitiesParser::textEntitiesToHTML($text, $entities) : $text;
     }
 
     public function getLink(): string
