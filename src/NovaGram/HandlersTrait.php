@@ -83,6 +83,11 @@ trait HandlersTrait{
         $this->getDispatcher()->addClosureHandler($handler, 'chat_member', $filters, $filter, $group);
     }
 
+    public function onChatJoinRequest(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
+    {
+        $this->getDispatcher()->addClosureHandler($handler, 'chat_join_request', $filters, $filter, $group);
+    }
+
     // utilities
 
     public function onTextMessage(Closure $handler, ?array $filters = null, $filter = null, int $group = 0): void
