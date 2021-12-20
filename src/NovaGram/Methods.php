@@ -81,7 +81,7 @@ trait Methods{
     }
 
     /**
-     * A simple method for testing your bot's auth token.
+     * A simple method for testing your bot's authentication token.
      * Requires no parameters.
      * Returns basic information about the bot in form of a User object.
      *
@@ -470,7 +470,7 @@ trait Methods{
 
     /**
      * Use this method to stop updating a live location message before live_period expires.
-     * On success, if the message was sent by the bot, the sent Message is returned, otherwise True is returned.
+     * On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
      * Arguments can be passed as named arguments.
      *
      * @param mixed $args Other params passed to the method
@@ -596,7 +596,7 @@ trait Methods{
      * We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string $action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
+     * @param string $action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes.
      * @param bool $json_payload Whether to use json payload for this method
      *
      * @return bool|null
@@ -665,7 +665,7 @@ trait Methods{
     /**
      * Use this method to ban a user in a group, a supergroup or a channel.
      * In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns True on success.
      * Arguments can be passed as named arguments.
      *
@@ -728,7 +728,7 @@ trait Methods{
 
     /**
      * Use this method to restrict a user in a supergroup.
-     * The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights.
      * Pass True for all permissions to lift restrictions from a user.
      * Returns True on success.
      * Arguments can be passed as named arguments.
@@ -756,7 +756,7 @@ trait Methods{
 
     /**
      * Use this method to promote or demote a user in a supergroup or a channel.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Pass False for all boolean parameters to demote a user.
      * Returns True on success.
      * Arguments can be passed as named arguments.
@@ -805,12 +805,62 @@ trait Methods{
     }
 
     /**
+     * Use this method to ban a channel chat in a supergroup or a channel.
+     * The owner of the chat will not be able to send messages and join live streams on behalf of the chat, unless it is unbanned first.
+     * The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights.
+     * Returns True on success.
+     * Arguments can be passed as named arguments.
+     *
+     * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int $sender_chat_id Unique identifier of the target sender chat
+     * @param mixed $args Other params passed to the method
+     * @param bool $json_payload Whether to use json payload for this method
+     * @param array ...$kwargs Named arguments
+     *
+     * @return bool|null
+     */
+    public function banChatSenderChat($chat_id, $sender_chat_id = null, $args = null, bool $json_payload = false, ...$kwargs): ?bool
+    {
+        if(is_array($chat_id)){
+            $json_payload = $sender_chat_id ?? false; // 2nd param
+            $params = $chat_id;
+        }
+        else{
+            $params = ['chat_id' => $chat_id, 'sender_chat_id' => $sender_chat_id] + ($args ?? []);
+        }
+        return $this->APICall('banChatSenderChat', $kwargs + ($params ?? []), null, $json_payload);
+    }
+
+    /**
+     * Use this method to unban a previously banned channel chat in a supergroup or channel.
+     * The bot must be an administrator for this to work and must have the appropriate administrator rights.
+     * Returns True on success.
+     *
+     * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int $sender_chat_id Unique identifier of the target sender chat
+     * @param bool $json_payload Whether to use json payload for this method
+     *
+     * @return bool|null
+     */
+    public function unbanChatSenderChat($chat_id, $sender_chat_id = null, bool $json_payload = false): ?bool
+    {
+        if(is_array($chat_id)){
+            $json_payload = $sender_chat_id ?? false; // 2nd param
+            $params = $chat_id;
+        }
+        else{
+            $params = ['chat_id' => $chat_id, 'sender_chat_id' => $sender_chat_id] + ($args ?? []);
+        }
+        return $this->APICall('unbanChatSenderChat', $params ?? [], null, $json_payload);
+    }
+
+    /**
      * Use this method to set default chat permissions for all members.
-     * The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights.
+     * The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members administrator rights.
      * Returns True on success.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     * @param array $permissions New default chat permissions
+     * @param array $permissions A JSON-serialized object for new default chat permissions
      * @param bool $json_payload Whether to use json payload for this method
      *
      * @return bool|null
@@ -829,7 +879,7 @@ trait Methods{
 
     /**
      * Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns the new invite link as String on success.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -851,7 +901,7 @@ trait Methods{
 
     /**
      * Use this method to create an additional invite link for a chat.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * The link can be revoked using the method revokeChatInviteLink.
      * Returns the new invite link as ChatInviteLink object.
      * Arguments can be passed as named arguments.
@@ -877,7 +927,7 @@ trait Methods{
 
     /**
      * Use this method to edit a non-primary invite link created by the bot.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns the edited invite link as a ChatInviteLink object.
      * Arguments can be passed as named arguments.
      *
@@ -904,7 +954,7 @@ trait Methods{
     /**
      * Use this method to revoke an invite link created by the bot.
      * If the primary link is revoked, a new link is automatically generated.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns the revoked invite link as ChatInviteLink object.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier of the target chat or username of the target channel (in the format @channelusername)
@@ -926,9 +976,55 @@ trait Methods{
     }
 
     /**
+     * Use this method to approve a chat join request.
+     * The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+     * Returns True on success.
+     *
+     * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int $user_id Unique identifier of the target user
+     * @param bool $json_payload Whether to use json payload for this method
+     *
+     * @return bool|null
+     */
+    public function approveChatJoinRequest($chat_id, $user_id = null, bool $json_payload = false): ?bool
+    {
+        if(is_array($chat_id)){
+            $json_payload = $user_id ?? false; // 2nd param
+            $params = $chat_id;
+        }
+        else{
+            $params = ['chat_id' => $chat_id, 'user_id' => $user_id] + ($args ?? []);
+        }
+        return $this->APICall('approveChatJoinRequest', $params ?? [], null, $json_payload);
+    }
+
+    /**
+     * Use this method to decline a chat join request.
+     * The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+     * Returns True on success.
+     *
+     * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int $user_id Unique identifier of the target user
+     * @param bool $json_payload Whether to use json payload for this method
+     *
+     * @return bool|null
+     */
+    public function declineChatJoinRequest($chat_id, $user_id = null, bool $json_payload = false): ?bool
+    {
+        if(is_array($chat_id)){
+            $json_payload = $user_id ?? false; // 2nd param
+            $params = $chat_id;
+        }
+        else{
+            $params = ['chat_id' => $chat_id, 'user_id' => $user_id] + ($args ?? []);
+        }
+        return $this->APICall('declineChatJoinRequest', $params ?? [], null, $json_payload);
+    }
+
+    /**
      * Use this method to set a new profile photo for the chat.
      * Photos can't be changed for private chats.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns True on success.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -952,7 +1048,7 @@ trait Methods{
     /**
      * Use this method to delete a chat photo.
      * Photos can't be changed for private chats.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns True on success.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -975,7 +1071,7 @@ trait Methods{
     /**
      * Use this method to change the title of a chat.
      * Titles can't be changed for private chats.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns True on success.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -998,7 +1094,7 @@ trait Methods{
 
     /**
      * Use this method to change the description of a group, a supergroup or a channel.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns True on success.
      * Arguments can be passed as named arguments.
      *
@@ -1023,7 +1119,7 @@ trait Methods{
 
     /**
      * Use this method to add a message to the list of pinned messages in a chat.
-     * If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
+     * If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel.
      * Returns True on success.
      * Arguments can be passed as named arguments.
      *
@@ -1049,7 +1145,7 @@ trait Methods{
 
     /**
      * Use this method to remove a message from the list of pinned messages in a chat.
-     * If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
+     * If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel.
      * Returns True on success.
      * Arguments can be passed as named arguments.
      *
@@ -1074,7 +1170,7 @@ trait Methods{
 
     /**
      * Use this method to clear the list of pinned messages in a chat.
-     * If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
+     * If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel.
      * Returns True on success.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -1209,7 +1305,7 @@ trait Methods{
 
     /**
      * Use this method to set a new group sticker set for a supergroup.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method.
      * Returns True on success.
      *
@@ -1233,7 +1329,7 @@ trait Methods{
 
     /**
      * Use this method to delete a group sticker set from a supergroup.
-     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method.
      * Returns True on success.
      *
@@ -1384,9 +1480,8 @@ trait Methods{
     /**
      * Use this method to edit animation, audio, document, photo, or video messages.
      * If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise.
-     * When an inline message is edited, a new file can't be uploaded.
-     * Use a previously uploaded file via its file_id or specify a URL.
-     * On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
+     * When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL.
+     * On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
      * Arguments can be passed as named arguments.
      *
      * @param mixed $args Other params passed to the method
@@ -1420,7 +1515,7 @@ trait Methods{
 
     /**
      * Use this method to stop a poll which was sent by the bot.
-     * On success, the stopped Poll with the final results is returned.
+     * On success, the stopped Poll is returned.
      * Arguments can be passed as named arguments.
      *
      * @param array|int|string $chat_id Method arguments array or Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -1820,8 +1915,8 @@ trait Methods{
     }
 
     /**
-     * Use this method to set the score of the specified user in a game.
-     * On success, if the message was sent by the bot, returns the edited Message, otherwise returns True.
+     * Use this method to set the score of the specified user in a game message.
+     * On success, if the message is not an inline message, the Message is returned, otherwise True is returned.
      * Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
      * Arguments can be passed as named arguments.
      *
