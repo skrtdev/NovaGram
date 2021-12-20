@@ -48,11 +48,7 @@ class CallbackQuery extends Type{
             $params = $text;
         }
         else{
-            if(is_bool($show_alert)){
-                $json_payload = $show_alert;
-                $params = ['text' => $text];
-            }
-            elseif(is_array($show_alert)){
+            if(is_array($show_alert)){
                 $json_payload = $url ?? false;
                 $params = ['text' => $text] + $show_alert;
             }
