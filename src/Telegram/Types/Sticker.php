@@ -36,7 +36,7 @@ class Sticker extends Type{
     /** @var MaskPosition|null For mask stickers, the position where the mask should be placed */
     public ?MaskPosition $mask_position = null;
 
-    /** @var int|null File size */
+    /** @var int|null File size in bytes */
     public ?int $file_size = null;
 
     public function __construct(array $array, Bot $Bot = null){

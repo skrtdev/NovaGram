@@ -18,7 +18,7 @@ class Location extends Type{
     /** @var float|null The radius of uncertainty for the location, measured in meters; 0-1500 */
     public ?float $horizontal_accuracy = null;
 
-    /** @var int|null Time relative to the message sending date, during which the location can be updated, in seconds. For active live locations only. */
+    /** @var int|null Time relative to the message sending date, during which the location can be updated; in seconds. For active live locations only. */
     public ?int $live_period = null;
 
     /** @var int|null The direction in which user is moving, in degrees; 1-360. For active live locations only. */

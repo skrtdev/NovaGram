@@ -30,7 +30,7 @@ class Audio extends Type{
     /** @var string|null MIME type of the file as defined by sender */
     public ?string $mime_type = null;
 
-    /** @var int|null File size */
+    /** @var int|null File size in bytes */
     public ?int $file_size = null;
 
     /** @var PhotoSize|null Thumbnail of the album cover to which the music file belongs */

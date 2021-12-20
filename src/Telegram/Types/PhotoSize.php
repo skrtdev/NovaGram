@@ -21,7 +21,7 @@ class PhotoSize extends Type{
     /** @var int Photo height */
     public int $height;
 
-    /** @var int|null File size */
+    /** @var int|null File size in bytes */
     public ?int $file_size = null;
 
     public function __construct(array $array, Bot $Bot = null){

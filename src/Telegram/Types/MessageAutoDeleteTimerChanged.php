@@ -9,7 +9,7 @@ use skrtdev\NovaGram\Bot;
 */
 class MessageAutoDeleteTimerChanged extends Type{
     
-    /** @var int New auto-delete time for messages in the chat */
+    /** @var int New auto-delete time for messages in the chat; in seconds */
     public int $message_auto_delete_time;
 
     public function __construct(array $array, Bot $Bot = null){

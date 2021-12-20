@@ -9,7 +9,7 @@ use skrtdev\NovaGram\Bot;
 */
 class VoiceChatEnded extends Type{
     
-    /** @var int Voice chat duration; in seconds */
+    /** @var int Voice chat duration in seconds */
     public int $duration;
 
     public function __construct(array $array, Bot $Bot = null){

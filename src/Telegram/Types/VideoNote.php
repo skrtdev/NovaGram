@@ -24,7 +24,7 @@ class VideoNote extends Type{
     /** @var PhotoSize|null Video thumbnail */
     public ?PhotoSize $thumb = null;
 
-    /** @var int|null File size */
+    /** @var int|null File size in bytes */
     public ?int $file_size = null;
 
     public function __construct(array $array, Bot $Bot = null){

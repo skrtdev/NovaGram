@@ -43,6 +43,9 @@ class Message extends Type{
     /** @var int|null For forwarded messages, date the original message was sent in Unix time */
     public ?int $forward_date = null;
 
+    /** @var bool|null True, if the message is a channel post that was automatically forwarded to the connected discussion group */
+    public ?bool $is_automatic_forward = null;
+
     /** @var Message|null For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply. */
     public ?Message $reply_to_message = null;
 
@@ -51,6 +54,9 @@ class Message extends Type{
 
     /** @var int|null Date the message was last edited in Unix time */
     public ?int $edit_date = null;
+
+    /** @var bool|null True, if the message can't be forwarded */
+    public ?bool $has_protected_content = null;
 
     /** @var string|null The unique identifier of a media message group this message belongs to */
     public ?string $media_group_id = null;
@@ -190,9 +196,11 @@ class Message extends Type{
         $this->forward_signature = $array['forward_signature'] ?? null;
         $this->forward_sender_name = $array['forward_sender_name'] ?? null;
         $this->forward_date = $array['forward_date'] ?? null;
+        $this->is_automatic_forward = $array['is_automatic_forward'] ?? null;
         $this->reply_to_message = isset($array['reply_to_message']) ? new Message($array['reply_to_message'], $Bot) : null;
         $this->via_bot = isset($array['via_bot']) ? new User($array['via_bot'], $Bot) : null;
         $this->edit_date = $array['edit_date'] ?? null;
+        $this->has_protected_content = $array['has_protected_content'] ?? null;
         $this->media_group_id = $array['media_group_id'] ?? null;
         $this->author_signature = $array['author_signature'] ?? null;
         $this->text = $array['text'] ?? null;

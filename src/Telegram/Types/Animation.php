@@ -33,7 +33,7 @@ class Animation extends Type{
     /** @var string|null MIME type of the file as defined by sender */
     public ?string $mime_type = null;
 
-    /** @var int|null File size */
+    /** @var int|null File size in bytes */
     public ?int $file_size = null;
 
     public function __construct(array $array, Bot $Bot = null){

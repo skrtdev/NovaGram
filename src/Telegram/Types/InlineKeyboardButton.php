@@ -12,7 +12,7 @@ class InlineKeyboardButton extends Type{
     /** @var string Label text on the button */
     public string $text;
 
-    /** @var string|null HTTP or tg:// url to be opened when button is pressed */
+    /** @var string|null HTTP or tg:// url to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their ID without using a username, if this is allowed by their privacy settings. */
     public ?string $url = null;
 
     /** @var LoginUrl|null An HTTP URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget. */
@@ -30,7 +30,7 @@ class InlineKeyboardButton extends Type{
     /** @var CallbackGame|null Description of the game that will be launched when the user presses the button.NOTE: This type of button must always be the first button in the first row. */
     public ?CallbackGame $callback_game = null;
 
-    /** @var bool|null Specify True, to send a Pay button.NOTE: This type of button must always be the first button in the first row. */
+    /** @var bool|null Specify True, to send a Pay button.NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages. */
     public ?bool $pay = null;
 
     public function __construct(array $array, Bot $Bot = null){

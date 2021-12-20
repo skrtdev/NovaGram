@@ -51,6 +51,9 @@ class Update extends Type{
     /** @var ChatMemberUpdated|null A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates. */
     public ?ChatMemberUpdated $chat_member = null;
 
+    /** @var ChatJoinRequest|null A request to join the chat has been sent. The bot must have the can_invite_users administrator right in the chat to receive these updates. */
+    public ?ChatJoinRequest $chat_join_request = null;
+
     public function __construct(array $array, Bot $Bot = null){
         $this->update_id = $array['update_id'];
         $this->message = isset($array['message']) ? new Message($array['message'], $Bot) : null;
@@ -66,6 +69,7 @@ class Update extends Type{
         $this->poll_answer = isset($array['poll_answer']) ? new PollAnswer($array['poll_answer'], $Bot) : null;
         $this->my_chat_member = isset($array['my_chat_member']) ? new ChatMemberUpdated($array['my_chat_member'], $Bot) : null;
         $this->chat_member = isset($array['chat_member']) ? new ChatMemberUpdated($array['chat_member'], $Bot) : null;
+        $this->chat_join_request = isset($array['chat_join_request']) ? new ChatJoinRequest($array['chat_join_request'], $Bot) : null;
         parent::__construct($array, $Bot);
     }
     

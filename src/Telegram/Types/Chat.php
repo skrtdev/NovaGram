@@ -35,6 +35,9 @@ class Chat extends Type{
     /** @var string|null Bio of the other party in a private chat. Returned only in getChat. */
     public ?string $bio = null;
 
+    /** @var bool|null True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user. Returned only in getChat. */
+    public ?bool $has_private_forwards = null;
+
     /** @var string|null Description, for groups, supergroups and channel chats. Returned only in getChat. */
     public ?string $description = null;
 
@@ -47,11 +50,14 @@ class Chat extends Type{
     /** @var ChatPermissions|null Default chat member permissions, for groups and supergroups. Returned only in getChat. */
     public ?ChatPermissions $permissions = null;
 
-    /** @var int|null For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user. Returned only in getChat. */
+    /** @var int|null For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user; in seconds. Returned only in getChat. */
     public ?int $slow_mode_delay = null;
 
     /** @var int|null The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat. */
     public ?int $message_auto_delete_time = null;
+
+    /** @var bool|null True, if messages from the chat can't be forwarded to other chats. Returned only in getChat. */
+    public ?bool $has_protected_content = null;
 
     /** @var string|null For supergroups, name of group sticker set. Returned only in getChat. */
     public ?string $sticker_set_name = null;
@@ -74,12 +80,14 @@ class Chat extends Type{
         $this->last_name = $array['last_name'] ?? null;
         $this->photo = isset($array['photo']) ? new ChatPhoto($array['photo'], $Bot) : null;
         $this->bio = $array['bio'] ?? null;
+        $this->has_private_forwards = $array['has_private_forwards'] ?? null;
         $this->description = $array['description'] ?? null;
         $this->invite_link = $array['invite_link'] ?? null;
         $this->pinned_message = isset($array['pinned_message']) ? new Message($array['pinned_message'], $Bot) : null;
         $this->permissions = isset($array['permissions']) ? new ChatPermissions($array['permissions'], $Bot) : null;
         $this->slow_mode_delay = $array['slow_mode_delay'] ?? null;
         $this->message_auto_delete_time = $array['message_auto_delete_time'] ?? null;
+        $this->has_protected_content = $array['has_protected_content'] ?? null;
         $this->sticker_set_name = $array['sticker_set_name'] ?? null;
         $this->can_set_sticker_set = $array['can_set_sticker_set'] ?? null;
         $this->linked_chat_id = $array['linked_chat_id'] ?? null;
