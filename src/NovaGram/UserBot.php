@@ -96,4 +96,9 @@ class UserBot extends Bot{
         $this->token = trim($token);
         $this->id = Utils::getIDByToken($token);
     }
+
+    public function getUsername(): string
+    {
+        return parent::getUsername() ?? '';
+    }
 }
