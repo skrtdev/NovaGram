@@ -562,6 +562,7 @@ class Bot {
                 $this->start();
             } else {
                 if ($this->settings->mode != self::NONE) {
+
                     $this->logger->error('Add `$Bot->start();` at the end of your file in order to make it work.');
                 }
             }
