@@ -555,13 +555,15 @@ class Bot {
         return $this->settings->username ??= $this->getMe()->username;
     }
 
-    public function __destruct(){
-        if(!$this->started && $this->getDispatcher()->hasHandlers()){
-            if($this->settings->mode === self::WEBHOOK){
+    public function __destruct()
+    {
+        if (!$this->started && $this->getDispatcher()->hasHandlers()) {
+            if ($this->settings->mode === self::WEBHOOK) {
                 $this->start();
-            }
-            else{
-                $this->logger->error('Add `$Bot->start();` at the end of your file in order to make it work.');
+            } else {
+                if ($this->settings->mode != self::NONE) {
+                    $this->logger->error('Add `$Bot->start();` at the end of your file in order to make it work.');
+                }
             }
         }
     }
