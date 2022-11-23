@@ -20,7 +20,8 @@ class EntitiesParser{
     const SKIP_ENTITES = [
         'bot_command',
         'mention',
-        'url'
+        'url',
+        'hashtag'
     ];
 
 
