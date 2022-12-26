@@ -186,8 +186,6 @@ class Bot {
                     $this->setWebhook($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_URL']);
                     exit('Webhook has been set, enjoy your bot');
                 }
-                http_response_code(403);
-                exit('Access Denied - Telegram IP Protection by NovaGram.ga');
             }
 
             $this->raw_update = json_decode(file_get_contents("php://input"), true);
