@@ -19,7 +19,7 @@ Automatically download and require the `Phar` file.
 If you want to update NovaGram, just delete the `Phar` file, it is generated from the `master` branch.  
 ```php
 if (!file_exists('novagram.phar')) {
-    copy('https://novagram.ga/phar', 'novagram.phar');
+    copy('https://gaetano.eu.org/novagram/phar.phar', 'novagram.phar');
 }
 require_once 'novagram.phar';
 ```
